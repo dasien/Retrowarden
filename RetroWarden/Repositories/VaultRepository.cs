@@ -14,7 +14,7 @@ namespace Retrowarden.Repositories
         private bool _isLoggedIn;
         private bool _orgEnabled;
         private string _cmdExitCode;
-        private JsonSerializerSettings _settings;
+        private readonly JsonSerializerSettings _settings;
 
         public VaultRepository(string bwExeLocation)
         {
