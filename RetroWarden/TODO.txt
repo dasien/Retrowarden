@@ -1,0 +1,34 @@
+Open Items
+========================================================================================================================
+- Implement Org/Collection Move
+- Implement Create Collection
+- Implement Status command
+- Make CodeListManager and ConfigurationManager truly static rather than Singleton (no need for instance stuff)
+- Add create and update labels to vault items
+- Add option to require reprompt to vault items
+- More Error Handling! :)
+
+Completed Items
+========================================================================================================================
+- Add some kind of working modal for fetching initial vault, and perhaps other requests
+- Properly handle app shutdown - currently window is hanging
+- Make location of bw.exe configurable
+- Add context aware statusbar hotkey actions (when item is selected, F2 - View, F3 Edit, etc.)
+- Add listview 'column headers' as labels on main view
+- Update listview for multiselect actions (add to folder, move to collection, etc.)
+- Handle mouse click in main listview.  right now it confuses the logic for when things are selected 
+- Implement Password/Passphrase generator
+- Implement Lock Vault
+- Implement re-sync vault
+- Implement unlock vault
+- Implement a timeout that locks vault after no use
+- Create "Name" and "Value" headers for custom fields scroll.
+- BUG The UriSCrollView doesn't seem to allow mouse clicks in either the textfield or combo box.
+- Add custom fields to ItemDetail base view.
+- Add tabstops to controls *Update there is a bug in the v1 Terminal gui that is overriding tabstop settings
+- Implement Delete Item
+- Implement Move to Folder
+- Implement Create folder
+- Implement Check for update
+- Disable Org commands for accounts with no orgs
+- Implement 'username' column for Cards (card name - last 4) & Identities (first name - last name)
