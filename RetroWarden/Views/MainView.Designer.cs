@@ -87,7 +87,7 @@ namespace Retrowarden.Views
             this.tvwItems.X = 0;
             this.tvwItems.Y = 0;
             this.tvwItems.Visible = true;
-            this.tvwItems.Enabled = false;
+            this.tvwItems.Enabled = true;
             this.tvwItems.Data = "tvwItems";
             this.tvwItems.TextAlignment = TextAlignment.Left;
             this.tvwItems.Style.CollapseableSymbol = '-';
@@ -146,7 +146,7 @@ namespace Retrowarden.Views
             this.lvwItems.X = 0;
             this.lvwItems.Y = 1;
             this.lvwItems.Visible = true;
-            this.lvwItems.Enabled = false;
+            this.lvwItems.Enabled = true;
             this.lvwItems.TextAlignment = TextAlignment.Left;
             this.lvwItems.AllowsMultipleSelection = true;
             this.lvwItems.AllowsMarking = true;
@@ -156,7 +156,7 @@ namespace Retrowarden.Views
             
             this.mnuMain = new MenuBar(new MenuBarItem[]
             {
-                new MenuBarItem("_File", new MenuItem[]
+                new MenuBarItem("_Vault", new MenuItem[]
                 {
                     new MenuItem("_Connect...", "Connect to vault", HandleConnectionRequest, null, 
                         null),
@@ -167,6 +167,16 @@ namespace Retrowarden.Views
                     new MenuItem("_Unlock", "Unlock vault", HandleUnlockRequest, null, 
                         null),
                     new MenuItem("_Quit", "Quit Application", HandleQuitRequest, null, 
+                        null)
+                }),
+                new MenuBarItem("_Folder", new MenuItem[]
+                {
+                    new MenuItem("_New", "", HandleFolderCreate, null, 
+                        null)
+                }),
+                new MenuBarItem("_Collection", new MenuItem[]
+                {
+                    new MenuItem("_New", "", HandleCollectionCreate, null, 
                         null)
                 }),
                 new MenuBarItem("_Tools", new MenuItem[]
