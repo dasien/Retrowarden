@@ -128,6 +128,27 @@ namespace Retrowarden.Utils
                 new CodeListItem("417", "Last Name"),
                 new CodeListItem("418", "Full Name")
             ]);
+            
+            // List of org user types.
+            _codeLists.Add("OrgUserTypes", 
+            [
+                new CodeListItem("0", "Owner"),
+                new CodeListItem("1", "Admin"),
+                new CodeListItem("2", "User"),
+                new CodeListItem("3", "Manager"),
+                new CodeListItem("4", "Custom")
+            ]);
+            
+            // List of org user status.
+            _codeLists.Add("OrgUserStatus", 
+            [
+                new CodeListItem("0", "Invited"),
+                new CodeListItem("1", "Accepted"),
+                new CodeListItem("2", "Confirmed"),
+                new CodeListItem("-1", "Revoked")
+            ]);
+
+
         }
 
         public List<CodeListItem> GetList(string listName)

@@ -6,13 +6,17 @@ namespace Retrowarden.Utils
 {
     public static class ViewUtils
     {
-        public static TreeNode CreateCollectionsNode(List<VaultCollection> collection, SortedDictionary<string, VaultItem> items)
+        public static TreeNode CreateCollectionsNode(List<VaultCollection> collection, 
+            SortedDictionary<string, VaultItem> items, TreeNode parent, Organization org)
         {
             // Root node.
-            TreeNode root = new TreeNode("Collections");
-            
-            // Assign type.
-            root.Tag = new Tuple<NodeType, string?>(NodeType.Collection, null);
+            TreeNode root = new TreeNode("Collections")
+            {
+                Tag = new NodeData()
+                {
+                    Id= null, NodeType = NodeType.Collection, Parent = parent, Text = null
+                }
+            };
             
             // Loop through the collections list.
             foreach (VaultCollection col in collection)
@@ -20,32 +24,43 @@ namespace Retrowarden.Utils
                 // Create new branch node.
                 TreeNode branch = new TreeNode(col.Name)
                 {
-                    Tag = new Tuple<NodeType, string?>(NodeType.Collection, col.Id)
+                    Tag = new NodeData()
+                    {
+                        Id= col.Id, NodeType = NodeType.Collection, Parent = root, Text = col.Name
+                    }
                 };
 
                 // Now loop through the items.
                 foreach (VaultItem item in items.Values)
                 {
-                    // Check to see if the item is part of a collection.
-                    if (item.CollectionIds != null)
+                    // Check to see if the org id matches the parent.
+                    if (item.OrganizationId != null && item.OrganizationId == org.Id)
                     {
-                        // Now loop through collection associations.
-                        foreach (string id in item.CollectionIds)
+                        // Check to see if the item is part of a collection.
+                        if (item.CollectionIds != null)
                         {
-                            // Check to see if it matches branch id.
-                            if (id == col.Id)
+                            // Now loop through collection associations.
+                            foreach (string id in item.CollectionIds)
                             {
-                                // Add leaf node.
-                                TreeNode leaf = new TreeNode(item.ItemName)
+                                // Check to see if it matches branch id.
+                                if (id == col.Id)
                                 {
-                                    Tag = new Tuple<NodeType, string?>(NodeType.Item, item.Id)
-                                };
-                                branch.Children.Add(leaf);
+                                    // Add leaf node.
+                                    TreeNode leaf = new TreeNode(item.ItemName)
+                                    {
+                                        Tag = new NodeData()
+                                        {
+                                            Id = item.Id, NodeType = NodeType.Item, Parent = branch,
+                                            Text = item.ItemName
+                                        }
+                                    };
+                                    branch.Children.Add(leaf);
+                                }
                             }
                         }
                     }
                 }
-                                    
+
                 // Add branch.
                 root.Children.Add(branch);
             }
@@ -54,12 +69,16 @@ namespace Retrowarden.Utils
             return root;
         }
         
-        public static TreeNode CreateFoldersNode(List<VaultFolder> folders, SortedDictionary<string, VaultItem> items)
+        public static TreeNode CreateFoldersNode(List<VaultFolder> folders, 
+            SortedDictionary<string, VaultItem> items, TreeNode parent, Organization? org)
         {
             // Root node.
             TreeNode root = new TreeNode("Folders")
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.Folder, null)
+                Tag = new NodeData()
+                {
+                    Id= null, NodeType = NodeType.Folder, Parent = parent, Text = null
+                }
             };
 
             // Loop through the folders list.
@@ -67,7 +86,10 @@ namespace Retrowarden.Utils
             {
                 TreeNode branch = new TreeNode(folder.Name)
                 {
-                    Tag = new Tuple<NodeType, string>(NodeType.Folder, folder.Id)
+                    Tag = new NodeData()
+                    {
+                        Id= folder.Id, NodeType = NodeType.Folder, Parent = root, Text = folder.Name
+                    }
                 };
 
                 // Now loop through the items.
@@ -79,12 +101,21 @@ namespace Retrowarden.Utils
                         // Check to see if it matches branch id.
                         if (item.FolderId == folder.Id)
                         {
-                            // Add leaf node.
-                            TreeNode leaf = new TreeNode(item.ItemName)
+                            // Check to see if there is an org and this item is part of it, or this is the personal vault (no org).
+                            if ((org != null && item.OrganizationId == org.Id) 
+                                || (org == null && item.OrganizationId == null))
                             {
-                                Tag = new Tuple<NodeType, string?>(NodeType.Item, item.Id)
-                            };
-                            branch.Children.Add(leaf);
+                                // Add leaf node.
+                                TreeNode leaf = new TreeNode(item.ItemName)
+                                {
+                                    Tag = new NodeData()
+                                    {
+                                        Id = item.Id, NodeType = NodeType.Item, Parent = branch, Text = item.ItemName
+                                    }
+                                };
+                                
+                                branch.Children.Add(leaf);
+                            }
                         }
                     }
 
@@ -92,102 +123,161 @@ namespace Retrowarden.Utils
                     {
                         if (folder.Name == "No Folder")
                         {
-                            // Add leaf node.
-                            TreeNode leaf = new TreeNode(item.ItemName)
+                            // Check to see if there is an org and this item is part of it, or this is the personal vault (no org).
+                            if ((org != null && item.OrganizationId == org.Id) 
+                                || (org == null && item.OrganizationId == null))
                             {
-                                Tag = new Tuple<NodeType, string?>(NodeType.Item, item.Id)
-                            };
-                            branch.Children.Add(leaf);
+                                // Add leaf node.
+                                TreeNode leaf = new TreeNode(item.ItemName)
+                                {
+                                    Tag = new NodeData()
+                                    {
+                                        Id = item.Id, NodeType = NodeType.Item, Parent = branch, Text = item.ItemName
+                                    }
+                                };
+                                branch.Children.Add(leaf);
+                            }
                         }
                     }
                 }
                 
-                // Add branches.
-                root.Children.Add(branch);
+                // Check to see if any children were added.
+                if (branch.Children.Count > 0)
+                {
+                    root.Children.Add(branch);
+                }
             }
             
             // Return tree.
             return root;
         }
 
-        public static TreeNode CreateAllItemsNodes(SortedDictionary<string, VaultItem> items)
+        public static TreeNode CreateAllItemsNodes(SortedDictionary<string, VaultItem> items, TreeNode parent, Organization? org)
         {
             // Return value.
             TreeNode retVal = new TreeNode("All Items")
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.ItemGroup, null)
+                Tag = new NodeData()
+                {
+                    Id = null, NodeType = NodeType.ItemGroup, Parent = parent, Text = "All Items"
+                }
             };
             // Branch nodes.
             TreeNode favorites = new TreeNode("Favorites")
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.Favorite, null)
+                Tag = new NodeData()
+                {
+                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Favorites"
+                }
             };
 
             TreeNode logins = new TreeNode("Logins")
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.ItemGroup, null)
+                Tag = new NodeData()
+                {
+                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Logins"
+                }
             };
 
             TreeNode cards = new TreeNode("Cards")
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.ItemGroup, null)
+                Tag = new NodeData()
+                {
+                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Cards"
+                }
             };
 
             TreeNode identities = new TreeNode("Identities")
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.ItemGroup, null)
+                Tag = new NodeData()
+                {
+                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Identities"
+                }
             };
 
             TreeNode notes = new TreeNode("Secure Notes")
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.ItemGroup, null)
+                Tag = new NodeData()
+                {
+                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Secure Notes"
+                }
             };
 
             // Loop through the item list.
             foreach (VaultItem item in items.Values)
             {
-                // Create node for this item.
-                TreeNode leaf = new TreeNode(item.ItemName)
+                // Check to see if there is an org and this item is part of it, or this is the personal vault (no org).
+                if ((org != null && item.OrganizationId == org.Id) 
+                    || (org == null && item.OrganizationId == null))
                 {
-                    Tag = new Tuple<NodeType, string?>(NodeType.Item, item.Id)
-                };
+                    // Create node for this item.
+                    TreeNode leaf = new TreeNode(item.ItemName);
 
-                // Check to see if it is a favorite.
-                if (item.IsFavorite)
-                {
-                    favorites.Children.Add(leaf);
-                }
-                
-                // Sort items based on type.
-                switch (item.ItemType)
-                {
-                    // Login
-                    case 1:
-                        
-                        // Add to branch.
-                        logins.Children.Add(leaf);
-                        break;
-                    
-                    // Note
-                    case 2:
-                        
-                        // Add to branch.
-                        notes.Children.Add(leaf);
-                        break;
-                    
-                    // Card
-                    case 3:
-                        
-                        // Add to branch.
-                        cards.Children.Add(leaf);
-                        break;
+                    // Check to see if it is a favorite.
+                    if (item.IsFavorite)
+                    {
+                        leaf.Tag = new NodeData()
+                        {
+                            Id = item.Id, NodeType = NodeType.Item, Parent = favorites, Text = item.ItemName
+                        };
 
-                    // Identity
-                    case 4:
-                        
-                        // Add to branch.
-                        identities.Children.Add(leaf);
-                        break;
+                        favorites.Children.Add(leaf);
+                    }
+
+                    // Create node for this item.
+                    leaf = new TreeNode(item.ItemName);
+
+                    // Sort items based on type.
+                    switch (item.ItemType)
+                    {
+                        // Login
+                        case 1:
+
+                            leaf.Tag = new NodeData()
+                            {
+                                Id = item.Id, NodeType = NodeType.Item, Parent = logins, Text = item.ItemName
+                            };
+
+                            // Add to branch.
+                            logins.Children.Add(leaf);
+                            break;
+
+                        // Note
+                        case 2:
+
+                            leaf.Tag = new NodeData()
+                            {
+                                Id = item.Id, NodeType = NodeType.Item, Parent = notes, Text = item.ItemName
+                            };
+
+                            // Add to branch.
+                            notes.Children.Add(leaf);
+                            break;
+
+                        // Card
+                        case 3:
+
+                            leaf.Tag = new NodeData()
+                            {
+                                Id = item.Id, NodeType = NodeType.Item, Parent = cards, Text = item.ItemName
+                            };
+
+                            // Add to branch.
+                            cards.Children.Add(leaf);
+                            break;
+
+                        // Identity
+                        case 4:
+
+                            leaf.Tag = new NodeData()
+                            {
+                                Id = item.Id, NodeType = NodeType.Item, Parent = identities, Text = item.ItemName
+                            };
+
+                            // Add to branch.
+                            identities.Children.Add(leaf);
+                            break;
+                    }
                 }
             }
             

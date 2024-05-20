@@ -42,28 +42,41 @@ namespace Retrowarden.Views
             // Load the configuration file.
             ConfigurationManager manager = ConfigurationManager.Instance;
             
-            // Check to see if exe location has been set.
-            if (string.IsNullOrEmpty(manager.GetConfig().CLILocation))
+            // Get the configuration.
+            RetrowardenConfig? config = manager.GetConfig();
+            
+            // Check to see if one was found.
+            if (config != null)
             {
-                // The allowed list. 
-                List<string> fileType = new List<string>();
-                
-                // Show file dialog.
-                OpenDialog finder = new OpenDialog("Setup Retrowarden", 
-                    "Please locate the bw binary file to continue.", fileType);
-
-                finder.AllowsMultipleSelection = false;
-        
-                Application.Run(finder);
-                
-                if (!finder.Canceled)
+                // Check to see if exe location has been set.
+                if (string.IsNullOrEmpty(config.CLILocation))
                 {
-                    // Check to see if a file was found.
-                     if (finder.FilePath != null)
+                    // The allowed list. 
+                    List<string> fileType = new List<string>();
+
+                    // Show file dialog.
+                    OpenDialog finder = new OpenDialog("Setup Retrowarden",
+                        "Please locate the bw binary file to continue.", fileType);
+
+                    finder.AllowsMultipleSelection = false;
+
+                    Application.Run(finder);
+
+                    if (!finder.Canceled)
                     {
-                        // Save exe location in config.
-                        manager.GetConfig().CLILocation = (string)finder.FilePath;
-                        manager.WriteConfig(manager.GetConfig());
+                        // Check to see if a file was found.
+                        if (finder.FilePath != null)
+                        {
+                            // Save exe location in config.
+                            config.CLILocation = (string)finder.FilePath;
+                            manager.WriteConfig(config);
+                        }
+
+                        else
+                        {
+                            // GTFO.
+                            Environment.Exit(1);
+                        }
                     }
 
                     else
@@ -73,28 +86,28 @@ namespace Retrowarden.Views
                     }
                 }
 
+                // Try to get the exe location.
+                string? bwExeLocation = config.CLILocation;
+
+                // Make sure something was found.
+                if (bwExeLocation != null)
+                {
+                    // Initialize vault repository.
+                    _vaultRepository = new VaultRepository(bwExeLocation);
+                }
                 else
                 {
-                    // GTFO.
+                    MessageBox.ErrorQuery("Values Missing", "CLI Location not in config file.", "Ok");
                     Environment.Exit(1);
                 }
             }
 
-            // Try to get the exe location.
-            string? bwExeLocation = manager.GetConfig().CLILocation;
-            
-            // Make sure something was found.
-            if (bwExeLocation != null)
-            {
-                // Initialize vault repository.
-                _vaultRepository = new VaultRepository(bwExeLocation);
-            }
             else
             {
-                MessageBox.ErrorQuery("Values Missing", "CLI Location not in config file.", "Ok");
+                MessageBox.ErrorQuery("Values Missing", "Configuration not found.", "Ok");
                 Environment.Exit(1);
             }
-            
+
             // Initialize member variables.
             _vaultItems = new SortedDictionary<string, VaultItem>();
             _folders = new List<VaultFolder>();
@@ -157,133 +170,82 @@ namespace Retrowarden.Views
             return true;
         }
         
-        #region UI Control Helpers
-        private void LoadItemListView(SortedDictionary<string, VaultItem> items)
+        private void SyncVault(bool fullSync)
         {
-            // Clear out any existing items.
-            lvwItems.RemoveAll();
-            
-            // Get list of vault items from dictionary.
-            List<VaultItem> itemList = items.Values.ToList();
-            
-            // Create list data source for listview.
-            ItemListDataSource listSource = new ItemListDataSource(itemList);
-            
-            // Create handler for the OnSetMark event.
-            listSource.OnSetMark += HandleListviewItemMarked;
-            
-            // Set the data to the listview.
-            lvwItems.Source = (listSource);
-            
-            // Enable visibility of column header labels.
-            lblItemName.Visible = true;
-            lblUserId.Visible = true;
-            lblOwner.Visible = true;
-            
-            // Set the first row as the selected row.
-            lvwItems.SelectedItem = 0;
-            lvwItems.SetFocus();
-            
-            // Set statusbar menus.
-            UpdateStatusBarOptions();
-        }
-        private void LoadTreeView()
-        {
-            // Clear out any items.
-           tvwItems.ClearObjects();
-            
-            // Create root node.
-            TreeNode root = new TreeNode("Bitwarden")
+            // Check to see if this is a full or just display sync.
+            if (fullSync)
             {
-                Tag = new Tuple<NodeType, string?>(NodeType.Root, null)
-            };
-
-            // Check to see if there are any folders.
-            if (_folders.Count > 0)
-            {
-                // Create folders node.
-                TreeNode folderNode = ViewUtils.CreateFoldersNode(_folders, _vaultItems);
+                // Create new worker.
+                GetItemsWorker worker = new GetItemsWorker(_vaultRepository, "Syncing Vault Items...");
+            
+                // Execute task.
+                worker.Run();
+            
+                // Get vault items.
+                _vaultItems = worker.Items;
                 
-                // Add nodes to root.
-                root.Children.Add(folderNode);
-            }
-            
-            // Check to see if there are any collections.
-            if (_collections.Count > 0)
-            {
-                // Create collection node.
-                TreeNode collectionNode = ViewUtils.CreateCollectionsNode(_collections, _vaultItems);
-
-                // Add nodes to root.
-                root.Children.Add(collectionNode);
-            }
-            
-            // Check to see if there are any items.
-            if (_vaultItems.Count > 0)
-            {
-                // Create item nodes.
-                TreeNode itemNodes = ViewUtils.CreateAllItemsNodes(_vaultItems);
-        
-                // Add nodes to root.
-                root.Children.Add(itemNodes);
-            }
-            
-            // Add nodes to control.
-            this.tvwItems.AddObject(root);
-        }
-        
-        private SortedDictionary<string, VaultItem> GetVaultItemsForTreeNode(ITreeNode node)
-        {
-            SortedDictionary<string, VaultItem> retVal = new SortedDictionary<string, VaultItem>();
-            
-            // Loop through child nodes.
-            foreach (ITreeNode child in node.Children)
-            {
-                // Get node tag.
-                Tuple<NodeType, string> nodeData = (Tuple<NodeType, string>) child.Tag;
-                
-                // Check to see that the child node is a vault item.
-                if (nodeData.Item1 == NodeType.Item)
+                // Check to see if items were found.
+                if (_vaultRepository.ExitCode == "0")
                 {
-                    // Lookup node in item dictionary.
-                    VaultItem item = _vaultItems[nodeData.Item2];
+                    // Run workers for folders, organizations and collections.
+                    GetFoldersWorker folderWorker = new GetFoldersWorker(_vaultRepository, "Syncing Folders...");
+            
+                    // Execute task.
+                    folderWorker.Run();
+            
+                    // Get folders.
+                    _folders = folderWorker.Folders;
 
-                    // Add to filtered list.
-                    retVal.Add(item.Id, item);   
+                    // Create new worker.
+                    GetCollectionsWorker collectionsWorker = new GetCollectionsWorker(_vaultRepository, "Syncing Collections...");
+            
+                    // Execute task.
+                    collectionsWorker.Run();
+            
+                    // Get collections.
+                    _collections = collectionsWorker.Collections;
+
+                    // Create new worker.
+                    GetOrganizationsWorker organizationsWorker = new GetOrganizationsWorker(_vaultRepository, "Syncing Organizations...");
+            
+                    // Execute task.
+                    organizationsWorker.Run();
+            
+                    // Get organizations.
+                    _organizations = organizationsWorker.Organizations;
                 }
             }
             
-            // Return filtered list.
-            return retVal;
+            // Set item owner name.
+            SetOwnerNameForItems();
+
+            // Load controls with data.
+            LoadTreeView();
+            LoadItemListView(_vaultItems);
         }
 
-        private void SetOwnerNameForItems()
+        /*private void OrganizeVaults()
         {
-            // Check to see if there are any organizations.
-            if (_organizations.Count > 0)
+            // Create personal vault.
+            Vault personal = new Vault(null, null, null);
+            
+            // Add items with no org association.
+            personal.Items = _vaultItems.Values.Where(i => i.OrganizationId == null).ToList();
+            
+            // Create vaults for any orgs.
+            foreach (Organization org in _organizations)
             {
-                // Loop through organizations.
-                foreach (Organization org in _organizations)
-                {
-                    // Find each item that belongs to that org.
-                    List<VaultItem> orgItems = _vaultItems.Values.Where(i => i.OrganizationId == org.Id).ToList();
-
-                    // Update the owner name.
-                    orgItems.ForEach(i => i.ItemOwnerName = org.Name);
-                }
+                // Get the items for this org.
+                List<VaultItem> items = _vaultItems.Values.Where(i => i.OrganizationId == org.Id).ToList();
+                
+                // Get the collections for this org.
+                List<VaultCollection> collections = _collections.Where(i => i.OrganizationId == org.Id).ToList();
+                
+                // Add items and collections to org vault.
+                Vault orgVault = new Vault(items, collections, org);
             }
-
-            // Check to see if there are any vault items.
-            if (_vaultItems.Count > 0)
-            {
-                // Find items with no org.
-                List<VaultItem> userItems = _vaultItems.Values.Where(i => i.OrganizationId == null).ToList();
-
-                // Update to show user is the owner.
-                userItems.ForEach(i => i.ItemOwnerName = "Me");
-            }
-        }
-
+        }*/
+        
         private void ShowDetailForm(VaultItemDetailViewState state)
         {
             ItemDetailView? view = CreateDetailView(state);
@@ -358,6 +320,188 @@ namespace Retrowarden.Views
             return retVal;
         }
 
+        #region UI Control Helpers
+        private void LoadItemListView(SortedDictionary<string, VaultItem> items)
+        {
+            // Clear out any existing items.
+            lvwItems.RemoveAll();
+            
+            // Get list of vault items from dictionary.
+            List<VaultItem> itemList = items.Values.ToList();
+            
+            // Create list data source for listview.
+            ItemListDataSource listSource = new ItemListDataSource(itemList);
+            
+            // Create handler for the OnSetMark event.
+            listSource.OnSetMark += HandleListviewItemMarked;
+            
+            // Set the data to the listview.
+            lvwItems.Source = (listSource);
+            
+            // Enable visibility of column header labels.
+            lblItemName.Visible = true;
+            lblUserId.Visible = true;
+            lblOwner.Visible = true;
+            
+            // Set the first row as the selected row.
+            lvwItems.SelectedItem = 0;
+            lvwItems.SetFocus();
+            
+            // Set statusbar menus.
+            UpdateStatusBarOptions();
+        }
+        private void LoadTreeView()
+        {
+            // Clear out any items.
+           tvwItems.ClearObjects();
+            
+            // Create root node.
+            TreeNode root = new TreeNode("Bitwarden")
+            {
+                Tag = new NodeData()
+                {
+                    Id= null, NodeType = NodeType.Root, Parent = null, Text = null
+                }
+            };
+            
+            // Create personal vault node.
+            TreeNode personal = new TreeNode("My Vault")
+            {
+                Tag = new NodeData()
+                {
+                    Id= null, NodeType = NodeType.Organization, Parent = root, Text = null
+                }
+            };
+            
+            // Check to see if there are any items.
+            if (_vaultItems.Count > 0)
+            {
+                // Create item nodes.
+                TreeNode itemNodes = ViewUtils.CreateAllItemsNodes(_vaultItems, personal, null);
+        
+                // Add nodes to root.
+                personal.Children.Add(itemNodes);
+            }
+
+            // Check to see if there are any folders.
+            if (_folders.Count > 0)
+            {
+                // Create folders node.
+                TreeNode folderNode = ViewUtils.CreateFoldersNode(_folders, _vaultItems, personal, null);
+                
+                // Add nodes to root.
+                personal.Children.Add(folderNode);
+            }
+            
+            // Add personal vault to root.
+            root.Children.Add(personal);
+            
+            // Loop through the organizations.
+            foreach (Organization org in _organizations)
+            {
+                // Create a tree node for this org/vault.
+                TreeNode orgVault = new TreeNode(org.Name)
+                {
+                    Tag = new NodeData()
+                    {
+                        Id = org.Id, NodeType = NodeType.Organization, Parent = root, Text = org.Name
+                    }
+                };
+                
+                // Check to see if there are any items.
+                if (_vaultItems.Count > 0)
+                {
+                    // Create item nodes.
+                    TreeNode itemNodes = ViewUtils.CreateAllItemsNodes(_vaultItems, orgVault, org);
+
+                    // Add nodes to root.
+                    orgVault.Children.Add(itemNodes);
+                }
+                
+                // Check to see if there are any folders.
+                if (_folders.Count > 0)
+                {
+                    // Create folders node.
+                    TreeNode folderNode = ViewUtils.CreateFoldersNode(_folders, _vaultItems, orgVault, org);
+                
+                    // Add nodes to root.
+                    orgVault.Children.Add(folderNode);
+                }
+            
+                // Check to see if there are any collections.
+                if (_collections.Count > 0)
+                {
+                    // Create collection node.
+                    TreeNode collectionNode = ViewUtils.CreateCollectionsNode(_collections, _vaultItems, orgVault, org);
+
+                    // Add nodes to root.
+                    orgVault.Children.Add(collectionNode);
+                }
+                
+                // Add org to root.
+                root.Children.Add(orgVault);
+            }
+            
+            // Add nodes to control.
+            this.tvwItems.AddObject(root);
+        }
+        
+        private SortedDictionary<string, VaultItem> GetVaultItemsForTreeNode(ITreeNode node)
+        {
+            SortedDictionary<string, VaultItem> retVal = new SortedDictionary<string, VaultItem>();
+            
+            // Loop through child nodes.
+            foreach (ITreeNode child in node.Children)
+            {
+                // Get node tag.
+                NodeData nodeData = (NodeData) child.Tag;
+                
+                // Check to see that the child node is a vault item.
+                if (nodeData.NodeType == NodeType.Item)
+                {
+                    // Check to see if the id is present.
+                    if (nodeData.Id != null)
+                    {
+                        // Lookup node in item dictionary.
+                        VaultItem item = _vaultItems[nodeData.Id];
+
+                        // Add to filtered list.
+                        retVal.Add(item.Id, item);
+                    }
+                }
+            }
+            
+            // Return filtered list.
+            return retVal;
+        }
+
+        private void SetOwnerNameForItems()
+        {
+            // Check to see if there are any organizations.
+            if (_organizations.Count > 0)
+            {
+                // Loop through organizations.
+                foreach (Organization org in _organizations)
+                {
+                    // Find each item that belongs to that org.
+                    List<VaultItem> orgItems = _vaultItems.Values.Where(i => i.OrganizationId == org.Id).ToList();
+
+                    // Update the owner name.
+                    orgItems.ForEach(i => i.ItemOwnerName = org.Name);
+                }
+            }
+
+            // Check to see if there are any vault items.
+            if (_vaultItems.Count > 0)
+            {
+                // Find items with no org.
+                List<VaultItem> userItems = _vaultItems.Values.Where(i => i.OrganizationId == null).ToList();
+
+                // Update to show user is the owner.
+                userItems.ForEach(i => i.ItemOwnerName = "Me");
+            }
+        }
+        
         private void UpdateStatusBarOptions()
         {
             // Check to see if we have any items.
@@ -561,60 +705,6 @@ namespace Retrowarden.Views
 
             // Return the result.
             return retVal;
-        }
-
-        private void SyncVault(bool fullSync)
-        {
-            // Check to see if this is a full or just display sync.
-            if (fullSync)
-            {
-                // Create new worker.
-                GetItemsWorker worker = new GetItemsWorker(_vaultRepository, "Syncing Vault Items...");
-            
-                // Execute task.
-                worker.Run();
-            
-                // Get vault items.
-                _vaultItems = worker.Items;
-                
-                // Check to see if items were found.
-                if (_vaultRepository.ExitCode == "0")
-                {
-                    // Run workers for folders, organizations and collections.
-                    GetFoldersWorker folderWorker = new GetFoldersWorker(_vaultRepository, "Syncing Folders...");
-            
-                    // Execute task.
-                    folderWorker.Run();
-            
-                    // Get folders.
-                    _folders = folderWorker.Folders;
-
-                    // Create new worker.
-                    GetCollectionsWorker collectionsWorker = new GetCollectionsWorker(_vaultRepository, "Syncing Collections...");
-            
-                    // Execute task.
-                    collectionsWorker.Run();
-            
-                    // Get collections.
-                    _collections = collectionsWorker.Collections;
-
-                    // Create new worker.
-                    GetOrganizationsWorker organizationsWorker = new GetOrganizationsWorker(_vaultRepository, "Syncing Organizations...");
-            
-                    // Execute task.
-                    organizationsWorker.Run();
-            
-                    // Get organizations.
-                    _organizations = organizationsWorker.Organizations;
-                }
-            }
-            
-            // Set item owner name.
-            SetOwnerNameForItems();
-
-            // Load controls with data.
-            LoadTreeView();
-            LoadItemListView(_vaultItems);
         }
         #endregion
         
@@ -971,10 +1061,10 @@ namespace Retrowarden.Views
                 ITreeNode selected = e.NewValue;
 
                 // Get the node data for this node.
-                Tuple<NodeType, string> nodeData = (Tuple<NodeType, string>)selected.Tag;
+                NodeData nodeData = (NodeData) selected.Tag;
 
                 // Check to see if this node has children.
-                if (nodeData.Item1 != NodeType.Item)
+                if (nodeData.NodeType != NodeType.Item)
                 {
                     // Get the list of children.
                     SortedDictionary<string, VaultItem> list = GetVaultItemsForTreeNode(selected);
@@ -991,16 +1081,20 @@ namespace Retrowarden.Views
             ITreeNode activated = obj.ActivatedObject;
             
             // Get the node data for this node.
-            Tuple<NodeType, string> nodeData = (Tuple<NodeType, string>) activated.Tag;
+            NodeData nodeData = (NodeData) activated.Tag;
             
             // Make sure this is a leaf node.
-            if (nodeData.Item1 == NodeType.Item)
+            if (nodeData.NodeType == NodeType.Item)
             {
-                // Update the selected item.
-                _tempItem = _vaultItems[nodeData.Item2];
-                
-                // Call the detail form show.
-                ShowDetailForm(VaultItemDetailViewState.Edit);
+                // Check to see if we have an id.
+                if (nodeData.Id != null)
+                {
+                    // Update the selected item.
+                    _tempItem = _vaultItems[nodeData.Id];
+
+                    // Call the detail form show.
+                    ShowDetailForm(VaultItemDetailViewState.Edit);
+                }
             }
         }
         #endregion
@@ -1018,10 +1112,10 @@ namespace Retrowarden.Views
                 ITreeNode node = tvwItems.SelectedObject;
 
                 // Check the node type from tag.
-                Tuple<NodeType, string> nodeData = (Tuple<NodeType, string>)node.Tag;
+               NodeData nodeData = (NodeData)node.Tag;
 
                 // Check to see if it is an item group.
-                if (nodeData.Item1 == NodeType.ItemGroup)
+                if (nodeData.NodeType == NodeType.ItemGroup)
                 {
                     // Based on the string we know what type of item to create.
                     switch (node.Text)
@@ -1041,10 +1135,14 @@ namespace Retrowarden.Views
                     }
                 }
 
-                else if (nodeData.Item1 == NodeType.Item)
+                else if (nodeData.NodeType == NodeType.Item)
                 {
-                    // Get item.
-                    _tempItem = _vaultItems[nodeData.Item2];
+                    // Check to see if we have an id.
+                    if (nodeData.Id != null)
+                    {
+                        // Get item.
+                        _tempItem = _vaultItems[nodeData.Id];
+                    }
                 }
 
                 else

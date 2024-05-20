@@ -1,5 +1,7 @@
 Open Items
 ========================================================================================================================
+- Add List members for org to support collection addition
+- Reconfigure Treeview to be Vault --> Vault Items & Folders & Collections (for org vaults)
 - Implement Org/Collection Move
 - Implement Create Collection
 - Implement Status command

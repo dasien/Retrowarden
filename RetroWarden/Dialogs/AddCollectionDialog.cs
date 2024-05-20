@@ -18,6 +18,9 @@ namespace Retrowarden.Dialogs
             // Initialize members.
             _organizations = organizations;
             _collections = collections;
+            
+            // Initialize dialog.
+            InitializeComponent();
         }
 
         protected override void OkButton_Clicked()
@@ -28,7 +31,7 @@ namespace Retrowarden.Dialogs
                 MessageBox.ErrorQuery("Values Missing", "Please select an Organization.", "Ok");
             }
             
-            else if (_txtCollectionName.Text.Length == 0)
+            else if (_txtCollectionName != null && _txtCollectionName.Text.Length == 0)
             {
                 MessageBox.ErrorQuery("Values Missing", "Please name the collection.", "Ok");
             }
@@ -94,12 +97,34 @@ namespace Retrowarden.Dialogs
         
         public Organization SelectedOrganization
         {
-            get { return _organizations.ElementAt(_cboOrganization.SelectedItem); }
+            get
+            {
+                if (_cboOrganization != null)
+                {
+                    return _organizations.ElementAt(_cboOrganization.SelectedItem);
+                }
+
+                else
+                {
+                    return _organizations.First();
+                }
+            }
         }
 
         public string CollectionName
         {
-            get { return _txtCollectionName.Text.ToString(); }
+            get
+            {
+                if (_txtCollectionName != null)
+                {
+                    return _txtCollectionName.Text.ToString() ?? string.Empty;
+                }
+
+                else
+                {
+                    return string.Empty;
+                }
+            }
         }
 
     }    

@@ -19,6 +19,12 @@ namespace Retrowarden.Models
         [JsonProperty("enabled")]
         public bool IsEnabled { get; set; }
 
+        [JsonIgnore]
+        public List<VaultCollection> Collections { get; set; } = new List<VaultCollection>();
+        
+        [JsonIgnore] 
+        public List<Member> Members { get; set; } = new List<Member>();
+
         public override string ToString()
         {
             return Name;

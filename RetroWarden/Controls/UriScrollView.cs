@@ -126,7 +126,7 @@ namespace Retrowarden.Controls
             {
                 // Check to see if we have a valid Uri.
                 if (Uri.TryCreate(txtUri.Text.ToString(), UriKind.Absolute, out _))
-                {
+                { 
                     Process.Start(new ProcessStartInfo(txtUri.Text.ToString()) { UseShellExecute = true });
                 }
 

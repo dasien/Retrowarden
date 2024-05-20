@@ -230,6 +230,34 @@ namespace Retrowarden.Repositories
             // Return list.
             return retVal;
         }
+
+        public List<Member>? ListMembersForOrganization(string orgId)
+        {
+            // Return value.
+            List<Member>? retVal = null;
+            
+            // Add parameters for call.
+            _bwcli.StartInfo.ArgumentList.Add("list");
+            _bwcli.StartInfo.ArgumentList.Add("org-members");
+            _bwcli.StartInfo.ArgumentList.Add("--organizationid");
+            _bwcli.StartInfo.ArgumentList.Add(orgId);
+            
+            // Execute.
+            ExecuteCommand();
+            
+            // Check to make sure it didn't error out.
+            if (_cmdExitCode == "0")
+            {
+                // Get item list.
+                retVal = JsonConvert.DeserializeObject<List<Member>>(_response, _settings);
+                
+                // Check to see if there are any orgs.
+                _orgEnabled = retVal != null && retVal.Count != 0;
+            }
+            
+            // Return list.
+            return retVal;
+        }
         
         public SortedDictionary<string, VaultItem>? ListVaultItems()
         {
