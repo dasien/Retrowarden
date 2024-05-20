@@ -11,6 +11,9 @@ public sealed class GetOrganizationsWorker : RetrowardenWorker
     public GetOrganizationsWorker(VaultRepository repository, string? dialogMessage) 
         : base(repository, dialogMessage)
     {
+        // Create members.
+        _organizations = new List<Organization>();
+        
         // Add work event handler.
         _worker.DoWork += (s, e) => 
         {
@@ -35,7 +38,7 @@ public sealed class GetOrganizationsWorker : RetrowardenWorker
         };    
     }
 
-    public List<Organization> Organizations
+    public List<Organization>? Organizations
     {
         get
         {

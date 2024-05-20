@@ -213,6 +213,28 @@ namespace Retrowarden.Views
             
                     // Get organizations.
                     _organizations = organizationsWorker.Organizations;
+                    
+                    // Check to see if there are any organizations.
+                    if (_organizations != null && _organizations.Count > 0)
+                    {
+                        // Get each org.
+                        foreach (Organization org in _organizations)
+                        {
+                            // Create new worker.
+                            GetOrganizationMembersWorker membersWorker = new GetOrganizationMembersWorker(
+                                _vaultRepository, "Syncing Members for " + org.Name + " ...", org.Id);
+                            
+                            // Execute search.
+                            membersWorker.Run();
+                            
+                            // Check to see if there are any results.
+                            if (membersWorker.Members != null)
+                            {
+                                // Save result.
+                                org.Members = membersWorker.Members;
+                            }
+                        }
+                    }
                 }
             }
             

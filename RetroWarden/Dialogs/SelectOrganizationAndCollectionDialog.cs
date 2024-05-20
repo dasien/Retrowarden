@@ -12,10 +12,10 @@ namespace Retrowarden.Dialogs
         
         // Other values.
         private readonly List<VaultCollection> _collections;
-        private readonly List<Organization> _organizations;
+        private readonly List<Organization>? _organizations;
         private readonly List<VaultCollection> _selectedCollections;
         
-        public SelectOrganizationAndCollectionDialog(List<Organization> organizations, List<VaultCollection> collections)
+        public SelectOrganizationAndCollectionDialog(List<Organization>? organizations, List<VaultCollection> collections)
         {
             // Initialize members.
             _organizations = organizations;

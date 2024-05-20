@@ -1,7 +1,5 @@
 Open Items
 ========================================================================================================================
-- Add List members for org to support collection addition
-- Reconfigure Treeview to be Vault --> Vault Items & Folders & Collections (for org vaults)
 - Implement Org/Collection Move
 - Implement Create Collection
 - Implement Status command
@@ -34,3 +32,6 @@ Completed Items
 - Implement Check for update
 - Disable Org commands for accounts with no orgs
 - Implement 'username' column for Cards (card name - last 4) & Identities (first name - last name)
+
+- Add List members for org to support collection addition
+- Reconfigure Treeview to be Vault --> Vault Items & Folders & Collections (for org vaults)

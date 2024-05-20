@@ -250,9 +250,6 @@ namespace Retrowarden.Repositories
             {
                 // Get item list.
                 retVal = JsonConvert.DeserializeObject<List<Member>>(_response, _settings);
-                
-                // Check to see if there are any orgs.
-                _orgEnabled = retVal != null && retVal.Count != 0;
             }
             
             // Return list.
