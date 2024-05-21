@@ -1050,7 +1050,7 @@ namespace Retrowarden.Views
         private void HandleUpdateCheck()
         {
             // Create new worker.
-            CheckForUpdateWorker worker = new CheckForUpdateWorker(_vaultRepository, "Checking for Update");
+            CheckForUpdateWorker worker = new CheckForUpdateWorker(_vaultRepository, "Checking for Update...");
             
             // Run worker
             worker.Run();
@@ -1070,6 +1070,24 @@ namespace Retrowarden.Views
                 // Show a message.
                 MessageBox.Query("No Update Available", "You are on the current CLI version.", "Ok");
             }
+        }
+        
+        private void HandleStatusCheck()
+        {
+            // Create new worker.
+            CheckStatusWorker worker = new CheckStatusWorker(_vaultRepository, "Checking Status...");
+            
+            // Run worker
+            worker.Run();
+            
+            // Get the result.
+            VaultStatus result = worker.Status;
+            
+            // Show the status dialog with information.
+            StatusDialog dialog = new StatusDialog(result);
+            
+            // Show it.
+            dialog.Show();
         }
         #endregion
 

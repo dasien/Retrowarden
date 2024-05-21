@@ -44,9 +44,6 @@ public sealed class GetFoldersWorker : RetrowardenWorker
 
     public List<VaultFolder> Folders
     {
-        get
-        {
-            return _folders;
-        }
+        get { return _folders; }
     }
 }

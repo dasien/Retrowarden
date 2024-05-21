@@ -195,6 +195,8 @@ namespace Retrowarden.Views
                     }
                 }),
                 new MenuBarItem ("_Help", new MenuItem [] {
+                    new MenuItem("Check Status", "", HandleStatusCheck, null, 
+                        null),
                     new MenuItem("Check for _Update", "", HandleUpdateCheck, null, 
                         null),
                     new MenuItem ("_About...",

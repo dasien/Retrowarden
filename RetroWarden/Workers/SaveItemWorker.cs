@@ -144,20 +144,16 @@ namespace Retrowarden.Workers
                     // Check to see if there are collections.
                     if (item.CollectionIds != null)
                     {
-                        // Loop through collections.
-                        foreach (string collectionId in item.CollectionIds)
+                        // Get encoded collection id string.
+                        string itemJSON = JsonConvert.SerializeObject(item.CollectionIds);
+                        byte[] itemBytes = System.Text.Encoding.UTF8.GetBytes(itemJSON);
+                        string encodedCollection = Convert.ToBase64String(itemBytes);
+                        
+                        // Check to see if values are present.
+                        if (item.Id != null && item.OrganizationId != null)
                         {
-                            // Get encoded collection id string.
-                            string itemJSON = JsonConvert.SerializeObject(collectionId);
-                            byte[] itemBytes = System.Text.Encoding.UTF8.GetBytes(itemJSON);
-                            string encodedCollection = Convert.ToBase64String(itemBytes);
-                            
-                            // Check to see if values are present.
-                            if (item.Id != null && item.OrganizationId != null)
-                            {
-                                // Execute the edit method.
-                                _repository.MoveVaultItem(item.Id, item.OrganizationId, encodedCollection);
-                            }
+                            // Execute the edit method.
+                            _repository.MoveVaultItem(item.Id, item.OrganizationId, encodedCollection);
                         }
                     }
 

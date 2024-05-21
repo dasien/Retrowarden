@@ -315,6 +315,29 @@ namespace Retrowarden.Repositories
             // Return result.
             return retVal;
         }
+
+        public VaultStatus? GetStatus()
+        {
+            // The return value.
+            VaultStatus? retVal = null;
+            
+            // Add parameters for call.
+            _bwcli.StartInfo.ArgumentList.Add("status");
+
+            // Execute.
+            ExecuteCommand();
+
+            // Check to see if the command worked.
+            if (_cmdExitCode == "0")
+            {
+                // Get status.
+                retVal = JsonConvert.DeserializeObject<VaultStatus>(_response, _settings);
+
+            }
+            
+            // Return the status object.
+            return retVal;
+        }
         #endregion
         
         #region Vault Item Write Methods
@@ -396,7 +419,7 @@ namespace Retrowarden.Repositories
             // Check to make sure it didn't error out.
             if (_cmdExitCode == "0")
             {
-                // Get item list.
+                // Get item.
                 retVal = JsonConvert.DeserializeObject<VaultItem>(_response, _settings);
             }
             

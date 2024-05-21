@@ -4,6 +4,7 @@ namespace Retrowarden.Workers
 {
     public class CheckForUpdateWorker : RetrowardenWorker
     {
+        // Member variables.
         private bool _updateAvailable;
         
         public  CheckForUpdateWorker(VaultRepository repository, string? dialogMessage) : base(repository, dialogMessage)

@@ -43,46 +43,51 @@ namespace Retrowarden.Dialogs
                 _scrCollections.RemoveAll();
                 
                 // Check to see if the combobox is initialized.
-                if (_cboOrganization != null)
+                if (_cboOrganization != null && _organizations != null)
                 {
                     // Get the org id.
                     string orgId = _organizations.ElementAt(_cboOrganization.SelectedItem).Id;
-
+                    
+                    // This counter is for the Y of the checkboxes.
+                    int row = 0;
+                    
                     // Loop through the collections.
-                    for (int cnt = 0; cnt < _collections.Count; cnt++)
+                    foreach(VaultCollection col in _collections)
                     {
-                        // Get collection reference.
-                        VaultCollection col = _collections[cnt];
-
                         // Check to see if this collection belongs to this org.
                         if (col.OrganizationId == orgId)
                         {
                             // Create the checkbox for the row.
                             CheckBox chkCollection = new CheckBox()
                             {
-                                X = 1, Y = cnt, Width = 20, Height = 1, CanFocus = true, Visible = true,
+                                X = 1, Y = row, Width = 20, Height = 1, CanFocus = true, Visible = true,
                                 Text = col.Name, Data = col
                             };
 
-                            chkCollection.Toggled += value =>
+                            chkCollection.Toggled += prevValue =>
                             {
                                 VaultCollection collection = (VaultCollection)chkCollection.Data;
-
-                                if (value)
-                                {
-                                    // Add the value to the list.
-                                    _selectedCollections.Add(collection);
-                                }
-
-                                else
+                                
+                                // This would indicate movement from checked to unchecked (remove).
+                                if (prevValue)
                                 {
                                     // Remove the value.
                                     _selectedCollections.Remove(collection);
+                                }
+                                
+                                // Unchecked to checked (add).
+                                else
+                                {
+                                    // Add the value to the list.
+                                    _selectedCollections.Add(collection);
                                 }
                             };
 
                             // Add to scroll view.
                             _scrCollections.Add(chkCollection);
+                            
+                            // Increment counter.
+                            row++;
                         }
                     }
                 }
@@ -170,9 +175,21 @@ namespace Retrowarden.Dialogs
             _cboOrganization.SetFocus();
         }
         
-        public Organization SelectedOrganization
+        public Organization? SelectedOrganization
         {
-            get { return _organizations.ElementAt(_cboOrganization.SelectedItem); }
+            get
+            {
+                // The return value.
+                Organization? retVal = null;
+                
+                // Check to see if the combobox is initialized.
+                if (_cboOrganization != null && _organizations != null)
+                {
+                    retVal = _organizations.ElementAt(_cboOrganization.SelectedItem);
+                }
+
+                return retVal;
+            }
         }
 
         public List<VaultCollection> SelectedCollections
