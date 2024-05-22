@@ -66,8 +66,8 @@ namespace Retrowarden.Views
         private void InitializeLists()
         {
             // Load lists.
-            _cardBrands = CodeListManager.GetInstance().GetList("CardBrands");
-            _expMonths = CodeListManager.GetInstance().GetList("ExpiryMonths");
+            _cardBrands = CodeListManager.GetList("CardBrands");
+            _expMonths = CodeListManager.GetList("ExpiryMonths");
             
             // Set combox sources.
             cboCardBrand.SetSource(_cardBrands);

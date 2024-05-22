@@ -39,11 +39,8 @@ namespace Retrowarden.Views
             // Create about message.
             _aboutMessage = ViewUtils.CreateAboutMessageAscii();
             
-            // Load the configuration file.
-            ConfigurationManager manager = ConfigurationManager.Instance;
-            
             // Get the configuration.
-            RetrowardenConfig? config = manager.GetConfig();
+            RetrowardenConfig? config = ConfigurationManager.GetConfig();
             
             // Check to see if one was found.
             if (config != null)
@@ -69,7 +66,7 @@ namespace Retrowarden.Views
                         {
                             // Save exe location in config.
                             config.CLILocation = (string)finder.FilePath;
-                            manager.WriteConfig(config);
+                            ConfigurationManager.WriteConfig(config);
                         }
 
                         else
@@ -306,6 +303,16 @@ namespace Retrowarden.Views
                         default:
                             break;
                     }
+                }
+
+                else
+                {
+                    // Get the item data source.
+                    ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
+            
+                    // Get the current item.
+                    _tempItem = items.ItemList[lvwItems.SelectedItem];
+
                 }
             }
         }

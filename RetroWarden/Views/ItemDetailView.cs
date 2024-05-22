@@ -51,6 +51,13 @@ namespace Retrowarden.Views
                     
                     // Set title.
                     this.Title = "Create New Item";
+                    
+                    // Create empty custom field scroll.
+                    scrCustomFields = new CustomFieldScrollView(null, _item.ItemType)
+                    {
+                        X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true,
+                        ContentSize = new Size(95, 10), Data = "scrCustomFields", TextAlignment = TextAlignment.Left
+                    };
                     break;
 
                 case VaultItemDetailViewState.Edit:
@@ -90,7 +97,7 @@ namespace Retrowarden.Views
             scrCustomFields = new CustomFieldScrollView(_item.CustomFields, _item.ItemType)
             {
                 X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true,
-                ContentSize = new Size(95, 10), Data = "scrURIList", TextAlignment = TextAlignment.Left
+                ContentSize = new Size(95, 10), Data = "scrCustomFields", TextAlignment = TextAlignment.Left
             };
             
             // Add scroll to view.

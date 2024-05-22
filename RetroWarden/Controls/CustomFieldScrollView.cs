@@ -10,7 +10,7 @@ namespace Retrowarden.Controls
         private List<VaultItemCustomField> _fields;
         private readonly int _itemType;
         
-        public CustomFieldScrollView(List<VaultItemCustomField> fields, int itemType)
+        public CustomFieldScrollView(List<VaultItemCustomField>? fields, int itemType)
         {
             // Set members.
             _fields = fields == null ? new List<VaultItemCustomField>() : fields;
@@ -297,7 +297,7 @@ namespace Retrowarden.Controls
         
         private List<CodeListItem> GetComboSource()
         {
-            List<CodeListItem> retVal = null;
+            List<CodeListItem> retVal = new List<CodeListItem>();
             
             // Check to see what type of item we have.
             switch (_itemType)
@@ -305,17 +305,17 @@ namespace Retrowarden.Controls
                 // Login
                 case 1:
                     // Login link list.
-                    retVal = CodeListManager.GetInstance().GetList("LoginLinkedId");
+                    retVal = CodeListManager.GetList("LoginLinkedId");
                     break;
                 
                 // Card
                 case 3:
-                    retVal = CodeListManager.GetInstance().GetList("CardLinkedId");
+                    retVal = CodeListManager.GetList("CardLinkedId");
                     break;
                 
                 // Identity
                 case 4:
-                    retVal = CodeListManager.GetInstance().GetList("IdentityLinkedId");
+                    retVal = CodeListManager.GetList("IdentityLinkedId");
                     break;
             }
             

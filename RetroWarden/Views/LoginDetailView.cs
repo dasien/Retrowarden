@@ -36,15 +36,18 @@ namespace Retrowarden.Views
                 // Load controls with current data only.
                 LoadView();
             }
+
+            else
+            {
+                // Create empty URI scroll.
+                scrURIList = new UriScrollView(null, _matchDetections);
+            }
             
             // Set our main view to the view area of the parent view.
             base.DetailView = vwLogin;
 
             // Setup common view parts.
             base.SetupView();
-            
-            // Create empty URI scroll.
-            scrURIList = new UriScrollView(null, _matchDetections);
             
             // Set tab order.
             SetTabOrder();
@@ -74,7 +77,7 @@ namespace Retrowarden.Views
         private void InitializeLists()
         {
             // Create list of match types.
-            _matchDetections = CodeListManager.GetInstance().GetList("MatchDetections");
+            _matchDetections = CodeListManager.GetList("MatchDetections");
         }
 
         private void CreateUriListRows()

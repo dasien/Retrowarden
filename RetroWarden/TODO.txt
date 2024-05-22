@@ -1,7 +1,6 @@
 Open Items
 ========================================================================================================================
 - Implement Create Collection
-- Make CodeListManager and ConfigurationManager truly static rather than Singleton (no need for instance stuff)
 - Add create and update labels to vault items
 - Add option to require reprompt to vault items
 - More Error Handling! :)
@@ -32,6 +31,6 @@ Completed Items
 - Implement 'username' column for Cards (card name - last 4) & Identities (first name - last name)
 - Add List members for org to support collection addition
 - Reconfigure Treeview to be Vault --> Vault Items & Folders & Collections (for org vaults)
-
 - Implement Org/Collection Move
 - Implement Status command
+- Make CodeListManager and ConfigurationManager truly static rather than Singleton (no need for instance stuff)

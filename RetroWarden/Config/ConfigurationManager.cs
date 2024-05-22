@@ -6,8 +6,9 @@ namespace Retrowarden.Config
 {
     public sealed class ConfigurationManager
     {
-        // This constructor prevents the compiler from creating a default one which can be called by clients.
-        private ConfigurationManager()
+        private static RetrowardenConfig? _config;
+
+        static ConfigurationManager()
         {
             ConfigurationBuilder builder = new ConfigurationBuilder();
             builder.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
@@ -21,31 +22,7 @@ namespace Retrowarden.Config
 
         }
         
-        private static readonly object _lockObject = new object();
-        private static ConfigurationManager? _instance = null;
-        private static RetrowardenConfig? _config;
-        
-        public static ConfigurationManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (_lockObject)
-                    {
-                        if (_instance == null)
-                        {
-                            // Return new instance
-                            _instance = new ConfigurationManager();
-                        }
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
-        public void WriteConfig(RetrowardenConfig config)
+        public static void WriteConfig(RetrowardenConfig config)
         {
             // Create new options bag for serialization.
             JsonSerializerOptions jsonWriteOptions = new JsonSerializerOptions();
@@ -64,7 +41,7 @@ namespace Retrowarden.Config
             File.WriteAllText(appSettingsPath, newJson);
         }
         
-        public RetrowardenConfig? GetConfig()
+        public static RetrowardenConfig? GetConfig()
         {
             return _config;
         }

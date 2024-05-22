@@ -71,7 +71,7 @@ namespace Retrowarden.Views
         private void InitializeLists()
         {
             // Load list.
-            _titles = CodeListManager.GetInstance().GetList("Titles");
+            _titles = CodeListManager.GetList("Titles");
             
             // Load titles combo box.
             cboTitle.SetSource(_titles);

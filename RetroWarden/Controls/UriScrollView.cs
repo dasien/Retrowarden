@@ -8,10 +8,10 @@ namespace Retrowarden.Controls
     public class UriScrollView :ScrollView
     {
         private List<View[]> _rowControls;
-        private List<CodeListItem> _matchTypes;
+        private readonly List<CodeListItem> _matchTypes;
         private List<LoginURI> _uris;
         
-        public UriScrollView(List<LoginURI> uris, List<CodeListItem> matches)
+        public UriScrollView(List<LoginURI>? uris, List<CodeListItem> matches)
         {
             // Set member variables.
             _uris = uris == null ? new List<LoginURI>() : uris;
@@ -92,7 +92,7 @@ namespace Retrowarden.Controls
                 TextAlignment = TextAlignment.Centered
             };
 
-            ComboBox cboMatchUri = new ComboBox(new Rect(48, cnt, 30, 5), _matchTypes)
+            ComboBox cboMatchUri = new ComboBox(new Rect(48, cnt, 30, 3), _matchTypes)
             {
                 CanFocus = true, Visible = true, Text = "", Data = cnt
             };
@@ -102,6 +102,9 @@ namespace Retrowarden.Controls
                 Width = 10, Height = 1, CanFocus = true, Visible = true, Data = cnt,
                 TextAlignment = TextAlignment.Centered
             };
+            
+            // Set the source for the combobox.
+            cboMatchUri.SetSource(_matchTypes);
             
             // Set the match combo source and selected item to uri match or "Default" as a null default.
             cboMatchUri.SelectedItem = _matchTypes.FindIndex(o => Convert.ToInt32(o.Index) == match);

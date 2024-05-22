@@ -2,11 +2,9 @@ namespace Retrowarden.Utils
 {
     public sealed class CodeListManager
     {
-        private static CodeListManager? _instance;
         private static Dictionary<string, List<CodeListItem>>? _codeLists;
-        private static readonly object _lock = new object();
 
-        private CodeListManager()
+        static CodeListManager()
         {
             // Create list holder.
             _codeLists = new Dictionary<string, List<CodeListItem>>();
@@ -15,20 +13,15 @@ namespace Retrowarden.Utils
             LoadLists();
         }
 
-        public static CodeListManager GetInstance()
+        private static void LoadLists()
         {
-            if (_instance == null)
+            // Check to see that code lists have been initialized.
+            if (_codeLists == null)
             {
-                lock (_lock)
-                {
-                    _instance ??= new CodeListManager();
-                }
+                // Create it.
+                _codeLists = new Dictionary<string, List<CodeListItem>>();
             }
-            return _instance;
-        }
-
-        private void LoadLists()
-        {
+            
             // Create list of card brands.
             _codeLists.Add("CardBrands", 
             [
@@ -151,7 +144,7 @@ namespace Retrowarden.Utils
 
         }
 
-        public List<CodeListItem> GetList(string listName)
+        public static List<CodeListItem> GetList(string listName)
         {
             return _codeLists[listName];
         }
