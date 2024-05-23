@@ -31,7 +31,7 @@ namespace Retrowarden.Views
             }
             
             // Set our main view to the view area of the parent view.
-            base.DetailView = vwIdentity;
+            DetailView = vwIdentity;
 
             // Setup common view parts.
             base.SetupView();
@@ -40,32 +40,36 @@ namespace Retrowarden.Views
             SetTabOrder();
 
             // Set focus to first field.
-            base.SetItemNameControlFocus();
+            SetItemNameControlFocus();
         }
         
         private new void LoadView()
         {
-            // Set current item values to controls.
-            txtFirstName.Text = _item.Identity.FirstName ?? "";
-            txtMiddleName.Text = _item.Identity.MiddleName ?? "";
-            txtLastName.Text = _item.Identity.LastName ?? "";
-            txtUserName.Text = _item.Identity.UserName ?? "";
-            txtCompany.Text = _item.Identity.Company ?? "";
-            txtSSN.Text = _item.Identity.Ssn ?? "";
-            txtPassportNumber.Text = _item.Identity.PassportNumber ?? "";
-            txtLicenseNumber.Text = _item.Identity.LicenseNumber ?? "";
-            txtEmailAddress.Text = _item.Identity.Email ?? "";
-            txtPhoneNumber.Text = _item.Identity.Phone ?? "";
-            txtAddress1.Text = _item.Identity.Address1 ?? "";
-            txtAddress2.Text = _item.Identity.Address2 ?? "";
-            txtAddress3.Text = _item.Identity.Address3 ?? "";
-            txtCity.Text = _item.Identity.City ?? "";
-            txtState.Text = _item.Identity.State ?? "";
-            txtZipCode.Text = _item.Identity.PostalCode ?? "";
-            txtCountry.Text = _item.Identity.Country ?? "";
-            
-            // Set combo box default values.
-            cboTitle.SelectedItem = _titles.FindIndex(o => o.Index == _item.Identity.Title);
+            // Check to see if we have an identity.
+            if (_item.Identity != null)
+            {
+                // Set current item values to controls.
+                txtFirstName.Text = _item.Identity.FirstName ?? "";
+                txtMiddleName.Text = _item.Identity.MiddleName ?? "";
+                txtLastName.Text = _item.Identity.LastName ?? "";
+                txtUserName.Text = _item.Identity.UserName ?? "";
+                txtCompany.Text = _item.Identity.Company ?? "";
+                txtSSN.Text = _item.Identity.Ssn ?? "";
+                txtPassportNumber.Text = _item.Identity.PassportNumber ?? "";
+                txtLicenseNumber.Text = _item.Identity.LicenseNumber ?? "";
+                txtEmailAddress.Text = _item.Identity.Email ?? "";
+                txtPhoneNumber.Text = _item.Identity.Phone ?? "";
+                txtAddress1.Text = _item.Identity.Address1 ?? "";
+                txtAddress2.Text = _item.Identity.Address2 ?? "";
+                txtAddress3.Text = _item.Identity.Address3 ?? "";
+                txtCity.Text = _item.Identity.City ?? "";
+                txtState.Text = _item.Identity.State ?? "";
+                txtZipCode.Text = _item.Identity.PostalCode ?? "";
+                txtCountry.Text = _item.Identity.Country ?? "";
+
+                // Set combo box default values.
+                cboTitle.SelectedItem = _titles.FindIndex(o => o.Index == _item.Identity.Title);
+            }
         }
         
         private void InitializeLists()
@@ -143,7 +147,7 @@ namespace Retrowarden.Views
                 UpdateItem();
                 
                 // Indicate Save was pressed.
-                base.OkPressed = true;
+                OkPressed = true;
                 
                 // Close dialog.
                 Application.RequestStop();

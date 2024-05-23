@@ -139,7 +139,7 @@ namespace Retrowarden.Views
             txtCardNumber.Secret = !txtCardNumber.Secret;
             
             // Flip button text to opposite action.
-            btnShowCardNumber.Text = txtCardNumber.Secret ? "View" : "Hide";
+            btnShowCardNumber.Text = txtCardNumber.Secret ? "Show" : "Hide";
         }
 
         private void CopyCardButtonClicked()
@@ -157,7 +157,7 @@ namespace Retrowarden.Views
             txtCVV.Secret = !txtCVV.Secret;
             
             // Flip button text to opposite action.
-            btnShowCVV.Text = txtCVV.Secret ? "View" : "Hide";
+            btnShowCVV.Text = txtCVV.Secret ? "Show" : "Hide";
         }
 
         private void CopyCVVButtonClicked()

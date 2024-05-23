@@ -107,7 +107,7 @@ namespace Retrowarden.Views
             this.btnViewPassword.Y = 1;
             this.btnViewPassword.Visible = true;
             this.btnViewPassword.Data = "btnViewPassword";
-            this.btnViewPassword.Text = "View";
+            this.btnViewPassword.Text = "Show";
             this.btnViewPassword.TextAlignment = TextAlignment.Centered;
             this.btnViewPassword.IsDefault = false;
             this.btnViewPassword.Clicked += ViewPasswordButtonClicked;

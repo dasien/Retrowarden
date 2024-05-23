@@ -145,7 +145,7 @@ namespace Retrowarden.Views
             if (cboFolder.SelectedItem == -1)
             {
                 // Set to "No Folder"
-                _item.FolderId = _folders.ElementAt(0).Id;
+                _item.FolderId = null;
             }
 
             else

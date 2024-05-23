@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using Terminal.Gui;
 using Terminal.Gui.Trees;
@@ -208,9 +209,13 @@ namespace Retrowarden.Views
                     // Execute task.
                     organizationsWorker.Run();
             
-                    // Get organizations.
-                    _organizations = organizationsWorker.Organizations;
-                    
+                    // Check to see if there are any orgs.
+                    if (organizationsWorker.Organizations != null)
+                    {
+                        // Get organizations.
+                        _organizations = organizationsWorker.Organizations;
+                    }
+
                     // Check to see if there are any organizations.
                     if (_organizations != null && _organizations.Count > 0)
                     {
@@ -242,28 +247,6 @@ namespace Retrowarden.Views
             LoadTreeView();
             LoadItemListView(_vaultItems);
         }
-
-        /*private void OrganizeVaults()
-        {
-            // Create personal vault.
-            Vault personal = new Vault(null, null, null);
-            
-            // Add items with no org association.
-            personal.Items = _vaultItems.Values.Where(i => i.OrganizationId == null).ToList();
-            
-            // Create vaults for any orgs.
-            foreach (Organization org in _organizations)
-            {
-                // Get the items for this org.
-                List<VaultItem> items = _vaultItems.Values.Where(i => i.OrganizationId == org.Id).ToList();
-                
-                // Get the collections for this org.
-                List<VaultCollection> collections = _collections.Where(i => i.OrganizationId == org.Id).ToList();
-                
-                // Add items and collections to org vault.
-                Vault orgVault = new Vault(items, collections, org);
-            }
-        }*/
         
         private void ShowDetailForm(VaultItemDetailViewState state)
         {
@@ -309,10 +292,13 @@ namespace Retrowarden.Views
                 {
                     // Get the item data source.
                     ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
-            
-                    // Get the current item.
-                    _tempItem = items.ItemList[lvwItems.SelectedItem];
 
+                    // Check to see if there are any items.
+                    if (items != null && items.Count > 0)
+                    {
+                        // Get the current item.
+                        _tempItem = items.ItemList[lvwItems.SelectedItem];
+                    }
                 }
             }
         }
@@ -353,28 +339,35 @@ namespace Retrowarden.Views
         private void LoadItemListView(SortedDictionary<string, VaultItem> items)
         {
             // Clear out any existing items.
-            lvwItems.RemoveAll();
+            lvwItems.Source = null;
             
-            // Get list of vault items from dictionary.
-            List<VaultItem> itemList = items.Values.ToList();
+            // Check to see if there are any items to show.
+            if (items.Count > 0)
+            {
+                // Get list of vault items from dictionary.
+                List<VaultItem> itemList = items.Values.ToList();
             
-            // Create list data source for listview.
-            ItemListDataSource listSource = new ItemListDataSource(itemList);
+                // Create list data source for listview.
+                ItemListDataSource listSource = new ItemListDataSource(itemList);
             
-            // Create handler for the OnSetMark event.
-            listSource.OnSetMark += HandleListviewItemMarked;
+                // Create handler for the OnSetMark event.
+                listSource.OnSetMark += HandleListviewItemMarked;
             
-            // Set the data to the listview.
-            lvwItems.Source = (listSource);
+                // Set the data to the listview.
+                lvwItems.Source = (listSource);
             
-            // Enable visibility of column header labels.
-            lblItemName.Visible = true;
-            lblUserId.Visible = true;
-            lblOwner.Visible = true;
+                // Enable visibility of column header labels.
+                lblItemName.Visible = true;
+                lblUserId.Visible = true;
+                lblOwner.Visible = true;
             
-            // Set the first row as the selected row.
-            lvwItems.SelectedItem = 0;
-            lvwItems.SetFocus();
+                // Set the first row as the selected row.
+                lvwItems.SelectedItem = 0;
+                lvwItems.SetFocus();
+            }
+            
+            // Redraw listview.
+            lvwItems.SetNeedsDisplay();
             
             // Set statusbar menus.
             UpdateStatusBarOptions();
@@ -546,7 +539,7 @@ namespace Retrowarden.Views
                 if (lvwItems.Source != null)
                 {
                     // Get the data source for list.
-                    ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
+                    ItemListDataSource items = (ItemListDataSource) lvwItems.Source;
 
                     // Check to see how many rows have been selected.
                     switch (items.MarkedItemCount)
@@ -577,6 +570,11 @@ namespace Retrowarden.Views
                                     stiFolderMove, stiCollectionMove, stiDelete];
                             }
 
+                            else
+                            {
+                                // Add them to the status bar.
+                                staMain.Items = [stiNew, stiView, stiEdit];
+                            }
                             break;
 
                         // If > 1, enable only bulk menu items (add to folder/collection).
@@ -617,43 +615,35 @@ namespace Retrowarden.Views
         private bool ShouldShowCopyMenu()
         {
             // The return value.
-            bool retVal = true;
+            bool retVal;
                         
-            // Check to see if there are vault items.
-            if (_vaultItems.Count > 0)
+            // Check to see that there is a source list.
+            if (lvwItems.Source != null)
             {
-                // Check to see that there is a source list.
-                if (lvwItems.Source != null)
+                // Get the data source for list.
+                ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
+                IList itemList = items.ToList();
+                
+                // Check to see if anything has been marked.
+                if (items.MarkedItemCount == 0)
                 {
-                    // Get the data source for list.
-                    ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
+                    // Get the currently selected item.
+                    VaultItem item = (VaultItem) itemList[lvwItems.SelectedItem];
+                    
+                    // Check to see if this item is already in a collection.
+                    retVal = (item.ItemType == 1);
+                }
 
-                    // Check to see if anything has been marked.
-                    if (items.MarkedItemCount == 0)
-                    {
-                        // Get the currently selected item.
-                        VaultItem item = _vaultItems.ElementAt(lvwItems.SelectedItem).Value;
-                        
-                        // Check to see if this item is already in a collection.
-                        retVal = (item.ItemType == 1);
-                    }
+                else if (items.MarkedItemCount == 1)
+                {
+                    // Get the marked item list from the listview.
+                    List<VaultItem> markedItems = ((ItemListDataSource)lvwItems.Source).MarkedItemList;
 
-                    else if (items.MarkedItemCount == 1)
-                    {
-                        // Get the marked item list from the listview.
-                        List<VaultItem> markedItems = ((ItemListDataSource)lvwItems.Source).MarkedItemList;
-
-                        // Get the currently selected item.
-                        VaultItem item = markedItems[0];
-                        
-                        // Check to see if this item is already in a collection.
-                        retVal = (item.ItemType == 1);
-                    }
-
-                    else
-                    {
-                        retVal = false;
-                    }
+                    // Get the currently selected item.
+                    VaultItem item = markedItems[0];
+                    
+                    // Check to see if this item is already in a collection.
+                    retVal = (item.ItemType == 1);
                 }
 
                 else
@@ -661,7 +651,7 @@ namespace Retrowarden.Views
                     retVal = false;
                 }
             }
-            
+
             else
             {
                 retVal = false;
@@ -1148,50 +1138,72 @@ namespace Retrowarden.Views
         
         #region Statusbar Menu Handlers
         private void HandleCreateKeypress()
-        { 
-            // Create new temp item.
-            _tempItem = new VaultItem();
-                
-            // Try to establish context from the tree view.
-            if (tvwItems.SelectedObject != null)
-            {
-                // Get the node which is selected.
-                ITreeNode node = tvwItems.SelectedObject;
-
-                // Check the node type from tag.
-               NodeData nodeData = (NodeData)node.Tag;
-
-                // Check to see if it is an item group.
-                if (nodeData.NodeType == NodeType.ItemGroup)
+        {
+            // Check to see if we are in the right state.
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: false })
+            { 
+                // Create new temp item.
+                _tempItem = new VaultItem();
+                    
+                // Try to establish context from the tree view.
+                if (tvwItems.SelectedObject != null)
                 {
-                    // Based on the string we know what type of item to create.
-                    switch (node.Text)
+                    // Get the node which is selected.
+                    ITreeNode node = tvwItems.SelectedObject;
+
+                    // Check the node type from tag.
+                   NodeData nodeData = (NodeData)node.Tag;
+
+                    // Check to see if it is an item group.
+                    if (nodeData.NodeType == NodeType.ItemGroup)
                     {
-                        case "Logins":
+                        // Based on the string we know what type of item to create.
+                        switch (node.Text)
+                        {
+                            case "Logins":
+                                _tempItem.ItemType = 1;
+                                break;
+                            case "Secure Notes":
+                                _tempItem.ItemType = 2;
+                                break;
+                            case "Cards":
+                                _tempItem.ItemType = 3;
+                                break;
+                            case "Identities":
+                                _tempItem.ItemType = 4;
+                                break;
+                        }
+                    }
+
+                    else if (nodeData.NodeType == NodeType.Item)
+                    {
+                        // Check to see if we have an id.
+                        if (nodeData.Id != null)
+                        {
+                            // Get item.
+                            _tempItem = _vaultItems[nodeData.Id];
+                        }
+                    }
+
+                    else
+                    {
+                        // Have the user pick the item type.
+                        SelectItemTypeDialog dialog = new SelectItemTypeDialog();
+                        dialog.Show();
+
+                        if (dialog.OkPressed)
+                        {
+                            _tempItem.ItemType = dialog.ItemType + 1;
+                        }
+
+                        else
+                        {
+                            // Just default to Login.
                             _tempItem.ItemType = 1;
-                            break;
-                        case "Secure Notes":
-                            _tempItem.ItemType = 2;
-                            break;
-                        case "Cards":
-                            _tempItem.ItemType = 3;
-                            break;
-                        case "Identites":
-                            _tempItem.ItemType = 4;
-                            break;
+                        }
                     }
                 }
-
-                else if (nodeData.NodeType == NodeType.Item)
-                {
-                    // Check to see if we have an id.
-                    if (nodeData.Id != null)
-                    {
-                        // Get item.
-                        _tempItem = _vaultItems[nodeData.Id];
-                    }
-                }
-
+                
                 else
                 {
                     // Have the user pick the item type.
@@ -1209,27 +1221,15 @@ namespace Retrowarden.Views
                         _tempItem.ItemType = 1;
                     }
                 }
+                
+                ShowDetailForm(VaultItemDetailViewState.Create);
             }
-            
+
             else
             {
-                // Have the user pick the item type.
-                SelectItemTypeDialog dialog = new SelectItemTypeDialog();
-                dialog.Show();
-
-                if (dialog.OkPressed)
-                {
-                    _tempItem.ItemType = dialog.ItemType + 1;
-                }
-
-                else
-                {
-                    // Just default to Login.
-                    _tempItem.ItemType = 1;
-                }
+                // Notify user.
+                MessageBox.ErrorQuery("Action failed","You must be logged in with an unlocked vault to sync.", "Ok");
             }
-            
-            ShowDetailForm(VaultItemDetailViewState.Create);
         }
         private void HandleViewItemKeypress()
         {
@@ -1491,13 +1491,15 @@ namespace Retrowarden.Views
             } 
             
             // Update controls with new source data.
-            ITreeNode node = this.tvwItems.SelectedObject;
+            ITreeNode node = tvwItems.SelectedObject;
             
             // Update the main controls.
             SyncVault(false);
             
             // Reset the current node.
-            this.tvwItems.SelectedObject = node;
+            tvwItems.SelectedObject = node;
+            tvwItems.Expand();
+            tvwItems.SetNeedsDisplay();
         }
         #endregion
     }

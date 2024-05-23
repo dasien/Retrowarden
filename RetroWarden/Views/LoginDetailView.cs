@@ -44,7 +44,7 @@ namespace Retrowarden.Views
             }
             
             // Set our main view to the view area of the parent view.
-            base.DetailView = vwLogin;
+            DetailView = vwLogin;
 
             // Setup common view parts.
             base.SetupView();
@@ -56,7 +56,7 @@ namespace Retrowarden.Views
             fraURIList.FocusFirst();
             
             // Set focus to first field.
-            base.SetItemNameControlFocus();
+            SetItemNameControlFocus();
         }
 
         private new void LoadView()
@@ -175,7 +175,7 @@ namespace Retrowarden.Views
             txtPassword.Secret = !txtPassword.Secret;
             
             // Flip button text to opposite action.
-            btnViewPassword.Text = txtPassword.Secret ? "View" : "Hide";
+            btnViewPassword.Text = txtPassword.Secret ? "Show" : "Hide";
         }
 
         private void CopyUserNameButtonClicked()

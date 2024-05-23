@@ -193,7 +193,7 @@ namespace Retrowarden.Dialogs
 
             _scrPermissionList = new ScrollView()
             {
-                Width = Dim.Fill(0), Height = Dim.Fill(0), X = 0, Y = 0, Visible = true, 
+                Width = Dim.Fill(), Height = Dim.Fill(), X = 0, Y = 0, Visible = true, 
                 ContentSize = new Size(20,10), Data = "scrPermissionList", TextAlignment = TextAlignment.Left
             };
 
@@ -225,15 +225,22 @@ namespace Retrowarden.Dialogs
         {
             get
             {
-                if (_cboOrganization != null)
+                Organization retVal = new Organization();
+                
+                if (_organizations != null)
                 {
-                    return _organizations.ElementAt(_cboOrganization.SelectedItem);
+                    if (_cboOrganization != null)
+                    {
+                        retVal = _organizations.ElementAt(_cboOrganization.SelectedItem);
+                    }
+
+                    else
+                    {
+                        retVal = _organizations.First();
+                    }
                 }
 
-                else
-                {
-                    return _organizations.First();
-                }
+                return retVal;
             }
         }
 

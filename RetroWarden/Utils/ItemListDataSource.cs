@@ -113,7 +113,6 @@ namespace Retrowarden.Utils
         }
         
         #region Private Methods
-
         private int GetMaxLengthItem ()
         {
             int retVal = 0;
@@ -159,6 +158,7 @@ namespace Retrowarden.Utils
             }
         }
         #endregion
+        
         #region Properties
         public int Count
         {
