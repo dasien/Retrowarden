@@ -34,7 +34,7 @@ namespace Retrowarden.Workers
             };    
         }
 
-        public string Passphrase
+        public string? Passphrase
         {
             get { return _passphrase; }
         }

@@ -9,8 +9,11 @@ namespace Retrowarden.Views
     {
         private List<CodeListItem> _titles;
         
+        // This sizes the underlying view appropriately.
+        private const int scrollBottom = 67;
+
         public IdentityDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
-            : base (item, folders, state)
+            : base (item, folders, state, scrollBottom)
         {
             // Update controls based on view state.
             SetupView();

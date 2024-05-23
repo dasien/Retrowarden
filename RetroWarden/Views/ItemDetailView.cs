@@ -7,13 +7,13 @@ namespace Retrowarden.Views
 {
     public abstract partial class ItemDetailView
     {
-        private View _subView;
+        private View? _subView;
         protected VaultItem _item;
         private readonly List<VaultFolder> _folders;
         protected readonly VaultItemDetailViewState _viewState;
         private bool _okPressed;
         
-        protected ItemDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
+        protected ItemDetailView(VaultItem? item, List<VaultFolder> folders, VaultItemDetailViewState state, int scrollBottom) 
         {
             // Set private variables.
             _item = item == null ? new VaultItem() : item;
@@ -21,7 +21,7 @@ namespace Retrowarden.Views
             _folders = folders;
             _okPressed = false;
             
-            InitializeComponent();
+            InitializeComponent(scrollBottom);
         }
         
         public void Show()
@@ -124,15 +124,16 @@ namespace Retrowarden.Views
         private void RelocateFooterControls()
         {
             // Update Y of the notes frame to detail view bottom + 2
-            fraNotes.Y = Pos.Bottom(_subView) + 2;
+            fraNotes.Y = Pos.Bottom(_subView) + 1;
             
             // Update the custom fields frame.
-            fraCustomFieldList.Y = Pos.Bottom(fraNotes) + 2;
-            btnNewCustomField.Y = Pos.Bottom(fraCustomFieldList) + 1;
+            fraCustomFieldList.Y = Pos.Bottom(fraNotes) + 1;
+            btnNewCustomField.Y = Pos.Bottom(fraCustomFieldList);
             
             // Update the save and cancel button locations relative to the new notes frame.
-            btnSave.Y = Pos.Bottom(btnNewCustomField) + 2;
-            btnCancel.Y = Pos.Bottom(btnNewCustomField) + 2;
+            btnSave.Y = Pos.Bottom(btnNewCustomField) + 1;
+            btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
+            
             scrMain.SetNeedsDisplay();
         }
         
@@ -166,7 +167,12 @@ namespace Retrowarden.Views
             txtItemName.TabIndex = 0;
             cboFolder.TabIndex = 1;
             chkFavorite.TabIndex = 2;
-            _subView.TabIndex = 3;
+            
+            if (_subView != null)
+            {
+                _subView.TabIndex = 3;
+            }
+            
             tvwNotes.TabIndex = 96;
             scrCustomFields.TabIndex = 97;
             btnNewCustomField.TabIndex = 98;

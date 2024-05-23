@@ -12,8 +12,11 @@ namespace Retrowarden.Views
         private List<CodeListItem> _matchDetections;
         private readonly VaultRepository _repository;
         
+        // This sizes the underlying view appropriately.
+        private const int scrollBottom = 57;
+        
         public LoginDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state, VaultRepository repository) 
-            : base (item, folders, state)
+            : base (item, folders, state, scrollBottom)
         {
             // Initialize members.
             _repository = repository;

@@ -20,7 +20,7 @@ namespace Retrowarden.Views
         private Button btnNewCustomField;
         private CustomFieldScrollView scrCustomFields;
         
-        private void InitializeComponent() 
+        private void InitializeComponent(int scrollBottom) 
         {
             this.tvwNotes = new TextView();
             this.fraNotes = new FrameView();
@@ -49,11 +49,11 @@ namespace Retrowarden.Views
             this.TextAlignment = TextAlignment.Left;
             
             this.scrMain.Width = 100;
-            this.scrMain.Height = 100;
+            this.scrMain.Height = 40;
             this.scrMain.X = 0;
             this.scrMain.Y = 1;
             this.scrMain.Visible = true;
-            this.scrMain.ContentSize = new Size(100,140);
+            this.scrMain.ContentSize = new Size(100,scrollBottom);
             this.scrMain.Data = "scrMain";
             this.scrMain.TextAlignment = TextAlignment.Left;
             this.Add(this.scrMain);

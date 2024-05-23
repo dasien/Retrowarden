@@ -573,7 +573,7 @@ namespace Retrowarden.Views
                             else
                             {
                                 // Add them to the status bar.
-                                staMain.Items = [stiNew, stiView, stiEdit];
+                                staMain.Items = [stiNew, stiView, stiEdit, stiFolderMove, stiDelete];
                             }
                             break;
 
@@ -615,7 +615,7 @@ namespace Retrowarden.Views
         private bool ShouldShowCopyMenu()
         {
             // The return value.
-            bool retVal;
+            bool retVal = false;
                         
             // Check to see that there is a source list.
             if (lvwItems.Source != null)
@@ -628,10 +628,14 @@ namespace Retrowarden.Views
                 if (items.MarkedItemCount == 0)
                 {
                     // Get the currently selected item.
-                    VaultItem item = (VaultItem) itemList[lvwItems.SelectedItem];
-                    
-                    // Check to see if this item is already in a collection.
-                    retVal = (item.ItemType == 1);
+                    VaultItem? item = (VaultItem?)itemList[lvwItems.SelectedItem];
+
+                    // Check to make sure we have an item.
+                    if (item != null)
+                    {
+                        // Check to see if this item is already in a collection.
+                        retVal = (item.ItemType == 1);
+                    }
                 }
 
                 else if (items.MarkedItemCount == 1)
@@ -1297,9 +1301,13 @@ namespace Retrowarden.Views
                     // Save the marked items (ignoring the currently selected item if it is not marked)
                     foreach (VaultItem item in markedItems)
                     {
-                        // Update the organization.
-                        item.OrganizationId = sc.SelectedOrganization.Id;
-                        
+                        // Check to see that we have an org.
+                        if (sc.SelectedOrganization != null)
+                        {
+                            // Update the organization.
+                            item.OrganizationId = sc.SelectedOrganization.Id;
+                        }
+
                         // Check to see if the item has a collection list.
                         item.CollectionIds ??= new List<string>();
                         
@@ -1326,8 +1334,12 @@ namespace Retrowarden.Views
                     // Get the current item.
                     VaultItem item = items.ItemList[lvwItems.SelectedItem];
 
-                    // Update the organization.
-                    item.OrganizationId = sc.SelectedOrganization.Id;
+                    // Check to see that we have an org.
+                    if (sc.SelectedOrganization != null)
+                    {
+                        // Update the organization.
+                        item.OrganizationId = sc.SelectedOrganization.Id;
+                    }
 
                     // Check to see if the item has a collection list.
                     item.CollectionIds ??= new List<string>();
