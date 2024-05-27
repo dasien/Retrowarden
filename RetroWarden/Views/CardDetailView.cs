@@ -38,7 +38,7 @@ namespace Retrowarden.Views
             }
             
             // Set our main view to the view area of the parent view.
-            base.DetailView = vwCard;
+            DetailView = vwCard;
 
             // Setup common view parts.
             base.SetupView();
@@ -47,7 +47,7 @@ namespace Retrowarden.Views
             SetTabOrder();
 
             // Set focus to first field.
-            base.SetItemNameControlFocus(); 
+            SetItemNameControlFocus(); 
         }
 
         private new void LoadView()

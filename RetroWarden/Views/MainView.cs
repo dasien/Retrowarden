@@ -27,7 +27,8 @@ namespace Retrowarden.Views
         private VaultItem _tempItem;
         private bool _boomerMode;
         private bool _keepAlive;
-       
+        private ITreeNode? _selectedNode;
+        
          public MainView() 
         {
             // Initialize Application Stack
@@ -112,6 +113,7 @@ namespace Retrowarden.Views
             _collections = new List<VaultCollection>();
             _organizations = new List<Organization>();
             _tempItem = new VaultItem();
+            _selectedNode = null;
             
             // Setup screen controls.
             InitializeComponent();
@@ -382,7 +384,7 @@ namespace Retrowarden.Views
             {
                 Tag = new NodeData()
                 {
-                    Id= null, NodeType = NodeType.Root, Parent = null, Text = null
+                    Id= "Bitwarden", NodeType = NodeType.Root, Parent = null, Text = null
                 }
             };
             
@@ -391,7 +393,7 @@ namespace Retrowarden.Views
             {
                 Tag = new NodeData()
                 {
-                    Id= null, NodeType = NodeType.Organization, Parent = root, Text = null
+                    Id= "My Vault", NodeType = NodeType.Organization, Parent = root, Text = null
                 }
             };
             
@@ -466,6 +468,49 @@ namespace Retrowarden.Views
             
             // Add nodes to control.
             this.tvwItems.AddObject(root);
+        }
+
+        private void FindSelectedNode(IEnumerable<ITreeNode>? root)
+        {
+            // Check to see if the selected node is null.
+            if (_selectedNode != null)
+            {
+                // Get the selected node id.
+                string? id = ((NodeData)_selectedNode.Tag).Id;
+                
+                // Check to see if we were given a starting point.
+                if (root == null)
+                {
+                    // Set to root node.
+                    root = tvwItems.Objects;
+                }
+                
+                // Loop through all child nodes.
+                foreach (ITreeNode child in root)
+                {
+                    // Get the node data for this node.
+                    NodeData childData = (NodeData) child.Tag;
+                    
+                    // Check to see if the Id matches.
+                    if (childData.Id == id)
+                    {
+                        // Set the selected node.
+                        tvwItems.SelectedObject = child;
+                        
+                        // Expand to it.
+                        tvwItems.Expand();
+                        tvwItems.SetNeedsDisplay();
+                        break;
+                    }
+
+                    // Check to see if this node has children.
+                    if (child.Children.Count > 0)
+                    {
+                        // Call this method recursively.
+                        FindSelectedNode(child.Children);
+                    }
+                }
+            }
         }
         
         private SortedDictionary<string, VaultItem> GetVaultItemsForTreeNode(ITreeNode node)
@@ -1099,16 +1144,16 @@ namespace Retrowarden.Views
             if (e.NewValue != null)
             {
                 // Get node that was selected.
-                ITreeNode selected = e.NewValue;
+                _selectedNode = e.NewValue;
 
                 // Get the node data for this node.
-                NodeData nodeData = (NodeData) selected.Tag;
+                NodeData nodeData = (NodeData) _selectedNode.Tag;
 
                 // Check to see if this node has children.
                 if (nodeData.NodeType != NodeType.Item)
                 {
                     // Get the list of children.
-                    SortedDictionary<string, VaultItem> list = GetVaultItemsForTreeNode(selected);
+                    SortedDictionary<string, VaultItem> list = GetVaultItemsForTreeNode(_selectedNode);
 
                     // Update tableview with scoped list.
                     LoadItemListView(list);
@@ -1486,7 +1531,9 @@ namespace Retrowarden.Views
                     break;
                 
                 case VaultItemSaveAction.Update:
-                        
+                case VaultItemSaveAction.MoveToFolder:   
+                case VaultItemSaveAction.MoveToOrganization:
+                    
                     // For update, loop through items to replace existing items in list.
                     foreach (VaultItem item in worker.Results)
                     {
@@ -1503,15 +1550,19 @@ namespace Retrowarden.Views
             } 
             
             // Update controls with new source data.
-            ITreeNode node = tvwItems.SelectedObject;
+            _selectedNode = tvwItems.SelectedObject;
             
             // Update the main controls.
             SyncVault(false);
             
             // Reset the current node.
-            tvwItems.SelectedObject = node;
-            tvwItems.Expand();
-            tvwItems.SetNeedsDisplay();
+            FindSelectedNode(null);
+            
+            // Get any items for that node.
+            SortedDictionary<string, VaultItem> list = GetVaultItemsForTreeNode(_selectedNode);
+
+            // Update tableview with scoped list.
+            LoadItemListView(list);
         }
         #endregion
     }

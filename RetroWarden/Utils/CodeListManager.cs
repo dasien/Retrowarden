@@ -146,7 +146,15 @@ namespace Retrowarden.Utils
 
         public static List<CodeListItem> GetList(string listName)
         {
-            return _codeLists[listName];
+            List<CodeListItem> retVal = new List<CodeListItem>();
+            
+            if (_codeLists != null)
+            {
+                retVal = _codeLists[listName];
+            }
+            
+            // Return the list.
+            return retVal;
         }
     }
 }

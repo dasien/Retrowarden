@@ -14,7 +14,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id= null, NodeType = NodeType.Collection, Parent = parent, Text = null
+                    Id= "Collections", NodeType = NodeType.Collection, Parent = parent, Text = null
                 }
             };
             
@@ -77,7 +77,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id= null, NodeType = NodeType.Folder, Parent = parent, Text = null
+                    Id= "Folders", NodeType = NodeType.Folder, Parent = parent, Text = null
                 }
             };
 
@@ -159,7 +159,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id = null, NodeType = NodeType.ItemGroup, Parent = parent, Text = "All Items"
+                    Id = "All Items", NodeType = NodeType.ItemGroup, Parent = parent, Text = "All Items"
                 }
             };
             // Branch nodes.
@@ -167,7 +167,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Favorites"
+                    Id = "Favorites", NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Favorites"
                 }
             };
 
@@ -175,7 +175,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Logins"
+                    Id = "Logins", NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Logins"
                 }
             };
 
@@ -183,7 +183,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Cards"
+                    Id = "Cards", NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Cards"
                 }
             };
 
@@ -191,7 +191,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Identities"
+                    Id = "Identities", NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Identities"
                 }
             };
 
@@ -199,7 +199,7 @@ namespace Retrowarden.Utils
             {
                 Tag = new NodeData()
                 {
-                    Id = null, NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Secure Notes"
+                    Id = "Secure Notes", NodeType = NodeType.ItemGroup, Parent = retVal, Text = "Secure Notes"
                 }
             };
 

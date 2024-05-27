@@ -30,13 +30,13 @@ namespace Retrowarden.Views
             View empty = new View(new Rect(1, 3, 1, 1));
 
             // Set to base.
-            base.DetailView = empty;
+            DetailView = empty;
             
             // Setup common view parts.
             base.SetupView();
             
             // Set focus to first field.
-            base.SetItemNameControlFocus();
+            SetItemNameControlFocus();
         }
         
         #region Event Handlers
@@ -51,11 +51,17 @@ namespace Retrowarden.Views
 
             else
             {
+                // Check to see if the sub object is null (create mode).
+                _item.SecureNote ??= new SecureNote();
+                
+                // Set the note type (currently always 0).
+                _item.SecureNote.Type = 0;
+
                 // Update item to current control values.
                 UpdateItem();
 
                 // Indicate Save was pressed.
-                base.OkPressed = true;
+                OkPressed = true;
 
                 // Close dialog.
                 Application.RequestStop();
