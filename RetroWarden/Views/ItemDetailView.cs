@@ -89,6 +89,16 @@ namespace Retrowarden.Views
             txtItemName.Text = _item.ItemName;
             chkFavorite.Checked = _item.IsFavorite;
             tvwNotes.Text = _item.Notes ?? "";
+            chkReprompt.Checked = _item.Reprompt == 1;
+            stbDetail.Items = new StatusItem[]
+            {
+                new StatusItem(Key.Null, 
+                    "Created On: " + _item.CreationDate + " | Last Updated On: " + _item.RevisionDate, 
+                    null)
+            };
+            
+            //lblCreateDate.Text = "Created On: " + _item.CreationDate;
+            //lblUpdateDate.Text = "Last Updated On: " + _item.RevisionDate;
             
             // Set the folder to the current folder (or "No Folder" as a null default.
             cboFolder.SelectedItem = _folders.FindIndex(o => o.Id == _item.FolderId);
@@ -134,6 +144,10 @@ namespace Retrowarden.Views
             btnSave.Y = Pos.Bottom(btnNewCustomField) + 1;
             btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
             
+            // Update the creation and revision labels.
+            //lblCreateDate.Y = Pos.Bottom(btnSave) + 1;
+            //lblUpdateDate.Y = Pos.Bottom(btnSave) + 1;
+            
             scrMain.SetNeedsDisplay();
         }
         
@@ -156,6 +170,7 @@ namespace Retrowarden.Views
             
             _item.IsFavorite = chkFavorite.Checked;
             _item.Notes = tvwNotes.Text.ToString();
+            _item.Reprompt = chkReprompt.Checked ? 1 : 0;
             
             // Get the custom fields.
             _item.CustomFields = scrCustomFields.Fields;

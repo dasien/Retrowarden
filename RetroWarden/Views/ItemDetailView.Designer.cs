@@ -12,6 +12,7 @@ namespace Retrowarden.Views
         private TextField txtItemName;
         private ComboBox cboFolder;
         private CheckBox chkFavorite;
+        private CheckBox chkReprompt;
         private FrameView fraNotes;
         private TextView tvwNotes;
         private Button btnSave;
@@ -19,12 +20,16 @@ namespace Retrowarden.Views
         private FrameView fraCustomFieldList;
         private Button btnNewCustomField;
         private CustomFieldScrollView scrCustomFields;
+        private Label lblCreateDate;
+        private Label lblUpdateDate;
+        private StatusBar stbDetail;
         
         private void InitializeComponent(int scrollBottom) 
         {
             this.tvwNotes = new TextView();
             this.fraNotes = new FrameView();
             this.chkFavorite = new CheckBox();
+            this.chkReprompt = new CheckBox();
             this.cboFolder = new ComboBox();
             this.txtItemName = new TextField();
             this.lblFolder = new Label();
@@ -34,6 +39,9 @@ namespace Retrowarden.Views
             this.btnCancel = new Button();
             this.fraCustomFieldList = new FrameView();
             this.btnNewCustomField = new Button();
+            this.lblCreateDate = new Label();
+            this.lblUpdateDate = new Label();
+            this.stbDetail = new StatusBar();
             
             this.Width = Dim.Percent(85f);
             this.Height = Dim.Percent(85f);
@@ -48,14 +56,16 @@ namespace Retrowarden.Views
             this.Border.DrawMarginFrame = true;
             this.TextAlignment = TextAlignment.Left;
             
-            this.scrMain.Width = 100;
-            this.scrMain.Height = 40;
+            this.scrMain.Width = Dim.Fill(0);
+            this.scrMain.Height = Dim.Fill(1);
             this.scrMain.X = 0;
             this.scrMain.Y = 1;
             this.scrMain.Visible = true;
-            this.scrMain.ContentSize = new Size(100,scrollBottom);
+            this.scrMain.ContentSize = new Size(99,scrollBottom);
             this.scrMain.Data = "scrMain";
             this.scrMain.TextAlignment = TextAlignment.Left;
+            this.scrMain.ShowHorizontalScrollIndicator = false;
+            this.scrMain.AutoHideScrollBars = true;
             this.Add(this.scrMain);
             
             this.lblItemName.Width = 4;
@@ -103,14 +113,25 @@ namespace Retrowarden.Views
             this.chkFavorite.Width = 10;
             this.chkFavorite.Height = 1;
             this.chkFavorite.X = 77;
-            this.chkFavorite.Y = 1;
+            this.chkFavorite.Y = 0;
             this.chkFavorite.Visible = true;
             this.chkFavorite.Data = "chkFavorite";
             this.chkFavorite.Text = "Favorite";
             this.chkFavorite.TextAlignment = TextAlignment.Left;
             this.chkFavorite.Checked = false;
             this.scrMain.Add(this.chkFavorite);
-            
+
+            this.chkReprompt.Width = 10;
+            this.chkReprompt.Height = 1;
+            this.chkReprompt.X = 77;
+            this.chkReprompt.Y = 1;
+            this.chkReprompt.Visible = true;
+            this.chkReprompt.Data = "chkReprompt";
+            this.chkReprompt.Text = "Rrequire Reprompt";
+            this.chkReprompt.TextAlignment = TextAlignment.Left;
+            this.chkReprompt.Checked = false;
+            this.scrMain.Add(this.chkReprompt);
+
             this.fraNotes.Width = 97;
             this.fraNotes.Height = 9;
             this.fraNotes.X = 1;
@@ -190,6 +211,36 @@ namespace Retrowarden.Views
             this.btnCancel.IsDefault = false;
             this.btnCancel.Clicked += CancelButtonClicked;
             this.scrMain.Add(btnCancel);
+            
+            /*this.lblCreateDate.Width = 10;
+            this.lblCreateDate.Height = 1;
+            this.lblCreateDate.X = 1;
+            this.lblCreateDate.Y = 40;
+            this.lblCreateDate.Visible = true;
+            this.lblCreateDate.Data = "lblCreateDate";
+            this.lblCreateDate.Text = "";
+            this.lblCreateDate.TextAlignment = TextAlignment.Left;
+            this.scrMain.Add(this.lblCreateDate);
+            
+            this.lblUpdateDate.Width = 10;
+            this.lblUpdateDate.Height = 1;
+            this.lblUpdateDate.X = 47;
+            this.lblUpdateDate.Y = 40;
+            this.lblUpdateDate.Visible = true;
+            this.lblUpdateDate.Data = "lblUpdateDate";
+            this.lblUpdateDate.Text = "";
+            this.lblUpdateDate.TextAlignment = TextAlignment.Left;
+            this.scrMain.Add(this.lblUpdateDate);*/
+
+            this.stbDetail.Width = Dim.Fill(0);
+            this.stbDetail.Height = 1;
+            this.stbDetail.X = 0;
+            this.stbDetail.Y = Pos.AnchorEnd(1);
+            this.stbDetail.Visible = true;
+            this.stbDetail.Data = "stbDetail";
+            this.stbDetail.Text = "";
+            this.stbDetail.TextAlignment = TextAlignment.Left;
+            this.Add(stbDetail);
         }
     }
 }

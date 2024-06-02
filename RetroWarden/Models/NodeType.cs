@@ -3,12 +3,13 @@ namespace Retrowarden.Models
     public enum NodeType
     {
         Root = 0,
-        Vault,
         Organization,
+        CollectionGroup,
         Collection,
+        FolderGroup,
         Folder,
-        Favorite,
         ItemGroup,
+        FavoriteGroup,
         Item
     }
 }

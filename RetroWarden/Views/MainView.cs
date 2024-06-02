@@ -28,6 +28,7 @@ namespace Retrowarden.Views
         private bool _boomerMode;
         private bool _keepAlive;
         private ITreeNode? _selectedNode;
+        private string? _currentOrg;
         
          public MainView() 
         {
@@ -114,6 +115,7 @@ namespace Retrowarden.Views
             _organizations = new List<Organization>();
             _tempItem = new VaultItem();
             _selectedNode = null;
+            _currentOrg = null;
             
             // Setup screen controls.
             InitializeComponent();
@@ -393,31 +395,11 @@ namespace Retrowarden.Views
             {
                 Tag = new NodeData()
                 {
-                    Id= "My Vault", NodeType = NodeType.Organization, Parent = root, Text = null
+                    Id= null, NodeType = NodeType.Organization, Parent = root, Text = "My Vault"
                 }
             };
             
-            // Check to see if there are any items.
-            if (_vaultItems.Count > 0)
-            {
-                // Create item nodes.
-                TreeNode itemNodes = ViewUtils.CreateAllItemsNodes(_vaultItems, personal, null);
-        
-                // Add nodes to root.
-                personal.Children.Add(itemNodes);
-            }
-
-            // Check to see if there are any folders.
-            if (_folders.Count > 0)
-            {
-                // Create folders node.
-                TreeNode folderNode = ViewUtils.CreateFoldersNode(_folders, _vaultItems, personal, null);
-                
-                // Add nodes to root.
-                personal.Children.Add(folderNode);
-            }
-            
-            // Add personal vault to root.
+            // Add the personal vault.
             root.Children.Add(personal);
             
             // Loop through the organizations.
@@ -432,36 +414,6 @@ namespace Retrowarden.Views
                     }
                 };
                 
-                // Check to see if there are any items.
-                if (_vaultItems.Count > 0)
-                {
-                    // Create item nodes.
-                    TreeNode itemNodes = ViewUtils.CreateAllItemsNodes(_vaultItems, orgVault, org);
-
-                    // Add nodes to root.
-                    orgVault.Children.Add(itemNodes);
-                }
-                
-                // Check to see if there are any folders.
-                if (_folders.Count > 0)
-                {
-                    // Create folders node.
-                    TreeNode folderNode = ViewUtils.CreateFoldersNode(_folders, _vaultItems, orgVault, org);
-                
-                    // Add nodes to root.
-                    orgVault.Children.Add(folderNode);
-                }
-            
-                // Check to see if there are any collections.
-                if (_collections.Count > 0)
-                {
-                    // Create collection node.
-                    TreeNode collectionNode = ViewUtils.CreateCollectionsNode(_collections, _vaultItems, orgVault, org);
-
-                    // Add nodes to root.
-                    orgVault.Children.Add(collectionNode);
-                }
-                
                 // Add org to root.
                 root.Children.Add(orgVault);
             }
@@ -469,75 +421,74 @@ namespace Retrowarden.Views
             // Add nodes to control.
             this.tvwItems.AddObject(root);
         }
-
-        private void FindSelectedNode(IEnumerable<ITreeNode>? root)
-        {
-            // Check to see if the selected node is null.
-            if (_selectedNode != null)
-            {
-                // Get the selected node id.
-                string? id = ((NodeData)_selectedNode.Tag).Id;
-                
-                // Check to see if we were given a starting point.
-                if (root == null)
-                {
-                    // Set to root node.
-                    root = tvwItems.Objects;
-                }
-                
-                // Loop through all child nodes.
-                foreach (ITreeNode child in root)
-                {
-                    // Get the node data for this node.
-                    NodeData childData = (NodeData) child.Tag;
-                    
-                    // Check to see if the Id matches.
-                    if (childData.Id == id)
-                    {
-                        // Set the selected node.
-                        tvwItems.SelectedObject = child;
-                        
-                        // Expand to it.
-                        tvwItems.Expand();
-                        tvwItems.SetNeedsDisplay();
-                        break;
-                    }
-
-                    // Check to see if this node has children.
-                    if (child.Children.Count > 0)
-                    {
-                        // Call this method recursively.
-                        FindSelectedNode(child.Children);
-                    }
-                }
-            }
-        }
         
-        private SortedDictionary<string, VaultItem> GetVaultItemsForTreeNode(ITreeNode node)
+        private SortedDictionary<string, VaultItem> GetVaultItemsForTreeNode(ITreeNode? node)
         {
             SortedDictionary<string, VaultItem> retVal = new SortedDictionary<string, VaultItem>();
             
-            // Loop through child nodes.
-            foreach (ITreeNode child in node.Children)
+            // Check to see if we have a node.
+            if (node != null)
             {
-                // Get node tag.
-                NodeData nodeData = (NodeData) child.Tag;
+                // Get the node data for this node.
+                NodeData data = (NodeData)node.Tag;
                 
-                // Check to see that the child node is a vault item.
-                if (nodeData.NodeType == NodeType.Item)
+                // Loop through all vault items.
+                foreach (KeyValuePair<string, VaultItem> item in _vaultItems)
                 {
-                    // Check to see if the id is present.
-                    if (nodeData.Id != null)
+                    // Check to see if there is an org and this item is part of it, or this is the personal vault (no org).
+                    if (item.Value.OrganizationId == _currentOrg)
                     {
-                        // Lookup node in item dictionary.
-                        VaultItem item = _vaultItems[nodeData.Id];
+                        // Based on the node type, get the appropriate items.
+                        switch (data.NodeType)
+                        {
+                            case NodeType.ItemGroup:
+                                
+                                // Check to see if the node item group type is 0 (all items).
+                                if (data.ItemGroupType == NodeItemGroupType.AllItems 
+                                    || (int)data.ItemGroupType == item.Value.ItemType)
+                                {
+                                    // Add the item to the return list.
+                                    retVal.Add(item.Key, item.Value);
+                                }
+                                break;
+                            
+                            case NodeType.FavoriteGroup:
+                                
+                                // Check to see if this item is a favorite.
+                                if (item.Value.IsFavorite)
+                                {
+                                    // Add the item to the return list.
+                                    retVal.Add(item.Key, item.Value);
+                                }
+                                break;
 
-                        // Add to filtered list.
-                        retVal.Add(item.Id, item);
+                            case NodeType.Folder:
+                                
+                                // Check to see if the item is either in a folder or this is the 'No Folder' folder.
+                                if (item.Value.FolderId == data.Id)
+                                {
+                                    // Add the item to the return list.
+                                    retVal.Add(item.Key, item.Value);
+                                }
+                                break;
+                            
+                            case NodeType.Collection:
+                                
+                                // Check to see if this item is in this collection.
+                                VaultCollection? collection = _collections.Find(c => c.Id == data.Id);
+                                
+                                // Check to see if one was found.
+                                if (collection != null)
+                                {
+                                    // Add the item to the return list.
+                                    retVal.Add(item.Key, item.Value);
+                                }
+                                break;
+                        }
                     }
                 }
             }
-            
+
             // Return filtered list.
             return retVal;
         }
@@ -1143,21 +1094,72 @@ namespace Retrowarden.Views
             // Check to make sure the value isn't null.
             if (e.NewValue != null)
             {
-                // Get node that was selected.
+                // Store the node that was selected.
                 _selectedNode = e.NewValue;
 
                 // Get the node data for this node.
                 NodeData nodeData = (NodeData) _selectedNode.Tag;
-
-                // Check to see if this node has children.
-                if (nodeData.NodeType != NodeType.Item)
+                
+                // Handle event based on node type.
+                switch (nodeData.NodeType)
                 {
-                    // Get the list of children.
-                    SortedDictionary<string, VaultItem> list = GetVaultItemsForTreeNode(_selectedNode);
-
-                    // Update tableview with scoped list.
-                    LoadItemListView(list);
+                    case NodeType.Organization:
+                        
+                        // Set the current org.
+                        _currentOrg = (nodeData.Id);
+                        
+                        // Get the org object.
+                        Organization? current = _organizations.Find(o => o.Id == _currentOrg);
+                        
+                        // Check to see if we have an org.
+                        if (current != null)
+                        {
+                            // Set the current vault name on listview.
+                            fraVault.Title = current.Name;
+                        }
+                        
+                        // Collapse the other org legs.
+                        
+                        // Check to see if there are already static nodes for this org.
+                        if (_selectedNode.Children.Count == 0)
+                        {
+                            // Load base level folders for the organization.
+                            ViewUtils.CreateStaticNodesForOrg(_selectedNode, _currentOrg);
+                        }
+                        break;
+                    
+                    case NodeType.CollectionGroup:
+                        
+                        // Load collection nodes.
+                        _selectedNode = ViewUtils.CreateCollectionNodes(_collections, _vaultItems, _selectedNode, _currentOrg);
+                        break;
+                    
+                    case NodeType.FolderGroup:
+                        
+                        // Load folder nodes.
+                        _selectedNode = ViewUtils.CreateFolderNodes(_folders, _vaultItems, _selectedNode, _currentOrg);
+                        break;
+                    
+                    case NodeType.Collection:
+                    case NodeType.Folder:
+                    case NodeType.ItemGroup:
+                        
+                        // Get the vault items for this item group.
+                        SortedDictionary<string, VaultItem> items = GetVaultItemsForTreeNode(_selectedNode);
+                        
+                        // Load the list view.
+                        LoadItemListView(items);
+                        break;
+                    
+                    case NodeType.Root:
+                    case NodeType.Item:
+                    default:
+                        break;
                 }
+                
+                // This causes the treeview to clear it's cache of child nodes for the selected node.
+                tvwItems.RefreshObject(_selectedNode);
+                tvwItems.Expand();
             }
         }
 
@@ -1549,20 +1551,21 @@ namespace Retrowarden.Views
                     break;
             } 
             
-            // Update controls with new source data.
-            _selectedNode = tvwItems.SelectedObject;
-            
-            // Update the main controls.
-            SyncVault(false);
-            
-            // Reset the current node.
-            FindSelectedNode(null);
-            
-            // Get any items for that node.
-            SortedDictionary<string, VaultItem> list = GetVaultItemsForTreeNode(_selectedNode);
+            // Check to see if we have a selected node.
+            if (_selectedNode != null)
+            {
+                // Try to get vault items for the current node.
+                SortedDictionary<string, VaultItem> listItems = GetVaultItemsForTreeNode(_selectedNode);
+                
+                // Update listview contents.
+                LoadItemListView(listItems);
 
-            // Update tableview with scoped list.
-            LoadItemListView(list);
+            }
+            else
+            {
+                // Update listview contents.
+                LoadItemListView(_vaultItems);
+            }
         }
         #endregion
     }

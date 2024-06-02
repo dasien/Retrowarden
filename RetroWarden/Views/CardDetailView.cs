@@ -10,7 +10,7 @@ namespace Retrowarden.Views
         private List<CodeListItem> _expMonths;
         
         // This sizes the underlying view appropriately.
-        private const int scrollBottom = 51;
+        private const int scrollBottom = 33;
 
         public CardDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
             : base (item, folders, state, scrollBottom)
