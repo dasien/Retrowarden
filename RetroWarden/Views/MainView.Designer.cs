@@ -97,7 +97,6 @@ namespace Retrowarden.Views
             this.tvwItems.Style.LeaveLastRow = false;
             this.tvwItems.Style.ShowBranchLines = true;
             this.tvwItems.SelectionChanged += HandleTreeviewSelectionChanged;
-            this.tvwItems.ObjectActivated += HandleTreeviewNodeActivated;
             this.fraItems.Add(this.tvwItems);
             
             this.fraVault.Width = 86;
@@ -121,6 +120,7 @@ namespace Retrowarden.Views
             this.lblItemName.Enabled = true;
             this.lblItemName.Visible = false;
             this.lblItemName.Text = "Item Name";
+            this.lblItemName.Clicked += SortListByName;
             this.fraVault.Add(lblItemName);
             
             this.lblUserId.X = 33;

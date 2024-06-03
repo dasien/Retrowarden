@@ -10,6 +10,9 @@ namespace Retrowarden.Utils
         public static ITreeNode CreateCollectionNodes(List<VaultCollection> collection, 
             SortedDictionary<string, VaultItem> items, ITreeNode parent, string? orgId)
         {
+            // Clear any folder nodes.
+            parent.Children.Clear();
+
             // Loop through the collections list.
             foreach (VaultCollection col in collection)
             {
@@ -50,6 +53,9 @@ namespace Retrowarden.Utils
         public static ITreeNode CreateFolderNodes(List<VaultFolder> folders, SortedDictionary<string, VaultItem> items, 
             ITreeNode parent, string? orgId)
         {
+            // Clear any folder nodes.
+            parent.Children.Clear();
+            
             // Loop through the folders list.
             foreach (VaultFolder folder in folders)
             {

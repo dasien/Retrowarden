@@ -29,6 +29,7 @@ namespace Retrowarden.Views
         private bool _keepAlive;
         private ITreeNode? _selectedNode;
         private string? _currentOrg;
+        private bool _sortDescending;
         
          public MainView() 
         {
@@ -116,6 +117,7 @@ namespace Retrowarden.Views
             _tempItem = new VaultItem();
             _selectedNode = null;
             _currentOrg = null;
+            _sortDescending = false;
             
             // Setup screen controls.
             InitializeComponent();
@@ -340,16 +342,37 @@ namespace Retrowarden.Views
         }
 
         #region UI Control Helpers
+        private void SortListByName()
+        {
+            // Flip flag for sort order.
+            _sortDescending ^= true;
+            
+            // Reload the list.
+            LoadItemListView(_vaultItems);
+        }
+        
         private void LoadItemListView(SortedDictionary<string, VaultItem> items)
         {
+            List<VaultItem> itemList;
+            
             // Clear out any existing items.
             lvwItems.Source = null;
             
             // Check to see if there are any items to show.
             if (items.Count > 0)
             {
-                // Get list of vault items from dictionary.
-                List<VaultItem> itemList = items.Values.ToList();
+                // Check to see which way we are sorting.
+                if (_sortDescending)
+                {
+                    // Get the list sorted ascending.
+                    itemList = items.Values.ToList().OrderByDescending(i=>i.ItemName).ToList();
+                }
+
+                else
+                {
+                    // Get the list sorted descending.
+                    itemList = items.Values.ToList().OrderBy(i=>i.ItemName).ToList();    
+                }
             
                 // Create list data source for listview.
                 ItemListDataSource listSource = new ItemListDataSource(itemList);
@@ -474,14 +497,18 @@ namespace Retrowarden.Views
                             
                             case NodeType.Collection:
                                 
-                                // Check to see if this item is in this collection.
-                                VaultCollection? collection = _collections.Find(c => c.Id == data.Id);
-                                
-                                // Check to see if one was found.
-                                if (collection != null)
+                                // Check to see if this item has any collection ids.
+                                if (item.Value.CollectionIds != null)
                                 {
-                                    // Add the item to the return list.
-                                    retVal.Add(item.Key, item.Value);
+                                    // Check to see if this item is in this collection.
+                                    string? collectionId = item.Value.CollectionIds.Find(c => c == data.Id);
+
+                                    // Check to see if one was found.
+                                    if (collectionId != null)
+                                    {
+                                        // Add the item to the return list.
+                                        retVal.Add(item.Key, item.Value);
+                                    }
                                 }
                                 break;
                         }
@@ -493,6 +520,42 @@ namespace Retrowarden.Views
             return retVal;
         }
 
+        private void GetCurrentOrgForNode(ITreeNode node)
+        {
+            // Get the node tag.
+            NodeData data = (NodeData) node.Tag;
+            
+            // Check to see the current node type.
+            if (data.NodeType != NodeType.Organization || data.NodeType != NodeType.Organization)
+            {
+                // Get the parent.
+                ITreeNode? parent = data.Parent;
+                
+                // Check to see if parent is present.
+                if (parent != null)
+                {
+                    NodeData parentData = (NodeData) parent.Tag;
+                    
+                    // Loop until we get the org id.
+                    while (parentData.NodeType != NodeType.Organization)
+                    {
+                        // Update the parent reference and node type. to this node's parent.
+                        parent = parentData.Parent;
+                        
+                        // Check to see if it is null.
+                        if (parent != null)
+                        {
+                            // Update data reference.
+                            parentData = (NodeData) parent.Tag;    
+                        }
+                    }
+                    
+                    // We should have found the org node.  Set new org id.
+                    _currentOrg = parentData.Id;
+                }
+            }
+        }
+        
         private void SetOwnerNameForItems()
         {
             // Check to see if there are any organizations.
@@ -1096,7 +1159,10 @@ namespace Retrowarden.Views
             {
                 // Store the node that was selected.
                 _selectedNode = e.NewValue;
-
+                
+                // Update current org for tree node.
+                GetCurrentOrgForNode(_selectedNode);
+                
                 // Get the node data for this node.
                 NodeData nodeData = (NodeData) _selectedNode.Tag;
                 
@@ -1104,9 +1170,6 @@ namespace Retrowarden.Views
                 switch (nodeData.NodeType)
                 {
                     case NodeType.Organization:
-                        
-                        // Set the current org.
-                        _currentOrg = (nodeData.Id);
                         
                         // Get the org object.
                         Organization? current = _organizations.Find(o => o.Id == _currentOrg);
@@ -1117,8 +1180,12 @@ namespace Retrowarden.Views
                             // Set the current vault name on listview.
                             fraVault.Title = current.Name;
                         }
-                        
-                        // Collapse the other org legs.
+
+                        else
+                        {
+                            // Set the current vault name on listview.
+                            fraVault.Title = "My Vault";
+                        }
                         
                         // Check to see if there are already static nodes for this org.
                         if (_selectedNode.Children.Count == 0)
@@ -1140,6 +1207,7 @@ namespace Retrowarden.Views
                         _selectedNode = ViewUtils.CreateFolderNodes(_folders, _vaultItems, _selectedNode, _currentOrg);
                         break;
                     
+                    case NodeType.FavoriteGroup:
                     case NodeType.Collection:
                     case NodeType.Folder:
                     case NodeType.ItemGroup:
@@ -1160,29 +1228,6 @@ namespace Retrowarden.Views
                 // This causes the treeview to clear it's cache of child nodes for the selected node.
                 tvwItems.RefreshObject(_selectedNode);
                 tvwItems.Expand();
-            }
-        }
-
-        private void HandleTreeviewNodeActivated(ObjectActivatedEventArgs<ITreeNode> obj)
-        {
-            // Get the node that was double-clicked.
-            ITreeNode activated = obj.ActivatedObject;
-            
-            // Get the node data for this node.
-            NodeData nodeData = (NodeData) activated.Tag;
-            
-            // Make sure this is a leaf node.
-            if (nodeData.NodeType == NodeType.Item)
-            {
-                // Check to see if we have an id.
-                if (nodeData.Id != null)
-                {
-                    // Update the selected item.
-                    _tempItem = _vaultItems[nodeData.Id];
-
-                    // Call the detail form show.
-                    ShowDetailForm(VaultItemDetailViewState.Edit);
-                }
             }
         }
         #endregion

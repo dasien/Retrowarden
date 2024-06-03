@@ -32,8 +32,8 @@ Completed Items
 - Implement Org/Collection Move
 - Implement Status command
 - Make CodeListManager and ConfigurationManager truly static rather than Singleton (no need for instance stuff)
-
 - Add create and update labels to vault items
 - Add option to require reprompt to vault items
 - Show listview contents for "All Items" node correctly
 - Overhauled TreeView state management
+- Sort item list by item name 
