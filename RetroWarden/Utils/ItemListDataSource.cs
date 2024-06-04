@@ -121,12 +121,20 @@ namespace Retrowarden.Utils
             {
                 for (int cnt = 0; cnt < _items.Count; cnt++)
                 {
+                    // Get the string for the item value.
+                    string? itemVal = GetItemName(_items[cnt]);
+                    
+                    // Create cols for name and value.
                     string col1 = string.Format(String.Format("{{0,{0}}}", -NameColumnWidth), _items[cnt].ItemName);
-                    string col2 = string.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth), 
-                        _items[cnt].Login == null ? " " : _items[cnt].Login.UserName);
-
+                    string col2 = string.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth), itemVal == null ? " " : itemVal);
+                    
+                    // Create entire line string.
                     string sc = $"{col1}  {col2} {_items[cnt].ItemOwnerName}";
+                    
+                    // Get the length.
                     int l = sc.Length;
+                    
+                    // Check to see if this is the longest row. 
                     if (l > retVal)
                     {
                         retVal = l;
@@ -134,6 +142,47 @@ namespace Retrowarden.Utils
                 }
             }
             
+            return retVal;
+        }
+        
+        private string? GetItemName(VaultItem item)
+        {
+            string? retVal = " ";
+            
+            // Check the item type.
+            switch (item.ItemType)
+            {
+                // Login
+                case 1:
+                    if (item.Login != null)
+                    {
+                        retVal = item.Login.UserName;
+                    }
+                    break;
+                
+                // Note
+                case 2:
+                    retVal = string.Empty;
+                    break;
+                
+                // Card
+                case 3:
+                    if (item.Card != null)
+                    {
+                        retVal = item.Card.GetListViewColumnText();
+                    }
+                    break;
+                
+                // Identity
+                case 4:
+                    if (item.Identity != null)
+                    {
+                        retVal = item.Identity.GetListViewColumnText();
+                    }
+                    break;
+            }
+            
+            // Return the item string.
             return retVal;
         }
 

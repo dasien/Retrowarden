@@ -127,17 +127,29 @@ namespace Retrowarden.Controls
 
             btnGoUri.Clicked += () =>
             {
-                // Check to see if we have a valid Uri.
-                if (Uri.TryCreate(txtUri.Text.ToString(), UriKind.Absolute, out _))
-                { 
-                    Process.Start(new ProcessStartInfo(txtUri.Text.ToString()) { UseShellExecute = true });
+                // Get the uri string.
+                string? uriString = txtUri.Text.ToString();
+                
+                // Check to see if there is a value.
+                if (uriString != null)
+                {
+                    // Check to see if we have a valid Uri.
+                    if (Uri.TryCreate(uri, UriKind.Absolute, out _))
+                    {
+                        Process.Start(new ProcessStartInfo(uriString)
+                            { UseShellExecute = true });
+                    }
+
+                    else
+                    {
+                        MessageBox.ErrorQuery("Action failed.", "This does not appear to be a valid Uri", "Ok");
+                    }
                 }
 
                 else
                 {
-                    MessageBox.ErrorQuery("Action failed.", "This does not appear to be a valid Uri", "Ok");
+                    MessageBox.ErrorQuery("Action failed.", "Uri missing.", "Ok");
                 }
-
             };
 
             btnDeleteUri.Clicked += () =>

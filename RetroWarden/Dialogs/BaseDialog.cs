@@ -4,7 +4,7 @@ namespace Retrowarden.Dialogs
 {
     public abstract class BaseDialog
     {
-        protected Dialog _dialog;
+        protected Dialog? _dialog;
         protected bool _okPressed;
 
         protected abstract void InitializeComponent();

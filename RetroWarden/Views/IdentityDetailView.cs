@@ -15,6 +15,9 @@ namespace Retrowarden.Views
         public IdentityDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
             : base (item, folders, state, scrollBottom)
         {
+            // Create members.
+            _titles = new List<CodeListItem>();
+            
             // Update controls based on view state.
             SetupView();
         }

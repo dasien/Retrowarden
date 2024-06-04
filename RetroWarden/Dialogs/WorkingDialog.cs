@@ -41,8 +41,11 @@ namespace Retrowarden.Dialogs
         private bool UpdateAnimationLabel(MainLoop arg)
         {
             // Update text.
-            _dialog.Subviews[0].Subviews[0].Text = _spinner[_animationIndex];
-            _dialog.Subviews[0].Subviews[0].SetNeedsDisplay();
+            if (_dialog != null)
+            {
+                _dialog.Subviews[0].Subviews[0].Text = _spinner[_animationIndex];
+                _dialog.Subviews[0].Subviews[0].SetNeedsDisplay();
+            }
             
             if (_animationIndex < (_spinner.Length -1))
             {
@@ -101,7 +104,7 @@ namespace Retrowarden.Dialogs
         {
             get
             {
-                return _dialog.IsCurrentTop;
+                return _dialog != null && _dialog.IsCurrentTop;
             }
         }
     }
