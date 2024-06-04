@@ -121,6 +121,7 @@ namespace Retrowarden.Views
             this.lblItemName.Visible = false;
             this.lblItemName.Text = "Item Name";
             this.lblItemName.Clicked += SortListByName;
+            this.lblItemName.TextAlignment = TextAlignment.Centered;
             this.fraVault.Add(lblItemName);
             
             this.lblUserId.X = 33;
@@ -130,6 +131,8 @@ namespace Retrowarden.Views
             this.lblUserId.Enabled = true;
             this.lblUserId.Visible = false;
             this.lblUserId.Text = "User Id";
+            this.lblUserId.Clicked += SortListByValue;
+            this.lblUserId.TextAlignment = TextAlignment.Centered;
             this.fraVault.Add(lblUserId);
             
             this.lblOwner.X = 64;
@@ -139,6 +142,8 @@ namespace Retrowarden.Views
             this.lblOwner.Enabled = true;
             this.lblOwner.Visible = false;
             this.lblOwner.Text = "Owner";
+            this.lblOwner.Clicked += SortListByOwner;
+            this.lblOwner.TextAlignment = TextAlignment.Centered;
             this.fraVault.Add(lblOwner);
             
             this.lvwItems.Width = 84;

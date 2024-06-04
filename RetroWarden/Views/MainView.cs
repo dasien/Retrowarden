@@ -30,6 +30,9 @@ namespace Retrowarden.Views
         private ITreeNode? _selectedNode;
         private string? _currentOrg;
         private bool _sortDescending;
+        private bool _sortValueDescending;
+        private bool _sortOwnerDescending;
+        private int _sortColumn = 0;
         
          public MainView() 
         {
@@ -118,6 +121,8 @@ namespace Retrowarden.Views
             _selectedNode = null;
             _currentOrg = null;
             _sortDescending = false;
+            _sortValueDescending = false;
+            _sortOwnerDescending = false;
             
             // Setup screen controls.
             InitializeComponent();
@@ -221,7 +226,7 @@ namespace Retrowarden.Views
                         // Get organizations.
                         _organizations = organizationsWorker.Organizations;
                     }
-
+/*
                     // Check to see if there are any organizations.
                     if (_organizations != null && _organizations.Count > 0)
                     {
@@ -242,7 +247,8 @@ namespace Retrowarden.Views
                                 org.Members = membersWorker.Members;
                             }
                         }
-                    }
+                    } 
+*/
                 }
             }
             
@@ -344,13 +350,40 @@ namespace Retrowarden.Views
         #region UI Control Helpers
         private void SortListByName()
         {
+            // Set current sort column.
+            _sortColumn = 0;
+            
             // Flip flag for sort order.
             _sortDescending ^= true;
             
             // Reload the list.
             LoadItemListView(_vaultItems);
         }
-        
+
+        private void SortListByValue()
+        {
+            // Set current sort column.
+            _sortColumn = 1;
+
+            // Flip flag for sort order.
+            _sortValueDescending ^= true;
+            
+            // Reload the list.
+            LoadItemListView(_vaultItems);
+        }
+
+        private void SortListByOwner()
+        {
+            // Set current sort column.
+            _sortColumn = 2;
+            
+            // Flip flag for sort order.
+            _sortOwnerDescending ^= true;
+            
+            // Reload the list.
+            LoadItemListView(_vaultItems);
+        }
+
         private void LoadItemListView(SortedDictionary<string, VaultItem> items)
         {
             List<VaultItem> itemList;
@@ -361,19 +394,9 @@ namespace Retrowarden.Views
             // Check to see if there are any items to show.
             if (items.Count > 0)
             {
-                // Check to see which way we are sorting.
-                if (_sortDescending)
-                {
-                    // Get the list sorted ascending.
-                    itemList = items.Values.ToList().OrderByDescending(i=>i.ItemName).ToList();
-                }
-
-                else
-                {
-                    // Get the list sorted descending.
-                    itemList = items.Values.ToList().OrderBy(i=>i.ItemName).ToList();    
-                }
-            
+                // Get sorted item list.
+                itemList = GetSortedList(items);
+                
                 // Create list data source for listview.
                 ItemListDataSource listSource = new ItemListDataSource(itemList);
             
@@ -399,6 +422,64 @@ namespace Retrowarden.Views
             // Set statusbar menus.
             UpdateStatusBarOptions();
         }
+
+        private List<VaultItem> GetSortedList(SortedDictionary<string, VaultItem> items)
+        {
+            List<VaultItem> retVal;
+
+            switch (_sortColumn)
+            {
+                case 0:
+                default:
+                    // Check to see which way we are sorting.
+                    if (_sortDescending)
+                    {
+                        // Get the list sorted ascending.
+                        retVal = items.Values.ToList().OrderByDescending(i=>i.ItemName).ToList();
+                    }
+
+                    else
+                    {
+                        // Get the list sorted descending.
+                        retVal = items.Values.ToList().OrderBy(i=>i.ItemName).ToList();    
+                    }
+                    break;
+                
+                case 1:
+                    // Check to see which way we are sorting.
+                    if (_sortValueDescending)
+                    {
+                        // Get the list sorted ascending.
+                        retVal = items.Values.ToList().OrderByDescending(i=>i.ListSortValue).ToList();
+                    }
+
+                    else
+                    {
+                        // Get the list sorted descending.
+                        retVal = items.Values.ToList().OrderBy(i=>i.ListSortValue).ToList();    
+                    }
+                    break;
+                    
+                case 2:
+                    // Check to see which way we are sorting.
+                    if (_sortOwnerDescending)
+                    {
+                        // Get the list sorted ascending.
+                        retVal = items.Values.ToList().OrderByDescending(i=>i.ItemOwnerName).ToList();
+                    }
+
+                    else
+                    {
+                        // Get the list sorted descending.
+                        retVal = items.Values.ToList().OrderBy(i=>i.ItemOwnerName).ToList();    
+                    }
+                    break;
+            }
+            
+            // Return the sorted list.
+            return retVal;
+        }
+        
         private void LoadTreeView()
         {
             // Clear out any items.

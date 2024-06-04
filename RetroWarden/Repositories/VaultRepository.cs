@@ -273,6 +273,9 @@ namespace Retrowarden.Repositories
             {
                 // Get item list.
                 List<VaultItem>? items  = JsonConvert.DeserializeObject<List<VaultItem>>(_response, _settings);
+
+                // Update the list with helper property for sorting on item value.
+                items = SetSortValueForItemList(items);
                 
                 // Check to make sure we have a list.
                 if (items != null)
@@ -359,6 +362,13 @@ namespace Retrowarden.Repositories
             {
                 // Get item list.
                 retVal = JsonConvert.DeserializeObject<VaultItem>(_response, _settings);
+                
+                // Check to see if we have an object.
+                if (retVal != null)
+                {
+                    // Update the sort value.
+                    retVal = SetSortValueForItem(retVal);
+                }
             }
             
             // Return saved object.
@@ -384,6 +394,13 @@ namespace Retrowarden.Repositories
             {
                 // Get item list.
                 retVal = JsonConvert.DeserializeObject<VaultItem>(_response, _settings);
+                
+                // Check to see if we have an object.
+                if (retVal != null)
+                {
+                    // Update the sort value.
+                    retVal = SetSortValueForItem(retVal);
+                }
             }
             
             // Return saved object.
@@ -421,6 +438,13 @@ namespace Retrowarden.Repositories
             {
                 // Get item.
                 retVal = JsonConvert.DeserializeObject<VaultItem>(_response, _settings);
+                
+                // Check to see if we have an object.
+                if (retVal != null)
+                {
+                    // Update the sort value.
+                    retVal = SetSortValueForItem(retVal);
+                }
             }
             
             // Return saved object.
@@ -566,6 +590,65 @@ namespace Retrowarden.Repositories
 
             // Return password.
             return retVal;
+        }
+        #endregion
+        
+        #region Helper Methods
+
+        private List<VaultItem>? SetSortValueForItemList(List<VaultItem>? items)
+        {
+            // Check to see if there is a list.
+            if (items != null)
+            {
+                // Loop through the list of items.
+                foreach (VaultItem item in items)
+                {
+                    // Update sort value column.
+                    SetSortValueForItem(item);
+                }
+            }
+            
+            // Return the udpated list.
+            return items;
+        }
+
+        private VaultItem SetSortValueForItem(VaultItem item)
+        {
+            // Check the item type.
+            switch (item.ItemType)
+            {
+                // Login
+                case 1:
+                    if (item.Login != null)
+                    {
+                        item.ListSortValue = item.Login.UserName;
+                    }
+                    break;
+                
+                // Note
+                case 2:
+                    item.ListSortValue = string.Empty;
+                    break;
+                
+                // Card
+                case 3:
+                    if (item.Card != null)
+                    {
+                        item.ListSortValue = item.Card.GetListViewColumnText();
+                    }
+                    break;
+                
+                // Identity
+                case 4:
+                    if (item.Identity != null)
+                    {
+                        item.ListSortValue = item.Identity.GetListViewColumnText();
+                    }
+                    break;
+            }
+            
+            // Return the updated item.
+            return item;
         }
         #endregion
         

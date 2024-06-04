@@ -65,6 +65,9 @@ namespace Retrowarden.Models
         // Helper properties.
         [JsonIgnore]
         public string? ItemOwnerName { get; set; }
+        
+        [JsonIgnore]
+        public string? ListSortValue { get; set; }
     }
     
 }

@@ -36,4 +36,4 @@ Completed Items
 - Add option to require reprompt to vault items
 - Show listview contents for "All Items" node correctly
 - Overhauled TreeView state management
-- Sort item list by item name 
+- Sort item list by all columns 
