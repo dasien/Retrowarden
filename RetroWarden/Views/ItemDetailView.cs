@@ -58,6 +58,10 @@ namespace Retrowarden.Views
                         X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true,
                         ContentSize = new Size(95, 10), Data = "scrCustomFields", TextAlignment = TextAlignment.Left
                     };
+                    
+                    // Add scroll to view.
+                    fraCustomFieldList.Add(scrCustomFields);
+
                     break;
 
                 case VaultItemDetailViewState.Edit:
@@ -96,9 +100,6 @@ namespace Retrowarden.Views
                     "Created On: " + _item.CreationDate + " | Last Updated On: " + _item.RevisionDate, 
                     null)
             };
-            
-            //lblCreateDate.Text = "Created On: " + _item.CreationDate;
-            //lblUpdateDate.Text = "Last Updated On: " + _item.RevisionDate;
             
             // Set the folder to the current folder (or "No Folder" as a null default.
             cboFolder.SelectedItem = _folders.FindIndex(o => o.Id == _item.FolderId);
@@ -144,10 +145,7 @@ namespace Retrowarden.Views
             btnSave.Y = Pos.Bottom(btnNewCustomField) + 1;
             btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
             
-            // Update the creation and revision labels.
-            //lblCreateDate.Y = Pos.Bottom(btnSave) + 1;
-            //lblUpdateDate.Y = Pos.Bottom(btnSave) + 1;
-            
+            // Refresh display
             scrMain.SetNeedsDisplay();
         }
         
@@ -245,10 +243,10 @@ namespace Retrowarden.Views
             if (dialog.OkPressed)
             {
                 fieldType = dialog.FieldType;
+                
+                // Create a new control row.
+                scrCustomFields.CreateControlRow(fieldType);
             }
-            
-            // Create a new control row.
-            scrCustomFields.CreateControlRow(fieldType);
         }
         #endregion
     }

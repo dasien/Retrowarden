@@ -56,6 +56,7 @@ namespace Retrowarden.Dialogs
             // Create Ok button.
             Button okButton = new Button(8, 6, "_Connect");
             okButton.Clicked += OkButton_Clicked;
+            okButton.IsDefault = true;
 
             // Create Cancel button.
             Button cancelButton = new Button(24, 6, "Cance_l");

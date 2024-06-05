@@ -20,8 +20,6 @@ namespace Retrowarden.Views
         private FrameView fraCustomFieldList;
         private Button btnNewCustomField;
         private CustomFieldScrollView scrCustomFields;
-        private Label lblCreateDate;
-        private Label lblUpdateDate;
         private StatusBar stbDetail;
         
         private void InitializeComponent(int scrollBottom) 
@@ -39,8 +37,6 @@ namespace Retrowarden.Views
             this.btnCancel = new Button();
             this.fraCustomFieldList = new FrameView();
             this.btnNewCustomField = new Button();
-            this.lblCreateDate = new Label();
-            this.lblUpdateDate = new Label();
             this.stbDetail = new StatusBar();
             
             this.Width = Dim.Percent(85f);
@@ -127,7 +123,7 @@ namespace Retrowarden.Views
             this.chkReprompt.Y = 1;
             this.chkReprompt.Visible = true;
             this.chkReprompt.Data = "chkReprompt";
-            this.chkReprompt.Text = "Rrequire Reprompt";
+            this.chkReprompt.Text = "Require Reprompt";
             this.chkReprompt.TextAlignment = TextAlignment.Left;
             this.chkReprompt.Checked = false;
             this.scrMain.Add(this.chkReprompt);

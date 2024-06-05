@@ -41,7 +41,6 @@ namespace Retrowarden.Controls
             // Loop through the URI list.
             foreach (VaultItemCustomField field in _fields)
             {
-
                 // The control row.
                 View[]? rowctl = CreateNewControlRow(rowCnt, field);
                 
@@ -58,6 +57,10 @@ namespace Retrowarden.Controls
                     rowCnt++;
                 }
             }
+            
+            // Refresh control.
+            SetNeedsDisplay();
+            SetChildNeedsDisplay();
         }
 
         private View[] CreateHeaderRow()
@@ -403,7 +406,7 @@ namespace Retrowarden.Controls
 
                 // Set scroll for redraw.
                 SetNeedsDisplay();
-
+                
                 // Set focus to new text field.
                 newRow[0].SetFocus();
             }

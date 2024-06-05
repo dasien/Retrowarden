@@ -16,6 +16,9 @@ namespace Retrowarden.Dialogs
 
         protected virtual void CancelButton_Clicked()
         {
+            // Set ok button flag.
+            _okPressed = false;
+            
             // Close dialog.
             Application.RequestStop(_dialog);
         }

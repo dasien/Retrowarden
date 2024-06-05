@@ -43,7 +43,14 @@ namespace Retrowarden.Views
             else
             {
                 // Create empty URI scroll.
-                scrURIList = new UriScrollView(null, _matchDetections);
+                scrURIList = new UriScrollView(null, _matchDetections)
+                {
+                    X = 0, Y = 0, Width = 95, Height = 5, Visible = true, CanFocus = true, Enabled = true,
+                    ContentSize = new Size(95, 10), Data = "scrURIList", TextAlignment = TextAlignment.Left
+                };
+                
+                // Add it to the frame.
+                fraURIList.Add(scrURIList);
             }
             
             // Set our main view to the view area of the parent view.
@@ -55,7 +62,7 @@ namespace Retrowarden.Views
             // Set tab order.
             SetTabOrder();
             
-            // Allow focusing in the frame (fix bug that was causing somme of the views to not be focused).
+            // Allow focusing in the frame (fix bug that was causing some of the views to not be focused).
             fraURIList.FocusFirst();
             
             // Set focus to first field.
