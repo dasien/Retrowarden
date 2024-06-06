@@ -199,7 +199,7 @@ namespace Retrowarden.Dialogs
             _txtNumOfWords.Visible = true;
             _txtNumOfWords.Secret = false;
             _txtNumOfWords.Data = "_txtNumOfWords";
-            _txtNumOfWords.Text = "3";
+            _txtNumOfWords.Text = "5";
             _txtNumOfWords.TextAlignment = TextAlignment.Left;
             _fraOptions.Add(_txtNumOfWords);
             
