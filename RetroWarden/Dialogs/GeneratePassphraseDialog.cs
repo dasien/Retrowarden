@@ -36,8 +36,8 @@ namespace Retrowarden.Dialogs
         {
             bool retVal = true;
 
-            // Numeric 1-5 allowed for number of words.
-            string numberPattern = "^[1-5]+$";
+            // Numeric 5-9 allowed for number of words.
+            string numberPattern = "^[5-9]+$";
             
             // Check to make sure we have valid controls.
             if (_txtNumOfWords != null && _txtSeparator != null)
@@ -45,7 +45,7 @@ namespace Retrowarden.Dialogs
                 // Check to see if there is a valid value for number of words.
                 if (!Regex.IsMatch(_txtNumOfWords.Text.ToString() ?? string.Empty, numberPattern))
                 {
-                    MessageBox.ErrorQuery("Values Missing", "Enter a number of words (1-5).", "Ok");
+                    MessageBox.ErrorQuery("Values Missing", "Enter a number of words (5-9).", "Ok");
                     retVal = false;
                 }
 
