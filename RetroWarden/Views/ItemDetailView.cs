@@ -176,21 +176,22 @@ namespace Retrowarden.Views
 
         protected virtual void SetTabOrder()
         {
-            // Set tab order for common controls.
+            // Set tab order for common controls. 
             txtItemName.TabIndex = 0;
             cboFolder.TabIndex = 1;
             chkFavorite.TabIndex = 2;
+            chkReprompt.TabIndex = 3;
             
             if (_subView != null)
             {
-                _subView.TabIndex = 3;
+                _subView.TabIndex = 4;
             }
             
-            tvwNotes.TabIndex = 96;
-            scrCustomFields.TabIndex = 97;
-            btnNewCustomField.TabIndex = 98;
-            btnSave.TabIndex = 99;
-            btnCancel.TabIndex = 100;
+            tvwNotes.TabIndex = 95;
+            scrCustomFields.TabIndex = 96;
+            btnNewCustomField.TabIndex = 97;
+            btnSave.TabIndex = 98;
+            btnCancel.TabIndex = 99;
         }
         
         #region  Properties
@@ -227,7 +228,37 @@ namespace Retrowarden.Views
         
         protected void HandleControlEnter(View sender)
         {
-            ((TextField)sender).SelectAll();
+            // Get Y values for controal and scroll view
+            int controlY = sender.Frame.Y;
+            int viewY = scrMain.Frame.Bottom;
+            
+            // Check to see if we are lower than view.
+            if (controlY > viewY)
+            {
+                // Loop until we are in view.
+                while (controlY > viewY)
+                {
+                    scrMain.ScrollDown(5);
+                    controlY--;
+                }
+            }
+            
+            // Scroll back up if out of view.
+            else if (controlY < viewY)
+            {
+                // Loop until we are in view.
+                while (controlY < viewY)
+                {
+                    scrMain.ScrollUp((5));
+                    controlY++;
+                }
+            }
+
+            // If this is a textfield, select the text in it.
+            if (sender is TextField)
+            {
+                ((TextField)sender).SelectAll();
+            }
         }
 
         private void NewCustomFieldButtonClicked()
@@ -236,16 +267,11 @@ namespace Retrowarden.Views
             SelectCustomFieldDialog dialog = new SelectCustomFieldDialog();
             dialog.Show();
             
-            // Default to a text type of field.
-            int fieldType = 0;
-            
             // Check to see what was selected.
             if (dialog.OkPressed)
             {
-                fieldType = dialog.FieldType;
-                
                 // Create a new control row.
-                scrCustomFields.CreateControlRow(fieldType);
+                scrCustomFields.CreateControlRow(dialog.FieldType);
             }
         }
         #endregion

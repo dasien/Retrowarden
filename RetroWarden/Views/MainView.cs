@@ -1010,6 +1010,9 @@ namespace Retrowarden.Views
 
         private void HandleCollectionCreate()
         {
+            MessageBox.Query("Not Implemented",  "This feature not yet implemented.", "Ok");
+            
+            /*
             // Check to make sure we are logged in.
             if (_vaultRepository.IsLoggedIn)
             {
@@ -1071,7 +1074,7 @@ namespace Retrowarden.Views
             {
                 // Notify user.
                 MessageBox.ErrorQuery("Action failed", "You must be logged in.", "Ok");
-            }
+            }*/
         }
 
         private void HandlePasswordGenerate()
