@@ -3,9 +3,9 @@ using System.Text;
 using Terminal.Gui;
 using Terminal.Gui.Trees;
 using Retrowarden.Dialogs;
-using Retrowarden.Models;
+using RetrowardenSDK.Models;
 using Retrowarden.Utils;
-using Retrowarden.Repositories;
+using RetrowardenSDK.Repositories;
 using Retrowarden.Config;
 using Retrowarden.Workers;
 

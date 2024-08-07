@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Retrowarden.Models
+namespace RetrowardenSDK.Models
 {
     public class Identity : VaultItem
     {

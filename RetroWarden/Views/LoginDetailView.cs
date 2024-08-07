@@ -1,9 +1,9 @@
 using Terminal.Gui;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
-using Retrowarden.Models;
+using RetrowardenSDK.Models;
 using Retrowarden.Utils;
-using Retrowarden.Repositories;
+using RetrowardenSDK.Repositories;
 
 namespace Retrowarden.Views 
 {

@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
-using Retrowarden.Models;
+using RetrowardenSDK.Models;
 
-namespace Retrowarden.Repositories
+namespace RetrowardenSDK.Repositories
 {
     public sealed class VaultRepository
     {

@@ -1,5 +1,5 @@
 using Terminal.Gui;
-using Retrowarden.Models;
+using RetrowardenSDK.Models;
 using Retrowarden.Utils;
 
 namespace Retrowarden.Views 

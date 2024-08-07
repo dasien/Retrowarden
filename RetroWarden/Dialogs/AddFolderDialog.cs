@@ -1,4 +1,4 @@
-using Retrowarden.Models;
+using RetrowardenSDK.Models;
 using Terminal.Gui;
 
 namespace Retrowarden.Dialogs

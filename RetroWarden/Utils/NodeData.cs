@@ -1,6 +1,6 @@
 using Terminal.Gui.Trees;
 
-namespace Retrowarden.Models
+namespace Retrowarden.Utils
 {
     public class NodeData
     {

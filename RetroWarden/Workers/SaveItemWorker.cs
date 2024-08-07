@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
-using Retrowarden.Repositories;
-using Retrowarden.Models;
+using RetrowardenSDK.Repositories;
+using RetrowardenSDK.Models;
 
 namespace Retrowarden.Workers
 {

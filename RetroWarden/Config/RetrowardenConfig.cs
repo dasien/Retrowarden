@@ -2,7 +2,7 @@ namespace Retrowarden.Config;
 
 public sealed class RetrowardenConfig
 {
-    public RetrowardenConfig(string? cliLocation)
+    public RetrowardenConfig(string? cliLocation = "")
     {
         CLILocation = cliLocation;
     }

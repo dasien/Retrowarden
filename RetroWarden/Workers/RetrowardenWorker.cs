@@ -1,4 +1,4 @@
-using Retrowarden.Repositories;
+using RetrowardenSDK.Repositories;
 using Retrowarden.Dialogs;
 using System.ComponentModel;
 

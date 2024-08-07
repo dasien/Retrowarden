@@ -1,4 +1,4 @@
-namespace Retrowarden.Models
+namespace RetrowardenSDK.Models
 {
     public enum VaultItemDetailViewState
     {

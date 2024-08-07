@@ -1,5 +1,5 @@
-using Retrowarden.Models;
-using Retrowarden.Repositories;
+using RetrowardenSDK.Models;
+using RetrowardenSDK.Repositories;
 
 namespace Retrowarden.Workers
 {

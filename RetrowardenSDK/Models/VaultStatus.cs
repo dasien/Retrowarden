@@ -1,8 +1,6 @@
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
-using Retrowarden.Dialogs;
 
-namespace Retrowarden.Models
+namespace RetrowardenSDK.Models
 {
     public class VaultStatus
     {

@@ -1,4 +1,4 @@
-namespace Retrowarden.Models
+namespace Retrowarden.Utils
 {
     public enum NodeType
     {
