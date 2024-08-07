@@ -55,12 +55,9 @@ namespace Retrowarden.Views
                 // Check to see if exe location has been set.
                 if (string.IsNullOrEmpty(config.CLILocation))
                 {
-                    // The allowed list. 
-                    List<string> fileType = new List<string>();
-
                     // Show file dialog.
                     OpenDialog finder = new OpenDialog("Setup Retrowarden",
-                        "Please locate the bw binary file to continue.", fileType);
+                        "Please locate the bw binary file to continue.");
 
                     finder.AllowsMultipleSelection = false;
 
