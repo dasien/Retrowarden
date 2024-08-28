@@ -53,18 +53,13 @@ namespace Retrowarden.Dialogs
             _dialog = new Dialog()
             {
                 Width = 40, Height = 12, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true, 
-                IsMdiContainer = false, TextAlignment = TextAlignment.Left
+                TextAlignment = Alignment.Start
             };
-
-            _dialog.Border.BorderStyle = BorderStyle.Single;
-            _dialog.Border.Effect3D = true;
-            _dialog.Border.Effect3DBrush = null;
-            _dialog.Border.DrawMarginFrame = true; 
-
+            
            _lblStatus = new Label()
             {
                 Width = 4, Height = 1, X = 2, Y = 1, Visible = true, Data = "lblStatus",
-                Text = "Vault Status", TextAlignment = TextAlignment.Left
+                Text = "Vault Status", TextAlignment = Alignment.Start
             };
             
             _dialog.Add(this._lblStatus);
@@ -72,7 +67,7 @@ namespace Retrowarden.Dialogs
             _lblStatusValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 1, Visible = true, Data = "lblStatusValue", 
-                TextAlignment = TextAlignment.Left
+                TextAlignment = Alignment.Start
             };
 
             _dialog.Add(_lblStatusValue);
@@ -80,7 +75,7 @@ namespace Retrowarden.Dialogs
             _lblUserEmail = new Label()
             {
                 Width = 4, Height = 1, X = 2, Y = 3, Visible = true, Data = "lblUserEmail", 
-                Text = "Logged In As", TextAlignment = TextAlignment.Left
+                Text = "Logged In As", TextAlignment = Alignment.Start
             };
             
             _dialog.Add(_lblUserEmail);
@@ -88,7 +83,7 @@ namespace Retrowarden.Dialogs
             _lblUserEmailValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 3, Visible = true, Data = "lblUserEmailValue", 
-                Text = "Heya", TextAlignment = TextAlignment.Left
+                Text = "Heya", TextAlignment = Alignment.Start
             };
             
             _dialog.Add(_lblUserEmailValue);
@@ -96,7 +91,7 @@ namespace Retrowarden.Dialogs
             _lblLastSync = new Label()
             {
                 Width = 4, Height = 1, X = 2, Y = 5, Visible = true, Data = "lblLastSync", 
-                Text = "Last Sync On", TextAlignment = TextAlignment.Left
+                Text = "Last Sync On", TextAlignment = Alignment.Start
             };
             
             _dialog.Add(_lblLastSync);
@@ -104,7 +99,7 @@ namespace Retrowarden.Dialogs
             _lblLastSyncValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 5, Visible = true, Data = "lblLastSyncValue", 
-                Text = "Heya", TextAlignment = TextAlignment.Left
+                Text = "Heya", TextAlignment = Alignment.Start
             };
             
             _dialog.Add(_lblLastSyncValue);
@@ -112,7 +107,7 @@ namespace Retrowarden.Dialogs
             _lblServerUrl = new Label()
             {
                 Width = 4, Height = 1, X = 4, Y = 7, Visible = true, Data = "lblServerUrl", 
-                Text = "Server Url", TextAlignment = TextAlignment.Left
+                Text = "Server Url", TextAlignment = Alignment.Start
             };
             
             _dialog.Add(_lblServerUrl);
@@ -120,7 +115,7 @@ namespace Retrowarden.Dialogs
             _lblServerUrlValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 7, Visible = true, Data = "lblServerUrlValue", 
-                Text = "Heya", TextAlignment = TextAlignment.Left
+                Text = "Heya", TextAlignment = Alignment.Start
             };
           
             _dialog.Add(_lblServerUrlValue);
@@ -128,10 +123,10 @@ namespace Retrowarden.Dialogs
             _btnCancel = new Button()
             {
                 Width = 9, Height = 1, X = 14, Y = 9, Visible = true, Data = "btnOk", 
-                Text = "Close", TextAlignment = TextAlignment.Centered, IsDefault = true
+                Text = "Close", TextAlignment = Alignment.Center, IsDefault = true
             };
 
-            _btnCancel.Clicked += CancelButton_Clicked;
+            _btnCancel.Accept += CancelButton_Clicked;
             _dialog.Add(_btnCancel);
         }
     }    

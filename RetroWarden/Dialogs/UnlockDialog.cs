@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Terminal.Gui;
 
 namespace Retrowarden.Dialogs
@@ -18,10 +19,10 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
 
-        protected override void OkButton_Clicked()
+        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
-            if (_txtPassword != null &&  _txtPassword.Text.TrimSpace().Length == 0)
+            if (_txtPassword != null &&  _txtPassword.Text.Trim().Length == 0)
             {
                 MessageBox.ErrorQuery("Value Missing", "Password is required.", "Ok");
             }
@@ -33,7 +34,7 @@ namespace Retrowarden.Dialogs
                 
                 if (_txtPassword != null)
                 {
-                    _password = _txtPassword.Text.ToString() ?? string.Empty;
+                    _password = _txtPassword.Text ?? string.Empty;
                 }
 
                 // Close dialog.
@@ -44,15 +45,24 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create Ok button.
-            Button okButton = new Button(8, 4, "_Unlock");
-            okButton.Clicked += OkButton_Clicked;
+            Button okButton = new Button()
+            {
+                X = 8, Y = 4, Text = "_Unlock"
+            };
+            okButton.Accept += OkButton_Clicked;
 
             // Create Cancel button.
-            Button cancelButton = new Button(24, 4, "Cance_l");
-            cancelButton.Clicked += CancelButton_Clicked;
+            Button cancelButton = new Button()
+            {
+                X = 24, Y = 4, Text = "Cance_l"
+            };
+            cancelButton.Accept += CancelButton_Clicked;
 
             // Create modal view.
-            _dialog = new Dialog("Unlock Vault", 40, 8, okButton, cancelButton);
+            _dialog = new Dialog()
+            {
+                Title = "Unlock Vault", Width = 40, Height = 8, Buttons = [okButton, cancelButton]
+            };
 
             // Create labels.
             Label lblPassword = new Label()

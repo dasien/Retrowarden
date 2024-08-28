@@ -1,4 +1,6 @@
 
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Terminal.Gui;
 using RetrowardenSDK.Models;
 using Retrowarden.Utils;
@@ -7,7 +9,7 @@ namespace Retrowarden.Views
 {
     public partial class IdentityDetailView : ItemDetailView
     {
-        private List<CodeListItem> _titles;
+        private ObservableCollection<CodeListItem> _titles;
         
         // This sizes the underlying view appropriately.
         private const int scrollBottom = 49;
@@ -16,7 +18,7 @@ namespace Retrowarden.Views
             : base (item, folders, state, scrollBottom)
         {
             // Create members.
-            _titles = new List<CodeListItem>();
+            _titles = new ObservableCollection<CodeListItem>();
             
             // Update controls based on view state.
             SetupView();
@@ -74,14 +76,14 @@ namespace Retrowarden.Views
                 txtCountry.Text = _item.Identity.Country ?? "";
 
                 // Set combo box default values.
-                cboTitle.SelectedItem = _titles.FindIndex(o => o.Index == _item.Identity.Title);
+                cboTitle.SelectedItem = _titles.IndexOf(_titles.First(o => o.Index == _item.Identity.Title));
             }
         }
         
         private void InitializeLists()
         {
             // Load list.
-            _titles = CodeListManager.GetList("Titles");
+            _titles = CodeListManager.GetObservableCollection("Titles");
             
             // Load titles combo box.
             cboTitle.SetSource(_titles);
@@ -93,23 +95,23 @@ namespace Retrowarden.Views
             _item.Identity ??= new Identity();
 
             // Set values.
-            _item.Identity.FirstName =  txtFirstName.Text.ToString() ?? "";
-            _item.Identity.MiddleName = txtMiddleName.Text.ToString() ?? "";
-            _item.Identity.LastName = txtLastName.Text.ToString() ?? "";
-            _item.Identity.UserName = txtUserName.Text.ToString() ?? "";
-            _item.Identity.Company = txtCompany.Text.ToString() ?? "";
-            _item.Identity.Ssn = txtSSN.Text.ToString() ?? "";
-            _item.Identity.PassportNumber = txtPassportNumber.Text.ToString() ?? "";
-            _item.Identity.LicenseNumber = txtLicenseNumber.Text.ToString() ?? "";
-            _item.Identity.Email = txtEmailAddress.Text.ToString() ?? "";
-            _item.Identity.Phone = txtPhoneNumber.Text.ToString() ?? "";
-            _item.Identity.Address1 = txtAddress1.Text.ToString() ?? "";
-            _item.Identity.Address2 = txtAddress2.Text.ToString() ?? "";
-            _item.Identity.Address3 = txtAddress3.Text.ToString() ?? "";
-            _item.Identity.City = txtCity.Text.ToString() ?? "";
-            _item.Identity.State = txtState.Text.ToString() ?? "";
-            _item.Identity.PostalCode = txtZipCode.Text.ToString() ?? "";
-            _item.Identity.Country = txtCountry.Text.ToString() ?? "";
+            _item.Identity.FirstName =  txtFirstName.Text ?? "";
+            _item.Identity.MiddleName = txtMiddleName.Text ?? "";
+            _item.Identity.LastName = txtLastName.Text ?? "";
+            _item.Identity.UserName = txtUserName.Text ?? "";
+            _item.Identity.Company = txtCompany.Text ?? "";
+            _item.Identity.Ssn = txtSSN.Text ?? "";
+            _item.Identity.PassportNumber = txtPassportNumber.Text ?? "";
+            _item.Identity.LicenseNumber = txtLicenseNumber.Text ?? "";
+            _item.Identity.Email = txtEmailAddress.Text ?? "";
+            _item.Identity.Phone = txtPhoneNumber.Text ?? "";
+            _item.Identity.Address1 = txtAddress1.Text ?? "";
+            _item.Identity.Address2 = txtAddress2.Text ?? "";
+            _item.Identity.Address3 = txtAddress3.Text ?? "";
+            _item.Identity.City = txtCity.Text ?? "";
+            _item.Identity.State = txtState.Text ?? "";
+            _item.Identity.PostalCode = txtZipCode.Text ?? "";
+            _item.Identity.Country = txtCountry.Text ?? "";
             _item.Identity.Title = _titles.ElementAt(cboTitle.SelectedItem).Index;
             
             // Call base method.
@@ -139,7 +141,7 @@ namespace Retrowarden.Views
         }
         
         #region Event Handlers
-        protected override void SaveButtonClicked()
+        protected override void SaveButtonClicked(object? sender, HandledEventArgs e)
         {
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)

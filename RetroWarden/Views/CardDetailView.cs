@@ -1,3 +1,6 @@
+using System.Collections.Frozen;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Terminal.Gui;
 using RetrowardenSDK.Models;
 using Retrowarden.Utils;
@@ -6,8 +9,8 @@ namespace Retrowarden.Views
 {
     public partial class CardDetailView : ItemDetailView
     {
-        private List<CodeListItem> _cardBrands;
-        private List<CodeListItem> _expMonths;
+        private ObservableCollection<CodeListItem> _cardBrands;
+        private ObservableCollection<CodeListItem> _expMonths;
         
         // This sizes the underlying view appropriately.
         private const int scrollBottom = 33;
@@ -16,8 +19,8 @@ namespace Retrowarden.Views
             : base (item, folders, state, scrollBottom)
         {
             // Create members.
-            _cardBrands = new List<CodeListItem>();
-            _expMonths = new List<CodeListItem>();
+            _cardBrands = new ObservableCollection<CodeListItem>();
+            _expMonths = new ObservableCollection<CodeListItem>();
             
             // Update controls based on view state.
             SetupView();
@@ -61,16 +64,16 @@ namespace Retrowarden.Views
                 txtCVV.Text = _item.Card.SecureCode ?? "";
 
                 // Set combo box default values.
-                cboCardBrand.SelectedItem = _cardBrands.FindIndex(o => o.Index == _item.Card.Brand);
-                cboExpMonth.SelectedItem = _expMonths.FindIndex(o => o.Index == _item.Card.ExpiryMonth);
+                cboCardBrand.SelectedItem = _cardBrands.IndexOf(_cardBrands.First(o => o.Index == _item.Card.Brand));
+                cboExpMonth.SelectedItem = _expMonths.IndexOf(_cardBrands.First(o => o.Index == _item.Card.ExpiryMonth));
             }
         }
         
         private void InitializeLists()
         {
             // Load lists.
-            _cardBrands = CodeListManager.GetList("CardBrands");
-            _expMonths = CodeListManager.GetList("ExpiryMonths");
+            _cardBrands = CodeListManager.GetObservableCollection("CardBrands");
+            _expMonths = CodeListManager.GetObservableCollection("ExpiryMonths");
             
             // Set combox sources.
             cboCardBrand.SetSource(_cardBrands);
@@ -83,10 +86,10 @@ namespace Retrowarden.Views
             _item.Card ??= new Card();
             
             // Set values.
-            _item.Card.CardholderName =  txtCardholderName.Text.ToString() ?? "";
-            _item.Card.CardNumber = txtCardNumber.Text.ToString() ?? "";
-            _item.Card.ExpiryYear = txtExpYear.Text.ToString() ?? "";
-            _item.Card.SecureCode = txtCVV.Text.ToString() ?? "";
+            _item.Card.CardholderName =  txtCardholderName.Text ?? "";
+            _item.Card.CardNumber = txtCardNumber.Text ?? "";
+            _item.Card.ExpiryYear = txtExpYear.Text ?? "";
+            _item.Card.SecureCode = txtCVV.Text ?? "";
             _item.Card.Brand = _cardBrands.ElementAt(cboCardBrand.SelectedItem).Index;
             _item.Card.ExpiryMonth = _expMonths.ElementAt(cboExpMonth.SelectedItem).Index;
             
@@ -114,7 +117,7 @@ namespace Retrowarden.Views
         }
 
         #region Event Handlers
-        protected override void SaveButtonClicked()
+        protected override void SaveButtonClicked(object? sender, HandledEventArgs e)
         {
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
@@ -136,7 +139,7 @@ namespace Retrowarden.Views
         }
         #endregion
 
-        private void ShowCardButtonClicked()
+        private void ShowCardButtonClicked(object? sender, HandledEventArgs e)
         {
             // Toggle Flag.
             txtCardNumber.Secret = !txtCardNumber.Secret;
@@ -145,16 +148,16 @@ namespace Retrowarden.Views
             btnShowCardNumber.Text = txtCardNumber.Secret ? "Show" : "Hide";
         }
 
-        private void CopyCardButtonClicked()
+        private void CopyCardButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy username to clipboard.
-            Clipboard.TrySetClipboardData(txtCardNumber.Text.ToString());
+            Clipboard.TrySetClipboardData(txtCardNumber.Text);
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "Card number copied to clipboard.", "Ok");
         }
 
-        private void ShowCVVButtonClicked()
+        private void ShowCVVButtonClicked(object? sender, HandledEventArgs e)
         {
             // Toggle Flag.
             txtCVV.Secret = !txtCVV.Secret;
@@ -163,10 +166,10 @@ namespace Retrowarden.Views
             btnShowCVV.Text = txtCVV.Secret ? "Show" : "Hide";
         }
 
-        private void CopyCVVButtonClicked()
+        private void CopyCVVButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy username to clipboard.
-            Clipboard.TrySetClipboardData(txtCVV.Text.ToString());
+            Clipboard.TrySetClipboardData(txtCVV.Text);
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "Card CVV copied to clipboard.", "Ok");

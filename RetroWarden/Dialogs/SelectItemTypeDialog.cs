@@ -1,4 +1,4 @@
-using NStack;
+using System.ComponentModel;
 using Terminal.Gui;
 
 namespace Retrowarden.Dialogs
@@ -14,7 +14,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
         
-        protected override void OkButton_Clicked()
+        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Set flag for ok button and values.
             _okPressed = true;
@@ -27,20 +27,32 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create Ok button.
-            Button okButton = new Button(5, 6, "Ok");
-            okButton.Clicked += OkButton_Clicked;
+            Button okButton = new Button()
+            {
+                X = 5, Y = 6, Text = "Ok"
+            };
+            okButton.Accept += OkButton_Clicked;
 
             // Create Cancel button.
-            Button cancelButton = new Button(14, 6, "Cancel");
-            cancelButton.Clicked += CancelButton_Clicked;
+            Button cancelButton = new Button()
+            {
+                X = 14, Y = 6, Text = "Cancel"
+            };
+            cancelButton.Accept += CancelButton_Clicked;
 
-            ustring[] types = ["Login", "Secure Note", "Card", "Identity"];
+            string[] types = ["Login", "Secure Note", "Card", "Identity"];
         
             // Create radio group.
-            _rdoItemType = new RadioGroup(8,1, types);
+            _rdoItemType = new RadioGroup()
+            {
+                X = 8, Y = 1, RadioLabels = types
+            };
                 
             // Create modal view.
-            _dialog = new Dialog("Select Item Type", 30, 9, okButton, cancelButton);
+            _dialog = new Dialog()
+            {
+                Title = "Select Item Type", Width = 30, Height = 9, Buttons = [okButton, cancelButton]
+            };
             _dialog.Add(_rdoItemType);
         }
         

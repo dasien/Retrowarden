@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Terminal.Gui;
 using Retrowarden.Utils;
@@ -8,10 +9,10 @@ namespace Retrowarden.Controls
     public class UriScrollView :ScrollView
     {
         private List<View[]> _rowControls;
-        private readonly List<CodeListItem> _matchTypes;
+        private readonly ObservableCollection<CodeListItem> _matchTypes;
         private List<LoginURI> _uris;
         
-        public UriScrollView(List<LoginURI>? uris, List<CodeListItem> matches)
+        public UriScrollView(List<LoginURI>? uris, ObservableCollection<CodeListItem> matches)
         {
             // Set member variables.
             _uris = uris == null ? new List<LoginURI>() : uris;
@@ -75,60 +76,61 @@ namespace Retrowarden.Controls
         private View[] CreateNewControlRow(int cnt, string uri, int? match)
         {
             // Create controls for row.
-            TextField txtUri = new TextField(1, cnt, 30, uri)
+            TextField txtUri = new TextField()
             {
+                X = 1, Y = cnt, Width = 30, Text = uri, 
                 CanFocus = true, Visible = true, Enabled = true, Data = cnt
             };
             
-            Button btnCopyUri = new Button(32, cnt, "Copy")
+            Button btnCopyUri = new Button()
             {
-                Width = 8, Height = 1, CanFocus = true, Visible = true, Data = cnt, 
-                TextAlignment = TextAlignment.Centered
+                X = 32, Y = cnt, Text = "Copy", Width = 8, Height = 1, CanFocus = true, 
+                Visible = true, Data = cnt, TextAlignment = Alignment.Center
             };
 
-            Button btnGoUri = new Button(41, cnt, "Go")
+            Button btnGoUri = new Button()
             {
-                Width = 6, Height = 1, CanFocus = true, Visible = true, Data = cnt,
-                TextAlignment = TextAlignment.Centered
+                X = 41, Y = cnt, Text = "Go", Width = 6, Height = 1, CanFocus = true, Visible = true, Data = cnt,
+                TextAlignment = Alignment.Center
             };
 
-            ComboBox cboMatchUri = new ComboBox(new Rect(48, cnt, 30, 3), _matchTypes)
+            ComboBox cboMatchUri = new ComboBox()
             {
-                CanFocus = true, Visible = true, Text = "", Data = cnt
+                X = 48, Y = cnt, Width = 30, Height = 3, CanFocus = true, Visible = true, Text = "", Data = cnt
             };
 
-            Button btnDeleteUri = new Button(79, cnt, "Delete")
+            Button btnDeleteUri = new Button()
             {
-                Width = 10, Height = 1, CanFocus = true, Visible = true, Data = cnt,
-                TextAlignment = TextAlignment.Centered
+                X = 79, Y = cnt, Text = "Delete", Width = 10, Height = 1, CanFocus = true, Visible = true, 
+                Data = cnt, TextAlignment = Alignment.Center
             };
             
             // Set the source for the combobox.
             cboMatchUri.SetSource(_matchTypes);
             
             // Set the match combo source and selected item to uri match or "Default" as a null default.
-            cboMatchUri.SelectedItem = _matchTypes.FindIndex(o => Convert.ToInt32(o.Index) == match);
+            cboMatchUri.SelectedItem = _matchTypes.IndexOf(_matchTypes.First(o => Convert.ToInt32(o.Index) == match));
             
             // This is a hack because for some reason we love to allow "null" in lists as a default value. :/ 
             if (match == null)
             {
-                cboMatchUri.SelectedItem = _matchTypes.FindIndex(o => o.Index == null);
+                cboMatchUri.SelectedItem = _matchTypes.IndexOf(_matchTypes.First(o => o.Index == null));
             }
 
             // Create event handlers for the buttons.
-            btnCopyUri.Clicked += () =>
+            btnCopyUri.Accept += (s,e) =>
             {
                 // Copy password to clipboard.
-                Clipboard.TrySetClipboardData(txtUri.Text.ToString());
+                Clipboard.TrySetClipboardData(txtUri.Text);
 
                 // Indicate data copied.
                 MessageBox.Query("Action Completed", "Copied Uri to clipboard.", "Ok");
             };
 
-            btnGoUri.Clicked += () =>
+            btnGoUri.Accept += (s,e) =>
             {
                 // Get the uri string.
-                string? uriString = txtUri.Text.ToString();
+                string? uriString = txtUri.Text;
                 
                 // Check to see if there is a value.
                 if (uriString != null)
@@ -152,7 +154,7 @@ namespace Retrowarden.Controls
                 }
             };
 
-            btnDeleteUri.Clicked += () =>
+            btnDeleteUri.Accept += (s,e) =>
             {
                 // Get row index.
                 int index = (int)btnDeleteUri.Data;
@@ -219,7 +221,7 @@ namespace Retrowarden.Controls
                     ComboBox match = (ComboBox) rowCtrls[3];
                 
                     // Set values.
-                    loginUri.URI = uri.Text.ToString();
+                    loginUri.URI = uri.Text;
                     loginUri.Match = match.SelectedItem == 6 ? null : match.SelectedItem;
                 
                     // Add uri to list.

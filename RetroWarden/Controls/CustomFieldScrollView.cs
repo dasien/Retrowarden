@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Terminal.Gui;
 using RetrowardenSDK.Models;
 using Retrowarden.Utils;
@@ -60,7 +62,7 @@ namespace Retrowarden.Controls
             
             // Refresh control.
             SetNeedsDisplay();
-            SetChildNeedsDisplay();
+            //SetChildNeedsDisplay();
         }
 
         private View[] CreateHeaderRow()
@@ -109,30 +111,33 @@ namespace Retrowarden.Controls
         private View[] CreateTextRow(int rowNum, string? name, string? value)
         {
             // Create controls for row.
-            TextField txtName = new TextField(1, rowNum, 30, name)
+            TextField txtName = new TextField()
             {
-                CanFocus = true, Visible = true, Enabled = true, Data = rowNum
+                X = 1, Y = rowNum, Width = 30, Text = name, CanFocus = true, Visible = true, 
+                Enabled = true, Data = rowNum
             };
 
-            TextField txtValue = new TextField(32, rowNum, 30, value)
+            TextField txtValue = new TextField()
             {
+                X = 32, Y = rowNum, Width = 30, Text = value,
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum
             };
             
-            Button btnCopyValue = new Button(63, rowNum, "Copy")
+            Button btnCopyValue = new Button()
             {
+                X=63, Y = rowNum, Text = "Copy", 
                 Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = TextAlignment.Centered
+                TextAlignment = Alignment.Center
             };
 
             // Create the delete button.
             Button btnDeleteRow = CreateDeleteButton(rowNum);
 
             // Create event handlers for the buttons.
-            btnCopyValue.Clicked += () =>
+            btnCopyValue.Accept += (s,e) =>
             {
                 // Copy password to clipboard.
-                Clipboard.TrySetClipboardData(txtValue.Text.ToString());
+                Clipboard.TrySetClipboardData(txtValue.Text);
 
                 // Indicate data copied.
                 MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
@@ -146,33 +151,37 @@ namespace Retrowarden.Controls
         private View[] CreateHiddenRow(int rowNum, string? name, string? value)
         {
             // Create controls for row.
-            TextField txtName = new TextField(1, rowNum, 30, name)
+            TextField txtName = new TextField()
             {
+                X=1, Y=rowNum, Width = 30, Text = name,
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum
             };
 
-            TextField txtValue = new TextField(32, rowNum, 30, value)
+            TextField txtValue = new TextField()
             {
+                X = 32, Y=rowNum, Width = 30, Text = value,
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum, Secret = true
             };
             
-            Button btnShowValue = new Button(63, rowNum, "View")
+            Button btnShowValue = new Button()
             {
+                X=63, Y=rowNum, Text = "View",
                 Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = TextAlignment.Centered
+                TextAlignment = Alignment.Center
             };
            
-            Button btnCopyValue = new Button(72, rowNum, "Copy")
+            Button btnCopyValue = new Button()
             {
+                X=72, Y =rowNum, Text = "Copy", 
                 Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = TextAlignment.Centered
+                TextAlignment = Alignment.Center
             };
 
             // Create the delete button.
             Button btnDeleteRow = CreateDeleteButton(rowNum);
             
             // Create event handlers for the buttons.
-            btnShowValue.Clicked += () =>
+            btnShowValue.Accept += (s,e) =>
             {
                 // Toggle Flag.
                 txtValue.Secret = !txtValue.Secret;
@@ -181,10 +190,10 @@ namespace Retrowarden.Controls
                 btnShowValue.Text = txtValue.Secret ? "View" : "Hide";
             };
             
-            btnCopyValue.Clicked += () =>
+            btnCopyValue.Accept += (s,e) =>
             {
                 // Copy password to clipboard.
-                Clipboard.TrySetClipboardData(txtValue.Text.ToString());
+                Clipboard.TrySetClipboardData(txtValue.Text);
 
                 // Indicate data copied.
                 MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
@@ -198,15 +207,16 @@ namespace Retrowarden.Controls
         private View[] CreateBooleanRow(int rowNum, string? name, string? value)
         {
             // Create controls for row.
-            TextField txtName = new TextField(1, rowNum, 30, name)
+            TextField txtName = new TextField()
             {
+                X=1, Y = rowNum, Width = 30, Text = name,
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum
             };
 
-            CheckBox chkValue = new CheckBox(32, rowNum, "")
+            CheckBox chkValue = new CheckBox()
             {
-                CanFocus = true, Visible = true, Enabled = true, Data = rowNum,
-                Checked = value == "true"
+                X=32, Y=rowNum, CanFocus = true, Visible = true, Enabled = true, Data = rowNum,
+                CheckedState = value == "true" ? CheckState.Checked : CheckState.UnChecked
             };
             
             // Create the delete button.
@@ -221,8 +231,9 @@ namespace Retrowarden.Controls
         private View[] CreateLinkedRow(int rowNum, string? name, int linkId)
         {
             // Create controls for row.
-            TextField txtName = new TextField(1, rowNum, 30, name)
+            TextField txtName = new TextField()
             {
+                X=1, Y=rowNum, Width = 30, Text = name,
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum
             };
 
@@ -232,9 +243,9 @@ namespace Retrowarden.Controls
             };
             
             // Set combo source and selected item.
-            List<CodeListItem> linkList = GetComboSource();
+            ObservableCollection<CodeListItem> linkList = GetComboSource();
             cboValue.SetSource(linkList);
-            cboValue.SelectedItem = linkList.FindIndex(o => o.Index == linkId.ToString());
+            cboValue.SelectedItem = linkList.IndexOf(linkList.First(o => o.Index == linkId.ToString()));
 
             // Create the delete button.
             Button btnDeleteRow = CreateDeleteButton(rowNum);
@@ -246,13 +257,14 @@ namespace Retrowarden.Controls
 
         private Button CreateDeleteButton(int rowNum)
         {
-            Button retVal = new Button(81, rowNum, "Delete")
+            Button retVal = new Button()
             {
+                X=81, Y=rowNum, Text = "Delete",
                 Width = 10, Height = 1, CanFocus = true, Visible = true, Data = rowNum,
-                TextAlignment = TextAlignment.Centered
+                TextAlignment = Alignment.Center
             };
             
-            retVal.Clicked += () =>
+            retVal.Accept += (s,e) =>
             {
                 // Get row index.
                 int index = (int) retVal.Data;
@@ -298,9 +310,9 @@ namespace Retrowarden.Controls
             return retVal;
         }
         
-        private List<CodeListItem> GetComboSource()
+        private ObservableCollection<CodeListItem> GetComboSource()
         {
-            List<CodeListItem> retVal = new List<CodeListItem>();
+            ObservableCollection<CodeListItem> retVal = new ObservableCollection<CodeListItem>();
             
             // Check to see what type of item we have.
             switch (_itemType)
@@ -308,17 +320,17 @@ namespace Retrowarden.Controls
                 // Login
                 case 1:
                     // Login link list.
-                    retVal = CodeListManager.GetList("LoginLinkedId");
+                    retVal = CodeListManager.GetObservableCollection("LoginLinkedId");
                     break;
                 
                 // Card
                 case 3:
-                    retVal = CodeListManager.GetList("CardLinkedId");
+                    retVal = CodeListManager.GetObservableCollection("CardLinkedId");
                     break;
                 
                 // Identity
                 case 4:
-                    retVal = CodeListManager.GetList("IdentityLinkedId");
+                    retVal = CodeListManager.GetObservableCollection("IdentityLinkedId");
                     break;
             }
             
@@ -342,7 +354,7 @@ namespace Retrowarden.Controls
                 
                     // Get the name textfield.
                     TextField name = (TextField) rowCtrls[0];
-                    field.Name = name.Text.ToString();
+                    field.Name = name.Text;
                     
                     // Check the type of the second control.
                     if (rowCtrls[1] is TextField)
@@ -351,7 +363,7 @@ namespace Retrowarden.Controls
                         TextField value = (TextField) rowCtrls[1];
                         
                         // Set the value.
-                        field.FieldValue = value.Text.ToString();
+                        field.FieldValue = value.Text;
                         
                         // Check to see if the value is hidden.
                         field.FieldType = value.Secret ? 1 : 0;
@@ -363,7 +375,7 @@ namespace Retrowarden.Controls
                         CheckBox value = (CheckBox) rowCtrls[1];
                         
                         // Set value and type.
-                        field.FieldValue = value.Checked ? "true" : "false";
+                        field.FieldValue = value.CheckedState == CheckState.Checked ? "true" : "false";
                         field.FieldType = 2;
                     }
                     

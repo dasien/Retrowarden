@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Terminal.Gui;
 
 namespace Retrowarden.Dialogs
@@ -9,12 +10,12 @@ namespace Retrowarden.Dialogs
 
         protected abstract void InitializeComponent();
 
-        protected virtual void OkButton_Clicked()
+        protected virtual void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             _okPressed = true;
         }
 
-        protected virtual void CancelButton_Clicked()
+        protected virtual void CancelButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Set ok button flag.
             _okPressed = false;

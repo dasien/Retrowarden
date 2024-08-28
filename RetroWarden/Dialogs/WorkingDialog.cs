@@ -28,17 +28,17 @@ namespace Retrowarden.Dialogs
 
         public new void Show()
         {
-            _timerToken = Application.MainLoop.AddTimeout (TimeSpan.FromMilliseconds(80), UpdateAnimationLabel);
+            _timerToken = Application.AddTimeout (TimeSpan.FromMilliseconds(80), UpdateAnimationLabel);
             Application.Run(_dialog);
         }
 
         public void Hide()
         {
-            Application.MainLoop.RemoveTimeout (_timerToken);
+            Application.RemoveTimeout (_timerToken);
             Application.RequestStop(_dialog);
         }
         
-        private bool UpdateAnimationLabel(MainLoop arg)
+        private bool UpdateAnimationLabel()
         {
             // Update text.
             if (_dialog != null)
@@ -64,7 +64,10 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create modal view.
-            _dialog = new Dialog("Working...", 40, 6);
+            _dialog = new Dialog()
+            {
+                Title = "Working...", Width = 40, Height = 6
+            };
 
             // Create labels.
             _lblAnimation = new Label()

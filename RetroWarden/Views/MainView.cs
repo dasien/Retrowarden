@@ -1,7 +1,7 @@
 using System.Collections;
+using System.ComponentModel;
 using System.Text;
 using Terminal.Gui;
-using Terminal.Gui.Trees;
 using Retrowarden.Dialogs;
 using RetrowardenSDK.Models;
 using Retrowarden.Utils;
@@ -40,14 +40,14 @@ namespace Retrowarden.Views
             Application.Init();
             
             // Set events for updating keep alive flag.
-            Application.RootKeyEvent += HandleKeyEvent;
-            Application.RootMouseEvent += HandleMouseEvent;
+            Application.KeyDown += HandleKeyEvent;
+            Application.MouseEvent += HandleMouseEvent;
             
             // Create about message.
             _aboutMessage = ViewUtils.CreateAboutMessageAscii();
             
             // Get the configuration.
-            RetrowardenConfig? config = ConfigurationManager.GetConfig();
+            RetrowardenConfig? config = Config.ConfigurationManager.GetConfig();
             
             // Check to see if one was found.
             if (config != null)
@@ -56,8 +56,10 @@ namespace Retrowarden.Views
                 if (string.IsNullOrEmpty(config.CLILocation))
                 {
                     // Show file dialog.
-                    OpenDialog finder = new OpenDialog("Setup Retrowarden",
-                        "Please locate the bw binary file to continue.");
+                    OpenDialog finder = new OpenDialog()
+                    {
+                        Title = "Setup Retrowarden", Text = "Please locate the bw binary file to continue."
+                    };
 
                     finder.AllowsMultipleSelection = false;
 
@@ -66,11 +68,11 @@ namespace Retrowarden.Views
                     if (!finder.Canceled)
                     {
                         // Check to see if a file was found.
-                        if (finder.FilePath != null)
+                        if (finder.FilePaths != null)
                         {
                             // Save exe location in config.
-                            config.CLILocation = (string)finder.FilePath;
-                            ConfigurationManager.WriteConfig(config);
+                            config.CLILocation = (string)finder.FilePaths.Single();
+                            Config.ConfigurationManager.WriteConfig(config);
                         }
 
                         else
@@ -125,19 +127,19 @@ namespace Retrowarden.Views
             InitializeComponent();
             
             // Set timer to launch splash.
-            Application.MainLoop.AddTimeout (TimeSpan.FromMilliseconds(80), ShowSplashScreen);
+            Application.AddTimeout (TimeSpan.FromMilliseconds(80), ShowSplashScreen);
             
             // Set flag for vault lock timeout.
             _keepAlive = false;
             
             // Set timer to lock vault if no activity.
-            Application.MainLoop.AddTimeout (TimeSpan.FromMilliseconds(300000), LockVaultOnTimeout);
+            Application.AddTimeout (TimeSpan.FromMilliseconds(300000), LockVaultOnTimeout);
 
             // Run the application loop.
             Application.Run(this);
         }
-
-        private bool ShowSplashScreen(MainLoop arg)
+         
+        private bool ShowSplashScreen()
         {
             // Show splash screen.
             SplashDialog splash = new SplashDialog(_aboutMessage.ToString());
@@ -146,7 +148,7 @@ namespace Retrowarden.Views
             return false;
         }
         
-        private bool LockVaultOnTimeout(MainLoop arg)
+        private bool LockVaultOnTimeout()
         {
             // Check to see if the vault is already locked.
             if (!_vaultRepository.IsLocked)
@@ -345,7 +347,7 @@ namespace Retrowarden.Views
         }
 
         #region UI Control Helpers
-        private void SortListByName()
+        private void SortListByName(object? sender, HandledEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 0;
@@ -357,7 +359,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByValue()
+        private void SortListByValue(object? sender, HandledEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 1;
@@ -369,7 +371,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByOwner()
+        private void SortListByOwner(object? sender, HandledEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 2;
@@ -383,8 +385,6 @@ namespace Retrowarden.Views
 
         private void LoadItemListView(SortedDictionary<string, VaultItem> items)
         {
-            List<VaultItem> itemList;
-            
             // Clear out any existing items.
             lvwItems.Source = null;
             
@@ -392,7 +392,7 @@ namespace Retrowarden.Views
             if (items.Count > 0)
             {
                 // Get sorted item list.
-                itemList = GetSortedList(items);
+                List<VaultItem> itemList = GetSortedList(items);
                 
                 // Create list data source for listview.
                 ItemListDataSource listSource = new ItemListDataSource(itemList);
@@ -419,7 +419,7 @@ namespace Retrowarden.Views
             // Set statusbar menus.
             UpdateStatusBarOptions();
         }
-
+        
         private List<VaultItem> GetSortedList(SortedDictionary<string, VaultItem> items)
         {
             List<VaultItem> retVal;
@@ -677,7 +677,10 @@ namespace Retrowarden.Views
                 {
                     // Get the data source for list.
                     ItemListDataSource items = (ItemListDataSource) lvwItems.Source;
-
+                    
+                    // Remove all subviews from the statusbar.
+                    staMain.RemoveAll();
+                    
                     // Check to see how many rows have been selected.
                     switch (items.MarkedItemCount)
                     {
@@ -689,28 +692,28 @@ namespace Retrowarden.Views
                             if (colMoveOk && copyOk)
                             {
                                 // Add them to the status bar.
-                                staMain.Items = [stiNew, stiView, stiEdit, stiCopyUser, stiCopyPwd, 
-                                    stiFolderMove, stiCollectionMove, stiDelete];
+                                staMain.Add([stiNew, stiView, stiEdit, stiCopyUser, stiCopyPwd, 
+                                    stiFolderMove, stiCollectionMove, stiDelete]);
                             }
 
                             else if (copyOk)
                             {
                                 // Add them to the status bar.
-                                staMain.Items = [stiNew, stiView, stiEdit, stiCopyUser, 
-                                    stiCopyPwd, stiFolderMove, stiDelete];
+                                staMain.Add([stiNew, stiView, stiEdit, stiCopyUser, 
+                                    stiCopyPwd, stiFolderMove, stiDelete]);
                             }
                             
                             else if (colMoveOk)
                             {
                                 // Add them to the status bar.
-                                staMain.Items = [stiNew, stiView, stiEdit,  
-                                    stiFolderMove, stiCollectionMove, stiDelete];
+                                staMain.Add([stiNew, stiView, stiEdit,  
+                                    stiFolderMove, stiCollectionMove, stiDelete]);
                             }
 
                             else
                             {
                                 // Add them to the status bar.
-                                staMain.Items = [stiNew, stiView, stiEdit, stiFolderMove, stiDelete];
+                                staMain.Add([stiNew, stiView, stiEdit, stiFolderMove, stiDelete]);
                             }
                             break;
 
@@ -721,13 +724,13 @@ namespace Retrowarden.Views
                             if (colMoveOk)
                             {
                                 // Add them to the status bar.
-                                staMain.Items = [stiFolderMove, stiCollectionMove];
+                                staMain.Add([stiFolderMove, stiCollectionMove]);
                             }
 
                             else
                             {
                                 // Add them to the status bar.
-                                staMain.Items = [stiFolderMove];
+                                staMain.Add(stiFolderMove);
                             }
 
                             break;
@@ -736,13 +739,13 @@ namespace Retrowarden.Views
 
                 else
                 {
-                    staMain.Items = [stiNew];
+                    staMain.Add(stiNew);
                 }
             }
 
             else
             {
-                staMain.Items = [stiNew];
+                staMain.Add(stiNew);
             }
 
             // Redraw menu bar.
@@ -869,19 +872,19 @@ namespace Retrowarden.Views
         #endregion
         
         #region Main View Handlers
-        private void HandleMouseEvent(MouseEvent obj)
+        private void HandleMouseEvent(object? sender, MouseEvent mouseEvent)
         {
             // Flag that the user has done something.
             _keepAlive = true;
         }
 
-        private bool HandleKeyEvent(KeyEvent arg)
+        private void HandleKeyEvent(object? sender, Key e)
         {
             // Flag that the user has done something.
             _keepAlive = true;
             
             // Allow other handlers to get key events.
-            return false;
+            e.Handled = false;
         }
         #endregion
         
@@ -1611,7 +1614,7 @@ namespace Retrowarden.Views
         #endregion
 
         #region Listview Event Handlers
-        private void HandleListViewOpenItem(ListViewItemEventArgs obj)
+        private void HandleListViewOpenItem(object? sender, ListViewItemEventArgs e)
         {
             ShowDetailForm(VaultItemDetailViewState.Edit);
         }
@@ -1628,7 +1631,7 @@ namespace Retrowarden.Views
             UpdateStatusBarOptions();
         }
 
-        private void HandleListViewSelectedItemChanged(ListViewItemEventArgs obj)
+        private void HandleListViewSelectedItemChanged(object? sender, ListViewItemEventArgs e)
         {
             // Get the item data source.
             ItemListDataSource items = (ItemListDataSource)lvwItems.Source;

@@ -1,7 +1,6 @@
-using System.IO.Compression;
 using System.Text;
 using RetrowardenSDK.Models;
-using Terminal.Gui.Trees;
+using Terminal.Gui;
 
 namespace Retrowarden.Utils
 {

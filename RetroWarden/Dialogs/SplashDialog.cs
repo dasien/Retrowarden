@@ -19,11 +19,11 @@ namespace Retrowarden.Dialogs
 
         public new void Show()
         {
-            Application.MainLoop.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
+            Application.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
             Application.Run(_dialog);
         }
 
-        private bool Hide(MainLoop arg)
+        private bool Hide()
         {
             Application.RequestStop(_dialog);
             return false;
@@ -32,7 +32,10 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create modal view.
-            _dialog = new Dialog("", 85, 12);
+            _dialog = new Dialog()
+            {
+                Title = "", Width = 85, Height = 12
+            };
             
             // Create labels.
             _message = new Label()

@@ -1,3 +1,6 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Drawing;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
 using Terminal.Gui;
@@ -55,8 +58,8 @@ namespace Retrowarden.Views
                     // Create empty custom field scroll.
                     scrCustomFields = new CustomFieldScrollView(null, _item.ItemType)
                     {
-                        X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true,
-                        ContentSize = new Size(95, 10), Data = "scrCustomFields", TextAlignment = TextAlignment.Left
+                        X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true, 
+                        Data = "scrCustomFields", TextAlignment = Alignment.Start
                     };
                     
                     // Add scroll to view.
@@ -91,15 +94,11 @@ namespace Retrowarden.Views
         {
             // Set current item values to controls.
             txtItemName.Text = _item.ItemName;
-            chkFavorite.Checked = _item.IsFavorite;
+            chkFavorite.CheckedState = _item.IsFavorite ? CheckState.Checked : CheckState.UnChecked;
             tvwNotes.Text = _item.Notes ?? "";
-            chkReprompt.Checked = _item.Reprompt == 1;
-            stbDetail.Items = new StatusItem[]
-            {
-                new StatusItem(Key.Null, 
-                    "Created On: " + _item.CreationDate + " | Last Updated On: " + _item.RevisionDate, 
-                    null)
-            };
+            chkReprompt.CheckedState = _item.Reprompt == 1 ? CheckState.Checked : CheckState.UnChecked;
+            stbDetail.Add(new Shortcut(KeyCode.Null, "Created On: " + _item.CreationDate + 
+                                                     " | Last Updated On: " + _item.RevisionDate, null));
             
             // Set the folder to the current folder (or "No Folder" as a null default.
             cboFolder.SelectedItem = _folders.FindIndex(o => o.Id == _item.FolderId);
@@ -108,7 +107,7 @@ namespace Retrowarden.Views
             scrCustomFields = new CustomFieldScrollView(_item.CustomFields, _item.ItemType)
             {
                 X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true,
-                ContentSize = new Size(95, 10), Data = "scrCustomFields", TextAlignment = TextAlignment.Left
+                Data = "scrCustomFields", TextAlignment = Alignment.Start
             };
             
             // Add scroll to view.
@@ -118,7 +117,7 @@ namespace Retrowarden.Views
         protected void SetItemNameControlFocus()
         {
             // This is part of a bug fix that allows focus in the URI list frame.
-            txtItemName.FocusFirst();
+            txtItemName.FocusFirst(null);
         }
         
         private void DisableView()
@@ -129,7 +128,8 @@ namespace Retrowarden.Views
         private void InitializeLists()
         {
             // Set folder comboxbox source.
-            cboFolder.SetSource(_folders);
+            ObservableCollection<VaultFolder> folderCollection = new ObservableCollection<VaultFolder>(_folders);
+            cboFolder.SetSource(folderCollection);
         }
 
         private void RelocateFooterControls()
@@ -152,7 +152,7 @@ namespace Retrowarden.Views
         protected virtual void UpdateItem()
         {
             // Set item properties.
-            _item.ItemName = txtItemName.Text.ToString() ?? "";
+            _item.ItemName = txtItemName.Text ?? "";
             
             // Check to see if there is a selected item.
             if (cboFolder.SelectedItem == -1)
@@ -166,9 +166,9 @@ namespace Retrowarden.Views
                 _item.FolderId = _folders.ElementAt(cboFolder.SelectedItem).Id;
             }
             
-            _item.IsFavorite = chkFavorite.Checked;
-            _item.Notes = tvwNotes.Text.ToString();
-            _item.Reprompt = chkReprompt.Checked ? 1 : 0;
+            _item.IsFavorite = chkFavorite.CheckedState == CheckState.Checked;
+            _item.Notes = tvwNotes.Text;
+            _item.Reprompt = chkReprompt.CheckedState == CheckState.Checked ? 1 : 0;
             
             // Get the custom fields.
             _item.CustomFields = scrCustomFields.Fields;
@@ -218,9 +218,9 @@ namespace Retrowarden.Views
         #endregion
         
         #region Event Handlers
-        protected abstract void SaveButtonClicked();
+        protected abstract void SaveButtonClicked(object? sender, HandledEventArgs e);
         
-        private void CancelButtonClicked()
+        private void CancelButtonClicked(object? sender, HandledEventArgs e)
         {
             // Close dialog.
             Application.RequestStop();
@@ -228,10 +228,10 @@ namespace Retrowarden.Views
         
         protected void HandleControlEnter(View sender)
         {
-            // Get Y values for controal and scroll view
+            // Get Y values for control and scroll view
             int controlY = sender.Frame.Y;
             int viewY = scrMain.Frame.Bottom;
-            
+        
             // Check to see if we are lower than view.
             if (controlY > viewY)
             {
@@ -242,7 +242,7 @@ namespace Retrowarden.Views
                     controlY--;
                 }
             }
-            
+        
             // Scroll back up if out of view.
             else if (controlY < viewY)
             {
@@ -260,8 +260,8 @@ namespace Retrowarden.Views
                 ((TextField)sender).SelectAll();
             }
         }
-
-        private void NewCustomFieldButtonClicked()
+        
+        private void NewCustomFieldButtonClicked(object? sender, HandledEventArgs e)
         {
             // Show the dialog for field type choice.
             SelectCustomFieldDialog dialog = new SelectCustomFieldDialog();

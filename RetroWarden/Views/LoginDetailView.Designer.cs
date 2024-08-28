@@ -43,7 +43,7 @@ namespace Retrowarden.Views
             vwLogin.X = 0;
             vwLogin.Y = 3;
             vwLogin.Visible = true;
-            vwLogin.TextAlignment = TextAlignment.Left;
+            vwLogin.TextAlignment = Alignment.Start;
             
             this.lblUserName.Width = 4;
             this.lblUserName.Height = 1;
@@ -52,7 +52,7 @@ namespace Retrowarden.Views
             this.lblUserName.Visible = true;
             this.lblUserName.Data = "lblUserName";
             this.lblUserName.Text = "Username";
-            this.lblUserName.TextAlignment = TextAlignment.Left;
+            this.lblUserName.TextAlignment = Alignment.Start;
             this.vwLogin.Add(this.lblUserName);
             
             this.lblPassword.Width = 4;
@@ -62,7 +62,7 @@ namespace Retrowarden.Views
             this.lblPassword.Visible = true;
             this.lblPassword.Data = "lblPassword";
             this.lblPassword.Text = "Password";
-            this.lblPassword.TextAlignment = TextAlignment.Left;
+            this.lblPassword.TextAlignment = Alignment.Start;
             this.vwLogin.Add(this.lblPassword);
             
             this.txtUserName.Width = 21;
@@ -73,8 +73,8 @@ namespace Retrowarden.Views
             this.txtUserName.Secret = false;
             this.txtUserName.Data = "txtUserName";
             this.txtUserName.Text = "";
-            this.txtUserName.TextAlignment = TextAlignment.Left;
-            txtUserName.Enter += (_) => HandleControlEnter(txtUserName);
+            this.txtUserName.TextAlignment = Alignment.Start;
+            txtUserName.Enter += (s,e) => HandleControlEnter(txtUserName);
             this.vwLogin.Add(this.txtUserName);
             
             this.btnCopyUserName.Width = 8;
@@ -84,9 +84,9 @@ namespace Retrowarden.Views
             this.btnCopyUserName.Visible = true;
             this.btnCopyUserName.Data = "btnCopyUserName";
             this.btnCopyUserName.Text = "Copy";
-            this.btnCopyUserName.TextAlignment = TextAlignment.Centered;
+            this.btnCopyUserName.TextAlignment = Alignment.Center;
             this.btnCopyUserName.IsDefault = false;
-            this.btnCopyUserName.Clicked += CopyUserNameButtonClicked;
+            this.btnCopyUserName.Accept += CopyUserNameButtonClicked;
             this.vwLogin.Add(this.btnCopyUserName);
             
             this.txtPassword.Width = 21;
@@ -97,8 +97,8 @@ namespace Retrowarden.Views
             this.txtPassword.Secret = true;
             this.txtPassword.Data = "txtPassword";
             this.txtPassword.Text = "";
-            this.txtPassword.TextAlignment = TextAlignment.Left;
-            txtPassword.Enter += (_) => HandleControlEnter(txtPassword);
+            this.txtPassword.TextAlignment = Alignment.Start;
+            txtPassword.Enter += (s,e) => HandleControlEnter(txtPassword);
             this.vwLogin.Add(this.txtPassword);
             
             this.btnViewPassword.Width = 8;
@@ -108,9 +108,9 @@ namespace Retrowarden.Views
             this.btnViewPassword.Visible = true;
             this.btnViewPassword.Data = "btnViewPassword";
             this.btnViewPassword.Text = "Show";
-            this.btnViewPassword.TextAlignment = TextAlignment.Centered;
+            this.btnViewPassword.TextAlignment = Alignment.Center;
             this.btnViewPassword.IsDefault = false;
-            this.btnViewPassword.Clicked += ViewPasswordButtonClicked;
+            this.btnViewPassword.Accept += ViewPasswordButtonClicked;
             this.vwLogin.Add(this.btnViewPassword);
             
             this.btnCopyPassword.Width = 8;
@@ -120,9 +120,9 @@ namespace Retrowarden.Views
             this.btnCopyPassword.Visible = true;
             this.btnCopyPassword.Data = "btnCopyPassword";
             this.btnCopyPassword.Text = "Copy";
-            this.btnCopyPassword.TextAlignment = TextAlignment.Centered;
+            this.btnCopyPassword.TextAlignment = Alignment.Center;
             this.btnCopyPassword.IsDefault = false;
-            this.btnCopyPassword.Clicked += CopyPasswordButtonClicked;
+            this.btnCopyPassword.Accept += CopyPasswordButtonClicked;
             this.vwLogin.Add(this.btnCopyPassword);
             
             this.btnGeneratePassword.Width = 12;
@@ -132,9 +132,9 @@ namespace Retrowarden.Views
             this.btnGeneratePassword.Visible = true;
             this.btnGeneratePassword.Data = "btnGeneratePassword";
             this.btnGeneratePassword.Text = "Generate";
-            this.btnGeneratePassword.TextAlignment = TextAlignment.Centered;
+            this.btnGeneratePassword.TextAlignment = Alignment.Center;
             this.btnGeneratePassword.IsDefault = false;
-            this.btnGeneratePassword.Clicked += GeneratePasswordButtonClicked;
+            this.btnGeneratePassword.Accept += GeneratePasswordButtonClicked;
             this.vwLogin.Add(this.btnGeneratePassword);
             
             this.lblTOTP.Width = 4;
@@ -144,7 +144,7 @@ namespace Retrowarden.Views
             this.lblTOTP.Visible = true;
             this.lblTOTP.Data = "lblTOTP";
             this.lblTOTP.Text = "Authenticator Key (TOTP)";
-            this.lblTOTP.TextAlignment = TextAlignment.Left;
+            this.lblTOTP.TextAlignment = Alignment.Start;
             this.vwLogin.Add(this.lblTOTP);
             
             this.txtTOTP.Width = 30;
@@ -155,8 +155,8 @@ namespace Retrowarden.Views
             this.txtTOTP.Secret = false;
             this.txtTOTP.Data = "txtTOTP";
             this.txtTOTP.Text = "";
-            this.txtTOTP.TextAlignment = TextAlignment.Left;
-            txtTOTP.Enter += (_) => HandleControlEnter(txtTOTP);
+            this.txtTOTP.TextAlignment = Alignment.Start;
+            txtTOTP.Enter += (s,e) => HandleControlEnter(txtTOTP);
             this.vwLogin.Add(this.txtTOTP);
             
             this.fraURIList.Width = 97;
@@ -167,11 +167,8 @@ namespace Retrowarden.Views
             this.fraURIList.Enabled = true;
             this.fraURIList.CanFocus = true;
             this.fraURIList.Data = "fraURIList";
-            this.fraURIList.Border.BorderStyle = BorderStyle.Single;
-            this.fraURIList.Border.Effect3D = false;
-            this.fraURIList.Border.Effect3DBrush = null;
-            this.fraURIList.Border.DrawMarginFrame = true;
-            this.fraURIList.TextAlignment = TextAlignment.Left;
+            this.fraURIList.Border.BorderStyle = LineStyle.Single;
+            this.fraURIList.TextAlignment = Alignment.Start;
             this.fraURIList.Title = "URI List";
             this.vwLogin.Add(this.fraURIList);
             
@@ -182,9 +179,9 @@ namespace Retrowarden.Views
             this.btnNewURI.Visible = true;
             this.btnNewURI.Data = "btnNewURI";
             this.btnNewURI.Text = "New URI";
-            this.btnNewURI.TextAlignment = TextAlignment.Centered;
+            this.btnNewURI.TextAlignment = Alignment.Center;
             this.btnNewURI.IsDefault = false;
-            this.btnNewURI.Clicked += NewUriButtonClicked;
+            this.btnNewURI.Accept += NewUriButtonClicked;
             this.vwLogin.Add(this.btnNewURI);
         }
     }

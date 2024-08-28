@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Retrowarden.Utils
 {
     public sealed class CodeListManager
@@ -155,6 +157,12 @@ namespace Retrowarden.Utils
             
             // Return the list.
             return retVal;
+        }
+
+        public static ObservableCollection<CodeListItem> GetObservableCollection(string listName)
+        {
+            // The return value.
+            return new ObservableCollection<CodeListItem>(GetList(listName));
         }
     }
 }

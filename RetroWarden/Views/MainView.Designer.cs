@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using System.Text;
 using Terminal.Gui;
 using Retrowarden.Utils;
 using Attribute = Terminal.Gui.Attribute;
@@ -18,14 +19,14 @@ namespace Retrowarden.Views
         private ListView lvwItems;
         private MenuBar mnuMain;
         private StatusBar staMain;
-        private StatusItem stiNew;
-        private StatusItem stiView;
-        private StatusItem stiEdit; 
-        private StatusItem stiCopyUser;
-        private StatusItem stiCopyPwd;
-        private StatusItem stiFolderMove; 
-        private StatusItem stiCollectionMove;
-        private StatusItem stiDelete;
+        private Shortcut stiNew;
+        private Shortcut stiView;
+        private Shortcut stiEdit; 
+        private Shortcut stiCopyUser;
+        private Shortcut stiCopyPwd;
+        private Shortcut stiFolderMove; 
+        private Shortcut stiCollectionMove;
+        private Shortcut stiDelete;
         
         private void InitializeComponent() {
             
@@ -48,8 +49,7 @@ namespace Retrowarden.Views
             this.Y = 0;
             this.Visible = true;
             this.Modal = false;
-            this.IsMdiContainer = false;
-            this.TextAlignment = TextAlignment.Left; 
+            this.TextAlignment = Alignment.Start; 
             
             // Window settings.
             this.winMain.Width = 120;
@@ -58,13 +58,9 @@ namespace Retrowarden.Views
             this.winMain.Y = 0;
             this.winMain.Visible = true;
             this.winMain.Modal = false;
-            this.winMain.IsMdiContainer = false;
             this.winMain.Data = "winMain";
-            this.winMain.Border.BorderStyle = BorderStyle.Single;
-            this.winMain.Border.Effect3D = false;
-            this.winMain.Border.Effect3DBrush = null;
-            this.winMain.Border.DrawMarginFrame = true;
-            this.winMain.TextAlignment = TextAlignment.Left;
+            this.winMain.Border.BorderStyle = LineStyle.Single;
+            this.winMain.TextAlignment = Alignment.Start;
             this.winMain.Title = "Retrowarden";
             this.Add(this.winMain);
             
@@ -74,11 +70,8 @@ namespace Retrowarden.Views
             this.fraItems.Y = 1;
             this.fraItems.Visible = true;
             this.fraItems.Data = "fraItems";
-            this.fraItems.Border.BorderStyle = BorderStyle.Single;
-            this.fraItems.Border.Effect3D = false;
-            this.fraItems.Border.Effect3DBrush = null;
-            this.fraItems.Border.DrawMarginFrame = true;
-            this.fraItems.TextAlignment = TextAlignment.Left;
+            this.fraItems.Border.BorderStyle = LineStyle.Single;
+            this.fraItems.TextAlignment = Alignment.Start;
             this.fraItems.Title = "Items";
             this.winMain.Add(this.fraItems);
             
@@ -89,10 +82,10 @@ namespace Retrowarden.Views
             this.tvwItems.Visible = true;
             this.tvwItems.Enabled = true;
             this.tvwItems.Data = "tvwItems";
-            this.tvwItems.TextAlignment = TextAlignment.Left;
-            this.tvwItems.Style.CollapseableSymbol = '-';
+            this.tvwItems.TextAlignment = Alignment.Start;
+            this.tvwItems.Style.CollapseableSymbol = new Rune('-');
             this.tvwItems.Style.ColorExpandSymbol = false;
-            this.tvwItems.Style.ExpandableSymbol = '+';
+            this.tvwItems.Style.ExpandableSymbol = new Rune('+');
             this.tvwItems.Style.InvertExpandSymbolColors = false;
             this.tvwItems.Style.LeaveLastRow = false;
             this.tvwItems.Style.ShowBranchLines = true;
@@ -105,11 +98,8 @@ namespace Retrowarden.Views
             this.fraVault.Y = 1;
             this.fraVault.Visible = true;
             this.fraVault.Data = "fraVault";
-            this.fraVault.Border.BorderStyle = BorderStyle.Single;
-            this.fraVault.Border.Effect3D = false;
-            this.fraVault.Border.Effect3DBrush = null;
-            this.fraVault.Border.DrawMarginFrame = true;
-            this.fraVault.TextAlignment = TextAlignment.Left;
+            this.fraVault.Border.BorderStyle = LineStyle.Single;
+            this.fraVault.TextAlignment = Alignment.Start;
             this.fraVault.Title = "All Vaults";
             this.winMain.Add(this.fraVault);
 
@@ -120,8 +110,8 @@ namespace Retrowarden.Views
             this.lblItemName.Enabled = true;
             this.lblItemName.Visible = false;
             this.lblItemName.Text = "Item Name";
-            this.lblItemName.Clicked += SortListByName;
-            this.lblItemName.TextAlignment = TextAlignment.Centered;
+            this.lblItemName.Accept += SortListByName;
+            this.lblItemName.TextAlignment = Alignment.Center;
             this.fraVault.Add(lblItemName);
             
             this.lblUserId.X = 33;
@@ -131,8 +121,8 @@ namespace Retrowarden.Views
             this.lblUserId.Enabled = true;
             this.lblUserId.Visible = false;
             this.lblUserId.Text = "User Id";
-            this.lblUserId.Clicked += SortListByValue;
-            this.lblUserId.TextAlignment = TextAlignment.Centered;
+            this.lblUserId.Accept += SortListByValue;
+            this.lblUserId.TextAlignment = Alignment.Center;
             this.fraVault.Add(lblUserId);
             
             this.lblOwner.X = 64;
@@ -142,8 +132,8 @@ namespace Retrowarden.Views
             this.lblOwner.Enabled = true;
             this.lblOwner.Visible = false;
             this.lblOwner.Text = "Owner";
-            this.lblOwner.Clicked += SortListByOwner;
-            this.lblOwner.TextAlignment = TextAlignment.Centered;
+            this.lblOwner.Accept += SortListByOwner;
+            this.lblOwner.TextAlignment = Alignment.Center;
             this.fraVault.Add(lblOwner);
             
             this.lvwItems.Width = 84;
@@ -152,63 +142,66 @@ namespace Retrowarden.Views
             this.lvwItems.Y = 1;
             this.lvwItems.Visible = true;
             this.lvwItems.Enabled = true;
-            this.lvwItems.TextAlignment = TextAlignment.Left;
+            this.lvwItems.TextAlignment = Alignment.Start;
             this.lvwItems.AllowsMultipleSelection = true;
             this.lvwItems.AllowsMarking = true;
             this.lvwItems.OpenSelectedItem += HandleListViewOpenItem;
             this.lvwItems.SelectedItemChanged += HandleListViewSelectedItemChanged;
             this.fraVault.Add(lvwItems);
             
-            this.mnuMain = new MenuBar(new MenuBarItem[]
+            this.mnuMain = new MenuBar()
             {
-                new MenuBarItem("_Vault", new MenuItem[]
+                Menus = new MenuBarItem[]
                 {
-                    new MenuItem("_Connect...", "Connect to vault", HandleConnectionRequest, null, 
-                        null),
-                    new MenuItem("_Sync", "Sync vault", HandleSyncRequest, null, 
-                        null),
-                    new MenuItem("_Lock", "Lock vault", HandleLockRequest, null, 
-                        null),
-                    new MenuItem("_Unlock", "Unlock vault", HandleUnlockRequest, null, 
-                        null),
-                    new MenuItem("_Quit", "Quit Application", HandleQuitRequest, null, 
-                        null)
-                }),
-                new MenuBarItem("_Folder", new MenuItem[]
-                {
-                    new MenuItem("_New", "", HandleFolderCreate, null, 
-                        null)
-                }),
-                new MenuBarItem("_Collection", new MenuItem[]
-                {
-                    new MenuItem("_New", "", HandleCollectionCreate, null, 
-                        null)
-                }),
-                new MenuBarItem("_Tools", new MenuItem[]
-                {
-                    new MenuItem("_Generate Password", "", HandlePasswordGenerate, null, 
-                        null),
-                    new MenuItem("Generate _Passphrase", "", HandlePassphraseGenerate, null, 
-                        null)
-                }),
-                new MenuBarItem("_Options", new MenuItem[]
-                {
-                    new MenuItem("_Boomer Mode!","Disable/Enable Mouse Use", HandleBoomerMode,null,null)
+                    new MenuBarItem("_Vault", new MenuItem[]
                     {
-                        Checked = false,
-                        CheckType = MenuItemCheckStyle.Checked
-                    }
-                }),
-                new MenuBarItem ("_Help", new MenuItem [] {
-                    new MenuItem("Check Status", "", HandleStatusCheck, null, 
-                        null),
-                    new MenuItem("Check for _Update", "", HandleUpdateCheck, null, 
-                        null),
-                    new MenuItem ("_About...",
-                        "", () =>  MessageBox.Query ("About Retrowarden", _aboutMessage.ToString(), 
-                            "_Ok"), null, null, Key.CtrlMask | Key.A)
-                })
-            });
+                        new MenuItem("_Connect...", "Connect to vault", HandleConnectionRequest, null, 
+                            null),
+                        new MenuItem("_Sync", "Sync vault", HandleSyncRequest, null, 
+                            null),
+                        new MenuItem("_Lock", "Lock vault", HandleLockRequest, null, 
+                            null),
+                        new MenuItem("_Unlock", "Unlock vault", HandleUnlockRequest, null, 
+                            null),
+                        new MenuItem("_Quit", "Quit Application", HandleQuitRequest, null, 
+                            null)
+                    }),
+                    new MenuBarItem("_Folder", new MenuItem[]
+                    {
+                        new MenuItem("_New", "", HandleFolderCreate, null, 
+                            null)
+                    }),
+                    new MenuBarItem("_Collection", new MenuItem[]
+                    {
+                        new MenuItem("_New", "", HandleCollectionCreate, null, 
+                            null)
+                    }),
+                    new MenuBarItem("_Tools", new MenuItem[]
+                    {
+                        new MenuItem("_Generate Password", "", HandlePasswordGenerate, null, 
+                            null),
+                        new MenuItem("Generate _Passphrase", "", HandlePassphraseGenerate, null, 
+                            null)
+                    }),
+                    new MenuBarItem("_Options", new MenuItem[]
+                    {
+                        new MenuItem("_Boomer Mode!","Disable/Enable Mouse Use", HandleBoomerMode,null,null)
+                        {
+                            Checked = false,
+                            CheckType = MenuItemCheckStyle.Checked
+                        }
+                    }),
+                    new MenuBarItem ("_Help", new MenuItem [] {
+                        new MenuItem("Check Status", "", HandleStatusCheck, null, 
+                            null),
+                        new MenuItem("Check for _Update", "", HandleUpdateCheck, null, 
+                            null),
+                        new MenuItem ("_About...",
+                            "", () =>  MessageBox.Query ("About Retrowarden", _aboutMessage.ToString(), 
+                                "_Ok"), null, null, KeyCode.CtrlMask | KeyCode.A)
+                    })
+                }
+            };
             
             this.mnuMain.Width = Dim.Fill(0);
             this.mnuMain.Height = 1;
@@ -216,7 +209,7 @@ namespace Retrowarden.Views
             this.mnuMain.Y = 0;
             this.mnuMain.Visible = true;
             this.mnuMain.Data = "mnuMain";
-            this.mnuMain.TextAlignment = TextAlignment.Left;
+            this.mnuMain.TextAlignment = Alignment.Start;
             this.winMain.Add(this.mnuMain);
             
             this.staMain.Width = Dim.Fill(0);
@@ -226,18 +219,17 @@ namespace Retrowarden.Views
             this.staMain.Visible = true;
             this.staMain.Data = "staMain";
             this.staMain.Text = "";
-            this.staMain.TextAlignment = TextAlignment.Left;
-            this.staMain.Items = new StatusItem[]{};
+            this.staMain.TextAlignment = Alignment.Start;
             
             // Create new status bar items.  These will get added as context functions when items are selected.
-            this.stiNew = new StatusItem(Key.F1, "~F1~ New", HandleCreateKeypress);
-            stiView = new StatusItem(Key.F2, "~F2~ View", HandleViewItemKeypress);
-            stiEdit = new StatusItem(Key.F3, "~F3~ Edit", HandleEditItemKeypress);
-            stiCopyUser = new StatusItem(Key.F4, "~F4~ Copy UserName", HandleUserCopyKeypress);
-            stiCopyPwd = new StatusItem(Key.F5, "~F5~ Copy Password", HandlePwdCopyKeypress);
-            stiFolderMove = new StatusItem(Key.F6, "~F6~ Move To Folder", HandleFolderMoveKeypress);
-            stiCollectionMove = new StatusItem(Key.F7, "~F7~ Move To Org", HandleOrganizationMoveKeypress);
-            stiDelete = new StatusItem(Key.F8, "~F8~ Delete", HandleDeleteKeypress);
+            this.stiNew = new Shortcut(Key.F1, "~F1~ New", HandleCreateKeypress);
+            stiView = new Shortcut(Key.F2, "~F2~ View", HandleViewItemKeypress);
+            stiEdit = new Shortcut(Key.F3, "~F3~ Edit", HandleEditItemKeypress);
+            stiCopyUser = new Shortcut(Key.F4, "~F4~ Copy UserName", HandleUserCopyKeypress);
+            stiCopyPwd = new Shortcut(Key.F5, "~F5~ Copy Password", HandlePwdCopyKeypress);
+            stiFolderMove = new Shortcut(Key.F6, "~F6~ Move To Folder", HandleFolderMoveKeypress);
+            stiCollectionMove = new Shortcut(Key.F7, "~F7~ Move To Org", HandleOrganizationMoveKeypress);
+            stiDelete = new Shortcut(Key.F8, "~F8~ Delete", HandleDeleteKeypress);
 
             this.Add(this.staMain);
         }

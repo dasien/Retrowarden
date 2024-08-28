@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 
@@ -22,16 +23,16 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
 
-        protected override void OkButton_Clicked()
+        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
-            if (_txtFolderName != null && _txtFolderName.Text.TrimSpace().Length == 0)
+            if (_txtFolderName != null && _txtFolderName.Text.Trim().Length == 0)
             {
                 MessageBox.ErrorQuery("Values Missing", "Folder name is required.", "Ok");
             }
             
             // Check to see if we already have a folder with that name.
-            if (_folders.FindIndex(o => _txtFolderName != null && o.Name == _txtFolderName.Text.ToString()) != -1)
+            if (_folders.FindIndex(o => _txtFolderName != null && o.Name == _txtFolderName.Text) != -1)
             {
                 MessageBox.ErrorQuery("Duplicate Value", "Folder name already exists.", "Ok");
             }
@@ -43,7 +44,7 @@ namespace Retrowarden.Dialogs
                 
                 if (_txtFolderName != null)
                 {
-                    _folderName = _txtFolderName.Text.ToString();
+                    _folderName = _txtFolderName.Text;
                 }
 
                 // Close dialog.
@@ -54,15 +55,25 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create Ok button.
-            Button okButton = new Button(8, 6, "_Save");
-            okButton.Clicked += OkButton_Clicked;
+            Button okButton = new Button()
+            {
+                X = 8, Y =6, Text = "_Save"
+            };
+            okButton.Accept += OkButton_Clicked;
 
             // Create Cancel button.
-            Button cancelButton = new Button(24, 6, "Cance_l");
-            cancelButton.Clicked += CancelButton_Clicked;
+            Button cancelButton = new Button()
+            {
+                X = 24, Y = 6, Title = "Cance_l"
+                
+            };
+            cancelButton.Accept += CancelButton_Clicked;
 
             // Create modal view.
-            _dialog = new Dialog("Create Folder", 40, 10, okButton, cancelButton);
+            _dialog = new Dialog()
+            {
+                Title = "Create Folder", Width = 40, Height =10, Buttons = [okButton, cancelButton]
+            };
 
             // Create labels.
             Label lblFolder = new Label()

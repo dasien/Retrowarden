@@ -1,7 +1,6 @@
 using System;
+using System.Text;
 using Terminal.Gui;
-using Terminal.Gui.Graphs;
-
 namespace Retrowarden.Views
 {
     public partial class IdentityDetailView
@@ -93,7 +92,7 @@ namespace Retrowarden.Views
             vwIdentity.X = 0;
             vwIdentity.Y = 3;
             vwIdentity.Visible = true;
-            vwIdentity.TextAlignment = TextAlignment.Left;
+            vwIdentity.TextAlignment = Alignment.Start;
 
             this.lblTitle.Width = 3;
             this.lblTitle.Height = 1;
@@ -102,7 +101,7 @@ namespace Retrowarden.Views
             this.lblTitle.Visible = true;
             this.lblTitle.Data = "lblTitle";
             this.lblTitle.Text = "Title";
-            this.lblTitle.TextAlignment = TextAlignment.Left;
+            this.lblTitle.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblTitle);
 
             this.cboTitle.Width = 23;
@@ -112,7 +111,7 @@ namespace Retrowarden.Views
             this.cboTitle.Visible = true;
             this.cboTitle.Data = "cboTitle";
             this.cboTitle.Text = "";
-            this.cboTitle.TextAlignment = TextAlignment.Left;
+            this.cboTitle.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.cboTitle);
 
             this.lblFirstName.Width = 4;
@@ -122,7 +121,7 @@ namespace Retrowarden.Views
             this.lblFirstName.Visible = true;
             this.lblFirstName.Data = "lblFirstName";
             this.lblFirstName.Text = "First Name";
-            this.lblFirstName.TextAlignment = TextAlignment.Left;
+            this.lblFirstName.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblFirstName);
 
             this.lblMiddleName.Width = 4;
@@ -132,7 +131,7 @@ namespace Retrowarden.Views
             this.lblMiddleName.Visible = true;
             this.lblMiddleName.Data = "lblMiddleName";
             this.lblMiddleName.Text = "Middle Name";
-            this.lblMiddleName.TextAlignment = TextAlignment.Left;
+            this.lblMiddleName.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblMiddleName);
 
             this.lblLastName.Width = 4;
@@ -142,7 +141,7 @@ namespace Retrowarden.Views
             this.lblLastName.Visible = true;
             this.lblLastName.Data = "lblLastName";
             this.lblLastName.Text = "Last Name";
-            this.lblLastName.TextAlignment = TextAlignment.Left;
+            this.lblLastName.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblLastName);
 
             this.txtFirstName.Width = 30;
@@ -153,8 +152,8 @@ namespace Retrowarden.Views
             this.txtFirstName.Secret = false;
             this.txtFirstName.Data = "txtFirstName";
             this.txtFirstName.Text = "";
-            this.txtFirstName.TextAlignment = TextAlignment.Left;
-            this.txtFirstName.Enter += (_) => HandleControlEnter(txtFirstName);
+            this.txtFirstName.TextAlignment = Alignment.Start;
+            this.txtFirstName.Enter += (s,e) => HandleControlEnter(txtFirstName);
             vwIdentity.Add(this.txtFirstName);
 
             this.txtMiddleName.Width = 30;
@@ -165,8 +164,8 @@ namespace Retrowarden.Views
             this.txtMiddleName.Secret = false;
             this.txtMiddleName.Data = "txtMiddleName";
             this.txtMiddleName.Text = "";
-            this.txtMiddleName.TextAlignment = TextAlignment.Left;
-            this.txtMiddleName.Enter += (_) => HandleControlEnter(txtMiddleName);
+            this.txtMiddleName.TextAlignment = Alignment.Start;
+            this.txtMiddleName.Enter += (s,e) => HandleControlEnter(txtMiddleName);
             vwIdentity.Add(this.txtMiddleName);
 
             this.txtLastName.Width = 30;
@@ -177,8 +176,8 @@ namespace Retrowarden.Views
             this.txtLastName.Secret = false;
             this.txtLastName.Data = "txtLastName";
             this.txtLastName.Text = "";
-            this.txtLastName.TextAlignment = TextAlignment.Left;
-            this.txtLastName.Enter += (_) => HandleControlEnter(txtLastName);
+            this.txtLastName.TextAlignment = Alignment.Start;
+            this.txtLastName.Enter += (s,e) => HandleControlEnter(txtLastName);
             vwIdentity.Add(this.txtLastName);
 
             this.lblSSN.Width = 4;
@@ -188,7 +187,7 @@ namespace Retrowarden.Views
             this.lblSSN.Visible = true;
             this.lblSSN.Data = "lblSSN";
             this.lblSSN.Text = "Social Security Number";
-            this.lblSSN.TextAlignment = TextAlignment.Left;
+            this.lblSSN.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblSSN);
 
             this.lblPassportNumber.Width = 30;
@@ -198,7 +197,7 @@ namespace Retrowarden.Views
             this.lblPassportNumber.Visible = true;
             this.lblPassportNumber.Data = "lblPassportNumber";
             this.lblPassportNumber.Text = "Passport Number";
-            this.lblPassportNumber.TextAlignment = TextAlignment.Left;
+            this.lblPassportNumber.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblPassportNumber);
 
             this.lblLicenseNumber.Width = 4;
@@ -208,7 +207,7 @@ namespace Retrowarden.Views
             this.lblLicenseNumber.Visible = true;
             this.lblLicenseNumber.Data = "lblLicenseNumber";
             this.lblLicenseNumber.Text = "License Number";
-            this.lblLicenseNumber.TextAlignment = TextAlignment.Left;
+            this.lblLicenseNumber.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblLicenseNumber);
 
             this.txtSSN.Width = 30;
@@ -219,8 +218,8 @@ namespace Retrowarden.Views
             this.txtSSN.Secret = false;
             this.txtSSN.Data = "txtSSN";
             this.txtSSN.Text = "";
-            this.txtSSN.TextAlignment = TextAlignment.Left;
-            this.txtSSN.Enter += (_) => HandleControlEnter(txtSSN);
+            this.txtSSN.TextAlignment = Alignment.Start;
+            this.txtSSN.Enter += (s,e) => HandleControlEnter(txtSSN);
             vwIdentity.Add(this.txtSSN);
 
             this.txtPassportNumber.Width = 30;
@@ -231,8 +230,8 @@ namespace Retrowarden.Views
             this.txtPassportNumber.Secret = false;
             this.txtPassportNumber.Data = "txtPassportNumber";
             this.txtPassportNumber.Text = "";
-            this.txtPassportNumber.TextAlignment = TextAlignment.Left;
-            this.txtPassportNumber.Enter += (_) => HandleControlEnter(txtPassportNumber);
+            this.txtPassportNumber.TextAlignment = Alignment.Start;
+            this.txtPassportNumber.Enter += (s,e) => HandleControlEnter(txtPassportNumber);
             vwIdentity.Add(this.txtPassportNumber);
 
             this.txtLicenseNumber.Width = 30;
@@ -243,8 +242,8 @@ namespace Retrowarden.Views
             this.txtLicenseNumber.Secret = false;
             this.txtLicenseNumber.Data = "txtLicenseNumber";
             this.txtLicenseNumber.Text = "";
-            this.txtLicenseNumber.TextAlignment = TextAlignment.Left;
-            this.txtLicenseNumber.Enter += (_) => HandleControlEnter(txtLicenseNumber);
+            this.txtLicenseNumber.TextAlignment = Alignment.Start;
+            this.txtLicenseNumber.Enter += (s,e) => HandleControlEnter(txtLicenseNumber);
             vwIdentity.Add(this.txtLicenseNumber);
 
             this.lineView2.Width = 94;
@@ -253,8 +252,8 @@ namespace Retrowarden.Views
             this.lineView2.Y = 9;
             this.lineView2.Visible = true;
             this.lineView2.Data = "lineView2";
-            this.lineView2.TextAlignment = TextAlignment.Left;
-            this.lineView2.LineRune = '─';
+            this.lineView2.TextAlignment = Alignment.Start;
+            this.lineView2.LineRune = new Rune('─');
             this.lineView2.Orientation = Orientation.Horizontal;
             vwIdentity.Add(this.lineView2);
 
@@ -264,8 +263,8 @@ namespace Retrowarden.Views
             this.lineView.Y = 9;
             this.lineView.Visible = true;
             this.lineView.Data = "lineView";
-            this.lineView.TextAlignment = TextAlignment.Left;
-            this.lineView.LineRune = '│';
+            this.lineView.TextAlignment = Alignment.Start;
+            this.lineView.LineRune = new Rune('│');
             this.lineView.Orientation = Orientation.Vertical;
             vwIdentity.Add(this.lineView);
 
@@ -276,7 +275,7 @@ namespace Retrowarden.Views
             this.lblAddress1.Visible = true;
             this.lblAddress1.Data = "lblAddress1";
             this.lblAddress1.Text = "Address 1";
-            this.lblAddress1.TextAlignment = TextAlignment.Left;
+            this.lblAddress1.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblAddress1);
 
             this.txtAddress1.Width = 45;
@@ -287,8 +286,8 @@ namespace Retrowarden.Views
             this.txtAddress1.Secret = false;
             this.txtAddress1.Data = "txtAddress1";
             this.txtAddress1.Text = "";
-            this.txtAddress1.TextAlignment = TextAlignment.Left;
-            this.txtAddress1.Enter += (_) => HandleControlEnter(txtAddress1);
+            this.txtAddress1.TextAlignment = Alignment.Start;
+            this.txtAddress1.Enter += (s,e) => HandleControlEnter(txtAddress1);
             vwIdentity.Add(this.txtAddress1);
 
             this.lblAddress2.Width = 4;
@@ -298,7 +297,7 @@ namespace Retrowarden.Views
             this.lblAddress2.Visible = true;
             this.lblAddress2.Data = "lblAddress2";
             this.lblAddress2.Text = "Address 2";
-            this.lblAddress2.TextAlignment = TextAlignment.Left;
+            this.lblAddress2.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblAddress2);
 
             this.txtAddress2.Width = 45;
@@ -309,8 +308,8 @@ namespace Retrowarden.Views
             this.txtAddress2.Secret = false;
             this.txtAddress2.Data = "txtAddress2";
             this.txtAddress2.Text = "";
-            this.txtAddress2.TextAlignment = TextAlignment.Left;
-            this.txtAddress2.Enter += (_) => HandleControlEnter(txtAddress2);
+            this.txtAddress2.TextAlignment = Alignment.Start;
+            this.txtAddress2.Enter += (s,e) => HandleControlEnter(txtAddress2);
             vwIdentity.Add(this.txtAddress2);
 
             this.lblAddress3.Width = 4;
@@ -320,7 +319,7 @@ namespace Retrowarden.Views
             this.lblAddress3.Visible = true;
             this.lblAddress3.Data = "lblAddress3";
             this.lblAddress3.Text = "Address 3";
-            this.lblAddress3.TextAlignment = TextAlignment.Left;
+            this.lblAddress3.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblAddress3);
 
             this.txtAddress3.Width = 45;
@@ -331,8 +330,8 @@ namespace Retrowarden.Views
             this.txtAddress3.Secret = false;
             this.txtAddress3.Data = "txtAddress3";
             this.txtAddress3.Text = "";
-            this.txtAddress3.TextAlignment = TextAlignment.Left;
-            this.txtAddress3.Enter += (_) => HandleControlEnter(txtAddress3);
+            this.txtAddress3.TextAlignment = Alignment.Start;
+            this.txtAddress3.Enter += (s,e) => HandleControlEnter(txtAddress3);
             vwIdentity.Add(this.txtAddress3);
 
 
@@ -343,7 +342,7 @@ namespace Retrowarden.Views
             this.lblCity.Visible = true;
             this.lblCity.Data = "lblCity";
             this.lblCity.Text = "City / Town";
-            this.lblCity.TextAlignment = TextAlignment.Left;
+            this.lblCity.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblCity);
 
             this.lblState.Width = 4;
@@ -353,7 +352,7 @@ namespace Retrowarden.Views
             this.lblState.Visible = true;
             this.lblState.Data = "lblState";
             this.lblState.Text = "State / Province";
-            this.lblState.TextAlignment = TextAlignment.Left;
+            this.lblState.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblState);
 
             this.txtCity.Width = 21;
@@ -364,8 +363,8 @@ namespace Retrowarden.Views
             this.txtCity.Secret = false;
             this.txtCity.Data = "txtCity";
             this.txtCity.Text = "";
-            this.txtCity.TextAlignment = TextAlignment.Left;
-            this.txtCity.Enter += (_) => HandleControlEnter(txtCity);
+            this.txtCity.TextAlignment = Alignment.Start;
+            this.txtCity.Enter += (s,e) => HandleControlEnter(txtCity);
             vwIdentity.Add(this.txtCity);
 
             this.txtState.Width = 21;
@@ -376,8 +375,8 @@ namespace Retrowarden.Views
             this.txtState.Secret = false;
             this.txtState.Data = "txtState";
             this.txtState.Text = "";
-            this.txtState.TextAlignment = TextAlignment.Left;
-            this.txtState.Enter += (_) => HandleControlEnter(txtState);
+            this.txtState.TextAlignment = Alignment.Start;
+            this.txtState.Enter += (s,e) => HandleControlEnter(txtState);
             vwIdentity.Add(this.txtState);
 
             this.lblZipCode.Width = 4;
@@ -387,7 +386,7 @@ namespace Retrowarden.Views
             this.lblZipCode.Visible = true;
             this.lblZipCode.Data = "lblZipCode";
             this.lblZipCode.Text = "Zip / Postal Code";
-            this.lblZipCode.TextAlignment = TextAlignment.Left;
+            this.lblZipCode.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblZipCode);
 
             this.lblCountry.Width = 4;
@@ -397,7 +396,7 @@ namespace Retrowarden.Views
             this.lblCountry.Visible = true;
             this.lblCountry.Data = "lblCountry";
             this.lblCountry.Text = "Country";
-            this.lblCountry.TextAlignment = TextAlignment.Left;
+            this.lblCountry.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblCountry);
 
             this.txtZipCode.Width = 21;
@@ -408,8 +407,8 @@ namespace Retrowarden.Views
             this.txtZipCode.Secret = false;
             this.txtZipCode.Data = "txtZipCode";
             this.txtZipCode.Text = "";
-            this.txtZipCode.TextAlignment = TextAlignment.Left;
-            this.txtZipCode.Enter += (_) => HandleControlEnter(txtZipCode);
+            this.txtZipCode.TextAlignment = Alignment.Start;
+            this.txtZipCode.Enter += (s,e) => HandleControlEnter(txtZipCode);
             vwIdentity.Add(this.txtZipCode);
 
             this.txtCountry.Width = 21;
@@ -420,8 +419,8 @@ namespace Retrowarden.Views
             this.txtCountry.Secret = false;
             this.txtCountry.Data = "txtCountry";
             this.txtCountry.Text = "";
-            this.txtCountry.TextAlignment = TextAlignment.Left;
-            this.txtCountry.Enter += (_) => HandleControlEnter(txtCountry);
+            this.txtCountry.TextAlignment = Alignment.Start;
+            this.txtCountry.Enter += (s,e) => HandleControlEnter(txtCountry);
             vwIdentity.Add(this.txtCountry);
 
             this.lblUserName.Width = 10;
@@ -431,7 +430,7 @@ namespace Retrowarden.Views
             this.lblUserName.Visible = true;
             this.lblUserName.Data = "lblUserName";
             this.lblUserName.Text = "User Name";
-            this.lblUserName.TextAlignment = TextAlignment.Left;
+            this.lblUserName.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblUserName);
 
             this.txtUserName.Width = 45;
@@ -442,8 +441,8 @@ namespace Retrowarden.Views
             this.txtUserName.Secret = false;
             this.txtUserName.Data = "txtUserName";
             this.txtUserName.Text = "";
-            this.txtUserName.TextAlignment = TextAlignment.Left;
-            txtUserName.Enter += (_) => HandleControlEnter(txtUserName);
+            this.txtUserName.TextAlignment = Alignment.Start;
+            txtUserName.Enter += (s,e) => HandleControlEnter(txtUserName);
             vwIdentity.Add(this.txtUserName);
 
             this.lblCompany.Width = 4;
@@ -453,7 +452,7 @@ namespace Retrowarden.Views
             this.lblCompany.Visible = true;
             this.lblCompany.Data = "lblCompany";
             this.lblCompany.Text = "Company";
-            this.lblCompany.TextAlignment = TextAlignment.Left;
+            this.lblCompany.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblCompany);
 
             this.txtCompany.Width = 45;
@@ -464,8 +463,8 @@ namespace Retrowarden.Views
             this.txtCompany.Secret = false;
             this.txtCompany.Data = "txtCompany";
             this.txtCompany.Text = "";
-            this.txtCompany.TextAlignment = TextAlignment.Left;
-            this.txtCompany.Enter += (_) => HandleControlEnter(txtCompany);
+            this.txtCompany.TextAlignment = Alignment.Start;
+            this.txtCompany.Enter += (s,e) => HandleControlEnter(txtCompany);
             vwIdentity.Add(this.txtCompany);
 
             this.lblEmail.Width = 4;
@@ -475,7 +474,7 @@ namespace Retrowarden.Views
             this.lblEmail.Visible = true;
             this.lblEmail.Data = "lblEmail";
             this.lblEmail.Text = "Email Address";
-            this.lblEmail.TextAlignment = TextAlignment.Left;
+            this.lblEmail.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblEmail);
 
             this.txtEmailAddress.Width = 45;
@@ -486,8 +485,8 @@ namespace Retrowarden.Views
             this.txtEmailAddress.Secret = false;
             this.txtEmailAddress.Data = "txtEmailAddress";
             this.txtEmailAddress.Text = "";
-            this.txtEmailAddress.TextAlignment = TextAlignment.Left;
-            this.txtEmailAddress.Enter += (_) => HandleControlEnter(txtEmailAddress);
+            this.txtEmailAddress.TextAlignment = Alignment.Start;
+            this.txtEmailAddress.Enter += (s,e) => HandleControlEnter(txtEmailAddress);
             vwIdentity.Add(this.txtEmailAddress);
 
             this.lblPhone.Width = 1;
@@ -497,7 +496,7 @@ namespace Retrowarden.Views
             this.lblPhone.Visible = true;
             this.lblPhone.Data = "lblPhone";
             this.lblPhone.Text = "Phone Number";
-            this.lblPhone.TextAlignment = TextAlignment.Left;
+            this.lblPhone.TextAlignment = Alignment.Start;
             vwIdentity.Add(this.lblPhone);
 
             this.txtPhoneNumber.Width = 45;
@@ -508,8 +507,8 @@ namespace Retrowarden.Views
             this.txtPhoneNumber.Secret = false;
             this.txtPhoneNumber.Data = "txtPhoneNumber";
             this.txtPhoneNumber.Text = "";
-            this.txtPhoneNumber.TextAlignment = TextAlignment.Left;
-            this.txtPhoneNumber.Enter += (_) => HandleControlEnter(txtPhoneNumber);
+            this.txtPhoneNumber.TextAlignment = Alignment.Start;
+            this.txtPhoneNumber.Enter += (s,e) => HandleControlEnter(txtPhoneNumber);
             vwIdentity.Add(this.txtPhoneNumber);
         }
     }

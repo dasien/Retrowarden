@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 
@@ -18,7 +20,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
         
-        protected override void OkButton_Clicked()
+        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
             if (_cboFolder != null && _cboFolder.SelectedItem == -1)
@@ -45,15 +47,24 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create Ok button.
-            Button okButton = new Button(8, 6, "Ok");
-            okButton.Clicked += OkButton_Clicked;
+            Button okButton = new Button()
+            {
+                X = 8, Y = 6, Text = "Ok"
+            };
+            okButton.Accept += OkButton_Clicked;
 
             // Create Cancel button.
-            Button cancelButton = new Button(24, 6, "Cancel");
-            cancelButton.Clicked += CancelButton_Clicked;
+            Button cancelButton = new Button()
+            {
+                X = 24, Y = 6, Text = "Cancel"
+            };
+            cancelButton.Accept += CancelButton_Clicked;
 
             // Create modal view.
-            _dialog = new Dialog("Select Folder", 50, 10, okButton, cancelButton);
+            _dialog = new Dialog()
+            {
+                Title = "Select Folder", Width = 50,Height = 10, Buttons = [okButton, cancelButton]
+            };
 
             // Create label.
             Label lblFolder = new Label()
@@ -68,7 +79,8 @@ namespace Retrowarden.Dialogs
             };
 
             // Set source for combobox.
-            _cboFolder.SetSource(_folders);
+            ObservableCollection<VaultFolder> folders = new ObservableCollection<VaultFolder>(_folders);
+            _cboFolder.SetSource(folders);
             
             // Add controls to view.
             _dialog.Add(lblFolder, _cboFolder);

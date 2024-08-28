@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Terminal.Gui;
 using RetrowardenSDK.Repositories;
 using Retrowarden.Workers;
@@ -47,7 +48,7 @@ namespace Retrowarden.Dialogs
 
                 else
                 {
-                    if (!int.TryParse(_txtPasswordLength.Text.ToString(), out int length))
+                    if (!int.TryParse(_txtPasswordLength.Text, out int length))
                     {
                         MessageBox.ErrorQuery("Values Missing", "Passwords length must be a numeric value.", "Ok");
                         retVal = false;
@@ -73,16 +74,16 @@ namespace Retrowarden.Dialogs
             return retVal;
         }
         
-        private void GenerateButton_Clicked()
+        private void GenerateButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Validate input.
             if (ValidateInput())
             {
                 // Set values.
-                bool includeNumbers = _chkNumbers != null && _chkNumbers.Checked;
-                bool upper = _chkUpperCase != null && _chkUpperCase.Checked;
-                bool lower = _chkLowerCase != null && _chkLowerCase.Checked;
-                bool special = _chkSpecialChars != null && _chkSpecialChars.Checked;
+                bool includeNumbers = _chkNumbers != null && _chkNumbers.CheckedState == CheckState.Checked;
+                bool upper = _chkUpperCase != null && _chkUpperCase.CheckedState == CheckState.Checked;
+                bool lower = _chkLowerCase != null && _chkLowerCase.CheckedState == CheckState.Checked;
+                bool special = _chkSpecialChars != null && _chkSpecialChars.CheckedState == CheckState.Checked;
                 int length = _txtPasswordLength != null ? Convert.ToInt32(_txtPasswordLength.Text == null ? 1 :_txtPasswordLength.Text) : 1 ;
                 
                 // Show working dialog.
@@ -109,7 +110,7 @@ namespace Retrowarden.Dialogs
             }
         }
 
-        private void CopyButton_Clicked()
+        private void CopyButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Copy password to clipboard.
             Clipboard.TrySetClipboardData(_password);
@@ -135,15 +136,10 @@ namespace Retrowarden.Dialogs
             
             _dialog = new Dialog()
             {
-                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true,
-                IsMdiContainer = false, TextAlignment = TextAlignment.Left, Title = "Password Generator"
+                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true, 
+                TextAlignment = Alignment.Start, Title = "Password Generator"
             };
             
-            _dialog.Border.BorderStyle = BorderStyle.Single;
-            _dialog.Border.Effect3D = true;
-            _dialog.Border.Effect3DBrush = null;
-            _dialog.Border.DrawMarginFrame = true;
-
             _lblPassword.Width = 39;
             _lblPassword.Height = 1;
             _lblPassword.X = 2;
@@ -151,7 +147,7 @@ namespace Retrowarden.Dialogs
             _lblPassword.Visible = true;
             _lblPassword.Data = "_lblPassword";
             _lblPassword.Text = "No password generated.";
-            _lblPassword.TextAlignment = TextAlignment.Centered;
+            _lblPassword.TextAlignment = Alignment.Center;
             _dialog.Add(_lblPassword);
             
             _fraOptions.Width = 40;
@@ -160,11 +156,7 @@ namespace Retrowarden.Dialogs
             _fraOptions.Y = 3;
             _fraOptions.Visible = true;
             _fraOptions.Data = "_fraOptions";
-            _fraOptions.Border.BorderStyle = BorderStyle.Single;
-            _fraOptions.Border.Effect3D = false;
-            _fraOptions.Border.Effect3DBrush = null;
-            _fraOptions.Border.DrawMarginFrame = true;
-            _fraOptions.TextAlignment = TextAlignment.Left;
+            _fraOptions.TextAlignment = Alignment.Start;
             _fraOptions.Title = "Options";
             _dialog.Add(_fraOptions);
             
@@ -175,8 +167,8 @@ namespace Retrowarden.Dialogs
             _chkUpperCase.Visible = true;
             _chkUpperCase.Data = "_chkUpperCase";
             _chkUpperCase.Text = "Uppercase Characters (A-Z)";
-            _chkUpperCase.TextAlignment = TextAlignment.Left;
-            _chkUpperCase.Checked = true;
+            _chkUpperCase.TextAlignment = Alignment.Start;
+            _chkUpperCase.CheckedState = CheckState.Checked;
             _fraOptions.Add(_chkUpperCase);
             
             _chkLowerCase.Width = 6;
@@ -186,8 +178,8 @@ namespace Retrowarden.Dialogs
             _chkLowerCase.Visible = true;
             _chkLowerCase.Data = "_chkLowerCase";
             _chkLowerCase.Text = "Lowercase Characters (a-z)";
-            _chkLowerCase.TextAlignment = TextAlignment.Left;
-            _chkLowerCase.Checked = true;
+            _chkLowerCase.TextAlignment = Alignment.Start;
+            _chkLowerCase.CheckedState = CheckState.Checked;
             _fraOptions.Add(_chkLowerCase);
             
             _chkNumbers.Width = 6;
@@ -197,8 +189,8 @@ namespace Retrowarden.Dialogs
             _chkNumbers.Visible = true;
             _chkNumbers.Data = "_chkNumbers";
             _chkNumbers.Text = "Numeric Characters (0-9)";
-            _chkNumbers.TextAlignment = TextAlignment.Left;
-            _chkNumbers.Checked = true;
+            _chkNumbers.TextAlignment = Alignment.Start;
+            _chkNumbers.CheckedState = CheckState.Checked;
             _fraOptions.Add(_chkNumbers);
             
             _chkSpecialChars.Width = 6;
@@ -208,8 +200,8 @@ namespace Retrowarden.Dialogs
             _chkSpecialChars.Visible = true;
             _chkSpecialChars.Data = "_chkSpecialChars";
             _chkSpecialChars.Text = "Special Characters (!@#$%^&*)";
-            _chkSpecialChars.TextAlignment = TextAlignment.Left;
-            _chkSpecialChars.Checked = true;
+            _chkSpecialChars.TextAlignment = Alignment.Start;
+            _chkSpecialChars.CheckedState = CheckState.Checked;
             _fraOptions.Add(_chkSpecialChars);
             
             _lblLength.Width = 4;
@@ -219,7 +211,7 @@ namespace Retrowarden.Dialogs
             _lblLength.Visible = true;
             _lblLength.Data = "_lblLength";
             _lblLength.Text = "Length";
-            _lblLength.TextAlignment = TextAlignment.Left;
+            _lblLength.TextAlignment = Alignment.Start;
             _fraOptions.Add(_lblLength);
             
             _txtPasswordLength.Width = 10;
@@ -230,7 +222,7 @@ namespace Retrowarden.Dialogs
             _txtPasswordLength.Secret = false;
             _txtPasswordLength.Data = "_txtPasswordLength";
             _txtPasswordLength.Text = "14";
-            _txtPasswordLength.TextAlignment = TextAlignment.Left;
+            _txtPasswordLength.TextAlignment = Alignment.Start;
             _fraOptions.Add(_txtPasswordLength);
             
             _btnGeneratePassword.Width = 8;
@@ -240,9 +232,9 @@ namespace Retrowarden.Dialogs
             _btnGeneratePassword.Visible = true;
             _btnGeneratePassword.Data = "_btnGeneratePassword";
             _btnGeneratePassword.Text = "Generate";
-            _btnGeneratePassword.TextAlignment = TextAlignment.Centered;
+            _btnGeneratePassword.TextAlignment = Alignment.Center;
             _btnGeneratePassword.IsDefault = false;
-            _btnGeneratePassword.Clicked += GenerateButton_Clicked;
+            _btnGeneratePassword.Accept += GenerateButton_Clicked;
             _dialog.Add(_btnGeneratePassword);
             
             _btnCopy.Width = 4;
@@ -252,9 +244,9 @@ namespace Retrowarden.Dialogs
             _btnCopy.Visible = true;
             _btnCopy.Data = "_btnCopy";
             _btnCopy.Text = "Copy";
-            _btnCopy.TextAlignment = TextAlignment.Centered;
+            _btnCopy.TextAlignment = Alignment.Center;
             _btnCopy.IsDefault = false;
-            _btnCopy.Clicked += CopyButton_Clicked;
+            _btnCopy.Accept += CopyButton_Clicked;
             _dialog.Add(_btnCopy);
             
             _btnClose.Width = 9;
@@ -264,9 +256,9 @@ namespace Retrowarden.Dialogs
             _btnClose.Visible = true;
             _btnClose.Data = "_btnClose";
             _btnClose.Text = "Close";
-            _btnClose.TextAlignment = TextAlignment.Centered;
+            _btnClose.TextAlignment = Alignment.Center;
             _btnClose.IsDefault = false;
-            _btnClose.Clicked += CancelButton_Clicked;
+            _btnClose.Accept += CancelButton_Clicked;
             _dialog.Add(_btnClose);
         }
         #endregion

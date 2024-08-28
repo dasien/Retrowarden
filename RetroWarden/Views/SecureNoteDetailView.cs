@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Terminal.Gui;
 using RetrowardenSDK.Models;
 
@@ -27,7 +28,10 @@ namespace Retrowarden.Views
             }
             
             // Create an empty view so that the base view can resize.
-            View empty = new View(new Rect(1, 3, 1, 1));
+            View empty = new View()
+                {
+                    X=1, Y=3, Width = 1, Height = 1
+                };
 
             // Set to base.
             DetailView = empty;
@@ -41,7 +45,7 @@ namespace Retrowarden.Views
         
         #region Event Handlers
 
-        protected override void SaveButtonClicked()
+        protected override void SaveButtonClicked(object? sender, HandledEventArgs e)
         {
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)

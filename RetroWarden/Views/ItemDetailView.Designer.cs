@@ -39,27 +39,22 @@ namespace Retrowarden.Views
             this.btnNewCustomField = new Button();
             this.stbDetail = new StatusBar();
             
-            this.Width = Dim.Percent(85f);
-            this.Height = Dim.Percent(85f);
+            this.Width = Dim.Percent(85);
+            this.Height = Dim.Percent(85);
             this.X = Pos.Center();
             this.Y = Pos.Center();
             this.Visible = true;
             this.Modal = true;
-            this.IsMdiContainer = false;
-            this.Border.BorderStyle = BorderStyle.Single;
-            this.Border.Effect3D = true;
-            this.Border.Effect3DBrush = null;
-            this.Border.DrawMarginFrame = true;
-            this.TextAlignment = TextAlignment.Left;
+            this.Border.BorderStyle = LineStyle.Single;
+            this.TextAlignment = Alignment.Start;
             
             this.scrMain.Width = Dim.Fill(0);
             this.scrMain.Height = Dim.Fill(1);
             this.scrMain.X = 0;
             this.scrMain.Y = 1;
             this.scrMain.Visible = true;
-            this.scrMain.ContentSize = new Size(99,scrollBottom);
             this.scrMain.Data = "scrMain";
-            this.scrMain.TextAlignment = TextAlignment.Left;
+            this.scrMain.TextAlignment = Alignment.Start;
             this.scrMain.ShowHorizontalScrollIndicator = false;
             this.scrMain.AutoHideScrollBars = true;
             this.Add(this.scrMain);
@@ -71,7 +66,7 @@ namespace Retrowarden.Views
             this.lblItemName.Visible = true;
             this.lblItemName.Data = "lblItemName";
             this.lblItemName.Text = "Name";
-            this.lblItemName.TextAlignment = TextAlignment.Left;
+            this.lblItemName.TextAlignment = Alignment.Start;
             this.scrMain.Add(this.lblItemName);
             
             this.lblFolder.Width = 4;
@@ -81,7 +76,7 @@ namespace Retrowarden.Views
             this.lblFolder.Visible = true;
             this.lblFolder.Data = "lblFolder";
             this.lblFolder.Text = "Folder";
-            this.lblFolder.TextAlignment = TextAlignment.Left;
+            this.lblFolder.TextAlignment = Alignment.Start;
             this.scrMain.Add(this.lblFolder);
             
             this.txtItemName.Width = 30;
@@ -92,8 +87,8 @@ namespace Retrowarden.Views
             this.txtItemName.Secret = false;
             this.txtItemName.Data = "txtItemName";
             this.txtItemName.Text = "";
-            this.txtItemName.TextAlignment = TextAlignment.Left;
-            this.txtItemName.Enter += (_) => HandleControlEnter(txtItemName);
+            this.txtItemName.TextAlignment = Alignment.Start;
+            this.txtItemName.Enter += (s,e) => HandleControlEnter(txtItemName);
             this.scrMain.Add(this.txtItemName);
             
             this.cboFolder.Width = 30;
@@ -103,8 +98,8 @@ namespace Retrowarden.Views
             this.cboFolder.Visible = true;
             this.cboFolder.Data = "cboFolder";
             this.cboFolder.Text = "";
-            this.cboFolder.TextAlignment = TextAlignment.Left;
-            this.cboFolder.Enter += (_) => HandleControlEnter(cboFolder);
+            this.cboFolder.TextAlignment = Alignment.Start;
+            this.cboFolder.Enter += (s,e) => HandleControlEnter(cboFolder);
             this.scrMain.Add(this.cboFolder);
             
             this.chkFavorite.Width = 10;
@@ -114,9 +109,9 @@ namespace Retrowarden.Views
             this.chkFavorite.Visible = true;
             this.chkFavorite.Data = "chkFavorite";
             this.chkFavorite.Text = "Favorite";
-            this.chkFavorite.TextAlignment = TextAlignment.Left;
-            this.chkFavorite.Checked = false;
-            this.chkFavorite.Enter += (_) => HandleControlEnter(chkFavorite);
+            this.chkFavorite.TextAlignment = Alignment.Start;
+            this.chkFavorite.CheckedState = CheckState.UnChecked;
+            this.chkFavorite.Enter += (s,e) => HandleControlEnter(chkFavorite);
             this.scrMain.Add(this.chkFavorite);
 
             this.chkReprompt.Width = 10;
@@ -126,9 +121,9 @@ namespace Retrowarden.Views
             this.chkReprompt.Visible = true;
             this.chkReprompt.Data = "chkReprompt";
             this.chkReprompt.Text = "Require Reprompt";
-            this.chkReprompt.TextAlignment = TextAlignment.Left;
-            this.chkReprompt.Checked = false;
-            this.chkReprompt.Enter += (_) => HandleControlEnter(chkReprompt);
+            this.chkReprompt.TextAlignment = Alignment.Start;
+            this.chkReprompt.CheckedState = CheckState.UnChecked;
+            this.chkReprompt.Enter += (s,e) => HandleControlEnter(chkReprompt);
             this.scrMain.Add(this.chkReprompt);
 
             this.fraNotes.Width = 97;
@@ -138,13 +133,10 @@ namespace Retrowarden.Views
             this.fraNotes.Visible = true;
             this.fraNotes.CanFocus = true;
             this.fraNotes.Data = "fraNotes";
-            this.fraNotes.Border.BorderStyle = BorderStyle.Single;
-            this.fraNotes.Border.Effect3D = false;
-            this.fraNotes.Border.Effect3DBrush = null;
-            this.fraNotes.Border.DrawMarginFrame = true;
-            this.fraNotes.TextAlignment = TextAlignment.Left;
+            this.fraNotes.Border.BorderStyle = LineStyle.Single;
+            this.fraNotes.TextAlignment = Alignment.Start;
             this.fraNotes.Title = "Notes";
-            this.fraNotes.Enter += (_) => HandleControlEnter(fraNotes);
+            this.fraNotes.Enter += (s,e) => HandleControlEnter(fraNotes);
             this.scrMain.Add(this.fraNotes);
             
             this.tvwNotes.Width = 95;
@@ -158,8 +150,8 @@ namespace Retrowarden.Views
             this.tvwNotes.Data = "tvwNotes";
             this.tvwNotes.Text = "";
             this.tvwNotes.AllowsTab = false;
-            this.tvwNotes.TextAlignment = TextAlignment.Left;
-            this.tvwNotes.Enter += (_) => HandleControlEnter(tvwNotes);
+            this.tvwNotes.TextAlignment = Alignment.Start;
+            this.tvwNotes.Enter += (s,e) => HandleControlEnter(tvwNotes);
             this.fraNotes.Add(this.tvwNotes);
             
             this.fraCustomFieldList.Width = 97;
@@ -170,13 +162,10 @@ namespace Retrowarden.Views
             this.fraCustomFieldList.Enabled = true;
             this.fraCustomFieldList.CanFocus = true;
             this.fraCustomFieldList.Data = "fraCustomFieldList";
-            this.fraCustomFieldList.Border.BorderStyle = BorderStyle.Single;
-            this.fraCustomFieldList.Border.Effect3D = false;
-            this.fraCustomFieldList.Border.Effect3DBrush = null;
-            this.fraCustomFieldList.Border.DrawMarginFrame = true;
-            this.fraCustomFieldList.TextAlignment = TextAlignment.Left;
+            this.fraCustomFieldList.Border.BorderStyle = LineStyle.Single;
+            this.fraCustomFieldList.TextAlignment = Alignment.Start;
             this.fraCustomFieldList.Title = "Custom Fields";
-            this.fraCustomFieldList.Enter += (_) => HandleControlEnter(fraCustomFieldList);
+            this.fraCustomFieldList.Enter += (s,e) => HandleControlEnter(fraCustomFieldList);
             this.scrMain.Add(this.fraCustomFieldList);
             
             this.btnNewCustomField.Width = 18;
@@ -186,10 +175,10 @@ namespace Retrowarden.Views
             this.btnNewCustomField.Visible = true;
             this.btnNewCustomField.Data = "btnNewCustomField";
             this.btnNewCustomField.Text = "New Custom Field";
-            this.btnNewCustomField.TextAlignment = TextAlignment.Centered;
+            this.btnNewCustomField.TextAlignment = Alignment.Center;
             this.btnNewCustomField.IsDefault = false;
-            this.btnNewCustomField.Clicked += NewCustomFieldButtonClicked;
-            this.btnNewCustomField.Enter += (_) => HandleControlEnter(btnNewCustomField);
+            this.btnNewCustomField.Accept += NewCustomFieldButtonClicked;
+            this.btnNewCustomField.Enter += (s,e) => HandleControlEnter(btnNewCustomField);
             this.scrMain.Add(this.btnNewCustomField);
 
             this.btnSave.Width = 8;
@@ -199,10 +188,10 @@ namespace Retrowarden.Views
             this.btnSave.Visible = true;
             this.btnSave.Data = "btnSave";
             this.btnSave.Text = "Save";
-            this.btnSave.TextAlignment = TextAlignment.Centered;
+            this.btnSave.TextAlignment = Alignment.Center;
             this.btnSave.IsDefault = false;
-            this.btnSave.Clicked += SaveButtonClicked;
-            this.btnSave.Enter += (_) => HandleControlEnter(btnSave);
+            this.btnSave.Accept += SaveButtonClicked;
+            this.btnSave.Enter += (s,e) => HandleControlEnter(btnSave);
             this.scrMain.Add(btnSave);
             
             this.btnCancel.Width = 8;
@@ -212,10 +201,10 @@ namespace Retrowarden.Views
             this.btnCancel.Visible = true;
             this.btnCancel.Data = "";
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.TextAlignment = TextAlignment.Centered;
+            this.btnCancel.TextAlignment = Alignment.Center;
             this.btnCancel.IsDefault = false;
-            this.btnCancel.Clicked += CancelButtonClicked;
-            this.btnCancel.Enter += (_) => HandleControlEnter(btnCancel);
+            this.btnCancel.Accept += CancelButtonClicked;
+            this.btnCancel.Enter += (s,e) => HandleControlEnter(btnCancel);
             this.scrMain.Add(btnCancel);
             
             this.stbDetail.Width = Dim.Fill(0);
@@ -225,7 +214,7 @@ namespace Retrowarden.Views
             this.stbDetail.Visible = true;
             this.stbDetail.Data = "stbDetail";
             this.stbDetail.Text = "";
-            this.stbDetail.TextAlignment = TextAlignment.Left;
+            this.stbDetail.TextAlignment = Alignment.Start;
             this.Add(stbDetail);
         }
     }

@@ -1,3 +1,6 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Drawing;
 using Terminal.Gui;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
@@ -9,7 +12,7 @@ namespace Retrowarden.Views
 {
     public partial class LoginDetailView : ItemDetailView
     {
-        private List<CodeListItem> _matchDetections;
+        private ObservableCollection<CodeListItem> _matchDetections;
         private readonly VaultRepository _repository;
         
         // This sizes the underlying view appropriately.
@@ -20,7 +23,7 @@ namespace Retrowarden.Views
         {
             // Initialize members.
             _repository = repository;
-            _matchDetections = new List<CodeListItem>();
+            _matchDetections = new ObservableCollection<CodeListItem>();
             
             // Update controls based on view state.
             SetupView();
@@ -45,8 +48,8 @@ namespace Retrowarden.Views
                 // Create empty URI scroll.
                 scrURIList = new UriScrollView(null, _matchDetections)
                 {
-                    X = 0, Y = 0, Width = 95, Height = 5, Visible = true, CanFocus = true, Enabled = true,
-                    ContentSize = new Size(95, 10), Data = "scrURIList", TextAlignment = TextAlignment.Left
+                    X = 0, Y = 0, Width = 95, Height = 5, Visible = true, CanFocus = true, Enabled = true, 
+                    Data = "scrURIList", TextAlignment = Alignment.Start
                 };
                 
                 // Add it to the frame.
@@ -63,7 +66,7 @@ namespace Retrowarden.Views
             SetTabOrder();
             
             // Allow focusing in the frame (fix bug that was causing some of the views to not be focused).
-            fraURIList.FocusFirst();
+            //fraURIList.FocusFirst();
             
             // Set focus to first field.
             SetItemNameControlFocus();
@@ -87,7 +90,7 @@ namespace Retrowarden.Views
         private void InitializeLists()
         {
             // Create list of match types.
-            _matchDetections = CodeListManager.GetList("MatchDetections");
+            _matchDetections = CodeListManager.GetObservableCollection("MatchDetections");
         }
 
         private void CreateUriListRows()
@@ -99,7 +102,7 @@ namespace Retrowarden.Views
                 scrURIList = new UriScrollView(_item.Login.URIs, _matchDetections)
                 {
                     X = 0, Y = 0, Width = 95, Height = 5, Visible = true, CanFocus = true, Enabled = true,
-                    ContentSize = new Size(95, 10), Data = "scrURIList", TextAlignment = TextAlignment.Left
+                    Data = "scrURIList", TextAlignment = Alignment.Start
                 };
 
                 fraURIList.Add(scrURIList);
@@ -112,9 +115,9 @@ namespace Retrowarden.Views
             _item.Login ??= new Login();
             
             // Set item properties.
-            _item.Login.UserName = txtUserName.Text.ToString();
-            _item.Login.Password = txtPassword.Text.ToString();
-            _item.Login.TOTP = txtTOTP.Text.ToString();
+            _item.Login.UserName = txtUserName.Text;
+            _item.Login.Password = txtPassword.Text;
+            _item.Login.TOTP = txtTOTP.Text;
 
             // Update the URI list.
             _item.Login.URIs = scrURIList.URIs;
@@ -140,7 +143,7 @@ namespace Retrowarden.Views
         }
         
         #region Event Handlers
-        protected override void SaveButtonClicked()
+        protected override void SaveButtonClicked(object? sender, HandledEventArgs e)
         {
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
@@ -169,17 +172,17 @@ namespace Retrowarden.Views
             }
         }
 
-        private void CopyPasswordButtonClicked()
+        private void CopyPasswordButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy password to clipboard.
-            Clipboard.TrySetClipboardData(txtPassword.Text.ToString());
+            Clipboard.TrySetClipboardData(txtPassword.Text);
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "Password copied to clipboard.", "Ok");
 
         }
 
-        private void ViewPasswordButtonClicked()
+        private void ViewPasswordButtonClicked(object? sender, HandledEventArgs e)
         {
             // Toggle Flag.
             txtPassword.Secret = !txtPassword.Secret;
@@ -188,16 +191,16 @@ namespace Retrowarden.Views
             btnViewPassword.Text = txtPassword.Secret ? "Show" : "Hide";
         }
 
-        private void CopyUserNameButtonClicked()
+        private void CopyUserNameButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy username to clipboard.
-            Clipboard.TrySetClipboardData(txtUserName.Text.ToString());
+            Clipboard.TrySetClipboardData(txtUserName.Text);
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "User name copied to clipboard.", "Ok");
         }
 
-        private void GeneratePasswordButtonClicked()
+        private void GeneratePasswordButtonClicked(object? sender, HandledEventArgs e)
         {
             GeneratePasswordDialog genPass = new GeneratePasswordDialog(_repository);
             genPass.Show();
@@ -210,7 +213,7 @@ namespace Retrowarden.Views
             }
         }
 
-        private void NewUriButtonClicked()
+        private void NewUriButtonClicked(object? sender, HandledEventArgs e)
         {
             // Call scroll view add row method.
             scrURIList.CreateControlRow();

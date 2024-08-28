@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using Terminal.Gui;
 using RetrowardenSDK.Repositories;
@@ -43,14 +44,14 @@ namespace Retrowarden.Dialogs
             if (_txtNumOfWords != null && _txtSeparator != null)
             {
                 // Check to see if there is a valid value for number of words.
-                if (!Regex.IsMatch(_txtNumOfWords.Text.ToString() ?? string.Empty, numberPattern))
+                if (!Regex.IsMatch(_txtNumOfWords.Text ?? string.Empty, numberPattern))
                 {
                     MessageBox.ErrorQuery("Values Missing", "Enter a number of words (5-9).", "Ok");
                     retVal = false;
                 }
 
                 // Check to see if there is a valid separator.
-                else if (!Regex.IsMatch(_txtSeparator.Text.ToString() ?? string.Empty, "^[!@#$%^&*-=+|_]{1}$"))
+                else if (!Regex.IsMatch(_txtSeparator.Text ?? string.Empty, "^[!@#$%^&*-=+|_]{1}$"))
                 {
                     MessageBox.ErrorQuery("Values Missing", "Enter a valid separator (!@#$%^&*-=+|_).", "Ok");
                     retVal = false;
@@ -66,16 +67,16 @@ namespace Retrowarden.Dialogs
             return retVal;
         }
         
-        private void GenerateButton_Clicked()
+        private void GenerateButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Validate input.
             if (ValidateInput())
             {
                 // Set values.
-                bool includeNumbers = _chkIncludeNumbers != null && _chkIncludeNumbers.Checked;
-                bool capitalize = _chkCapitalize != null && _chkCapitalize.Checked;
+                bool includeNumbers = _chkIncludeNumbers != null && _chkIncludeNumbers.CheckedState == CheckState.Checked;
+                bool capitalize = _chkCapitalize != null && _chkCapitalize.CheckedState == CheckState.Checked;
                 int words = _txtNumOfWords != null ? Convert.ToInt32(_txtNumOfWords.Text == null ? 1 :_txtNumOfWords.Text) : 1;
-                string? sep = _txtSeparator != null ? _txtSeparator.Text.ToString() : "-";
+                string? sep = _txtSeparator != null ? _txtSeparator.Text : "-";
                 
                 // Show working dialog.
                 GeneratePassphraseWorker worker =
@@ -101,7 +102,7 @@ namespace Retrowarden.Dialogs
             
         }
 
-        private void CopyButton_Clicked()
+        private void CopyButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Copy password to clipboard.
             Clipboard.TrySetClipboardData(_passphrase);
@@ -128,14 +129,9 @@ namespace Retrowarden.Dialogs
             _dialog = new Dialog()
             {
                 Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true,
-                IsMdiContainer = false, TextAlignment = TextAlignment.Left, Title = "Passphrase Generator"
+                TextAlignment = Alignment.Start, Title = "Passphrase Generator"
             };
             
-            _dialog.Border.BorderStyle = BorderStyle.Single;
-            _dialog.Border.Effect3D = true;
-            _dialog.Border.Effect3DBrush = null;
-            _dialog.Border.DrawMarginFrame = true;
-
             _lblPassphrase.Width = 39;
             _lblPassphrase.Height = 1;
             _lblPassphrase.X = 2;
@@ -143,7 +139,7 @@ namespace Retrowarden.Dialogs
             _lblPassphrase.Visible = true;
             _lblPassphrase.Data = "_lblPassphrase";
             _lblPassphrase.Text = "No Passphrase Generated";
-            _lblPassphrase.TextAlignment = TextAlignment.Centered;
+            _lblPassphrase.TextAlignment = Alignment.Center;
             _dialog.Add(_lblPassphrase);
             
             _fraOptions.Width = 40;
@@ -152,11 +148,7 @@ namespace Retrowarden.Dialogs
             _fraOptions.Y = 3;
             _fraOptions.Visible = true;
             _fraOptions.Data = "_fraOptions";
-            _fraOptions.Border.BorderStyle = BorderStyle.Single;
-            _fraOptions.Border.Effect3D = false;
-            _fraOptions.Border.Effect3DBrush = null;
-            _fraOptions.Border.DrawMarginFrame = true;
-            _fraOptions.TextAlignment = TextAlignment.Left;
+            _fraOptions.TextAlignment = Alignment.Start;
             _fraOptions.Title = "Options";
             _dialog.Add(_fraOptions);
             
@@ -167,8 +159,8 @@ namespace Retrowarden.Dialogs
             _chkCapitalize.Visible = true;
             _chkCapitalize.Data = "_chkCapitalize";
             _chkCapitalize.Text = "Capitalize First Letters";
-            _chkCapitalize.TextAlignment = TextAlignment.Left;
-            _chkCapitalize.Checked = true;
+            _chkCapitalize.TextAlignment = Alignment.Start;
+            _chkCapitalize.CheckedState = CheckState.Checked;
             _fraOptions.Add(_chkCapitalize);
             
             _chkIncludeNumbers.Width = 6;
@@ -178,8 +170,8 @@ namespace Retrowarden.Dialogs
             _chkIncludeNumbers.Visible = true;
             _chkIncludeNumbers.Data = "_chkIncludeNumbers";
             _chkIncludeNumbers.Text = "Include Numbers";
-            _chkIncludeNumbers.TextAlignment = TextAlignment.Left;
-            _chkIncludeNumbers.Checked = true;
+            _chkIncludeNumbers.TextAlignment = Alignment.Start;
+            _chkIncludeNumbers.CheckedState = CheckState.Checked;
             _fraOptions.Add(_chkIncludeNumbers);
             
             _lblNumOfWords.Width = 4;
@@ -189,7 +181,7 @@ namespace Retrowarden.Dialogs
             _lblNumOfWords.Visible = true;
             _lblNumOfWords.Data = "_lblNumOfWords";
             _lblNumOfWords.Text = "Number of Words";
-            _lblNumOfWords.TextAlignment = TextAlignment.Left;
+            _lblNumOfWords.TextAlignment = Alignment.Start;
             _fraOptions.Add(_lblNumOfWords);
             
             _txtNumOfWords.Width = 4;
@@ -200,7 +192,7 @@ namespace Retrowarden.Dialogs
             _txtNumOfWords.Secret = false;
             _txtNumOfWords.Data = "_txtNumOfWords";
             _txtNumOfWords.Text = "5";
-            _txtNumOfWords.TextAlignment = TextAlignment.Left;
+            _txtNumOfWords.TextAlignment = Alignment.Start;
             _fraOptions.Add(_txtNumOfWords);
             
             _lblSeparator.Width = 4;
@@ -210,7 +202,7 @@ namespace Retrowarden.Dialogs
             _lblSeparator.Visible = true;
             _lblSeparator.Data = "_lblSeparator";
             _lblSeparator.Text = "Word Separator";
-            _lblSeparator.TextAlignment = TextAlignment.Left;
+            _lblSeparator.TextAlignment = Alignment.Start;
             _fraOptions.Add(_lblSeparator);
             
             _txtSeparator.Width = 4;
@@ -221,7 +213,7 @@ namespace Retrowarden.Dialogs
             _txtSeparator.Secret = false;
             _txtSeparator.Data = "_txtSeparator";
             _txtSeparator.Text = "-";
-            _txtSeparator.TextAlignment = TextAlignment.Left;
+            _txtSeparator.TextAlignment = Alignment.Start;
             _fraOptions.Add(_txtSeparator);
             
             _btnGeneratePassphrase.Width = 8;
@@ -231,9 +223,9 @@ namespace Retrowarden.Dialogs
             _btnGeneratePassphrase.Visible = true;
             _btnGeneratePassphrase.Data = "_btnGeneratePassphrase";
             _btnGeneratePassphrase.Text = "Generate";
-            _btnGeneratePassphrase.TextAlignment = TextAlignment.Centered;
+            _btnGeneratePassphrase.TextAlignment = Alignment.Center;
             _btnGeneratePassphrase.IsDefault = false;
-            _btnGeneratePassphrase.Clicked += GenerateButton_Clicked;
+            _btnGeneratePassphrase.Accept += GenerateButton_Clicked;
             _dialog.Add(_btnGeneratePassphrase);
             
             _btnCopy.Width = 4;
@@ -243,9 +235,9 @@ namespace Retrowarden.Dialogs
             _btnCopy.Visible = true;
             _btnCopy.Data = "_btnCopy";
             _btnCopy.Text = "Copy";
-            _btnCopy.TextAlignment = TextAlignment.Centered;
+            _btnCopy.TextAlignment = Alignment.Center;
             _btnCopy.IsDefault = false;
-            _btnCopy.Clicked += CopyButton_Clicked;
+            _btnCopy.Accept += CopyButton_Clicked;
             _dialog.Add(_btnCopy);
             
             _btnClose.Width = 9;
@@ -255,9 +247,9 @@ namespace Retrowarden.Dialogs
             _btnClose.Visible = true;
             _btnClose.Data = "_btnClose";
             _btnClose.Text = "Close";
-            _btnClose.TextAlignment = TextAlignment.Centered;
+            _btnClose.TextAlignment = Alignment.Center;
             _btnClose.IsDefault = false;
-            _btnClose.Clicked += CancelButton_Clicked;
+            _btnClose.Accept += CancelButton_Clicked;
 
             _dialog.Add(_btnClose);
         }

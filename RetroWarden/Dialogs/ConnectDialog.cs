@@ -1,5 +1,5 @@
+using System.ComponentModel;
 using Terminal.Gui;
-using Retrowarden.Utils;
 
 namespace Retrowarden.Dialogs
 {
@@ -22,11 +22,11 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
 
-        protected override void OkButton_Clicked()
+        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
             if (_txtPassword != null && _txtUserId != null 
-               && (_txtUserId.Text.TrimSpace().Length == 0 || _txtPassword.Text.TrimSpace().Length == 0))
+               && (_txtUserId.Text.Trim().Length == 0 || _txtPassword.Text.Trim().Length == 0))
             {
                 MessageBox.ErrorQuery("Values Missing", "Both User Id and Password are required.", "Ok");
             }
@@ -38,12 +38,12 @@ namespace Retrowarden.Dialogs
                 
                 if (_txtUserId != null)
                 {
-                    _userId = _txtUserId.Text.ToString() ?? string.Empty;
+                    _userId = _txtUserId.Text ?? string.Empty;
                 }
 
                 if (_txtPassword != null)
                 {
-                    _password = _txtPassword.Text.ToString() ?? string.Empty;
+                    _password = _txtPassword.Text ?? string.Empty;
                 }
 
                 // Close dialog.
@@ -54,16 +54,25 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create Ok button.
-            Button okButton = new Button(8, 6, "_Connect");
-            okButton.Clicked += OkButton_Clicked;
-            okButton.IsDefault = true;
+            Button okButton = new Button()
+            {
+                X = 8, Y =6, Text = "_Save"
+            };
+            okButton.Accept += OkButton_Clicked;
 
             // Create Cancel button.
-            Button cancelButton = new Button(24, 6, "Cance_l");
-            cancelButton.Clicked += CancelButton_Clicked;
+            Button cancelButton = new Button()
+            {
+                X = 24, Y = 6, Title = "Cance_l"
+                
+            };
+            cancelButton.Accept += CancelButton_Clicked;
 
             // Create modal view.
-            _dialog = new Dialog("Connect to Vault", 40, 10, okButton, cancelButton);
+            _dialog = new Dialog()
+            {
+                Title = "Connect to Vault", Width = 40, Height =10, Buttons = [okButton, cancelButton]
+            };
 
             // Create labels.
             Label lblUserId = new Label()

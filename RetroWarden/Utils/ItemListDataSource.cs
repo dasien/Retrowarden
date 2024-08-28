@@ -1,5 +1,7 @@
 using System.Collections;
-using NStack;
+using System.Collections.Specialized;
+using System.Text;
+using System.Text.Unicode;
 using Terminal.Gui;
 using RetrowardenSDK.Models;
 namespace Retrowarden.Utils
@@ -125,8 +127,8 @@ namespace Retrowarden.Utils
                     string? itemVal = GetItemName(_items[cnt]);
                     
                     // Create cols for name and value.
-                    string col1 = string.Format(String.Format("{{0,{0}}}", -NameColumnWidth), _items[cnt].ItemName);
-                    string col2 = string.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth), itemVal == null ? " " : itemVal);
+                    string col1 = string.Format(string.Format("{{0,{0}}}", -NameColumnWidth), _items[cnt].ItemName);
+                    string col2 = string.Format(string.Format("{{0,{0}}}", -UserIdColumnWidth), itemVal == null ? " " : itemVal);
                     
                     // Create entire line string.
                     string sc = $"{col1}  {col2} {_items[cnt].ItemOwnerName}";
@@ -186,14 +188,14 @@ namespace Retrowarden.Utils
             return retVal;
         }
 
-        private void RenderUstr (ConsoleDriver driver, ustring ustr, int col, int line, int width, int start = 0)
+        private void RenderUstr (ConsoleDriver driver, string ustr, int col, int line, int width, int start = 0)
         {
             int used = 0;
             int index = start;
             while (index < ustr.Length) 
             {
-                (uint rune, int size) = Utf8.DecodeRune (ustr, index, index - ustr.Length);
-                int count = Rune.ColumnWidth (rune);
+                (Rune rune, int size) = ustr.DecodeRune (index, index - ustr.Length);
+                int count = rune.GetColumns();
                 if (used + count >= width) break;
                 driver.AddRune (rune);
                 used += count;
@@ -243,6 +245,9 @@ namespace Retrowarden.Utils
             }
         }
 
+        public bool SuspendCollectionChangedEvent { get; set; }
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
         public List<VaultItem> ItemList
         {
             get
@@ -282,5 +287,10 @@ namespace Retrowarden.Utils
             }
         }
         #endregion
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

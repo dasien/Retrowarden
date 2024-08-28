@@ -48,7 +48,7 @@ namespace Retrowarden.Views
             vwCard.X = 0;
             vwCard.Y = 3;
             vwCard.Visible = true;
-            vwCard.TextAlignment = TextAlignment.Left;
+            vwCard.TextAlignment = Alignment.Start;
                        
             this.lblCardholderName.Width = 4;
             this.lblCardholderName.Height = 1;
@@ -57,7 +57,7 @@ namespace Retrowarden.Views
             this.lblCardholderName.Visible = true;
             this.lblCardholderName.Data = "lblCardholderName";
             this.lblCardholderName.Text = "Cardholder Name";
-            this.lblCardholderName.TextAlignment = TextAlignment.Left;
+            this.lblCardholderName.TextAlignment = Alignment.Start;
             vwCard.Add(this.lblCardholderName);
             
             this.lblCardBrand.Width = 4;
@@ -67,7 +67,7 @@ namespace Retrowarden.Views
             this.lblCardBrand.Visible = true;
             this.lblCardBrand.Data = "lblCardBrand";
             this.lblCardBrand.Text = "Card Brand";
-            this.lblCardBrand.TextAlignment = TextAlignment.Left;
+            this.lblCardBrand.TextAlignment = Alignment.Start;
             vwCard.Add(this.lblCardBrand);
            
             this.txtCardholderName.Width = 30;
@@ -78,8 +78,8 @@ namespace Retrowarden.Views
             this.txtCardholderName.Secret = false;
             this.txtCardholderName.Data = "txtCardholderName";
             this.txtCardholderName.Text = "";
-            this.txtCardholderName.TextAlignment = TextAlignment.Left;
-            this.txtCardholderName.Enter += (_) => HandleControlEnter(txtCardholderName);
+            this.txtCardholderName.TextAlignment = Alignment.Start;
+            this.txtCardholderName.Enter += (s,e) => HandleControlEnter(txtCardholderName);
             vwCard.Add(this.txtCardholderName);
             
             this.cboCardBrand.Width = 30;
@@ -89,7 +89,7 @@ namespace Retrowarden.Views
             this.cboCardBrand.Visible = true;
             this.cboCardBrand.Data = "cboCardBrand";
             this.cboCardBrand.Text = "";
-            this.cboCardBrand.TextAlignment = TextAlignment.Left;
+            this.cboCardBrand.TextAlignment = Alignment.Start;
             vwCard.Add(this.cboCardBrand);
             
             this.lblCardNumber.Width = 4;
@@ -99,7 +99,7 @@ namespace Retrowarden.Views
             this.lblCardNumber.Visible = true;
             this.lblCardNumber.Data = "lblCardNumber";
             this.lblCardNumber.Text = "Card Number";
-            this.lblCardNumber.TextAlignment = TextAlignment.Left;
+            this.lblCardNumber.TextAlignment = Alignment.Start;
             vwCard.Add(this.lblCardNumber);
             
             this.lblCVV.Width = 4;
@@ -109,7 +109,7 @@ namespace Retrowarden.Views
             this.lblCVV.Visible = true;
             this.lblCVV.Data = "lblCVV";
             this.lblCVV.Text = "Security Code";
-            this.lblCVV.TextAlignment = TextAlignment.Left;
+            this.lblCVV.TextAlignment = Alignment.Start;
             vwCard.Add(this.lblCVV);
            
             this.txtCardNumber.Width = 18;
@@ -120,8 +120,8 @@ namespace Retrowarden.Views
             this.txtCardNumber.Secret = true;
             this.txtCardNumber.Data = "txtCardNumber";
             this.txtCardNumber.Text = "";
-            this.txtCardNumber.TextAlignment = TextAlignment.Left;
-            this.txtCardNumber.Enter += (_) => HandleControlEnter(txtCardNumber);
+            this.txtCardNumber.TextAlignment = Alignment.Start;
+            this.txtCardNumber.Enter += (s,e) => HandleControlEnter(txtCardNumber);
             vwCard.Add(this.txtCardNumber);
             
             this.btnShowCardNumber.Width = 8;
@@ -131,9 +131,9 @@ namespace Retrowarden.Views
             this.btnShowCardNumber.Visible = true;
             this.btnShowCardNumber.Data = "btnShowCardNumber";
             this.btnShowCardNumber.Text = "Show";
-            this.btnShowCardNumber.TextAlignment = TextAlignment.Centered;
+            this.btnShowCardNumber.TextAlignment = Alignment.Center;
             this.btnShowCardNumber.IsDefault = false;
-            this.btnShowCardNumber.Clicked += ShowCardButtonClicked;
+            this.btnShowCardNumber.Accept += ShowCardButtonClicked;
             vwCard.Add(this.btnShowCardNumber);
             
             this.btnCopyCardNumber.Width = 8;
@@ -143,9 +143,9 @@ namespace Retrowarden.Views
             this.btnCopyCardNumber.Visible = true;
             this.btnCopyCardNumber.Data = "btnCopyCardNumber";
             this.btnCopyCardNumber.Text = "Copy";
-            this.btnCopyCardNumber.TextAlignment = TextAlignment.Centered;
+            this.btnCopyCardNumber.TextAlignment = Alignment.Center;
             this.btnCopyCardNumber.IsDefault = false;
-            this.btnCopyCardNumber.Clicked += CopyCardButtonClicked;
+            this.btnCopyCardNumber.Accept += CopyCardButtonClicked;
             vwCard.Add(this.btnCopyCardNumber);
             
             this.txtCVV.Width = 16;
@@ -156,8 +156,8 @@ namespace Retrowarden.Views
             this.txtCVV.Secret = true;
             this.txtCVV.Data = "txtCVV";
             this.txtCVV.Text = "";
-            this.txtCVV.TextAlignment = TextAlignment.Left;
-            this.txtCVV.Enter += (_) => HandleControlEnter(txtCVV);
+            this.txtCVV.TextAlignment = Alignment.Start;
+            this.txtCVV.Enter += (s,e) => HandleControlEnter(txtCVV);
             vwCard.Add(this.txtCVV);
             
             this.btnShowCVV.Width = 8;
@@ -167,9 +167,9 @@ namespace Retrowarden.Views
             this.btnShowCVV.Visible = true;
             this.btnShowCVV.Data = "btnShowCVV";
             this.btnShowCVV.Text = "Show";
-            this.btnShowCVV.TextAlignment = TextAlignment.Centered;
+            this.btnShowCVV.TextAlignment = Alignment.Center;
             this.btnShowCVV.IsDefault = false;
-            this.btnShowCVV.Clicked += ShowCVVButtonClicked;
+            this.btnShowCVV.Accept += ShowCVVButtonClicked;
             vwCard.Add(this.btnShowCVV);
             
             this.btnCopyCVV.Width = 8;
@@ -179,9 +179,9 @@ namespace Retrowarden.Views
             this.btnCopyCVV.Visible = true;
             this.btnCopyCVV.Data = "btnCopyCVV";
             this.btnCopyCVV.Text = "Copy";
-            this.btnCopyCVV.TextAlignment = TextAlignment.Centered;
+            this.btnCopyCVV.TextAlignment = Alignment.Center;
             this.btnCopyCVV.IsDefault = false;
-            this.btnCopyCVV.Clicked += CopyCVVButtonClicked;
+            this.btnCopyCVV.Accept += CopyCVVButtonClicked;
             vwCard.Add(this.btnCopyCVV);
             
             this.lblExpMonth.Width = 4;
@@ -191,7 +191,7 @@ namespace Retrowarden.Views
             this.lblExpMonth.Visible = true;
             this.lblExpMonth.Data = "lblExpMonth";
             this.lblExpMonth.Text = "Expiration Month";
-            this.lblExpMonth.TextAlignment = TextAlignment.Left;
+            this.lblExpMonth.TextAlignment = Alignment.Start;
             vwCard.Add(this.lblExpMonth);
             
             this.lblExpYear.Width = 4;
@@ -201,7 +201,7 @@ namespace Retrowarden.Views
             this.lblExpYear.Visible = true;
             this.lblExpYear.Data = "lblExpYear";
             this.lblExpYear.Text = "Expiration Year";
-            this.lblExpYear.TextAlignment = TextAlignment.Left;
+            this.lblExpYear.TextAlignment = Alignment.Start;
             vwCard.Add(this.lblExpYear);
             
             this.cboExpMonth.Width = 30;
@@ -211,7 +211,7 @@ namespace Retrowarden.Views
             this.cboExpMonth.Visible = true;
             this.cboExpMonth.Data = "cboExpMonth";
             this.cboExpMonth.Text = "";
-            this.cboExpMonth.TextAlignment = TextAlignment.Left;
+            this.cboExpMonth.TextAlignment = Alignment.Start;
             vwCard.Add(this.cboExpMonth);
             
             this.txtExpYear.Width = 20;
@@ -222,8 +222,8 @@ namespace Retrowarden.Views
             this.txtExpYear.Secret = false;
             this.txtExpYear.Data = "txtExpYear";
             this.txtExpYear.Text = "";
-            this.txtExpYear.TextAlignment = TextAlignment.Left;
-            this.txtExpYear.Enter += (_) => HandleControlEnter(txtExpYear);
+            this.txtExpYear.TextAlignment = Alignment.Start;
+            this.txtExpYear.Enter += (s,e) => HandleControlEnter(txtExpYear);
             vwCard.Add(this.txtExpYear);
         }
     }

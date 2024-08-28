@@ -1,3 +1,6 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Drawing;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 
@@ -25,7 +28,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
         
-        private void HandleOrgSelectionChanged(ListViewItemEventArgs obj)
+        private void HandleOrgSelectionChanged(object? sender, ListViewItemEventArgs e)
         {
             // Clear out currently selected collections (if any).
             _selectedCollections.Clear();
@@ -64,12 +67,12 @@ namespace Retrowarden.Dialogs
                                 Text = col.Name, Data = col
                             };
 
-                            chkCollection.Toggled += prevValue =>
+                            chkCollection.CheckedStateChanging += (_, e) =>
                             {
-                                VaultCollection collection = (VaultCollection)chkCollection.Data;
+                                VaultCollection collection = (VaultCollection) chkCollection.Data;
                                 
                                 // This would indicate movement from checked to unchecked (remove).
-                                if (prevValue)
+                                if (e.CurrentValue == CheckState.Checked)
                                 {
                                     // Remove the value.
                                     _selectedCollections.Remove(collection);
@@ -97,7 +100,7 @@ namespace Retrowarden.Dialogs
             }
         }
         
-        protected override void OkButton_Clicked()
+        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
             if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
@@ -123,15 +126,24 @@ namespace Retrowarden.Dialogs
         protected override void InitializeComponent()
         {
             // Create Ok button.
-            Button okButton = new Button(10, 11, "Ok");
-            okButton.Clicked += OkButton_Clicked;
+            Button okButton = new Button()
+            {
+                X = 10, Y =11, Text = "Ok"
+            };
+            okButton.Accept += OkButton_Clicked;
 
             // Create Cancel button.
-            Button cancelButton = new Button(20, 11, "Cancel");
-            cancelButton.Clicked += CancelButton_Clicked;
+            Button cancelButton = new Button()
+            {
+                X= 20, Y = 11, Text = "Cancel"
+            };
+            cancelButton.Accept += CancelButton_Clicked;
 
             // Create modal view.
-            _dialog = new Dialog("Select Organization & Collection", 40, 14, okButton, cancelButton);
+            _dialog = new Dialog()
+            {
+                Title = "Select Organization & Collection", Width = 40, Height = 14, Buttons = [okButton, cancelButton]
+            };
 
             // Create label.
             Label lblOrg = new Label()
@@ -146,7 +158,8 @@ namespace Retrowarden.Dialogs
             };
             
             // Set source for combobox.
-            _cboOrganization.SetSource(_organizations);
+            ObservableCollection<Organization> orgCollection = new ObservableCollection<Organization>(_organizations);
+            _cboOrganization.SetSource(orgCollection);
             
             // Create event to fire when selection changes.
             _cboOrganization.SelectedItemChanged += HandleOrgSelectionChanged;
@@ -161,8 +174,8 @@ namespace Retrowarden.Dialogs
             // Create scrollview.
             _scrCollections = new ScrollView()
             {
-                X = 0, Y = 0, Width = Dim.Percent(100f), Height = Dim.Percent(100f),
-                CanFocus = true,Visible = true, ContentSize = new Size(35,100)
+                X = 0, Y = 0, Width = Dim.Percent(100), Height = Dim.Percent(100),
+                CanFocus = true,Visible = true
             };
             
             // Add scroll view to frame view.
