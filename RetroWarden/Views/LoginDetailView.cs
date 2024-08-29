@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using Terminal.Gui;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;

@@ -11,7 +11,7 @@ namespace Retrowarden.Workers
         protected readonly BackgroundWorker _worker;
         protected readonly WorkingDialog _workingDialog;
 
-        protected RetrowardenWorker(VaultRepository repository, string? dialogMessage)
+        protected RetrowardenWorker(VaultRepository repository, string dialogMessage)
         {
             _repository = repository;
             _worker = new BackgroundWorker();

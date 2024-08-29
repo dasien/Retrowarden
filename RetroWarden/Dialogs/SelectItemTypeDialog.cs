@@ -14,7 +14,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
         
-        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
+        private void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Set flag for ok button and values.
             _okPressed = true;
@@ -24,7 +24,7 @@ namespace Retrowarden.Dialogs
             Application.RequestStop(_dialog);
         }
         
-        protected override void InitializeComponent()
+        private void InitializeComponent()
         {
             // Create Ok button.
             Button okButton = new Button()

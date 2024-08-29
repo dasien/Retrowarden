@@ -157,10 +157,10 @@ namespace Retrowarden.Views
                 if (!_keepAlive)
                 {
                     // Check to see if we have a detail view open.
-                    if (!this.IsCurrentTop)
+                    if (!IsCurrentTop)
                     {
                         // Get the detail view reference.
-                        Toplevel top = Application.Current;
+                        Toplevel? top = Application.Current;
                         
                         // Close it.
                         Application.RequestStop(top);
@@ -1645,7 +1645,7 @@ namespace Retrowarden.Views
         #endregion
         
         #region Save Item Worker
-        private void RunSaveItemWorker(List<VaultItem>items , VaultItemSaveAction saveType, string? dialogMessage)
+        private void RunSaveItemWorker(List<VaultItem>items , VaultItemSaveAction saveType, string dialogMessage)
         {
             SaveItemWorker worker = new SaveItemWorker(_vaultRepository, saveType, items, dialogMessage);
             

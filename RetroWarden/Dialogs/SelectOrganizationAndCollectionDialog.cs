@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 
@@ -100,7 +99,7 @@ namespace Retrowarden.Dialogs
             }
         }
         
-        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
+        private void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
             if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
@@ -123,7 +122,7 @@ namespace Retrowarden.Dialogs
             }
         }
         
-        protected override void InitializeComponent()
+        private void InitializeComponent()
         {
             // Create Ok button.
             Button okButton = new Button()

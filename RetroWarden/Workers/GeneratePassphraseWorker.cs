@@ -7,7 +7,7 @@ namespace Retrowarden.Workers
         private string? _passphrase;
         
         public GeneratePassphraseWorker(VaultRepository repository, bool capitalize, bool useNumbers, 
-            int words, string? sep, string? dialogMessage) 
+            int words, string? sep, string dialogMessage) 
             : base(repository, dialogMessage)
         {
             // Run the login method.

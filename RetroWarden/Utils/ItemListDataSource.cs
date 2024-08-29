@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
-using System.Text.Unicode;
 using Terminal.Gui;
 using RetrowardenSDK.Models;
 namespace Retrowarden.Utils
@@ -19,7 +18,9 @@ namespace Retrowarden.Utils
         // This event helps identify when a row is marked or unmarked by a mouse click, because the 
         // SelectedItemChanged event on the listview doesn't fire in that case.
         public event EventHandler? OnSetMark;
-        
+
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
         public ItemListDataSource(List<VaultItem> items)
         {
             // Set item list and associated values.
@@ -246,7 +247,6 @@ namespace Retrowarden.Utils
         }
 
         public bool SuspendCollectionChangedEvent { get; set; }
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         public List<VaultItem> ItemList
         {
@@ -290,7 +290,7 @@ namespace Retrowarden.Utils
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

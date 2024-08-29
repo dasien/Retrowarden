@@ -22,7 +22,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
 
-        protected override void OkButton_Clicked(object? sender, HandledEventArgs e)
+        private void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
             if (_txtPassword != null && _txtUserId != null 
@@ -51,12 +51,12 @@ namespace Retrowarden.Dialogs
             }
         }
 
-        protected override void InitializeComponent()
+        private void InitializeComponent()
         {
             // Create Ok button.
             Button okButton = new Button()
             {
-                X = 8, Y =6, Text = "_Save"
+                X = 8, Y =6, Text = "_Connect"
             };
             okButton.Accept += OkButton_Clicked;
 

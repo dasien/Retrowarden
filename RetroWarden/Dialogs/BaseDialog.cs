@@ -7,15 +7,8 @@ namespace Retrowarden.Dialogs
     {
         protected Dialog? _dialog;
         protected bool _okPressed;
-
-        protected abstract void InitializeComponent();
-
-        protected virtual void OkButton_Clicked(object? sender, HandledEventArgs e)
-        {
-            _okPressed = true;
-        }
-
-        protected virtual void CancelButton_Clicked(object? sender, HandledEventArgs e)
+        
+        protected void CancelButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Set ok button flag.
             _okPressed = false;
@@ -24,9 +17,12 @@ namespace Retrowarden.Dialogs
             Application.RequestStop(_dialog);
         }
         
-        public virtual void Show()
+        public void Show()
         {
-            Application.Run(_dialog);
+            if (_dialog != null)
+            {
+                Application.Run(_dialog);    
+            }
         }
         
         public bool OkPressed

@@ -7,7 +7,7 @@ namespace Retrowarden.Workers
     {
         private VaultFolder _results;
         
-        public CreateFolderWorker(VaultRepository repository, string? dialogMessage, VaultFolder folder) 
+        public CreateFolderWorker(VaultRepository repository, string dialogMessage, VaultFolder folder) 
             : base(repository, dialogMessage)
         {
             // Create members.

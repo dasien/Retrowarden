@@ -112,7 +112,7 @@ namespace Retrowarden.Dialogs
         }
 
         #region Initialize Component
-        protected override void InitializeComponent() 
+        private void InitializeComponent() 
         {
             _btnClose = new Button();
             _btnCopy = new Button();

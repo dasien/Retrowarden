@@ -8,7 +8,7 @@ public sealed class GetOrganizationsWorker : RetrowardenWorker
     // Member variables.
     private List<Organization>? _organizations;
     
-    public GetOrganizationsWorker(VaultRepository repository, string? dialogMessage) 
+    public GetOrganizationsWorker(VaultRepository repository, string dialogMessage) 
         : base(repository, dialogMessage)
     {
         // Create members.

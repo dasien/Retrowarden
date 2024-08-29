@@ -47,7 +47,7 @@ namespace Retrowarden.Dialogs
             }
         }
         
-        protected override void InitializeComponent()
+        private void InitializeComponent()
         { 
             // Create dialog.
             _dialog = new Dialog()

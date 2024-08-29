@@ -8,7 +8,7 @@ namespace Retrowarden.Dialogs
         private Label? _lblAnimation;
         private Label? _lblMessage;
         private Label? _lblProgress;
-        private int _animationIndex = 0;
+        private int _animationIndex;
         private object? _timerToken;
         private readonly string? _messageText;
         
@@ -18,7 +18,7 @@ namespace Retrowarden.Dialogs
             "01101110"
         ];
         
-        public WorkingDialog(string? message)
+        public WorkingDialog(string message)
         {
             // Initialize members.
             _messageText = message;
@@ -29,12 +29,20 @@ namespace Retrowarden.Dialogs
         public new void Show()
         {
             _timerToken = Application.AddTimeout (TimeSpan.FromMilliseconds(80), UpdateAnimationLabel);
-            Application.Run(_dialog);
+            
+            if (_dialog != null)
+            {
+                Application.Run(_dialog);
+            }
         }
 
         public void Hide()
         {
-            Application.RemoveTimeout (_timerToken);
+            if (_timerToken != null)
+            {
+                Application.RemoveTimeout(_timerToken);
+            }
+            
             Application.RequestStop(_dialog);
         }
         
@@ -43,8 +51,8 @@ namespace Retrowarden.Dialogs
             // Update text.
             if (_dialog != null)
             {
-                _dialog.Subviews[0].Subviews[0].Text = _spinner[_animationIndex];
-                _dialog.Subviews[0].Subviews[0].SetNeedsDisplay();
+                _dialog.Subviews[0].Text = _spinner[_animationIndex];
+                _dialog.Subviews[0].SetNeedsDisplay();
             }
             
             if (_animationIndex < (_spinner.Length -1))
@@ -61,7 +69,7 @@ namespace Retrowarden.Dialogs
             return true;
         }
 
-        protected override void InitializeComponent()
+        private void InitializeComponent()
         {
             // Create modal view.
             _dialog = new Dialog()
@@ -78,13 +86,13 @@ namespace Retrowarden.Dialogs
 
             _lblMessage = new Label()
             {
-                X = 13, Y = 2, Width = 10, Height = 1, CanFocus = false, Visible = true,
+                X = 13, Y = 2, Width = 35, Height = 1, CanFocus = false, Visible = true,
                 Text = _messageText, Data = "lblMessage"
             };
 
             _lblProgress = new Label()
             {
-                X = 13, Y = 3, Width = 10, Height = 1, CanFocus = false, Visible = true,
+                X = 13, Y = 3, Width = 35, Height = 1, CanFocus = false, Visible = true,
                 Text = "", Data = "lblProgress"
             };
             

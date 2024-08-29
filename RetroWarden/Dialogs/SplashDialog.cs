@@ -1,5 +1,4 @@
 using Terminal.Gui;
-using Retrowarden.Utils;
 
 namespace Retrowarden.Dialogs
 {
@@ -29,7 +28,7 @@ namespace Retrowarden.Dialogs
             return false;
         }
 
-        protected override void InitializeComponent()
+        private void InitializeComponent()
         {
             // Create modal view.
             _dialog = new Dialog()
