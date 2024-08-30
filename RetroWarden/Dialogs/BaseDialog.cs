@@ -12,9 +12,13 @@ namespace Retrowarden.Dialogs
         {
             // Set ok button flag.
             _okPressed = false;
-            
-            // Close dialog.
-            Application.RequestStop(_dialog);
+
+            if (_dialog != null)
+            {
+                // Close dialog.
+                Application.RequestStop(_dialog);
+                _dialog.Dispose();
+            }
         }
         
         public void Show()

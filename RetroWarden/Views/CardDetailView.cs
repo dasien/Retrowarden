@@ -64,7 +64,7 @@ namespace Retrowarden.Views
 
                 // Set combo box default values.
                 cboCardBrand.SelectedItem = _cardBrands.IndexOf(_cardBrands.First(o => o.Index == _item.Card.Brand));
-                cboExpMonth.SelectedItem = _expMonths.IndexOf(_cardBrands.First(o => o.Index == _item.Card.ExpiryMonth));
+                cboExpMonth.SelectedItem = _expMonths.IndexOf(_expMonths.First(o => o.Index == _item.Card.ExpiryMonth));
             }
         }
         
@@ -130,7 +130,7 @@ namespace Retrowarden.Views
                 UpdateItem();
                 
                 // Indicate Save was pressed.
-                base.OkPressed = true;
+                OkPressed = true;
                 
                 // Close dialog.
                 Application.RequestStop();

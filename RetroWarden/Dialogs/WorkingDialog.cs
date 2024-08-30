@@ -35,6 +35,7 @@ namespace Retrowarden.Dialogs
         public void Hide()
         {
             Application.RequestStop(_dialog);
+            _dialog.Dispose();
         }
 
         private void InitializeComponent()

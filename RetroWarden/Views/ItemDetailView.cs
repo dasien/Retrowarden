@@ -37,7 +37,7 @@ namespace Retrowarden.Views
             if (_subView != null)
             {
                 // Add subview to view.
-                scrMain.Add(_subView);
+                Add(_subView);
 
                 // Update location of 'footer' controls to below the particular detail view.
                 RelocateFooterControls();
@@ -145,7 +145,7 @@ namespace Retrowarden.Views
             btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
             
             // Refresh display
-            scrMain.SetNeedsDisplay();
+            SetNeedsDisplay();
         }
         
         protected virtual void UpdateItem()
@@ -229,7 +229,7 @@ namespace Retrowarden.Views
         {
             // Get Y values for control and scroll view
             int controlY = sender.Frame.Y;
-            int viewY = scrMain.Frame.Bottom;
+            int viewY = Frame.Bottom;
         
             // Check to see if we are lower than view.
             if (controlY > viewY)
@@ -237,7 +237,7 @@ namespace Retrowarden.Views
                 // Loop until we are in view.
                 while (controlY > viewY)
                 {
-                    scrMain.ScrollDown(5);
+                    ScrollVertical(5);
                     controlY--;
                 }
             }
@@ -248,7 +248,7 @@ namespace Retrowarden.Views
                 // Loop until we are in view.
                 while (controlY < viewY)
                 {
-                    scrMain.ScrollUp((5));
+                    ScrollVertical((-5));
                     controlY++;
                 }
             }

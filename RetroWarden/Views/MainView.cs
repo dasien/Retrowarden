@@ -78,14 +78,14 @@ namespace Retrowarden.Views
                         else
                         {
                             // GTFO.
-                            Environment.Exit(1);
+                            Shutdown(1);
                         }
                     }
 
                     else
                     {
                         // GTFO.
-                        Environment.Exit(1);
+                        Shutdown(1);
                     }
                 }
 
@@ -346,6 +346,21 @@ namespace Retrowarden.Views
             return retVal;
         }
 
+        private void Shutdown(int exitCode)
+        {
+            // Clear any clipboard contents.
+            Clipboard.TrySetClipboardData("");
+                
+            // Close application.
+            Application.RequestStop(this);
+            
+            // Call finializer.
+            Dispose();
+            
+            // Exit application.
+            Environment.Exit(exitCode);
+        }
+        
         #region UI Control Helpers
         private void SortListByName(object? sender, HandledEventArgs e)
         {
@@ -944,12 +959,8 @@ namespace Retrowarden.Views
                 // Execute task.
                 worker.Run();
                 
-                // Clear any clipboard contents.
-                Clipboard.TrySetClipboardData("");
-                
                 // Close application.
-                Application.RequestStop(this);
-                Environment.Exit(Environment.ExitCode);
+                Shutdown(0);
             }
         }
 

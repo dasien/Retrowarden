@@ -56,7 +56,7 @@ namespace Retrowarden.Dialogs
             // Create Ok button.
             Button okButton = new Button()
             {
-                X = 8, Y =6, Text = "_Connect"
+                X = 8, Y =6, Text = "_Connect", IsDefault = true
             };
             okButton.Accept += OkButton_Clicked;
 
@@ -64,7 +64,6 @@ namespace Retrowarden.Dialogs
             Button cancelButton = new Button()
             {
                 X = 24, Y = 6, Title = "Cance_l"
-                
             };
             cancelButton.Accept += CancelButton_Clicked;
 
@@ -77,13 +76,13 @@ namespace Retrowarden.Dialogs
             // Create labels.
             Label lblUserId = new Label()
             {
-                X = 3, Y = 2, Width = 10, Height = 1, CanFocus = true, Visible = true,
+                X = 3, Y = 2, Width = 10, Height = 1, CanFocus = false, Visible = true,
                 Text = "*User Id:"
             };
 
             Label lblPassword = new Label()
             {
-                X = 3, Y = 4, Width = 10, Height = 1, CanFocus = true, Visible = true,
+                X = 3, Y = 4, Width = 10, Height = 1, CanFocus = false, Visible = true,
                 Text = "*Password:"
             };
             

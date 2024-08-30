@@ -6,7 +6,6 @@ namespace Retrowarden.Views
 {
     public partial class ItemDetailView : Dialog 
     {
-        private ScrollView scrMain;
         private Label lblItemName;
         private Label lblFolder;
         private TextField txtItemName;
@@ -32,7 +31,6 @@ namespace Retrowarden.Views
             this.txtItemName = new TextField();
             this.lblFolder = new Label();
             this.lblItemName = new Label();
-            this.scrMain = new ScrollView();
             this.btnSave = new Button();
             this.btnCancel = new Button();
             this.fraCustomFieldList = new FrameView();
@@ -48,17 +46,6 @@ namespace Retrowarden.Views
             this.Border.BorderStyle = LineStyle.Single;
             this.TextAlignment = Alignment.Start;
             
-            this.scrMain.Width = Dim.Fill(0);
-            this.scrMain.Height = Dim.Fill(1);
-            this.scrMain.X = 0;
-            this.scrMain.Y = 1;
-            this.scrMain.Visible = true;
-            this.scrMain.Data = "scrMain";
-            this.scrMain.TextAlignment = Alignment.Start;
-            this.scrMain.ShowHorizontalScrollIndicator = false;
-            this.scrMain.AutoHideScrollBars = true;
-            this.Add(this.scrMain);
-            
             this.lblItemName.Width = 4;
             this.lblItemName.Height = 1;
             this.lblItemName.X = 1;
@@ -67,7 +54,7 @@ namespace Retrowarden.Views
             this.lblItemName.Data = "lblItemName";
             this.lblItemName.Text = "Name";
             this.lblItemName.TextAlignment = Alignment.Start;
-            this.scrMain.Add(this.lblItemName);
+            this.Add(this.lblItemName);
             
             this.lblFolder.Width = 4;
             this.lblFolder.Height = 1;
@@ -77,7 +64,7 @@ namespace Retrowarden.Views
             this.lblFolder.Data = "lblFolder";
             this.lblFolder.Text = "Folder";
             this.lblFolder.TextAlignment = Alignment.Start;
-            this.scrMain.Add(this.lblFolder);
+            this.Add(this.lblFolder);
             
             this.txtItemName.Width = 30;
             this.txtItemName.Height = 1;
@@ -89,7 +76,7 @@ namespace Retrowarden.Views
             this.txtItemName.Text = "";
             this.txtItemName.TextAlignment = Alignment.Start;
             this.txtItemName.Enter += (s,e) => HandleControlEnter(txtItemName);
-            this.scrMain.Add(this.txtItemName);
+            this.Add(this.txtItemName);
             
             this.cboFolder.Width = 30;
             this.cboFolder.Height = 5;
@@ -100,7 +87,7 @@ namespace Retrowarden.Views
             this.cboFolder.Text = "";
             this.cboFolder.TextAlignment = Alignment.Start;
             this.cboFolder.Enter += (s,e) => HandleControlEnter(cboFolder);
-            this.scrMain.Add(this.cboFolder);
+            this.Add(this.cboFolder);
             
             this.chkFavorite.Width = 10;
             this.chkFavorite.Height = 1;
@@ -112,7 +99,7 @@ namespace Retrowarden.Views
             this.chkFavorite.TextAlignment = Alignment.Start;
             this.chkFavorite.CheckedState = CheckState.UnChecked;
             this.chkFavorite.Enter += (s,e) => HandleControlEnter(chkFavorite);
-            this.scrMain.Add(this.chkFavorite);
+            this.Add(this.chkFavorite);
 
             this.chkReprompt.Width = 10;
             this.chkReprompt.Height = 1;
@@ -124,7 +111,7 @@ namespace Retrowarden.Views
             this.chkReprompt.TextAlignment = Alignment.Start;
             this.chkReprompt.CheckedState = CheckState.UnChecked;
             this.chkReprompt.Enter += (s,e) => HandleControlEnter(chkReprompt);
-            this.scrMain.Add(this.chkReprompt);
+            this.Add(this.chkReprompt);
 
             this.fraNotes.Width = 97;
             this.fraNotes.Height = 9;
@@ -137,7 +124,7 @@ namespace Retrowarden.Views
             this.fraNotes.TextAlignment = Alignment.Start;
             this.fraNotes.Title = "Notes";
             this.fraNotes.Enter += (s,e) => HandleControlEnter(fraNotes);
-            this.scrMain.Add(this.fraNotes);
+            this.Add(this.fraNotes);
             
             this.tvwNotes.Width = 95;
             this.tvwNotes.Height = 7;
@@ -166,7 +153,7 @@ namespace Retrowarden.Views
             this.fraCustomFieldList.TextAlignment = Alignment.Start;
             this.fraCustomFieldList.Title = "Custom Fields";
             this.fraCustomFieldList.Enter += (s,e) => HandleControlEnter(fraCustomFieldList);
-            this.scrMain.Add(this.fraCustomFieldList);
+            this.Add(this.fraCustomFieldList);
             
             this.btnNewCustomField.Width = 18;
             this.btnNewCustomField.Height = 1;
@@ -179,7 +166,7 @@ namespace Retrowarden.Views
             this.btnNewCustomField.IsDefault = false;
             this.btnNewCustomField.Accept += NewCustomFieldButtonClicked;
             this.btnNewCustomField.Enter += (s,e) => HandleControlEnter(btnNewCustomField);
-            this.scrMain.Add(this.btnNewCustomField);
+            this.Add(this.btnNewCustomField);
 
             this.btnSave.Width = 8;
             this.btnSave.Height = 1;
@@ -192,7 +179,7 @@ namespace Retrowarden.Views
             this.btnSave.IsDefault = false;
             this.btnSave.Accept += SaveButtonClicked;
             this.btnSave.Enter += (s,e) => HandleControlEnter(btnSave);
-            this.scrMain.Add(btnSave);
+            this.Add(btnSave);
             
             this.btnCancel.Width = 8;
             this.btnCancel.Height = 1;
@@ -205,7 +192,7 @@ namespace Retrowarden.Views
             this.btnCancel.IsDefault = false;
             this.btnCancel.Accept += CancelButtonClicked;
             this.btnCancel.Enter += (s,e) => HandleControlEnter(btnCancel);
-            this.scrMain.Add(btnCancel);
+            this.Add(btnCancel);
             
             this.stbDetail.Width = Dim.Fill(0);
             this.stbDetail.Height = 1;

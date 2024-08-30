@@ -7,6 +7,7 @@ namespace Retrowarden.Dialogs
         // Controls.
         private Label? _message;
         private readonly string? _messageText;
+        private object? _timerToken;
         
         public SplashDialog(string? message)
         {
@@ -18,13 +19,15 @@ namespace Retrowarden.Dialogs
 
         public new void Show()
         {
-            Application.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
+            _timerToken = Application.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
             Application.Run(_dialog);
         }
 
         private bool Hide()
         {
+            Application.RemoveTimeout(_timerToken);
             Application.RequestStop(_dialog);
+            _dialog.Dispose();
             return false;
         }
 
