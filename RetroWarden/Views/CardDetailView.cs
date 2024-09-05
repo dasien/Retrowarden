@@ -11,11 +11,8 @@ namespace Retrowarden.Views
         private ObservableCollection<CodeListItem> _cardBrands;
         private ObservableCollection<CodeListItem> _expMonths;
         
-        // This sizes the underlying view appropriately.
-        private const int scrollBottom = 33;
-
         public CardDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
-            : base (item, folders, state, scrollBottom)
+            : base (item, folders, state)
         {
             // Create members.
             _cardBrands = new ObservableCollection<CodeListItem>();

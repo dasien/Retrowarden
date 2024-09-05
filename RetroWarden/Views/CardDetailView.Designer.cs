@@ -43,188 +43,129 @@ namespace Retrowarden.Views
             this.lblCardBrand = new Label();
             this.lblCardholderName = new Label();
             
-            vwCard.Width = 99;
-            vwCard.Height = 9;
-            vwCard.X = 0;
-            vwCard.Y = 3;
-            vwCard.Visible = true;
-            vwCard.TextAlignment = Alignment.Start;
-                       
-            this.lblCardholderName.Width = 4;
-            this.lblCardholderName.Height = 1;
-            this.lblCardholderName.X = 1;
-            this.lblCardholderName.Y = 0;
-            this.lblCardholderName.Visible = true;
-            this.lblCardholderName.Data = "lblCardholderName";
-            this.lblCardholderName.Text = "Cardholder Name";
-            this.lblCardholderName.TextAlignment = Alignment.Start;
+            vwCard = new View
+            {
+                Width = 99, Height = 9, X = 0, Y = 3, Visible = true, TextAlignment = Alignment.Start
+            };                      
+            
+            this.lblCardholderName = new Label
+            {
+                Width = 16, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblCardholderName", Text = "Cardholder Name",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.lblCardholderName);
-            
-            this.lblCardBrand.Width = 4;
-            this.lblCardBrand.Height = 1;
-            this.lblCardBrand.X = 40;
-            this.lblCardBrand.Y = 0;
-            this.lblCardBrand.Visible = true;
-            this.lblCardBrand.Data = "lblCardBrand";
-            this.lblCardBrand.Text = "Card Brand";
-            this.lblCardBrand.TextAlignment = Alignment.Start;
+
+            this.lblCardBrand = new Label
+            {
+                Width = 12, Height = 1, X = 40, Y = 0, Visible = true, Data = "lblCardBrand", Text = "Card Brand",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.lblCardBrand);
-           
-            this.txtCardholderName.Width = 30;
-            this.txtCardholderName.Height = 1;
-            this.txtCardholderName.X = 1;
-            this.txtCardholderName.Y = 1;
-            this.txtCardholderName.Visible = true;
-            this.txtCardholderName.Secret = false;
-            this.txtCardholderName.Data = "txtCardholderName";
-            this.txtCardholderName.Text = "";
-            this.txtCardholderName.TextAlignment = Alignment.Start;
-            this.txtCardholderName.Enter += (s,e) => HandleControlEnter(txtCardholderName);
+
+            this.txtCardholderName = new TextField
+            {
+                Width = 30, Height = 1, X = 1, Y = 1, Visible = true, Secret = false, Data = "txtCardholderName", Text = "",
+                TextAlignment = Alignment.Start
+            };
+            this.txtCardholderName.Enter += (s, e) => HandleControlEnter(txtCardholderName);
             vwCard.Add(this.txtCardholderName);
-            
-            this.cboCardBrand.Width = 30;
-            this.cboCardBrand.Height = 5;
-            this.cboCardBrand.X = 40;
-            this.cboCardBrand.Y = 1;
-            this.cboCardBrand.Visible = true;
-            this.cboCardBrand.Data = "cboCardBrand";
-            this.cboCardBrand.Text = "";
-            this.cboCardBrand.TextAlignment = Alignment.Start;
+
+            this.cboCardBrand = new ComboBox
+            {
+                Width = 30, Height = 5, X = 40, Y = 1, Visible = true, Data = "cboCardBrand", Text = "",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.cboCardBrand);
-            
-            this.lblCardNumber.Width = 4;
-            this.lblCardNumber.Height = 1;
-            this.lblCardNumber.X = 1;
-            this.lblCardNumber.Y = 3;
-            this.lblCardNumber.Visible = true;
-            this.lblCardNumber.Data = "lblCardNumber";
-            this.lblCardNumber.Text = "Card Number";
-            this.lblCardNumber.TextAlignment = Alignment.Start;
+
+            this.lblCardNumber = new Label
+            {
+                Width = 12, Height = 1, X = 1, Y = 3, Visible = true, Data = "lblCardNumber", Text = "Card Number",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.lblCardNumber);
-            
-            this.lblCVV.Width = 4;
-            this.lblCVV.Height = 1;
-            this.lblCVV.X = 40;
-            this.lblCVV.Y = 3;
-            this.lblCVV.Visible = true;
-            this.lblCVV.Data = "lblCVV";
-            this.lblCVV.Text = "Security Code";
-            this.lblCVV.TextAlignment = Alignment.Start;
+
+            this.lblCVV = new Label
+            {
+                Width = 14, Height = 1, X = 40, Y = 3, Visible = true, Data = "lblCVV", Text = "Security Code",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.lblCVV);
-           
-            this.txtCardNumber.Width = 18;
-            this.txtCardNumber.Height = 1;
-            this.txtCardNumber.X = 1;
-            this.txtCardNumber.Y = 4;
-            this.txtCardNumber.Visible = true;
-            this.txtCardNumber.Secret = true;
-            this.txtCardNumber.Data = "txtCardNumber";
-            this.txtCardNumber.Text = "";
-            this.txtCardNumber.TextAlignment = Alignment.Start;
-            this.txtCardNumber.Enter += (s,e) => HandleControlEnter(txtCardNumber);
+
+            this.txtCardNumber = new TextField
+            {
+                Width = 18, Height = 1, X = 1, Y = 4, Visible = true, Secret = true, Data = "txtCardNumber", Text = "",
+                TextAlignment = Alignment.Start
+            };
+            this.txtCardNumber.Enter += (s, e) => HandleControlEnter(txtCardNumber);
             vwCard.Add(this.txtCardNumber);
-            
-            this.btnShowCardNumber.Width = 8;
-            this.btnShowCardNumber.Height = 1;
-            this.btnShowCardNumber.X = 20;
-            this.btnShowCardNumber.Y = 4;
-            this.btnShowCardNumber.Visible = true;
-            this.btnShowCardNumber.Data = "btnShowCardNumber";
-            this.btnShowCardNumber.Text = "Show";
-            this.btnShowCardNumber.TextAlignment = Alignment.Center;
-            this.btnShowCardNumber.IsDefault = false;
+
+            this.btnShowCardNumber = new Button
+            {
+                Width = 8, Height = 1, X = 20, Y = 4, Visible = true, Data = "btnShowCardNumber", Text = "Show",
+                TextAlignment = Alignment.Center, IsDefault = false
+            };
             this.btnShowCardNumber.Accept += ShowCardButtonClicked;
             vwCard.Add(this.btnShowCardNumber);
-            
-            this.btnCopyCardNumber.Width = 8;
-            this.btnCopyCardNumber.Height = 1;
-            this.btnCopyCardNumber.X = 29;
-            this.btnCopyCardNumber.Y = 4;
-            this.btnCopyCardNumber.Visible = true;
-            this.btnCopyCardNumber.Data = "btnCopyCardNumber";
-            this.btnCopyCardNumber.Text = "Copy";
-            this.btnCopyCardNumber.TextAlignment = Alignment.Center;
-            this.btnCopyCardNumber.IsDefault = false;
+
+            this.btnCopyCardNumber = new Button
+            {
+                Width = 8, Height = 1, X = 29, Y = 4, Visible = true, Data = "btnCopyCardNumber", Text = "Copy",
+                TextAlignment = Alignment.Center, IsDefault = false
+            };
             this.btnCopyCardNumber.Accept += CopyCardButtonClicked;
             vwCard.Add(this.btnCopyCardNumber);
-            
-            this.txtCVV.Width = 16;
-            this.txtCVV.Height = 1;
-            this.txtCVV.X = 40;
-            this.txtCVV.Y = 4;
-            this.txtCVV.Visible = true;
-            this.txtCVV.Secret = true;
-            this.txtCVV.Data = "txtCVV";
-            this.txtCVV.Text = "";
-            this.txtCVV.TextAlignment = Alignment.Start;
-            this.txtCVV.Enter += (s,e) => HandleControlEnter(txtCVV);
+
+            this.txtCVV = new TextField
+            {
+                Width = 16, Height = 1, X = 40, Y = 4, Visible = true, Secret = true, Data = "txtCVV", Text = "",
+                TextAlignment = Alignment.Start
+            };
+            this.txtCVV.Enter += (s, e) => HandleControlEnter(txtCVV);
             vwCard.Add(this.txtCVV);
-            
-            this.btnShowCVV.Width = 8;
-            this.btnShowCVV.Height = 1;
-            this.btnShowCVV.X = 57;
-            this.btnShowCVV.Y = 4;
-            this.btnShowCVV.Visible = true;
-            this.btnShowCVV.Data = "btnShowCVV";
-            this.btnShowCVV.Text = "Show";
-            this.btnShowCVV.TextAlignment = Alignment.Center;
-            this.btnShowCVV.IsDefault = false;
+
+            this.btnShowCVV = new Button
+            {
+                Width = 8, Height = 1, X = 57, Y = 4, Visible = true, Data = "btnShowCVV", Text = "Show",
+                TextAlignment = Alignment.Center, IsDefault = false
+            };
             this.btnShowCVV.Accept += ShowCVVButtonClicked;
             vwCard.Add(this.btnShowCVV);
-            
-            this.btnCopyCVV.Width = 8;
-            this.btnCopyCVV.Height = 1;
-            this.btnCopyCVV.X = 66;
-            this.btnCopyCVV.Y = 4;
-            this.btnCopyCVV.Visible = true;
-            this.btnCopyCVV.Data = "btnCopyCVV";
-            this.btnCopyCVV.Text = "Copy";
-            this.btnCopyCVV.TextAlignment = Alignment.Center;
-            this.btnCopyCVV.IsDefault = false;
+
+            this.btnCopyCVV = new Button
+            {
+                Width = 8, Height = 1, X = 66, Y = 4, Visible = true, Data = "btnCopyCVV", Text = "Copy",
+                TextAlignment = Alignment.Center, IsDefault = false
+            };
             this.btnCopyCVV.Accept += CopyCVVButtonClicked;
             vwCard.Add(this.btnCopyCVV);
-            
-            this.lblExpMonth.Width = 4;
-            this.lblExpMonth.Height = 1;
-            this.lblExpMonth.X = 1;
-            this.lblExpMonth.Y = 6;
-            this.lblExpMonth.Visible = true;
-            this.lblExpMonth.Data = "lblExpMonth";
-            this.lblExpMonth.Text = "Expiration Month";
-            this.lblExpMonth.TextAlignment = Alignment.Start;
+
+            this.lblExpMonth = new Label
+            {
+                Width = 16, Height = 1, X = 1, Y = 6, Visible = true, Data = "lblExpMonth", Text = "Expiration Month",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.lblExpMonth);
-            
-            this.lblExpYear.Width = 4;
-            this.lblExpYear.Height = 1;
-            this.lblExpYear.X = 40;
-            this.lblExpYear.Y = 6;
-            this.lblExpYear.Visible = true;
-            this.lblExpYear.Data = "lblExpYear";
-            this.lblExpYear.Text = "Expiration Year";
-            this.lblExpYear.TextAlignment = Alignment.Start;
+
+            this.lblExpYear = new Label
+            {
+                Width = 16, Height = 1, X = 40, Y = 6, Visible = true, Data = "lblExpYear", Text = "Expiration Year",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.lblExpYear);
-            
-            this.cboExpMonth.Width = 30;
-            this.cboExpMonth.Height = 5;
-            this.cboExpMonth.X = 1;
-            this.cboExpMonth.Y = 7;
-            this.cboExpMonth.Visible = true;
-            this.cboExpMonth.Data = "cboExpMonth";
-            this.cboExpMonth.Text = "";
-            this.cboExpMonth.TextAlignment = Alignment.Start;
+
+            this.cboExpMonth = new ComboBox
+            {
+                Width = 30, Height = 5, X = 1, Y = 7, Visible = true, Data = "cboExpMonth", Text = "",
+                TextAlignment = Alignment.Start
+            };
             vwCard.Add(this.cboExpMonth);
-            
-            this.txtExpYear.Width = 20;
-            this.txtExpYear.Height = 1;
-            this.txtExpYear.X = 40;
-            this.txtExpYear.Y = 7;
-            this.txtExpYear.Visible = true;
-            this.txtExpYear.Secret = false;
-            this.txtExpYear.Data = "txtExpYear";
-            this.txtExpYear.Text = "";
-            this.txtExpYear.TextAlignment = Alignment.Start;
-            this.txtExpYear.Enter += (s,e) => HandleControlEnter(txtExpYear);
-            vwCard.Add(this.txtExpYear);
-        }
+
+            this.txtExpYear = new TextField
+            {
+                Width = 20, Height = 1, X = 40, Y = 7, Visible = true, Secret = false, Data = "txtExpYear", Text = "",
+                TextAlignment = Alignment.Start
+            };
+            this.txtExpYear.Enter += (s, e) => HandleControlEnter(txtExpYear);
+            vwCard.Add(this.txtExpYear);        }
     }
 }

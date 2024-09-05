@@ -15,7 +15,7 @@ namespace Retrowarden.Views
         protected readonly VaultItemDetailViewState _viewState;
         private bool _okPressed;
         
-        protected ItemDetailView(VaultItem? item, List<VaultFolder> folders, VaultItemDetailViewState state, int scrollBottom) 
+        protected ItemDetailView(VaultItem? item, List<VaultFolder> folders, VaultItemDetailViewState state) 
         {
             // Set private variables.
             _item = item == null ? new VaultItem() : item;
@@ -23,7 +23,7 @@ namespace Retrowarden.Views
             _folders = folders;
             _okPressed = false;
             
-            InitializeComponent(scrollBottom);
+            InitializeComponent();
         }
         
         public void Show()

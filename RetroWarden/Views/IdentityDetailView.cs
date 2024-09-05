@@ -10,11 +10,8 @@ namespace Retrowarden.Views
     {
         private ObservableCollection<CodeListItem> _titles;
         
-        // This sizes the underlying view appropriately.
-        private const int scrollBottom = 49;
-
         public IdentityDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
-            : base (item, folders, state, scrollBottom)
+            : base (item, folders, state)
         {
             // Create members.
             _titles = new ObservableCollection<CodeListItem>();

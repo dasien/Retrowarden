@@ -54,8 +54,8 @@ namespace Retrowarden.Views
 
             this.lblTitle = new Label
             {
-                Width = 3, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblTitle", Text = "Title", 
-                TextAlignment = Alignment.Start
+                Width = 6, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblTitle", Text = "Title", 
+                TextAlignment = Alignment.Start, CanFocus = false
             }; 
             vwIdentity.Add(this.lblTitle);
 
@@ -68,22 +68,22 @@ namespace Retrowarden.Views
 
             this.lblFirstName = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 3, Visible = true, Data = "lblFirstName", Text = "First Name", 
-                TextAlignment = Alignment.Start
+                Width = 12, Height = 1, X = 1, Y = 3, Visible = true, Data = "lblFirstName", Text = "First Name", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblFirstName);
 
             this.lblMiddleName = new Label
             {
-                Width = 4, Height = 1, X = 33, Y = 3, Visible = true, Data = "lblMiddleName", Text = "Middle Name", 
-                TextAlignment = Alignment.Start
+                Width = 12, Height = 1, X = 33, Y = 3, Visible = true, Data = "lblMiddleName", Text = "Middle Name", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblMiddleName);
 
             this.lblLastName = new Label
             {
-                Width = 4, Height = 1, X = 65, Y = 3, Visible = true, Data = "lblLastName", Text = "Last Name", 
-                TextAlignment = Alignment.Start
+                Width = 12, Height = 1, X = 65, Y = 3, Visible = true, Data = "lblLastName", Text = "Last Name", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblLastName);
             
@@ -113,22 +113,22 @@ namespace Retrowarden.Views
             
             this.lblSSN = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 6, Visible = true, Data = "lblSSN", Text = "Social Security Number",
-                TextAlignment = Alignment.Start
+                Width = 22, Height = 1, X = 1, Y = 6, Visible = true, Data = "lblSSN", Text = "Social Security Number",
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblSSN);
 
             this.lblPassportNumber = new Label
             {
                 Width = 30, Height = 1, X = 33, Y = 6, Visible = true, Data = "lblPassportNumber", Text = "Passport Number",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblPassportNumber);
 
             this.lblLicenseNumber = new Label
             {
-                Width = 4, Height = 1, X = 65, Y = 6, Visible = true, Data = "lblLicenseNumber", Text = "License Number",
-                TextAlignment = Alignment.Start
+                Width = 20, Height = 1, X = 65, Y = 6, Visible = true, Data = "lblLicenseNumber", Text = "License Number",
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblLicenseNumber);
             
@@ -159,21 +159,21 @@ namespace Retrowarden.Views
             this.lineView2 = new LineView
             {
                 Width = 94, Height = 3, X = 1, Y = 9, Visible = true, Data = "lineView2", TextAlignment = Alignment.Start,
-                LineRune = new Rune('─'), Orientation = Orientation.Horizontal
+                LineRune = new Rune('─'), Orientation = Orientation.Horizontal, CanFocus = false
             };
             vwIdentity.Add(this.lineView2);
 
             this.lineView = new LineView
             {
                 Width = 1, Height = 15, X = 47, Y = 9, Visible = true, Data = "lineView", TextAlignment = Alignment.Start,
-                LineRune = new Rune('│'), Orientation = Orientation.Vertical
+                LineRune = new Rune('│'), Orientation = Orientation.Vertical, CanFocus = false
             };
             vwIdentity.Add(this.lineView);
 
             this.lblAddress1 = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 10, Visible = true, Data = "lblAddress1", Text = "Address 1", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 1, Y = 10, Visible = true, Data = "lblAddress1", Text = "Address 1", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblAddress1);
 
@@ -187,8 +187,8 @@ namespace Retrowarden.Views
 
             this.lblAddress2 = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 13, Visible = true, Data = "lblAddress2", Text = "Address 2", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 1, Y = 13, Visible = true, Data = "lblAddress2", Text = "Address 2", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblAddress2);
 
@@ -202,8 +202,8 @@ namespace Retrowarden.Views
 
             this.lblAddress3 = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 16, Visible = true, Data = "lblAddress3", Text = "Address 3", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 1, Y = 16, Visible = true, Data = "lblAddress3", Text = "Address 3", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblAddress3);
 
@@ -217,15 +217,15 @@ namespace Retrowarden.Views
 
             this.lblCity = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 19, Visible = true, Data = "lblCity", Text = "City / Town", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 1, Y = 19, Visible = true, Data = "lblCity", Text = "City / Town", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblCity);
 
             this.lblState = new Label
             {
-                Width = 4, Height = 1, X = 25, Y = 19, Visible = true, Data = "lblState", Text = "State / Province", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 25, Y = 19, Visible = true, Data = "lblState", Text = "State / Province", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblState);
 
@@ -247,15 +247,15 @@ namespace Retrowarden.Views
 
             this.lblZipCode = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 22, Visible = true, Data = "lblZipCode", Text = "Zip / Postal Code", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 1, Y = 22, Visible = true, Data = "lblZipCode", Text = "Zip / Postal Code", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblZipCode);
 
             this.lblCountry = new Label
             {
-                Width = 4, Height = 1, X = 25, Y = 22, Visible = true, Data = "lblCountry", Text = "Country", 
-                TextAlignment = Alignment.Start
+                Width = 12, Height = 1, X = 25, Y = 22, Visible = true, Data = "lblCountry", Text = "Country", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblCountry);
 
@@ -277,8 +277,8 @@ namespace Retrowarden.Views
 
             this.lblUserName = new Label
             {
-                Width = 10, Height = 1, X = 49, Y = 10, Visible = true, Data = "lblUserName", Text = "User Name", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 49, Y = 10, Visible = true, Data = "lblUserName", Text = "User Name", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblUserName);
 
@@ -292,8 +292,8 @@ namespace Retrowarden.Views
 
             this.lblCompany = new Label
             {
-                Width = 4, Height = 1, X = 49, Y = 13, Visible = true, Data = "lblCompany", Text = "Company", 
-                TextAlignment = Alignment.Start
+                Width =12, Height = 1, X = 49, Y = 13, Visible = true, Data = "lblCompany", Text = "Company", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblCompany);
 
@@ -307,8 +307,8 @@ namespace Retrowarden.Views
 
             this.lblEmail = new Label
             {
-                Width = 4, Height = 1, X = 49, Y = 16, Visible = true, Data = "lblEmail", Text = "Email Address", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 49, Y = 16, Visible = true, Data = "lblEmail", Text = "Email Address", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblEmail);
 
@@ -322,8 +322,8 @@ namespace Retrowarden.Views
 
             this.lblPhone = new Label
             {
-                Width = 1, Height = 1, X = 49, Y = 19, Visible = true, Data = "lblPhone", Text = "Phone Number", 
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 49, Y = 19, Visible = true, Data = "lblPhone", Text = "Phone Number", 
+                TextAlignment = Alignment.Start, CanFocus = false
             };
             vwIdentity.Add(this.lblPhone);
 

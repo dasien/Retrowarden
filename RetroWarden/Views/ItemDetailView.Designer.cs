@@ -21,7 +21,7 @@ namespace Retrowarden.Views
         private CustomFieldScrollView scrCustomFields;
         private StatusBar stbDetail;
         
-        private void InitializeComponent(int scrollBottom) 
+        private void InitializeComponent() 
         {
             this.Width = Dim.Percent(85);
             this.Height = Dim.Percent(85);
@@ -34,14 +34,14 @@ namespace Retrowarden.Views
 
             this.lblItemName = new Label
             {
-                Width = 4, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblItemName", Text = "Name",
+                Width = 8, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblItemName", Text = "Name",
                 TextAlignment = Alignment.Start
             };
             this.Add(this.lblItemName);
 
             this.lblFolder = new Label
             {
-                Width = 4, Height = 1, X = 40, Y = 0, Visible = true, Data = "lblFolder", Text = "Folder",
+                Width = 8, Height = 1, X = 40, Y = 0, Visible = true, Data = "lblFolder", Text = "Folder",
                 TextAlignment = Alignment.Start
             };
             this.Add(this.lblFolder);
@@ -71,7 +71,7 @@ namespace Retrowarden.Views
 
             this.chkReprompt = new CheckBox
             {
-                Width = 10, Height = 1, X = 77, Y = 1, Visible = true, Data = "chkReprompt", Text = "Require Reprompt",
+                Width = 18, Height = 1, X = 77, Y = 1, Visible = true, Data = "chkReprompt", Text = "Require Reprompt",
                 TextAlignment = Alignment.Start, CheckedState = CheckState.UnChecked
             };
             this.chkReprompt.Enter += (s, e) => HandleControlEnter(chkReprompt);

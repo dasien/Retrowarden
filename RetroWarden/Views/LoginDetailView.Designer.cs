@@ -30,7 +30,7 @@ namespace Retrowarden.Views
             
             this.btnNewURI = new Button()
             {
-                Width = 8, Height = 1, X = 1, Y = 13, Visible = true, Data = "btnNewURI",
+                Width = 12, Height = 1, X = 1, Y = 13, Visible = true, Data = "btnNewURI",
                 Text = "New URI", TextAlignment = Alignment.Center, IsDefault = false
             };
             this.btnNewURI.Accept += NewUriButtonClicked;
@@ -51,7 +51,7 @@ namespace Retrowarden.Views
             
             this.lblTOTP = new Label()
             {
-                Width = 4, Height = 1, X = 1, Y = 3, Visible = true, CanFocus = false,
+                Width = 24, Height = 1, X = 1, Y = 3, Visible = true, CanFocus = false,
                 Data = "lblTOTP", Text = "Authenticator Key (TOTP)", TextAlignment = Alignment.Start
             };
             
@@ -99,13 +99,13 @@ namespace Retrowarden.Views
 
             this.lblPassword = new Label()
             {
-                Width = 4, Height = 1, X = 40, Y = 0, Visible = true, CanFocus = false,
+                Width = 8, Height = 1, X = 40, Y = 0, Visible = true, CanFocus = false,
                 Data = "lblPassword", Text = "Password", TextAlignment = Alignment.Start,
             };
 
             this.lblUserName = new Label()
             {
-                Width = 4, Height = 1, X = 1, Y = 0, Visible = true, CanFocus = false,
+                Width = 8, Height = 1, X = 1, Y = 0, Visible = true, CanFocus = false,
                 Data = "lblUserName", Text = "Username", TextAlignment = Alignment.Start
             };
             

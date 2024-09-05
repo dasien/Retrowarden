@@ -107,14 +107,18 @@ namespace Retrowarden.Controls
             
             // Set the source for the combobox.
             cboMatchUri.SetSource(_matchTypes);
-            
-            // Set the match combo source and selected item to uri match or "Default" as a null default.
-            cboMatchUri.SelectedItem = _matchTypes.IndexOf(_matchTypes.First(o => Convert.ToInt32(o.Index) == match));
-            
+
             // This is a hack because for some reason we love to allow "null" in lists as a default value. :/ 
             if (match == null)
             {
                 cboMatchUri.SelectedItem = _matchTypes.IndexOf(_matchTypes.First(o => o.Index == null));
+            }
+
+            else
+            {
+                // Set the match combo source and selected item to uri match.
+                cboMatchUri.SelectedItem =
+                    _matchTypes.IndexOf(_matchTypes.First(o => Convert.ToInt32(o.Index) == match));
             }
 
             // Create event handlers for the buttons.
