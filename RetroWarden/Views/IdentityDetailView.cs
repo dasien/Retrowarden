@@ -41,7 +41,7 @@ namespace Retrowarden.Views
             base.SetupView();
             
             // Set tab order.
-            SetTabOrder();
+            //SetTabOrder();
 
             // Set focus to first field.
             SetItemNameControlFocus();
@@ -114,7 +114,7 @@ namespace Retrowarden.Views
             base.UpdateItem();
         }
 
-        protected override void SetTabOrder()
+        /*protected override void SetTabOrder()
         {
             cboTitle.TabIndex = 0;
             txtFirstName.TabIndex = 1;
@@ -134,7 +134,7 @@ namespace Retrowarden.Views
             txtCompany.TabIndex = 15;
             txtEmailAddress.TabIndex = 16;
             txtPhoneNumber.TabIndex = 17;
-        }
+        }*/
         
         #region Event Handlers
         protected override void SaveButtonClicked(object? sender, HandledEventArgs e)

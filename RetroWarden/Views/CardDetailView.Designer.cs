@@ -45,13 +45,14 @@ namespace Retrowarden.Views
             
             vwCard = new View
             {
-                Width = 99, Height = 9, X = 0, Y = 3, Visible = true, TextAlignment = Alignment.Start
+                Width = 99, Height = 9, X = 0, Y = 3, Visible = true, 
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabGroup
             };                      
             
             this.lblCardholderName = new Label
             {
-                Width = 16, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblCardholderName", Text = "Cardholder Name",
-                TextAlignment = Alignment.Start
+                Width = 16, Height = 1, X = 1, Y = 0, Visible = true, 
+                Data = "lblCardholderName", Text = "Cardholder Name", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             vwCard.Add(this.lblCardholderName);
 
@@ -65,15 +66,15 @@ namespace Retrowarden.Views
             this.txtCardholderName = new TextField
             {
                 Width = 30, Height = 1, X = 1, Y = 1, Visible = true, Secret = false, Data = "txtCardholderName", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtCardholderName.Enter += (s, e) => HandleControlEnter(txtCardholderName);
+            //this.txtCardholderName.Enter += (s, e) => HandleControlEnter(txtCardholderName);
             vwCard.Add(this.txtCardholderName);
 
             this.cboCardBrand = new ComboBox
             {
                 Width = 30, Height = 5, X = 40, Y = 1, Visible = true, Data = "cboCardBrand", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             vwCard.Add(this.cboCardBrand);
 
@@ -94,15 +95,15 @@ namespace Retrowarden.Views
             this.txtCardNumber = new TextField
             {
                 Width = 18, Height = 1, X = 1, Y = 4, Visible = true, Secret = true, Data = "txtCardNumber", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtCardNumber.Enter += (s, e) => HandleControlEnter(txtCardNumber);
+            //this.txtCardNumber.Enter += (s, e) => HandleControlEnter(txtCardNumber);
             vwCard.Add(this.txtCardNumber);
 
             this.btnShowCardNumber = new Button
             {
                 Width = 8, Height = 1, X = 20, Y = 4, Visible = true, Data = "btnShowCardNumber", Text = "Show",
-                TextAlignment = Alignment.Center, IsDefault = false
+                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnShowCardNumber.Accept += ShowCardButtonClicked;
             vwCard.Add(this.btnShowCardNumber);
@@ -110,7 +111,7 @@ namespace Retrowarden.Views
             this.btnCopyCardNumber = new Button
             {
                 Width = 8, Height = 1, X = 29, Y = 4, Visible = true, Data = "btnCopyCardNumber", Text = "Copy",
-                TextAlignment = Alignment.Center, IsDefault = false
+                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnCopyCardNumber.Accept += CopyCardButtonClicked;
             vwCard.Add(this.btnCopyCardNumber);
@@ -118,15 +119,15 @@ namespace Retrowarden.Views
             this.txtCVV = new TextField
             {
                 Width = 16, Height = 1, X = 40, Y = 4, Visible = true, Secret = true, Data = "txtCVV", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtCVV.Enter += (s, e) => HandleControlEnter(txtCVV);
+            //this.txtCVV.Enter += (s, e) => HandleControlEnter(txtCVV);
             vwCard.Add(this.txtCVV);
 
             this.btnShowCVV = new Button
             {
                 Width = 8, Height = 1, X = 57, Y = 4, Visible = true, Data = "btnShowCVV", Text = "Show",
-                TextAlignment = Alignment.Center, IsDefault = false
+                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnShowCVV.Accept += ShowCVVButtonClicked;
             vwCard.Add(this.btnShowCVV);
@@ -134,7 +135,7 @@ namespace Retrowarden.Views
             this.btnCopyCVV = new Button
             {
                 Width = 8, Height = 1, X = 66, Y = 4, Visible = true, Data = "btnCopyCVV", Text = "Copy",
-                TextAlignment = Alignment.Center, IsDefault = false
+                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnCopyCVV.Accept += CopyCVVButtonClicked;
             vwCard.Add(this.btnCopyCVV);
@@ -156,16 +157,16 @@ namespace Retrowarden.Views
             this.cboExpMonth = new ComboBox
             {
                 Width = 30, Height = 5, X = 1, Y = 7, Visible = true, Data = "cboExpMonth", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             vwCard.Add(this.cboExpMonth);
 
             this.txtExpYear = new TextField
             {
                 Width = 20, Height = 1, X = 40, Y = 7, Visible = true, Secret = false, Data = "txtExpYear", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtExpYear.Enter += (s, e) => HandleControlEnter(txtExpYear);
+            //this.txtExpYear.Enter += (s, e) => HandleControlEnter(txtExpYear);
             vwCard.Add(this.txtExpYear);        }
     }
 }

@@ -49,7 +49,8 @@ namespace Retrowarden.Views
         {
             vwIdentity = new View 
             {
-                Width = 99, Height = 25, X = 0, Y = 3, Visible = true, TextAlignment = Alignment.Start
+                Width = 99, Height = 25, X = 0, Y = 3, Visible = true, TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabGroup
             };
 
             this.lblTitle = new Label
@@ -62,7 +63,7 @@ namespace Retrowarden.Views
             this.cboTitle = new ComboBox
             {
                 Width = 23, Height = 5, X = 1, Y = 1, Visible = true, Data = "cboTitle", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             vwIdentity.Add(this.cboTitle);
 
@@ -90,25 +91,25 @@ namespace Retrowarden.Views
             this.txtFirstName = new TextField
             {
                 Width = 30, Height = 1, X = 1, Y = 4, Visible = true, Secret = false, Data = "txtFirstName", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtFirstName.Enter += (s, e) => HandleControlEnter(txtFirstName);
+            //this.txtFirstName.Enter += (s, e) => HandleControlEnter(txtFirstName);
             vwIdentity.Add(this.txtFirstName);
 
             this.txtMiddleName = new TextField
             {
                 Width = 30, Height = 1, X = 33, Y = 4, Visible = true, Secret = false, Data = "txtMiddleName", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtMiddleName.Enter += (s, e) => HandleControlEnter(txtMiddleName);
+            //this.txtMiddleName.Enter += (s, e) => HandleControlEnter(txtMiddleName);
             vwIdentity.Add(this.txtMiddleName);
 
             this.txtLastName = new TextField
             {
                 Width = 30, Height = 1, X = 65, Y = 4, Visible = true, Secret = false, Data = "txtLastName", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtLastName.Enter += (s, e) => HandleControlEnter(txtLastName);
+            //this.txtLastName.Enter += (s, e) => HandleControlEnter(txtLastName);
             vwIdentity.Add(this.txtLastName);
             
             this.lblSSN = new Label
@@ -135,25 +136,25 @@ namespace Retrowarden.Views
             this.txtSSN = new TextField
             {
                 Width = 30, Height = 1, X = 1, Y = 7, Visible = true, Secret = false, Data = "txtSSN", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtSSN.Enter += (s, e) => HandleControlEnter(txtSSN);
+            //this.txtSSN.Enter += (s, e) => HandleControlEnter(txtSSN);
             vwIdentity.Add(this.txtSSN);
 
             this.txtPassportNumber = new TextField
             {
                 Width = 30, Height = 1, X = 33, Y = 7, Visible = true, Secret = false, Data = "txtPassportNumber", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtPassportNumber.Enter += (s, e) => HandleControlEnter(txtPassportNumber);
+            //this.txtPassportNumber.Enter += (s, e) => HandleControlEnter(txtPassportNumber);
             vwIdentity.Add(this.txtPassportNumber);
 
             this.txtLicenseNumber = new TextField
             {
                 Width = 30, Height = 1, X = 65, Y = 7, Visible = true, Secret = false, Data = "txtLicenseNumber", Text = "",
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtLicenseNumber.Enter += (s, e) => HandleControlEnter(txtLicenseNumber);
+            //this.txtLicenseNumber.Enter += (s, e) => HandleControlEnter(txtLicenseNumber);
             vwIdentity.Add(this.txtLicenseNumber);
             
             this.lineView2 = new LineView
@@ -180,9 +181,9 @@ namespace Retrowarden.Views
             this.txtAddress1 = new TextField
             {
                 Width = 45, Height = 1, X = 1, Y = 11, Visible = true, Secret = false, Data = "txtAddress1", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtAddress1.Enter += (s, e) => HandleControlEnter(txtAddress1);
+            //this.txtAddress1.Enter += (s, e) => HandleControlEnter(txtAddress1);
             vwIdentity.Add(this.txtAddress1);
 
             this.lblAddress2 = new Label
@@ -195,9 +196,9 @@ namespace Retrowarden.Views
             this.txtAddress2 = new TextField
             {
                 Width = 45, Height = 2, X = 1, Y = 14, Visible = true, Secret = false, Data = "txtAddress2", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtAddress2.Enter += (s, e) => HandleControlEnter(txtAddress2);
+            //this.txtAddress2.Enter += (s, e) => HandleControlEnter(txtAddress2);
             vwIdentity.Add(this.txtAddress2);
 
             this.lblAddress3 = new Label
@@ -210,9 +211,9 @@ namespace Retrowarden.Views
             this.txtAddress3 = new TextField
             {
                 Width = 45, Height = 1, X = 1, Y = 17, Visible = true, Secret = false, Data = "txtAddress3", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtAddress3.Enter += (s, e) => HandleControlEnter(txtAddress3);
+            //this.txtAddress3.Enter += (s, e) => HandleControlEnter(txtAddress3);
             vwIdentity.Add(this.txtAddress3);
 
             this.lblCity = new Label
@@ -232,17 +233,17 @@ namespace Retrowarden.Views
             this.txtCity = new TextField
             {
                 Width = 21, Height = 1, X = 1, Y = 20, Visible = true, Secret = false, Data = "txtCity", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtCity.Enter += (s, e) => HandleControlEnter(txtCity);
+            //this.txtCity.Enter += (s, e) => HandleControlEnter(txtCity);
             vwIdentity.Add(this.txtCity);
 
             this.txtState = new TextField
             {
                 Width = 21, Height = 1, X = 25, Y = 20, Visible = true, Secret = false, Data = "txtState", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtState.Enter += (s, e) => HandleControlEnter(txtState);
+            //this.txtState.Enter += (s, e) => HandleControlEnter(txtState);
             vwIdentity.Add(this.txtState);
 
             this.lblZipCode = new Label
@@ -262,17 +263,17 @@ namespace Retrowarden.Views
             this.txtZipCode = new TextField
             {
                 Width = 21, Height = 1, X = 1, Y = 23, Visible = true, Secret = false, Data = "txtZipCode", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtZipCode.Enter += (s, e) => HandleControlEnter(txtZipCode);
+            //this.txtZipCode.Enter += (s, e) => HandleControlEnter(txtZipCode);
             vwIdentity.Add(this.txtZipCode);
 
             this.txtCountry = new TextField
             {
                 Width = 21, Height = 1, X = 25, Y = 23, Visible = true, Secret = false, Data = "txtCountry", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtCountry.Enter += (s, e) => HandleControlEnter(txtCountry);
+            //this.txtCountry.Enter += (s, e) => HandleControlEnter(txtCountry);
             vwIdentity.Add(this.txtCountry);
 
             this.lblUserName = new Label
@@ -285,9 +286,9 @@ namespace Retrowarden.Views
             this.txtUserName = new TextField
             {
                 Width = 45, Height = 1, X = 49, Y = 11, Visible = true, Secret = false, Data = "txtUserName", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtUserName.Enter += (s, e) => HandleControlEnter(txtUserName);
+            //this.txtUserName.Enter += (s, e) => HandleControlEnter(txtUserName);
             vwIdentity.Add(this.txtUserName);
 
             this.lblCompany = new Label
@@ -300,9 +301,9 @@ namespace Retrowarden.Views
             this.txtCompany = new TextField
             {
                 Width = 45, Height = 1, X = 49, Y = 14, Visible = true, Secret = false, Data = "txtCompany", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtCompany.Enter += (s, e) => HandleControlEnter(txtCompany);
+            //this.txtCompany.Enter += (s, e) => HandleControlEnter(txtCompany);
             vwIdentity.Add(this.txtCompany);
 
             this.lblEmail = new Label
@@ -315,9 +316,9 @@ namespace Retrowarden.Views
             this.txtEmailAddress = new TextField
             {
                 Width = 45, Height = 1, X = 49, Y = 17, Visible = true, Secret = false, Data = "txtEmailAddress", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtEmailAddress.Enter += (s, e) => HandleControlEnter(txtEmailAddress);
+            //this.txtEmailAddress.Enter += (s, e) => HandleControlEnter(txtEmailAddress);
             vwIdentity.Add(this.txtEmailAddress);
 
             this.lblPhone = new Label
@@ -330,9 +331,9 @@ namespace Retrowarden.Views
             this.txtPhoneNumber = new TextField
             {
                 Width = 45, Height = 1, X = 49, Y = 20, Visible = true, Secret = false, Data = "txtPhoneNumber", Text = "", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            this.txtPhoneNumber.Enter += (s, e) => HandleControlEnter(txtPhoneNumber);
+            //this.txtPhoneNumber.Enter += (s, e) => HandleControlEnter(txtPhoneNumber);
             vwIdentity.Add(this.txtPhoneNumber);
         }
     }

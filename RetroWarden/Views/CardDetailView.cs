@@ -43,7 +43,7 @@ namespace Retrowarden.Views
             base.SetupView();
             
             // Set tab order.
-            SetTabOrder();
+            //SetTabOrder();
 
             // Set focus to first field.
             SetItemNameControlFocus(); 
@@ -94,7 +94,7 @@ namespace Retrowarden.Views
             
         }
         
-        protected override void SetTabOrder()
+        /*protected override void SetTabOrder()
         {
             // Set tab order for controls.
             txtCardholderName.TabIndex = 0;
@@ -110,7 +110,7 @@ namespace Retrowarden.Views
             
             // Call base order set.
             base.SetTabOrder();   
-        }
+        }*/
 
         #region Event Handlers
         protected override void SaveButtonClicked(object? sender, HandledEventArgs e)

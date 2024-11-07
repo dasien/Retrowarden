@@ -45,7 +45,7 @@ namespace Retrowarden.Views
                 scrURIList = new UriScrollView(null, _matchDetections)
                 {
                     X = 0, Y = 0, Width = 95, Height = 5, Visible = true, CanFocus = true, Enabled = true, 
-                    Data = "scrURIList", TextAlignment = Alignment.Start
+                    Data = "scrURIList", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabGroup
                 };
                 
                 // Add it to the frame.
@@ -59,7 +59,7 @@ namespace Retrowarden.Views
             base.SetupView();
             
             // Set tab order.
-            SetTabOrder();
+            //SetTabOrder();
             
             // Allow focusing in the frame (fix bug that was causing some of the views to not be focused).
             //fraURIList.FocusFirst();
@@ -122,7 +122,7 @@ namespace Retrowarden.Views
             base.UpdateItem();
         }
 
-        protected override void SetTabOrder()
+        /*protected override void SetTabOrder()
         {
             // Set tab order for controls.
             txtUserName.TabIndex = 0;
@@ -136,7 +136,7 @@ namespace Retrowarden.Views
             
             // Call base order set.
             base.SetTabOrder();   
-        }
+        }*/
         
         #region Event Handlers
         protected override void SaveButtonClicked(object? sender, HandledEventArgs e)

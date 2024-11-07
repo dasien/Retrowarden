@@ -8,7 +8,7 @@ namespace Retrowarden.Dialogs
         private SpinnerView? _spnAnimation;
         private Label? _lblMessage;
         private Label? _lblProgress;
-        private readonly string? _messageText;
+        private readonly string _messageText;
         
         // Other values.
         private readonly string[] _spinFrames = [
@@ -46,7 +46,7 @@ namespace Retrowarden.Dialogs
                 Title = "Working...", Width = 40, Height = 6
             };
 
-            // Create labels.
+            // Create controls.
             _spnAnimation = new SpinnerView()
             {
                 X = 3, Y = 2, Width = 10, Height = 1, CanFocus = false, Visible = true,

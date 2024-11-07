@@ -114,20 +114,20 @@ namespace Retrowarden.Controls
             TextField txtName = new TextField()
             {
                 X = 1, Y = rowNum, Width = 30, Text = name, CanFocus = true, Visible = true, 
-                Enabled = true, Data = rowNum
+                Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             TextField txtValue = new TextField()
             {
                 X = 32, Y = rowNum, Width = 30, Text = value,
-                CanFocus = true, Visible = true, Enabled = true, Data = rowNum
+                CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
             
             Button btnCopyValue = new Button()
             {
                 X=63, Y = rowNum, Text = "Copy", 
                 Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = Alignment.Center
+                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
 
             // Create the delete button.
@@ -154,27 +154,27 @@ namespace Retrowarden.Controls
             TextField txtName = new TextField()
             {
                 X=1, Y=rowNum, Width = 30, Text = name,
-                CanFocus = true, Visible = true, Enabled = true, Data = rowNum
+                CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             TextField txtValue = new TextField()
             {
                 X = 32, Y=rowNum, Width = 30, Text = value,
-                CanFocus = true, Visible = true, Enabled = true, Data = rowNum, Secret = true
+                CanFocus = true, Visible = true, Enabled = true, Data = rowNum, Secret = true, TabStop = TabBehavior.TabStop
             };
             
             Button btnShowValue = new Button()
             {
                 X=63, Y=rowNum, Text = "View",
                 Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = Alignment.Center
+                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
            
             Button btnCopyValue = new Button()
             {
                 X=72, Y =rowNum, Text = "Copy", 
                 Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = Alignment.Center
+                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
 
             // Create the delete button.
@@ -210,13 +210,13 @@ namespace Retrowarden.Controls
             TextField txtName = new TextField()
             {
                 X=1, Y = rowNum, Width = 30, Text = name,
-                CanFocus = true, Visible = true, Enabled = true, Data = rowNum
+                CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             CheckBox chkValue = new CheckBox()
             {
                 X=32, Y=rowNum, CanFocus = true, Visible = true, Enabled = true, Data = rowNum,
-                CheckedState = value == "true" ? CheckState.Checked : CheckState.UnChecked
+                CheckedState = value == "true" ? CheckState.Checked : CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             
             // Create the delete button.
@@ -234,12 +234,13 @@ namespace Retrowarden.Controls
             TextField txtName = new TextField()
             {
                 X=1, Y=rowNum, Width = 30, Text = name,
-                CanFocus = true, Visible = true, Enabled = true, Data = rowNum
+                CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             ComboBox cboValue = new ComboBox()
             {
                 X = 32, Y = rowNum, Width = 30, CanFocus = true, Visible = true, Enabled = true, Data = rowNum,
+                TabStop = TabBehavior.TabStop
             };
             
             // Set combo source and selected item.
@@ -261,7 +262,7 @@ namespace Retrowarden.Controls
             {
                 X=81, Y=rowNum, Text = "Delete",
                 Width = 10, Height = 1, CanFocus = true, Visible = true, Data = rowNum,
-                TextAlignment = Alignment.Center
+                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
             
             retVal.Accept += (s,e) =>
