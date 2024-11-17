@@ -11,11 +11,8 @@ namespace Retrowarden.Views
         private ObservableCollection<CodeListItem> _cardBrands;
         private ObservableCollection<CodeListItem> _expMonths;
         
-        // This sizes the underlying view appropriately.
-        private const int scrollBottom = 33;
-
         public CardDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
-            : base (item, folders, state, scrollBottom)
+            : base (item, folders, state)
         {
             // Create members.
             _cardBrands = new ObservableCollection<CodeListItem>();
@@ -46,7 +43,7 @@ namespace Retrowarden.Views
             base.SetupView();
             
             // Set tab order.
-            SetTabOrder();
+            //SetTabOrder();
 
             // Set focus to first field.
             SetItemNameControlFocus(); 
@@ -97,7 +94,7 @@ namespace Retrowarden.Views
             
         }
         
-        protected override void SetTabOrder()
+        /*protected override void SetTabOrder()
         {
             // Set tab order for controls.
             txtCardholderName.TabIndex = 0;
@@ -113,7 +110,7 @@ namespace Retrowarden.Views
             
             // Call base order set.
             base.SetTabOrder();   
-        }
+        }*/
 
         #region Event Handlers
         protected override void SaveButtonClicked(object? sender, HandledEventArgs e)

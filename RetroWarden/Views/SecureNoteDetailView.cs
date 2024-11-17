@@ -6,11 +6,8 @@ namespace Retrowarden.Views
 {
     public partial class SecureNoteDetailView : ItemDetailView
     {
-        // This sizes the underlying view appropriately.
-        private const int scrollBottom = 25;
-
-        public SecureNoteDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
-            : base (item, folders, state, scrollBottom)
+       public SecureNoteDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
+            : base (item, folders, state)
         {
             InitializeComponent();
             

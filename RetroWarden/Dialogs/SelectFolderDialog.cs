@@ -49,7 +49,7 @@ namespace Retrowarden.Dialogs
             // Create Ok button.
             Button okButton = new Button()
             {
-                X = 8, Y = 6, Text = "Ok"
+                X = 8, Y = 6, Text = "Ok", IsDefault = true
             };
             okButton.Accept += OkButton_Clicked;
 
@@ -63,7 +63,7 @@ namespace Retrowarden.Dialogs
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Select Folder", Width = 50,Height = 10, Buttons = [okButton, cancelButton]
+                Title = "Select Folder", Width = 50,Height = 10
             };
 
             // Create label.
@@ -83,7 +83,7 @@ namespace Retrowarden.Dialogs
             _cboFolder.SetSource(folders);
             
             // Add controls to view.
-            _dialog.Add(lblFolder, _cboFolder);
+            _dialog.Add(lblFolder, _cboFolder, okButton, cancelButton);
 
             // Set default control.
             _cboFolder.SetFocus();

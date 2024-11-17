@@ -47,7 +47,7 @@ namespace Retrowarden.Dialogs
             // Create Ok button.
             Button okButton = new Button()
             {
-                X = 8, Y = 4, Text = "_Unlock"
+                X = 8, Y = 4, Text = "_Unlock", IsDefault = true
             };
             okButton.Accept += OkButton_Clicked;
 
@@ -61,7 +61,7 @@ namespace Retrowarden.Dialogs
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Unlock Vault", Width = 40, Height = 8, Buttons = [okButton, cancelButton]
+                Title = "Unlock Vault", Width = 40, Height = 8
             };
 
             // Create labels.
@@ -77,7 +77,7 @@ namespace Retrowarden.Dialogs
             };
 
             // Add controls to view.
-            _dialog.Add(lblPassword, _txtPassword);
+            _dialog.Add(lblPassword, _txtPassword, okButton, cancelButton);
 
             // Set default control.
             _txtPassword.SetFocus();

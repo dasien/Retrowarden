@@ -10,11 +10,8 @@ namespace Retrowarden.Views
     {
         private ObservableCollection<CodeListItem> _titles;
         
-        // This sizes the underlying view appropriately.
-        private const int scrollBottom = 49;
-
         public IdentityDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
-            : base (item, folders, state, scrollBottom)
+            : base (item, folders, state)
         {
             // Create members.
             _titles = new ObservableCollection<CodeListItem>();
@@ -44,7 +41,7 @@ namespace Retrowarden.Views
             base.SetupView();
             
             // Set tab order.
-            SetTabOrder();
+            //SetTabOrder();
 
             // Set focus to first field.
             SetItemNameControlFocus();
@@ -117,7 +114,7 @@ namespace Retrowarden.Views
             base.UpdateItem();
         }
 
-        protected override void SetTabOrder()
+        /*protected override void SetTabOrder()
         {
             cboTitle.TabIndex = 0;
             txtFirstName.TabIndex = 1;
@@ -137,7 +134,7 @@ namespace Retrowarden.Views
             txtCompany.TabIndex = 15;
             txtEmailAddress.TabIndex = 16;
             txtPhoneNumber.TabIndex = 17;
-        }
+        }*/
         
         #region Event Handlers
         protected override void SaveButtonClicked(object? sender, HandledEventArgs e)

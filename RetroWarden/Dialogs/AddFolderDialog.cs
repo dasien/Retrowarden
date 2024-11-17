@@ -72,7 +72,7 @@ namespace Retrowarden.Dialogs
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Create Folder", Width = 40, Height =10, Buttons = [okButton, cancelButton]
+                Title = "Create Folder", Width = 40, Height =10
             };
 
             // Create labels.
@@ -88,7 +88,7 @@ namespace Retrowarden.Dialogs
             };
             
             // Add controls to view.
-            _dialog.Add(lblFolder, _txtFolderName);
+            _dialog.Add(lblFolder, _txtFolderName, okButton, cancelButton);
 
             // Set default control.
             _txtFolderName.SetFocus();

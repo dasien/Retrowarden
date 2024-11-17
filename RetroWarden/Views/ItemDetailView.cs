@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
 using Terminal.Gui;
@@ -15,7 +16,7 @@ namespace Retrowarden.Views
         protected readonly VaultItemDetailViewState _viewState;
         private bool _okPressed;
         
-        protected ItemDetailView(VaultItem? item, List<VaultFolder> folders, VaultItemDetailViewState state, int scrollBottom) 
+        protected ItemDetailView(VaultItem? item, List<VaultFolder> folders, VaultItemDetailViewState state) 
         {
             // Set private variables.
             _item = item == null ? new VaultItem() : item;
@@ -23,7 +24,7 @@ namespace Retrowarden.Views
             _folders = folders;
             _okPressed = false;
             
-            InitializeComponent(scrollBottom);
+            InitializeComponent();
         }
         
         public void Show()
@@ -116,7 +117,7 @@ namespace Retrowarden.Views
         protected void SetItemNameControlFocus()
         {
             // This is part of a bug fix that allows focus in the URI list frame.
-            txtItemName.FocusFirst(null);
+            //txtItemName.FocusFirst(null);
         }
         
         private void DisableView()
@@ -173,6 +174,7 @@ namespace Retrowarden.Views
             _item.CustomFields = scrCustomFields.Fields;
         }
 
+        /*
         protected virtual void SetTabOrder()
         {
             // Set tab order for common controls. 
@@ -192,6 +194,7 @@ namespace Retrowarden.Views
             btnSave.TabIndex = 98;
             btnCancel.TabIndex = 99;
         }
+        */
         
         #region  Properties
         public bool OkPressed
@@ -214,6 +217,7 @@ namespace Retrowarden.Views
         {
             set { _subView = value; }
         }
+
         #endregion
         
         #region Event Handlers
@@ -228,28 +232,25 @@ namespace Retrowarden.Views
         protected void HandleControlEnter(View sender)
         {
             // Get Y values for control and scroll view
-            int controlY = sender.Frame.Y;
-            int viewY = Frame.Bottom;
-        
+            Size content = GetContentSize();
+            
             // Check to see if we are lower than view.
-            if (controlY > viewY)
+            if (sender.Frame.Y > Viewport.Bottom)
             {
                 // Loop until we are in view.
-                while (controlY > viewY)
+                while (sender.Frame.Y > Viewport.Bottom)
                 {
                     ScrollVertical(5);
-                    controlY--;
                 }
             }
         
             // Scroll back up if out of view.
-            else if (controlY < viewY)
+            else if (sender.Frame.Y < Viewport.Top)
             {
                 // Loop until we are in view.
-                while (controlY < viewY)
+                while (sender.Frame.Y < Viewport.Top)
                 {
                     ScrollVertical((-5));
-                    controlY++;
                 }
             }
 
@@ -273,6 +274,22 @@ namespace Retrowarden.Views
                 scrCustomFields.CreateControlRow(dialog.FieldType);
             }
         }
+        
+        private void HandleMouseEvent(object? sender, MouseEventEventArgs mouseEventEventArgs)
+        {
+            // Check to see if this is a wheel scroll down.
+            if (mouseEventEventArgs.MouseEvent.Flags == MouseFlags.WheeledDown)
+            {
+                ScrollVertical(1);
+            }
+            
+            else if (mouseEventEventArgs.MouseEvent.Flags == MouseFlags.WheeledUp)
+            {
+                ScrollVertical(-1);
+            }
+        }
+        
         #endregion
+
     }
 }

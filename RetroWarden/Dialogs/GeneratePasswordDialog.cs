@@ -147,6 +147,7 @@ namespace Retrowarden.Dialogs
             _lblPassword.Visible = true;
             _lblPassword.Data = "_lblPassword";
             _lblPassword.Text = "No password generated.";
+            _lblPassword.CanFocus = false;
             _lblPassword.TextAlignment = Alignment.Center;
             _dialog.Add(_lblPassword);
             
@@ -211,6 +212,7 @@ namespace Retrowarden.Dialogs
             _lblLength.Visible = true;
             _lblLength.Data = "_lblLength";
             _lblLength.Text = "Length";
+            _lblLength.CanFocus = false;
             _lblLength.TextAlignment = Alignment.Start;
             _fraOptions.Add(_lblLength);
             

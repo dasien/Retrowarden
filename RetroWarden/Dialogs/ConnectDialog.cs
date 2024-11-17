@@ -70,7 +70,7 @@ namespace Retrowarden.Dialogs
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Connect to Vault", Width = 40, Height =10, Buttons = [okButton, cancelButton]
+                Title = "Connect to Vault", Width = 40, Height =10
             };
 
             // Create labels.
@@ -98,7 +98,7 @@ namespace Retrowarden.Dialogs
             };
             
             // Add controls to view.
-            _dialog.Add(lblUserId, lblPassword, _txtUserId, _txtPassword);
+            _dialog.Add(lblUserId, lblPassword, _txtUserId, _txtPassword, okButton, cancelButton);
 
             // Set default control.
             _txtUserId.SetFocus();

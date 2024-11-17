@@ -59,7 +59,7 @@ namespace Retrowarden.Dialogs
            _lblStatus = new Label()
             {
                 Width = 4, Height = 1, X = 2, Y = 1, Visible = true, Data = "lblStatus",
-                Text = "Vault Status", TextAlignment = Alignment.Start
+                Text = "Vault Status", TextAlignment = Alignment.Start, CanFocus = false
             };
             
             _dialog.Add(this._lblStatus);
@@ -67,7 +67,7 @@ namespace Retrowarden.Dialogs
             _lblStatusValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 1, Visible = true, Data = "lblStatusValue", 
-                TextAlignment = Alignment.Start
+                TextAlignment = Alignment.Start, CanFocus = false
             };
 
             _dialog.Add(_lblStatusValue);
@@ -75,7 +75,7 @@ namespace Retrowarden.Dialogs
             _lblUserEmail = new Label()
             {
                 Width = 4, Height = 1, X = 2, Y = 3, Visible = true, Data = "lblUserEmail", 
-                Text = "Logged In As", TextAlignment = Alignment.Start
+                Text = "Logged In As", TextAlignment = Alignment.Start, CanFocus = false
             };
             
             _dialog.Add(_lblUserEmail);
@@ -83,7 +83,7 @@ namespace Retrowarden.Dialogs
             _lblUserEmailValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 3, Visible = true, Data = "lblUserEmailValue", 
-                Text = "Heya", TextAlignment = Alignment.Start
+                Text = "Heya", TextAlignment = Alignment.Start, CanFocus = false
             };
             
             _dialog.Add(_lblUserEmailValue);
@@ -91,7 +91,7 @@ namespace Retrowarden.Dialogs
             _lblLastSync = new Label()
             {
                 Width = 4, Height = 1, X = 2, Y = 5, Visible = true, Data = "lblLastSync", 
-                Text = "Last Sync On", TextAlignment = Alignment.Start
+                Text = "Last Sync On", TextAlignment = Alignment.Start, CanFocus = false
             };
             
             _dialog.Add(_lblLastSync);
@@ -99,7 +99,7 @@ namespace Retrowarden.Dialogs
             _lblLastSyncValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 5, Visible = true, Data = "lblLastSyncValue", 
-                Text = "Heya", TextAlignment = Alignment.Start
+                Text = "Heya", TextAlignment = Alignment.Start, CanFocus = false
             };
             
             _dialog.Add(_lblLastSyncValue);
@@ -107,7 +107,7 @@ namespace Retrowarden.Dialogs
             _lblServerUrl = new Label()
             {
                 Width = 4, Height = 1, X = 4, Y = 7, Visible = true, Data = "lblServerUrl", 
-                Text = "Server Url", TextAlignment = Alignment.Start
+                Text = "Server Url", TextAlignment = Alignment.Start, CanFocus = false
             };
             
             _dialog.Add(_lblServerUrl);
@@ -115,14 +115,14 @@ namespace Retrowarden.Dialogs
             _lblServerUrlValue = new Label()
             {
                 Width = 4, Height = 1, X = 16, Y = 7, Visible = true, Data = "lblServerUrlValue", 
-                Text = "Heya", TextAlignment = Alignment.Start
+                Text = "Heya", TextAlignment = Alignment.Start, CanFocus = false
             };
           
             _dialog.Add(_lblServerUrlValue);
 
             _btnCancel = new Button()
             {
-                Width = 9, Height = 1, X = 14, Y = 9, Visible = true, Data = "btnOk", 
+                Width = 9, Height = 1, X = 14, Y = 9, Visible = true, Data = "btnCancel", 
                 Text = "Close", TextAlignment = Alignment.Center, IsDefault = true
             };
 

@@ -79,42 +79,47 @@ namespace Retrowarden.Controls
             TextField txtUri = new TextField()
             {
                 X = 1, Y = cnt, Width = 30, Text = uri, 
-                CanFocus = true, Visible = true, Enabled = true, Data = cnt
+                CanFocus = true, Visible = true, Enabled = true, Data = cnt, TabStop = TabBehavior.TabStop
             };
             
             Button btnCopyUri = new Button()
             {
                 X = 32, Y = cnt, Text = "Copy", Width = 8, Height = 1, CanFocus = true, 
-                Visible = true, Data = cnt, TextAlignment = Alignment.Center
+                Visible = true, Data = cnt, TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
 
             Button btnGoUri = new Button()
             {
                 X = 41, Y = cnt, Text = "Go", Width = 6, Height = 1, CanFocus = true, Visible = true, Data = cnt,
-                TextAlignment = Alignment.Center
+                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
 
             ComboBox cboMatchUri = new ComboBox()
             {
-                X = 48, Y = cnt, Width = 30, Height = 3, CanFocus = true, Visible = true, Text = "", Data = cnt
+                X = 48, Y = cnt, Width = 30, Height = 3, CanFocus = true, Visible = true, Text = "", 
+                Data = cnt, TabStop = TabBehavior.TabStop
             };
 
             Button btnDeleteUri = new Button()
             {
                 X = 79, Y = cnt, Text = "Delete", Width = 10, Height = 1, CanFocus = true, Visible = true, 
-                Data = cnt, TextAlignment = Alignment.Center
+                Data = cnt, TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
             
             // Set the source for the combobox.
             cboMatchUri.SetSource(_matchTypes);
-            
-            // Set the match combo source and selected item to uri match or "Default" as a null default.
-            cboMatchUri.SelectedItem = _matchTypes.IndexOf(_matchTypes.First(o => Convert.ToInt32(o.Index) == match));
-            
+
             // This is a hack because for some reason we love to allow "null" in lists as a default value. :/ 
             if (match == null)
             {
                 cboMatchUri.SelectedItem = _matchTypes.IndexOf(_matchTypes.First(o => o.Index == null));
+            }
+
+            else
+            {
+                // Set the match combo source and selected item to uri match.
+                cboMatchUri.SelectedItem =
+                    _matchTypes.IndexOf(_matchTypes.First(o => Convert.ToInt32(o.Index) == match));
             }
 
             // Create event handlers for the buttons.

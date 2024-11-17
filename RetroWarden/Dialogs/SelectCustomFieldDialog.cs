@@ -33,7 +33,7 @@ namespace Retrowarden.Dialogs
             // Create Ok button.
             Button okButton = new Button()
             {
-                X = 5, Y = 6, Text = "Ok"
+                X = 5, Y = 6, Text = "Ok", IsDefault = true
             };
             okButton.Accept += OkButton_Clicked;
 
@@ -55,9 +55,9 @@ namespace Retrowarden.Dialogs
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Select Item Type", Width = 30, Height = 9, Buttons = [okButton, cancelButton]
+                Title = "Select Item Type", Width = 30, Height = 9
             };
-            _dialog.Add(_rdoFieldType);
+            _dialog.Add(_rdoFieldType, okButton, cancelButton);
         }
         
         public int FieldType
