@@ -160,7 +160,7 @@ namespace Retrowarden.Views
                     if (!IsCurrentTop)
                     {
                         // Get the detail view reference.
-                        Toplevel? top = Application.Current;
+                        Toplevel? top = Application.Top;
                         
                         // Close it.
                         Application.RequestStop(top);
@@ -269,8 +269,9 @@ namespace Retrowarden.Views
                 // Show the view modal.
                 view.Modal = true;
 
+                // TODO: this should no longer be needed.
                 // This fixes a bug where the background was not drawing correctly.
-                Application.Refresh();
+                Application.LayoutAndDraw();
 
                 // Show the view.
                 view.Show();
@@ -362,7 +363,7 @@ namespace Retrowarden.Views
         }
         
         #region UI Control Helpers
-        private void SortListByName(object? sender, HandledEventArgs e)
+        private void SortListByName(object? sender, CommandEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 0;
@@ -374,7 +375,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByValue(object? sender, HandledEventArgs e)
+        private void SortListByValue(object? sender, CommandEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 1;
@@ -386,7 +387,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByOwner(object? sender, HandledEventArgs e)
+        private void SortListByOwner(object? sender, CommandEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 2;
@@ -429,7 +430,7 @@ namespace Retrowarden.Views
             }
             
             // Redraw listview.
-            lvwItems.SetNeedsDisplay();
+            lvwItems.SetNeedsDraw();
             
             // Set statusbar menus.
             UpdateStatusBarOptions();
@@ -764,7 +765,7 @@ namespace Retrowarden.Views
             }
 
             // Redraw menu bar.
-            staMain.SetNeedsDisplay();
+            staMain.SetNeedsDraw();
         }
 
         private bool ShouldShowCopyMenu()
@@ -887,7 +888,7 @@ namespace Retrowarden.Views
         #endregion
         
         #region Main View Handlers
-        private void HandleMouseEvent(object? sender, MouseEvent mouseEvent)
+        private void HandleMouseEvent(object? sender, MouseEventArgs mouseEvent)
         {
             // Flag that the user has done something.
             _keepAlive = true;

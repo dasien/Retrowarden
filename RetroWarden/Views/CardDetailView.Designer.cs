@@ -105,7 +105,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 20, Y = 4, Visible = true, Data = "btnShowCardNumber", Text = "Show",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnShowCardNumber.Accept += ShowCardButtonClicked;
+            this.btnShowCardNumber.Accepting += ShowCardButtonClicked;
             vwCard.Add(this.btnShowCardNumber);
 
             this.btnCopyCardNumber = new Button
@@ -113,7 +113,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 29, Y = 4, Visible = true, Data = "btnCopyCardNumber", Text = "Copy",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnCopyCardNumber.Accept += CopyCardButtonClicked;
+            this.btnCopyCardNumber.Accepting += CopyCardButtonClicked;
             vwCard.Add(this.btnCopyCardNumber);
 
             this.txtCVV = new TextField
@@ -129,7 +129,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 57, Y = 4, Visible = true, Data = "btnShowCVV", Text = "Show",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnShowCVV.Accept += ShowCVVButtonClicked;
+            this.btnShowCVV.Accepting += ShowCVVButtonClicked;
             vwCard.Add(this.btnShowCVV);
 
             this.btnCopyCVV = new Button
@@ -137,7 +137,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 66, Y = 4, Visible = true, Data = "btnCopyCVV", Text = "Copy",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnCopyCVV.Accept += CopyCVVButtonClicked;
+            this.btnCopyCVV.Accepting += CopyCVVButtonClicked;
             vwCard.Add(this.btnCopyCVV);
 
             this.lblExpMonth = new Label

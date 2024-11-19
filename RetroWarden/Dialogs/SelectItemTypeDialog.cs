@@ -14,7 +14,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
         
-        private void OkButton_Clicked(object? sender, HandledEventArgs e)
+        private void OkButton_Clicked(object? sender, CommandEventArgs e)
         {
             // Set flag for ok button and values.
             _okPressed = true;
@@ -31,14 +31,14 @@ namespace Retrowarden.Dialogs
             {
                 X = 5, Y = 6, Text = "Ok", IsDefault = true
             };
-            okButton.Accept += OkButton_Clicked;
+            okButton.Accepting += OkButton_Clicked;
 
             // Create Cancel button.
             Button cancelButton = new Button()
             {
                 X = 14, Y = 6, Text = "Cancel"
             };
-            cancelButton.Accept += CancelButton_Clicked;
+            cancelButton.Accepting += CancelButton_Clicked;
 
             string[] types = ["Login", "Secure Note", "Card", "Identity"];
         

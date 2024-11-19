@@ -34,7 +34,7 @@ namespace Retrowarden.Views
                 Width = 12, Height = 1, X = 1, Y = 13, Visible = true, Data = "btnNewURI",
                 Text = "New URI", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnNewURI.Accept += NewUriButtonClicked;
+            this.btnNewURI.Accepting += NewUriButtonClicked;
 
             this.fraURIList = new FrameView()
             {
@@ -61,21 +61,21 @@ namespace Retrowarden.Views
                 Width = 12, Height = 1, X = 80, Y = 1, Visible = true, Data = "btnGeneratePassword",
                 Text = "Generate", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnGeneratePassword.Accept += GeneratePasswordButtonClicked;
+            this.btnGeneratePassword.Accepting += GeneratePasswordButtonClicked;
             
             this.btnCopyPassword = new Button()
             {
                 Width = 8, Height = 1, X = 71, Y = 1, Visible = true, Data = "btnCopyPassword",
                 Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnCopyPassword.Accept += CopyPasswordButtonClicked;
+            this.btnCopyPassword.Accepting += CopyPasswordButtonClicked;
 
             this.btnViewPassword = new Button()
             {
                 Width = 8, Height = 1, X = 62, Y = 1, Visible = true, Data = "btnViewPassword",
                 Text = "Show", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnViewPassword.Accept += ViewPasswordButtonClicked;
+            this.btnViewPassword.Accepting += ViewPasswordButtonClicked;
 
             this.txtPassword = new TextField()
             {
@@ -89,7 +89,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 23, Y = 1, Visible = true, Data = "btnCopyUserName",
                 Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnCopyUserName.Accept += CopyUserNameButtonClicked;
+            this.btnCopyUserName.Accepting += CopyUserNameButtonClicked;
 
             this.txtUserName = new TextField()
             {

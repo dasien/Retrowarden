@@ -20,7 +20,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
         
-        private void OkButton_Clicked(object? sender, HandledEventArgs e)
+        private void OkButton_Clicked(object? sender, CommandEventArgs e)
         {
             // Check to see if required values are present.
             if (_cboFolder != null && _cboFolder.SelectedItem == -1)
@@ -51,14 +51,14 @@ namespace Retrowarden.Dialogs
             {
                 X = 8, Y = 6, Text = "Ok", IsDefault = true
             };
-            okButton.Accept += OkButton_Clicked;
+            okButton.Accepting += OkButton_Clicked;
 
             // Create Cancel button.
             Button cancelButton = new Button()
             {
                 X = 24, Y = 6, Text = "Cancel"
             };
-            cancelButton.Accept += CancelButton_Clicked;
+            cancelButton.Accepting += CancelButton_Clicked;
 
             // Create modal view.
             _dialog = new Dialog()

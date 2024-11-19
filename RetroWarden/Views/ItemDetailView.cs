@@ -146,7 +146,7 @@ namespace Retrowarden.Views
             btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
             
             // Refresh display
-            SetNeedsDisplay();
+            SetNeedsDraw();
         }
         
         protected virtual void UpdateItem()
@@ -221,9 +221,9 @@ namespace Retrowarden.Views
         #endregion
         
         #region Event Handlers
-        protected abstract void SaveButtonClicked(object? sender, HandledEventArgs e);
+        protected abstract void SaveButtonClicked(object? sender, CommandEventArgs e);
         
-        private void CancelButtonClicked(object? sender, HandledEventArgs e)
+        private void CancelButtonClicked(object? sender, CommandEventArgs e)
         {
             // Close dialog.
             Application.RequestStop();
@@ -261,7 +261,7 @@ namespace Retrowarden.Views
             }
         }
         
-        private void NewCustomFieldButtonClicked(object? sender, HandledEventArgs e)
+        private void NewCustomFieldButtonClicked(object? sender, CommandEventArgs e)
         {
             // Show the dialog for field type choice.
             SelectCustomFieldDialog dialog = new SelectCustomFieldDialog();
@@ -275,15 +275,15 @@ namespace Retrowarden.Views
             }
         }
         
-        private void HandleMouseEvent(object? sender, MouseEventEventArgs mouseEventEventArgs)
+        private void HandleMouseEvent(object? sender, MouseEventArgs mouseEventEventArgs)
         {
             // Check to see if this is a wheel scroll down.
-            if (mouseEventEventArgs.MouseEvent.Flags == MouseFlags.WheeledDown)
+            if (mouseEventEventArgs.Flags == MouseFlags.WheeledDown)
             {
                 ScrollVertical(1);
             }
             
-            else if (mouseEventEventArgs.MouseEvent.Flags == MouseFlags.WheeledUp)
+            else if (mouseEventEventArgs.Flags == MouseFlags.WheeledUp)
             {
                 ScrollVertical(-1);
             }
