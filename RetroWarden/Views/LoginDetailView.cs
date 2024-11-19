@@ -139,7 +139,7 @@ namespace Retrowarden.Views
         }*/
         
         #region Event Handlers
-        protected override void SaveButtonClicked(object? sender, HandledEventArgs e)
+        protected override void SaveButtonClicked(object? sender, CommandEventArgs e)
         {
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
@@ -168,7 +168,7 @@ namespace Retrowarden.Views
             }
         }
 
-        private void CopyPasswordButtonClicked(object? sender, HandledEventArgs e)
+        private void CopyPasswordButtonClicked(object? sender, CommandEventArgs e)
         {
             // Copy password to clipboard.
             Clipboard.TrySetClipboardData(txtPassword.Text);
@@ -178,7 +178,7 @@ namespace Retrowarden.Views
 
         }
 
-        private void ViewPasswordButtonClicked(object? sender, HandledEventArgs e)
+        private void ViewPasswordButtonClicked(object? sender, CommandEventArgs e)
         {
             // Toggle Flag.
             txtPassword.Secret = !txtPassword.Secret;
@@ -187,7 +187,7 @@ namespace Retrowarden.Views
             btnViewPassword.Text = txtPassword.Secret ? "Show" : "Hide";
         }
 
-        private void CopyUserNameButtonClicked(object? sender, HandledEventArgs e)
+        private void CopyUserNameButtonClicked(object? sender, CommandEventArgs e)
         {
             // Copy username to clipboard.
             Clipboard.TrySetClipboardData(txtUserName.Text);
@@ -196,7 +196,7 @@ namespace Retrowarden.Views
             MessageBox.Query("Action Completed", "User name copied to clipboard.", "Ok");
         }
 
-        private void GeneratePasswordButtonClicked(object? sender, HandledEventArgs e)
+        private void GeneratePasswordButtonClicked(object? sender, CommandEventArgs e)
         {
             GeneratePasswordDialog genPass = new GeneratePasswordDialog(_repository);
             genPass.Show();
@@ -209,7 +209,7 @@ namespace Retrowarden.Views
             }
         }
 
-        private void NewUriButtonClicked(object? sender, HandledEventArgs e)
+        private void NewUriButtonClicked(object? sender, CommandEventArgs e)
         {
             // Call scroll view add row method.
             scrURIList.CreateControlRow();

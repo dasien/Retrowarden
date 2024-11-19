@@ -137,7 +137,7 @@ namespace Retrowarden.Views
         }*/
         
         #region Event Handlers
-        protected override void SaveButtonClicked(object? sender, HandledEventArgs e)
+        protected override void SaveButtonClicked(object? sender, CommandEventArgs e)
         {
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)

@@ -14,7 +14,7 @@ namespace Retrowarden.Utils
         private int _maxLength;
         private List<VaultItem> _items;
         private BitArray _markedRows;
-        
+
         // This event helps identify when a row is marked or unmarked by a mouse click, because the 
         // SelectedItemChanged event on the listview doesn't fire in that case.
         public event EventHandler? OnSetMark;
@@ -25,73 +25,73 @@ namespace Retrowarden.Utils
         {
             // Set item list and associated values.
             _count = items.Count;
-            _markedRows = new BitArray (_count);
+            _markedRows = new BitArray(_count);
             _items = items;
-            _maxLength = GetMaxLengthItem ();
+            _maxLength = GetMaxLengthItem();
         }
 
-        public void Render(ListView container, ConsoleDriver driver, bool selected, int item, int col, int line, int width, int start = 0)
+        public void Render(ListView container, bool selected, int item, int col, int line, int width, int start = 0)
         {
             // Placeholder for 2nd column text.
             string? itemText = " ";
-            
+
             // Get the vault item.
             VaultItem rowItem = _items[item];
-            
+
             // Move to the next row.
             container.Move(col, line);
-            
+
             // This column is the same regardless of the item type.
             string itemName = String.Format(String.Format("{{0,{0}}}", -NameColumnWidth), _items[item].ItemName);
-            
+
             // Based
             switch (rowItem.ItemType)
             {
                 // Login.
                 case 1:
-                {
-                    // Item text is the username.
-                    itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
-                        rowItem.Login == null ? " " : rowItem.Login.GetListViewColumnText());
-                    break;
-                }
-                
+                    {
+                        // Item text is the username.
+                        itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
+                            rowItem.Login == null ? " " : rowItem.Login.GetListViewColumnText());
+                        break;
+                    }
+
                 // Secure Note.
                 case 2:
-                {
-                    // There is no real item text here for now.
-                    itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
-                        rowItem.SecureNote == null ? " " : rowItem.SecureNote.GetListViewColumnText());
-                    break;
-                }
-                
+                    {
+                        // There is no real item text here for now.
+                        itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
+                            rowItem.SecureNote == null ? " " : rowItem.SecureNote.GetListViewColumnText());
+                        break;
+                    }
+
                 // Card.
                 case 3:
-                {
-                    // Item text is the card brand + last 4 of card number.
-                    itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
-                        rowItem.Card == null ? " " : rowItem.Card.GetListViewColumnText());
-                    break;
-                }
-                
+                    {
+                        // Item text is the card brand + last 4 of card number.
+                        itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
+                            rowItem.Card == null ? " " : rowItem.Card.GetListViewColumnText());
+                        break;
+                    }
+
                 // Identity.
                 case 4:
-                {
-                    // Item text is the first and last name.
-                    itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
-                        rowItem.Identity == null ? " " : rowItem.Identity.GetListViewColumnText());
-                    break;
-                }
+                    {
+                        // Item text is the first and last name.
+                        itemText = String.Format(String.Format("{{0,{0}}}", -UserIdColumnWidth),
+                            rowItem.Identity == null ? " " : rowItem.Identity.GetListViewColumnText());
+                        break;
+                    }
             }
-            
+
             // Write row text.
-            RenderUstr(driver, $"{itemName} {itemText} {_items[item].ItemOwnerName}", col, line, width, start);
+            RenderUstr(container, $"{itemName} {itemText} {_items[item].ItemOwnerName}", col, line, width, start);
         }
 
         public bool IsMarked(int item)
         {
             bool retVal = false;
-            
+
             if (item >= 0 && item < _count)
             {
                 retVal = _markedRows[item];
@@ -104,19 +104,19 @@ namespace Retrowarden.Utils
         {
             if (item >= 0 && item < _count)
             {
-                _markedRows [item] = value;
-                
+                _markedRows[item] = value;
+
                 // Raise marked event.
                 OnSetMark?.Invoke(this, EventArgs.Empty);
-            } 
+            }
         }
         public IList ToList()
         {
             return _items;
         }
-        
+
         #region Private Methods
-        private int GetMaxLengthItem ()
+        private int GetMaxLengthItem()
         {
             int retVal = 0;
 
@@ -126,17 +126,17 @@ namespace Retrowarden.Utils
                 {
                     // Get the string for the item value.
                     string? itemVal = GetItemName(_items[cnt]);
-                    
+
                     // Create cols for name and value.
                     string col1 = string.Format(string.Format("{{0,{0}}}", -NameColumnWidth), _items[cnt].ItemName);
                     string col2 = string.Format(string.Format("{{0,{0}}}", -UserIdColumnWidth), itemVal == null ? " " : itemVal);
-                    
+
                     // Create entire line string.
                     string sc = $"{col1}  {col2} {_items[cnt].ItemOwnerName}";
-                    
+
                     // Get the length.
                     int l = sc.Length;
-                    
+
                     // Check to see if this is the longest row. 
                     if (l > retVal)
                     {
@@ -144,14 +144,14 @@ namespace Retrowarden.Utils
                     }
                 }
             }
-            
+
             return retVal;
         }
-        
+
         private string? GetItemName(VaultItem item)
         {
             string? retVal = " ";
-            
+
             // Check the item type.
             switch (item.ItemType)
             {
@@ -162,12 +162,12 @@ namespace Retrowarden.Utils
                         retVal = item.Login.UserName;
                     }
                     break;
-                
+
                 // Note
                 case 2:
                     retVal = string.Empty;
                     break;
-                
+
                 // Card
                 case 3:
                     if (item.Card != null)
@@ -175,7 +175,7 @@ namespace Retrowarden.Utils
                         retVal = item.Card.GetListViewColumnText();
                     }
                     break;
-                
+
                 // Identity
                 case 4:
                     if (item.Identity != null)
@@ -184,33 +184,33 @@ namespace Retrowarden.Utils
                     }
                     break;
             }
-            
+
             // Return the item string.
             return retVal;
         }
 
-        private void RenderUstr (ConsoleDriver driver, string ustr, int col, int line, int width, int start = 0)
+        private void RenderUstr(View container, string ustr, int col, int line, int width, int start = 0)
         {
             int used = 0;
             int index = start;
-            while (index < ustr.Length) 
+            while (index < ustr.Length)
             {
-                (Rune rune, int size) = ustr.DecodeRune (index, index - ustr.Length);
+                (Rune rune, int size) = ustr.DecodeRune(index, index - ustr.Length);
                 int count = rune.GetColumns();
                 if (used + count >= width) break;
-                driver.AddRune (rune);
+                container.AddRune(rune);
                 used += count;
                 index += size;
             }
 
             while (used < width)
             {
-                driver.AddRune (' ');
+                container.AddRune(' ');
                 used++;
             }
         }
         #endregion
-        
+
         #region Properties
         public int Count
         {
@@ -225,7 +225,7 @@ namespace Retrowarden.Utils
             get
             {
                 int retVal = 0;
-                
+
                 // Count items.
                 foreach (bool bit in _markedRows)
                 {
@@ -257,12 +257,12 @@ namespace Retrowarden.Utils
 
             set
             {
-                if (value != null) 
+                if (value != null)
                 {
                     _count = value.Count;
-                    _markedRows = new BitArray (_count);
+                    _markedRows = new BitArray(_count);
                     _items = value;
-                    _maxLength = GetMaxLengthItem ();
+                    _maxLength = GetMaxLengthItem();
                 }
             }
         }
@@ -272,7 +272,7 @@ namespace Retrowarden.Utils
             get
             {
                 List<VaultItem> retVal = new List<VaultItem>();
-                
+
                 // Loop through marked items.
                 for (int cnt = 0; cnt < _markedRows.Count; cnt++)
                 {
@@ -290,7 +290,7 @@ namespace Retrowarden.Utils
 
         public void Dispose()
         {
-            
+
         }
     }
 }

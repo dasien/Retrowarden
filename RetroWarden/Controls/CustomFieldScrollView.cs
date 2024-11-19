@@ -61,7 +61,7 @@ namespace Retrowarden.Controls
             }
             
             // Refresh control.
-            SetNeedsDisplay();
+            SetNeedsDraw();
             //SetChildNeedsDisplay();
         }
 
@@ -134,7 +134,7 @@ namespace Retrowarden.Controls
             Button btnDeleteRow = CreateDeleteButton(rowNum);
 
             // Create event handlers for the buttons.
-            btnCopyValue.Accept += (s,e) =>
+            btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
                 Clipboard.TrySetClipboardData(txtValue.Text);
@@ -181,7 +181,7 @@ namespace Retrowarden.Controls
             Button btnDeleteRow = CreateDeleteButton(rowNum);
             
             // Create event handlers for the buttons.
-            btnShowValue.Accept += (s,e) =>
+            btnShowValue.Accepting += (s,e) =>
             {
                 // Toggle Flag.
                 txtValue.Secret = !txtValue.Secret;
@@ -190,7 +190,7 @@ namespace Retrowarden.Controls
                 btnShowValue.Text = txtValue.Secret ? "View" : "Hide";
             };
             
-            btnCopyValue.Accept += (s,e) =>
+            btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
                 Clipboard.TrySetClipboardData(txtValue.Text);
@@ -265,7 +265,7 @@ namespace Retrowarden.Controls
                 TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
             
-            retVal.Accept += (s,e) =>
+            retVal.Accepting += (s,e) =>
             {
                 // Get row index.
                 int index = (int) retVal.Data;
@@ -305,7 +305,7 @@ namespace Retrowarden.Controls
                 _rowControls.Remove(_rowControls.ElementAt(index));
             
                 // Flag that the scrollview needs to be redrawn.
-                SetNeedsDisplay();
+                SetNeedsDraw();
             };
 
             return retVal;
@@ -418,7 +418,7 @@ namespace Retrowarden.Controls
                 Add(newRow);
 
                 // Set scroll for redraw.
-                SetNeedsDisplay();
+                SetNeedsDraw();
                 
                 // Set focus to new text field.
                 newRow[0].SetFocus();
