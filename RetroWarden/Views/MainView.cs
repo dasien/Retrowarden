@@ -77,14 +77,14 @@ namespace Retrowarden.Views
 
                         else
                         {
-                            // GTFO.
+                            // Exit application.
                             Shutdown(1);
                         }
                     }
 
                     else
                     {
-                        // GTFO.
+                        // Exit application.
                         Shutdown(1);
                     }
                 }
@@ -219,7 +219,7 @@ namespace Retrowarden.Views
                     // Execute task.
                     organizationsWorker.Run();
             
-                    // Check to see if there are any orgs.
+                    // Check to see if there are any organization.
                     if (organizationsWorker.Organizations != null)
                     {
                         // Get organizations.
@@ -268,10 +268,6 @@ namespace Retrowarden.Views
             {
                 // Show the view modal.
                 view.Modal = true;
-
-                // TODO: this should no longer be needed.
-                // This fixes a bug where the background was not drawing correctly.
-                Application.LayoutAndDraw();
 
                 // Show the view.
                 view.Show();
@@ -363,7 +359,7 @@ namespace Retrowarden.Views
         }
         
         #region UI Control Helpers
-        private void SortListByName(object? sender, CommandEventArgs e)
+        private void SortListByName(object? sender, MouseEventEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 0;
@@ -375,7 +371,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByValue(object? sender, CommandEventArgs e)
+        private void SortListByValue(object? sender, MouseEventEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 1;
@@ -387,7 +383,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByOwner(object? sender, CommandEventArgs e)
+        private void SortListByOwner(object? sender, MouseEventEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 2;
@@ -430,7 +426,7 @@ namespace Retrowarden.Views
             }
             
             // Redraw listview.
-            lvwItems.SetNeedsDraw();
+            lvwItems.SetNeedsDisplay();
             
             // Set statusbar menus.
             UpdateStatusBarOptions();
@@ -765,7 +761,7 @@ namespace Retrowarden.Views
             }
 
             // Redraw menu bar.
-            staMain.SetNeedsDraw();
+            staMain.SetNeedsDisplay();
         }
 
         private bool ShouldShowCopyMenu()
@@ -888,7 +884,7 @@ namespace Retrowarden.Views
         #endregion
         
         #region Main View Handlers
-        private void HandleMouseEvent(object? sender, MouseEventArgs mouseEvent)
+        private void HandleMouseEvent(object? sender, MouseEvent mouseEvent)
         {
             // Flag that the user has done something.
             _keepAlive = true;
@@ -1029,7 +1025,7 @@ namespace Retrowarden.Views
             if (_vaultRepository.IsLoggedIn)
             {
                 // Check to see if this is an 'org enabled' account.
-                if (_vaultRepository.IsOrgEngabled)
+                if (_vaultRepository.IsOrgEnabled)
                 {
                     // Create add collection dialog.
                     AddCollectionDialog dialog = new AddCollectionDialog(_organizations, _collections);
@@ -1321,7 +1317,7 @@ namespace Retrowarden.Views
                         break;
                 }
                 
-                // This causes the treeview to clear it's cache of child nodes for the selected node.
+                // This causes the treeview to clear its cache of child nodes for the selected node.
                 tvwItems.RefreshObject(_selectedNode);
                 tvwItems.Expand();
             }

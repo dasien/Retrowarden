@@ -123,7 +123,7 @@ namespace Retrowarden.Controls
             }
 
             // Create event handlers for the buttons.
-            btnCopyUri.Accepting += (s,e) =>
+            btnCopyUri.Accept += (s,e) =>
             {
                 // Copy password to clipboard.
                 Clipboard.TrySetClipboardData(txtUri.Text);
@@ -132,7 +132,7 @@ namespace Retrowarden.Controls
                 MessageBox.Query("Action Completed", "Copied Uri to clipboard.", "Ok");
             };
 
-            btnGoUri.Accepting += (s,e) =>
+            btnGoUri.Accept += (s,e) =>
             {
                 // Get the uri string.
                 string? uriString = txtUri.Text;
@@ -159,7 +159,7 @@ namespace Retrowarden.Controls
                 }
             };
 
-            btnDeleteUri.Accepting += (s,e) =>
+            btnDeleteUri.Accept += (s,e) =>
             {
                 // Get row index.
                 int index = (int)btnDeleteUri.Data;
@@ -199,7 +199,7 @@ namespace Retrowarden.Controls
                 _rowControls.Remove(_rowControls.ElementAt(index));
             
                 // Flag that the scrollview needs to be redrawn.
-                SetNeedsDraw();
+                SetNeedsDisplay();
              };
             
             // Return control row.
@@ -250,7 +250,7 @@ namespace Retrowarden.Controls
             Add(newRow);
             
             // Set scroll for redraw.
-            SetNeedsDraw();
+            SetNeedsDisplay();
             
             // Set focus to new text field.
             newRow[0].SetFocus();

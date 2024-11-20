@@ -54,21 +54,21 @@ namespace Retrowarden.Views
                 X = 0, Y = 0, Width = 30, Height = 1, Enabled = true, Visible = false,
                 Text = "Item Name", TextAlignment = Alignment.Center,
             };
-            this.lblItemName.Accepting += SortListByName;
+            this.lblItemName.MouseClick += SortListByName;
             
             this.lblUserId = new Label()
             {
                 X = 33, Y = 0, Width = 30, Height = 1, Enabled = true, Visible = false,
                 Text = "User Id", TextAlignment = Alignment.Center
             };
-            this.lblUserId.Accepting += SortListByValue;
+            this.lblUserId.MouseClick += SortListByValue;
 
             this.lblOwner = new Label()
             {
                 X = 64, Y = 0, Width = 20, Height = 1, Enabled = true, Visible = false,
                 Text = "Owner", TextAlignment = Alignment.Center
             };
-            this.lblOwner.Accepting += SortListByOwner;
+            this.lblOwner.MouseClick += SortListByOwner;
 
             this.staMain = new StatusBar()
             {

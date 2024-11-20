@@ -30,7 +30,8 @@ namespace Retrowarden.Utils
             _maxLength = GetMaxLengthItem();
         }
 
-        public void Render(ListView container, bool selected, int item, int col, int line, int width, int start = 0)
+        public void Render(ListView container, ConsoleDriver driver, bool selected, int item, int col, int line, int width,
+            int start = 0)
         {
             // Placeholder for 2nd column text.
             string? itemText = " ";
@@ -99,7 +100,7 @@ namespace Retrowarden.Utils
 
             return retVal;
         }
-
+        
         public void SetMark(int item, bool value)
         {
             if (item >= 0 && item < _count)
@@ -198,14 +199,14 @@ namespace Retrowarden.Utils
                 (Rune rune, int size) = ustr.DecodeRune(index, index - ustr.Length);
                 int count = rune.GetColumns();
                 if (used + count >= width) break;
-                container.AddRune(rune);
+                container.AddRune(col, line, rune);
                 used += count;
                 index += size;
             }
 
             while (used < width)
             {
-                container.AddRune(' ');
+                container.AddRune(col, line, new Rune(' '));
                 used++;
             }
         }

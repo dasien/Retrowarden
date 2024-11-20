@@ -22,7 +22,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
 
-        private void OkButton_Clicked(object? sender, CommandEventArgs e)
+        private void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
             if (_txtPassword != null && _txtUserId != null 
@@ -58,14 +58,14 @@ namespace Retrowarden.Dialogs
             {
                 X = 8, Y =6, Text = "_Connect", IsDefault = true
             };
-            okButton.Accepting += OkButton_Clicked;
+            okButton.Accept += OkButton_Clicked;
 
             // Create Cancel button.
             Button cancelButton = new Button()
             {
                 X = 24, Y = 6, Title = "Cance_l"
             };
-            cancelButton.Accepting += CancelButton_Clicked;
+            cancelButton.Accept += CancelButton_Clicked;
 
             // Create modal view.
             _dialog = new Dialog()

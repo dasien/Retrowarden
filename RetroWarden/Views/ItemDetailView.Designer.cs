@@ -114,7 +114,7 @@ namespace Retrowarden.Views
                 Width = 22, Height = 1, X = 1, Y = 37, Visible = true, Data = "btnNewCustomField",
                 Text = "New Custom Field", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnNewCustomField.Accepting += NewCustomFieldButtonClicked;
+            this.btnNewCustomField.Accept += NewCustomFieldButtonClicked;
             //this.btnNewCustomField.Enter += (s, e) => HandleControlEnter(btnNewCustomField);
             this.Add(this.btnNewCustomField);
 
@@ -123,7 +123,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = Pos.Center() - 10, Y = 39, Visible = true, Data = "btnSave",
                 Text = "Save", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnSave.Accepting += SaveButtonClicked;
+            this.btnSave.Accept += SaveButtonClicked;
             //this.btnSave.Enter += (s, e) => HandleControlEnter(btnSave);
             this.Add(this.btnSave);
 
@@ -132,7 +132,7 @@ namespace Retrowarden.Views
                 Width = 10, Height = 1, X = Pos.Center() + 2, Y = 39, Visible = true, Text = "Cancel",
                 TextAlignment = Alignment.Center, IsDefault = true, TabStop = TabBehavior.TabStop
             };
-            this.btnCancel.Accepting += CancelButtonClicked;
+            this.btnCancel.Accept += CancelButtonClicked;
             //this.btnCancel.Enter += (s, e) => HandleControlEnter(btnCancel);
             this.Add(this.btnCancel);
 

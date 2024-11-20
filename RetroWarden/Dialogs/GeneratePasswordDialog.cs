@@ -74,7 +74,7 @@ namespace Retrowarden.Dialogs
             return retVal;
         }
         
-        private void GenerateButton_Clicked(object? sender, CommandEventArgs e)
+        private void GenerateButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Validate input.
             if (ValidateInput())
@@ -110,7 +110,7 @@ namespace Retrowarden.Dialogs
             }
         }
 
-        private void CopyButton_Clicked(object? sender, CommandEventArgs e)
+        private void CopyButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Copy password to clipboard.
             Clipboard.TrySetClipboardData(_password);
@@ -236,7 +236,7 @@ namespace Retrowarden.Dialogs
             _btnGeneratePassword.Text = "Generate";
             _btnGeneratePassword.TextAlignment = Alignment.Center;
             _btnGeneratePassword.IsDefault = false;
-            _btnGeneratePassword.Accepting += GenerateButton_Clicked;
+            _btnGeneratePassword.Accept += GenerateButton_Clicked;
             _dialog.Add(_btnGeneratePassword);
             
             _btnCopy.Width = 4;
@@ -248,7 +248,7 @@ namespace Retrowarden.Dialogs
             _btnCopy.Text = "Copy";
             _btnCopy.TextAlignment = Alignment.Center;
             _btnCopy.IsDefault = false;
-            _btnCopy.Accepting += CopyButton_Clicked;
+            _btnCopy.Accept += CopyButton_Clicked;
             _dialog.Add(_btnCopy);
             
             _btnClose.Width = 9;
@@ -260,7 +260,7 @@ namespace Retrowarden.Dialogs
             _btnClose.Text = "Close";
             _btnClose.TextAlignment = Alignment.Center;
             _btnClose.IsDefault = false;
-            _btnClose.Accepting += CancelButton_Clicked;
+            _btnClose.Accept += CancelButton_Clicked;
             _dialog.Add(_btnClose);
         }
         #endregion
