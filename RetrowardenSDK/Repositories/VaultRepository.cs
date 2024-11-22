@@ -4,7 +4,7 @@ using RetrowardenSDK.Models;
 
 namespace RetrowardenSDK.Repositories
 {
-    public sealed class VaultRepository
+    public sealed class VaultRepository : IVaultRepository
     {
         private readonly Process _bwcli;
         private string _response;

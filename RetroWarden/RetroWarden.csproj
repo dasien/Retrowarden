@@ -11,6 +11,7 @@
       <PackageReference Include="ColorHelper" Version="1.8.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+      <PackageReference Include="System.Text.Json" Version="9.0.0" />
       <PackageReference Include="Terminal.Gui" Version="2.0.0-v2-develop.2329" />
     </ItemGroup>
 

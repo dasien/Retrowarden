@@ -12,9 +12,9 @@ namespace Retrowarden.Views
     public partial class LoginDetailView : ItemDetailView
     {
         private ObservableCollection<CodeListItem> _matchDetections;
-        private readonly VaultRepository _repository;
+        private readonly IVaultRepository _repository;
         
-        public LoginDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state, VaultRepository repository) 
+        public LoginDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state, IVaultRepository repository) 
             : base (item, folders, state)
         {
             // Initialize members.

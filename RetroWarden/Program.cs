@@ -7,8 +7,14 @@ namespace Retrowarden
     {
         static void Main(string[] args)
         {
+            Application.Init();
+
+            MainView mainView = new MainView(true);
+            
             // Run the application loop.
-            Application.Run<MainView> ();
+            Application.Run(mainView);
+            mainView.Dispose();
+            Application.Shutdown();
         }
     }
 }

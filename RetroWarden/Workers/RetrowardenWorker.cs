@@ -7,11 +7,11 @@ namespace Retrowarden.Workers
     public class RetrowardenWorker
     {
         // Member variables.
-        protected readonly VaultRepository _repository;
+        protected readonly IVaultRepository _repository;
         protected readonly BackgroundWorker _worker;
         protected readonly WorkingDialog _workingDialog;
 
-        protected RetrowardenWorker(VaultRepository repository, string dialogMessage)
+        protected RetrowardenWorker(IVaultRepository repository, string dialogMessage)
         {
             _repository = repository;
             _worker = new BackgroundWorker();

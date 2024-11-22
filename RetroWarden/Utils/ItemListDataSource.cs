@@ -198,15 +198,19 @@ namespace Retrowarden.Utils
             {
                 (Rune rune, int size) = ustr.DecodeRune(index, index - ustr.Length);
                 int count = rune.GetColumns();
-                if (used + count >= width) break;
-                container.AddRune(col, line, rune);
+                if (used + count >= width)
+                {
+                    break;
+                }
+                
+                container.AddRune(used, line, rune);
                 used += count;
                 index += size;
             }
 
             while (used < width)
             {
-                container.AddRune(col, line, new Rune(' '));
+                container.AddRune(used, line, new Rune(' '));
                 used++;
             }
         }

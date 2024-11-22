@@ -8,7 +8,7 @@ namespace Retrowarden.Workers
         // Member variables.
         private List<Member>? _members;
         
-        public GetOrganizationMembersWorker(VaultRepository repository, string dialogMessage, string orgId) 
+        public GetOrganizationMembersWorker(IVaultRepository repository, string dialogMessage, string orgId) 
             : base(repository, dialogMessage)
         {
             // Add work event handler.

@@ -20,10 +20,10 @@ namespace Retrowarden.Dialogs
         private Button? _btnClose;
 
          // Proxy reference.
-        private readonly VaultRepository _repository;
+        private readonly IVaultRepository _repository;
         private string? _password;
         
-        public GeneratePasswordDialog(VaultRepository repository) 
+        public GeneratePasswordDialog(IVaultRepository repository) 
         {
             // Initialize members.
             _repository = repository;

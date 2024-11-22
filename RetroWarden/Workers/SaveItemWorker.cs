@@ -9,7 +9,7 @@ namespace Retrowarden.Workers
         private readonly List<VaultItem> _items;
         private List<VaultItem> _results;
         
-        public SaveItemWorker(VaultRepository repository, VaultItemSaveAction action, List<VaultItem> items, 
+        public SaveItemWorker(IVaultRepository repository, VaultItemSaveAction action, List<VaultItem> items, 
             string dialogMessage) 
             : base(repository, dialogMessage)
         {

@@ -4,7 +4,7 @@ namespace Retrowarden.Workers
 {
     public sealed class UnlockWorker : RetrowardenWorker
     {
-        public UnlockWorker(VaultRepository repository, string password, string dialogMessage) 
+        public UnlockWorker(IVaultRepository repository, string password, string dialogMessage) 
             : base(repository, dialogMessage)
         {
             // Run the login method.

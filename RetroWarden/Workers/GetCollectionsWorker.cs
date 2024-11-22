@@ -7,7 +7,7 @@ public sealed class GetCollectionsWorker : RetrowardenWorker
 {
     private List<VaultCollection> _collections;
 
-    public GetCollectionsWorker(VaultRepository repository, string dialogMessage) 
+    public GetCollectionsWorker(IVaultRepository repository, string dialogMessage) 
         : base(repository, dialogMessage)
     {
         // Create members.

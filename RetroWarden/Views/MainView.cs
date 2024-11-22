@@ -1,5 +1,6 @@
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using Terminal.Gui;
 using Retrowarden.Dialogs;
@@ -14,7 +15,7 @@ namespace Retrowarden.Views
     public partial class MainView 
     {
         // Vault repository reference.
-        private readonly VaultRepository _vaultRepository;
+        private readonly IVaultRepository _vaultRepository;
         
         // Vault object collections.
         private SortedDictionary<string, VaultItem> _vaultItems;
@@ -34,7 +35,7 @@ namespace Retrowarden.Views
         private bool _sortOwnerDescending;
         private int _sortColumn = 0;
         
-         public MainView() 
+         public MainView(bool debug) 
         {
             // Initialize Application Stack
             Application.Init();
@@ -46,33 +47,48 @@ namespace Retrowarden.Views
             // Create about message.
             _aboutMessage = ViewUtils.CreateAboutMessageAscii();
             
-            // Get the configuration.
-            RetrowardenConfig? config = Config.ConfigurationManager.GetConfig();
-            
-            // Check to see if one was found.
-            if (config != null)
+            // Check to see if we are in debug mode.
+            if (debug)
             {
-                // Check to see if exe location has been set.
-                if (string.IsNullOrEmpty(config.CLILocation))
+                _vaultRepository = new DebugVaultRepository();
+            }
+
+            else
+            {
+                // Get the configuration.
+                RetrowardenConfig? config = Config.ConfigurationManager.GetConfig();
+
+                // Check to see if one was found.
+                if (config != null)
                 {
-                    // Show file dialog.
-                    OpenDialog finder = new OpenDialog()
+                    // Check to see if exe location has been set.
+                    if (string.IsNullOrEmpty(config.CLILocation))
                     {
-                        Title = "Setup Retrowarden", Text = "Please locate the bw binary file to continue."
-                    };
-
-                    finder.AllowsMultipleSelection = false;
-
-                    Application.Run(finder);
-
-                    if (!finder.Canceled)
-                    {
-                        // Check to see if a file was found.
-                        if (finder.FilePaths != null)
+                        // Show file dialog.
+                        OpenDialog finder = new OpenDialog()
                         {
-                            // Save exe location in config.
-                            config.CLILocation = (string)finder.FilePaths.Single();
-                            Config.ConfigurationManager.WriteConfig(config);
+                            Title = "Setup Retrowarden", Text = "Please locate the bw binary file to continue."
+                        };
+
+                        finder.AllowsMultipleSelection = false;
+
+                        Application.Run(finder);
+
+                        if (!finder.Canceled)
+                        {
+                            // Check to see if a file was found.
+                            if (finder.FilePaths != null)
+                            {
+                                // Save exe location in config.
+                                config.CLILocation = (string)finder.FilePaths.Single();
+                                Config.ConfigurationManager.WriteConfig(config);
+                            }
+
+                            else
+                            {
+                                // Exit application.
+                                Shutdown(1);
+                            }
                         }
 
                         else
@@ -82,33 +98,27 @@ namespace Retrowarden.Views
                         }
                     }
 
+                    // Try to get the exe location.
+                    string? bwExeLocation = config.CLILocation;
+
+                    // Make sure something was found.
+                    if (bwExeLocation != null)
+                    {
+                        // Initialize vault repository.
+                        _vaultRepository = new VaultRepository(bwExeLocation);
+                    }
                     else
                     {
-                        // Exit application.
-                        Shutdown(1);
+                        MessageBox.ErrorQuery("Values Missing", "CLI Location not in config file.", "Ok");
+                        Environment.Exit(1);
                     }
                 }
 
-                // Try to get the exe location.
-                string? bwExeLocation = config.CLILocation;
-
-                // Make sure something was found.
-                if (bwExeLocation != null)
-                {
-                    // Initialize vault repository.
-                    _vaultRepository = new VaultRepository(bwExeLocation);
-                }
                 else
                 {
-                    MessageBox.ErrorQuery("Values Missing", "CLI Location not in config file.", "Ok");
+                    MessageBox.ErrorQuery("Values Missing", "Configuration not found.", "Ok");
                     Environment.Exit(1);
                 }
-            }
-
-            else
-            {
-                MessageBox.ErrorQuery("Values Missing", "Configuration not found.", "Ok");
-                Environment.Exit(1);
             }
 
             // Initialize member variables.
