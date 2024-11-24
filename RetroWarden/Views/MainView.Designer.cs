@@ -149,6 +149,11 @@ namespace Retrowarden.Views
                         {
                             Checked = false,
                             CheckType = MenuItemCheckStyle.Checked
+                        },
+                        new MenuItem("_Debug Mode", "Use Dummy Data Offline", HandleDebugMode, null, null)
+                        {
+                            Checked = false,
+                            CheckType = MenuItemCheckStyle.Checked
                         }
                     }),
                     new MenuBarItem ("_Help", new MenuItem [] {

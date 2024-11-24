@@ -1,6 +1,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Text;
 using Terminal.Gui;
 using Retrowarden.Dialogs;
@@ -12,21 +13,22 @@ using Retrowarden.Workers;
 
 namespace Retrowarden.Views 
 {
-    public partial class MainView 
+    public partial class MainView
     {
         // Vault repository reference.
-        private readonly IVaultRepository _vaultRepository;
-        
+        private IVaultRepository _vaultRepository;
+
         // Vault object collections.
         private SortedDictionary<string, VaultItem> _vaultItems;
         private List<VaultFolder> _folders;
         private List<VaultCollection> _collections;
         private List<Organization> _organizations;
-        
+
         // Working variables.
         private readonly StringBuilder _aboutMessage;
         private VaultItem _tempItem;
         private bool _boomerMode;
+        private bool _debugMode;
         private bool _keepAlive;
         private ITreeNode? _selectedNode;
         private string? _currentOrg;
@@ -34,19 +36,19 @@ namespace Retrowarden.Views
         private bool _sortValueDescending;
         private bool _sortOwnerDescending;
         private int _sortColumn = 0;
-        
-         public MainView(bool debug) 
+
+        public MainView(bool debug)
         {
             // Initialize Application Stack
             Application.Init();
-            
+
             // Set events for updating keep alive flag.
             Application.KeyDown += HandleKeyEvent;
             Application.MouseEvent += HandleMouseEvent;
-            
+
             // Create about message.
             _aboutMessage = ViewUtils.CreateAboutMessageAscii();
-            
+
             // Check to see if we are in debug mode.
             if (debug)
             {
@@ -55,69 +57,14 @@ namespace Retrowarden.Views
 
             else
             {
-                // Get the configuration.
-                RetrowardenConfig? config = Config.ConfigurationManager.GetConfig();
+                // Assign location.
+                string? bwExeLocation = LocateCLI();
 
-                // Check to see if one was found.
-                if (config != null)
+                // Make sure something was found.
+                if (bwExeLocation != null)
                 {
-                    // Check to see if exe location has been set.
-                    if (string.IsNullOrEmpty(config.CLILocation))
-                    {
-                        // Show file dialog.
-                        OpenDialog finder = new OpenDialog()
-                        {
-                            Title = "Setup Retrowarden", Text = "Please locate the bw binary file to continue."
-                        };
-
-                        finder.AllowsMultipleSelection = false;
-
-                        Application.Run(finder);
-
-                        if (!finder.Canceled)
-                        {
-                            // Check to see if a file was found.
-                            if (finder.FilePaths != null)
-                            {
-                                // Save exe location in config.
-                                config.CLILocation = (string)finder.FilePaths.Single();
-                                Config.ConfigurationManager.WriteConfig(config);
-                            }
-
-                            else
-                            {
-                                // Exit application.
-                                Shutdown(1);
-                            }
-                        }
-
-                        else
-                        {
-                            // Exit application.
-                            Shutdown(1);
-                        }
-                    }
-
-                    // Try to get the exe location.
-                    string? bwExeLocation = config.CLILocation;
-
-                    // Make sure something was found.
-                    if (bwExeLocation != null)
-                    {
-                        // Initialize vault repository.
-                        _vaultRepository = new VaultRepository(bwExeLocation);
-                    }
-                    else
-                    {
-                        MessageBox.ErrorQuery("Values Missing", "CLI Location not in config file.", "Ok");
-                        Environment.Exit(1);
-                    }
-                }
-
-                else
-                {
-                    MessageBox.ErrorQuery("Values Missing", "Configuration not found.", "Ok");
-                    Environment.Exit(1);
+                    // Initialize vault repository.
+                    _vaultRepository = new VaultRepository(bwExeLocation);
                 }
             }
 
@@ -132,23 +79,23 @@ namespace Retrowarden.Views
             _sortDescending = false;
             _sortValueDescending = false;
             _sortOwnerDescending = false;
-            
+
             // Setup screen controls.
             InitializeComponent();
-            
+
             // Set timer to launch splash.
-            Application.AddTimeout (TimeSpan.FromMilliseconds(80), ShowSplashScreen);
-            
+            Application.AddTimeout(TimeSpan.FromMilliseconds(80), ShowSplashScreen);
+
             // Set flag for vault lock timeout.
             _keepAlive = false;
-            
+
             // Set timer to lock vault if no activity.
-            Application.AddTimeout (TimeSpan.FromMilliseconds(300000), LockVaultOnTimeout);
+            Application.AddTimeout(TimeSpan.FromMilliseconds(300000), LockVaultOnTimeout);
 
             // Run the application loop.
             Application.Run(this);
         }
-         
+
         private bool ShowSplashScreen()
         {
             // Show splash screen.
@@ -157,7 +104,7 @@ namespace Retrowarden.Views
 
             return false;
         }
-        
+
         private bool LockVaultOnTimeout()
         {
             // Check to see if the vault is already locked.
@@ -171,23 +118,23 @@ namespace Retrowarden.Views
                     {
                         // Get the detail view reference.
                         Toplevel? top = Application.Top;
-                        
+
                         // Close it.
                         Application.RequestStop(top);
                     }
-                    
+
                     // Lock the vault.
                     HandleLockRequest();
                 }
             }
-            
+
             // In any case, reset the keep alive flag.
             _keepAlive = false;
-            
+
             // Keep the timer running.
             return true;
         }
-        
+
         private void SyncVault(bool fullSync)
         {
             // Check to see if this is a full or just display sync.
@@ -195,40 +142,42 @@ namespace Retrowarden.Views
             {
                 // Create new worker.
                 GetItemsWorker worker = new GetItemsWorker(_vaultRepository, "Syncing Vault Items...");
-            
+
                 // Execute task.
                 worker.Run();
-            
+
                 // Get vault items.
                 _vaultItems = worker.Items;
-                
+
                 // Check to see if items were found.
                 if (_vaultRepository.ExitCode == "0")
                 {
                     // Run workers for folders, organizations and collections.
                     GetFoldersWorker folderWorker = new GetFoldersWorker(_vaultRepository, "Syncing Folders...");
-            
+
                     // Execute task.
                     folderWorker.Run();
-            
+
                     // Get folders.
                     _folders = folderWorker.Folders;
 
                     // Create new worker.
-                    GetCollectionsWorker collectionsWorker = new GetCollectionsWorker(_vaultRepository, "Syncing Collections...");
-            
+                    GetCollectionsWorker collectionsWorker =
+                        new GetCollectionsWorker(_vaultRepository, "Syncing Collections...");
+
                     // Execute task.
                     collectionsWorker.Run();
-            
+
                     // Get collections.
                     _collections = collectionsWorker.Collections;
 
                     // Create new worker.
-                    GetOrganizationsWorker organizationsWorker = new GetOrganizationsWorker(_vaultRepository, "Syncing Organizations...");
-            
+                    GetOrganizationsWorker organizationsWorker =
+                        new GetOrganizationsWorker(_vaultRepository, "Syncing Organizations...");
+
                     // Execute task.
                     organizationsWorker.Run();
-            
+
                     // Check to see if there are any organization.
                     if (organizationsWorker.Organizations != null)
                     {
@@ -245,10 +194,10 @@ namespace Retrowarden.Views
                             // Create new worker.
                             GetOrganizationMembersWorker membersWorker = new GetOrganizationMembersWorker(
                                 _vaultRepository, "Syncing Members for " + org.Name + " ...", org.Id);
-                            
+
                             // Execute search.
                             membersWorker.Run();
-                            
+
                             // Check to see if there are any results.
                             if (membersWorker.Members != null)
                             {
@@ -256,11 +205,11 @@ namespace Retrowarden.Views
                                 org.Members = membersWorker.Members;
                             }
                         }
-                    } 
+                    }
 */
                 }
             }
-            
+
             // Set item owner name.
             SetOwnerNameForItems();
 
@@ -268,11 +217,11 @@ namespace Retrowarden.Views
             LoadTreeView();
             LoadItemListView(_vaultItems);
         }
-        
+
         private void ShowDetailForm(VaultItemDetailViewState state)
         {
             ItemDetailView? view = CreateDetailView(state);
-            
+
             // Make sure we have a view.
             if (view != null)
             {
@@ -324,7 +273,7 @@ namespace Retrowarden.Views
         private ItemDetailView? CreateDetailView(VaultItemDetailViewState state)
         {
             ItemDetailView? retVal = null;
-            
+
             // Check to see what type of item we have.
             switch (_tempItem.ItemType)
             {
@@ -332,24 +281,98 @@ namespace Retrowarden.Views
                 case 1:
                     retVal = new LoginDetailView(_tempItem, _folders, state, _vaultRepository);
                     break;
-                
+
                 // Note
                 case 2:
                     retVal = new SecureNoteDetailView(_tempItem, _folders, state);
                     break;
-                
+
                 // Card
                 case 3:
                     retVal = new CardDetailView(_tempItem, _folders, state);
                     break;
-                
+
                 // Identity
                 case 4:
                     retVal = new IdentityDetailView(_tempItem, _folders, state);
                     break;
             }
-            
+
             // Return the view.
+            return retVal;
+        }
+
+        private void ResetUI()
+        {
+            // Clear controls.
+            lvwItems.RemoveAll();
+            tvwItems.ClearObjects();
+            lvwItems.Source = null;
+            lblItemName.Visible = false;
+            lblUserId.Visible = false;
+            lblOwner.Visible = false;
+
+            // Reset internal collections.
+            _folders.Clear();
+            _collections.Clear();
+            _organizations.Clear();
+            _vaultItems.Clear();
+
+            // Reset status bar menu options.
+            UpdateStatusBarOptions();
+        }
+
+        private string? LocateCLI()
+        {
+            // The location of CLI file.
+            string? retVal = null;
+    
+            // Get the configuration.
+            RetrowardenConfig? config = Config.ConfigurationManager.GetConfig();
+    
+            // Check to see if one was found.
+            if (config != null)
+            {
+                // Check to see if exe location has been set.
+                if (string.IsNullOrEmpty(config.CLILocation))
+                {
+                    // Show file dialog.
+                    OpenDialog finder = new OpenDialog()
+                    {
+                        Title = "Setup Retrowarden", Text = "Please locate the bw binary file to continue."
+                    };
+    
+                    finder.AllowsMultipleSelection = false;
+    
+                    Application.Run(finder);
+    
+                    if (!finder.Canceled)
+                    {
+                        // Check to see if a file was found.
+                        if (finder.FilePaths != null)
+                        {
+                            // Save exe location in config.
+                            config.CLILocation = (string)finder.FilePaths.Single();
+                            Config.ConfigurationManager.WriteConfig(config);
+                        }
+                    }
+                }
+    
+                // Assign location.
+                retVal = config.CLILocation;
+    
+                // Make sure something was found.
+                if (retVal == null)
+                {
+                    MessageBox.ErrorQuery("Values Missing", "CLI Location not in config file.", "Ok");
+                }
+            }
+    
+            else
+            {
+                MessageBox.ErrorQuery("Values Missing", "Configuration not found.", "Ok");
+            }
+
             return retVal;
         }
 
@@ -1147,23 +1170,9 @@ namespace Retrowarden.Views
 
                 // Execute task.
                 worker.Run();
-
-                // Clear controls.
-                lvwItems.RemoveAll();
-                tvwItems.ClearObjects();
-                lvwItems.Source = null;
-                lblItemName.Visible = false;
-                lblUserId.Visible = false;
-                lblOwner.Visible = false;
-
-                // Reset internal collections.
-                _folders.Clear();
-                _collections.Clear();
-                _organizations.Clear();
-                _vaultItems.Clear();
-
-                // Reset status bar menu options.
-                UpdateStatusBarOptions();
+                
+                // Reset controls to empty vault state.
+                ResetUI();
             }
 
             else
@@ -1250,6 +1259,57 @@ namespace Retrowarden.Views
             
             // Show it.
             dialog.Show();
+        }
+
+        private void HandleDebugMode()
+        {
+            // Check to see if we are leaving debug mode.
+            if (_debugMode)
+            {
+                // Change View title to remove Debug warning.
+                
+                // Switch VaultRepository implementations.
+                
+                // Reset the UI
+                ResetUI();
+
+                // Toggle debug mode.
+                _debugMode = !_debugMode;
+            
+                // Set menu state.
+                mnuMain.Menus[1].Children[1].Checked = _debugMode;
+            }
+
+            else
+            {
+                // Check to see if the user is logged in.
+                if (_vaultRepository.IsLoggedIn)
+                {
+                    int response = MessageBox.Query("Confirm Action", "This will Log you out of your session.  Are you Sure?", "Ok", "Cancel");
+            
+                    // Check to see if the user confirmed action.
+                    if (response == 0)
+                    {
+                        // Create new worker.
+                        LogoutWorker worker = new LogoutWorker(_vaultRepository, "Logging out...");
+
+                        // Execute task.
+                        worker.Run();
+                        
+                        // Switch VaultRepository implementations.
+                        _vaultRepository = new DebugVaultRepository();
+
+                        // Reset the UI
+                        ResetUI();
+
+                        // Toggle debug mode.
+                        _debugMode = !_debugMode;
+            
+                        // Set menu state.
+                        mnuMain.Menus[1].Children[1].Checked = _debugMode;
+                    }
+                }
+            }
         }
         #endregion
 
@@ -1715,5 +1775,6 @@ namespace Retrowarden.Views
             }
         }
         #endregion
+        
     }
 }
