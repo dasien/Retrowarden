@@ -34,12 +34,11 @@ namespace Retrowarden.Views
 
         protected void SetupView()
         {
+            AssembleView();
+            
             // Check to make sure we have a sub-view to add (Secure Note doesn't have one)
             if (_subView != null)
             {
-                // Add subview to view.
-                Add(_subView);
-
                 // Update location of 'footer' controls to below the particular detail view.
                 RelocateFooterControls();
             }
@@ -123,6 +122,35 @@ namespace Retrowarden.Views
         private void DisableView()
         {
             btnSave.Enabled = false;
+        }
+
+        private void AssembleView()
+        {
+            // Add header controls.
+            this.Add(this.lblItemName);
+            this.Add(this.lblFolder);
+            this.Add(this.txtItemName);
+            this.Add(this.cboFolder);
+            this.Add(this.chkFavorite);
+            this.Add(this.chkReprompt);
+
+            // Add custom view.
+            // Check to make sure we have a sub-view to add (Secure Note doesn't have one)
+            if (_subView != null)
+            {
+                // Add subview to view.
+                Add(_subView);
+            }
+            
+            // Add footer controls.
+            this.fraNotes.Add(this.tvwNotes);
+            this.Add(this.fraNotes);
+            this.Add(this.fraCustomFieldList);
+            this.Add(this.btnNewCustomField);
+            this.Add(this.btnSave);
+            this.Add(this.btnCancel);
+            this.Add(this.stbDetail);
+
         }
         
         private void InitializeLists()

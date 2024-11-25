@@ -35,21 +35,19 @@ namespace Retrowarden.Views
             this.Border.BorderStyle = LineStyle.Single;
             this.TextAlignment = Alignment.Start;
             this.MouseEvent += (o, e) => HandleMouseEvent(o,e);
-            this.TabStop = TabBehavior.TabGroup;
+            //this.TabStop = TabBehavior.TabGroup;
             
             this.lblItemName = new Label
             {
                 Width = 8, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblItemName", Text = "Name",
                 TextAlignment = Alignment.Start
             };
-            this.Add(this.lblItemName);
 
             this.lblFolder = new Label
             {
                 Width = 8, Height = 1, X = 40, Y = 0, Visible = true, Data = "lblFolder", Text = "Folder",
                 TextAlignment = Alignment.Start
             };
-            this.Add(this.lblFolder);
 
             this.txtItemName = new TextField
             {
@@ -57,7 +55,6 @@ namespace Retrowarden.Views
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop, CanFocus = true
             };
             //this.txtItemName.Enter += (s, e) => HandleControlEnter(txtItemName);
-            this.Add(this.txtItemName);
 
             this.cboFolder = new ComboBox
             {
@@ -65,7 +62,6 @@ namespace Retrowarden.Views
                 Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             //this.cboFolder.Enter += (s, e) => HandleControlEnter(cboFolder);
-            this.Add(this.cboFolder);
 
             this.chkFavorite = new CheckBox
             {
@@ -73,7 +69,6 @@ namespace Retrowarden.Views
                 TextAlignment = Alignment.Start, CheckedState = CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             //this.chkFavorite.Enter += (s, e) => HandleControlEnter(chkFavorite);
-            this.Add(this.chkFavorite);
 
             this.chkReprompt = new CheckBox
             {
@@ -81,33 +76,29 @@ namespace Retrowarden.Views
                 TextAlignment = Alignment.Start, CheckedState = CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             //this.chkReprompt.Enter += (s, e) => HandleControlEnter(chkReprompt);
-            this.Add(this.chkReprompt);
 
             this.fraNotes = new FrameView
             {
                 Width = 97, Height = 9, X = 1, Y = 20, Visible = true, CanFocus = true, Data = "fraNotes",
                 Border = { BorderStyle = LineStyle.Single }, TextAlignment = Alignment.Start, Title = "Notes",
-                TabStop = TabBehavior.TabGroup
+                TabStop = TabBehavior.TabStop
             };
             //this.fraNotes.Enter += (s, e) => HandleControlEnter(fraNotes);
-            this.Add(this.fraNotes);
-
+            
             this.tvwNotes = new TextView
             {
                 Width = 95, Height = 7, X = 1, Y = 0, Visible = true, AllowsTab = true, AllowsReturn = true,
                 WordWrap = false, Data = "tvwNotes", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             //this.tvwNotes.Enter += (s, e) => HandleControlEnter(tvwNotes);
-            this.fraNotes.Add(this.tvwNotes);
 
             this.fraCustomFieldList = new FrameView
             {
                 Width = 97, Height = 7, X = 1, Y = 30, Visible = true, Enabled = true, CanFocus = true, Data = "fraCustomFieldList",
                 Border = { BorderStyle = LineStyle.Single }, TextAlignment = Alignment.Start, Title = "Custom Fields",
-                TabStop = TabBehavior.TabGroup
+                TabStop = TabBehavior.TabStop
             };
             //this.fraCustomFieldList.Enter += (s, e) => HandleControlEnter(fraCustomFieldList);
-            this.Add(this.fraCustomFieldList);
 
             this.btnNewCustomField = new Button
             {
@@ -116,7 +107,6 @@ namespace Retrowarden.Views
             };
             this.btnNewCustomField.Accept += NewCustomFieldButtonClicked;
             //this.btnNewCustomField.Enter += (s, e) => HandleControlEnter(btnNewCustomField);
-            this.Add(this.btnNewCustomField);
 
             this.btnSave = new Button
             {
@@ -125,7 +115,6 @@ namespace Retrowarden.Views
             };
             this.btnSave.Accept += SaveButtonClicked;
             //this.btnSave.Enter += (s, e) => HandleControlEnter(btnSave);
-            this.Add(this.btnSave);
 
             this.btnCancel = new Button
             {
@@ -134,14 +123,12 @@ namespace Retrowarden.Views
             };
             this.btnCancel.Accept += CancelButtonClicked;
             //this.btnCancel.Enter += (s, e) => HandleControlEnter(btnCancel);
-            this.Add(this.btnCancel);
 
             this.stbDetail = new StatusBar
             {
                 Width = Dim.Fill(0), Height = 1, X = 0, Y = Pos.AnchorEnd(0), Visible = true, Data = "stbDetail",
                 Text = "", TextAlignment = Alignment.Start
             };
-            this.Add(this.stbDetail);
         }
     }
 }
