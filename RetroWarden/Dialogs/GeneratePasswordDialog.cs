@@ -122,9 +122,6 @@ namespace Retrowarden.Dialogs
         #region InitializeComponent
         private void InitializeComponent() 
         {
-            _btnClose = new Button();
-            _btnCopy = new Button();
-            _btnGeneratePassword = new Button();
             _txtPasswordLength = new TextField();
             _lblLength = new Label();
             _chkSpecialChars = new CheckBox();
@@ -139,127 +136,84 @@ namespace Retrowarden.Dialogs
                 Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true, 
                 TextAlignment = Alignment.Start, Title = "Password Generator"
             };
-            
-            _lblPassword.Width = 39;
-            _lblPassword.Height = 1;
-            _lblPassword.X = 2;
-            _lblPassword.Y = 1;
-            _lblPassword.Visible = true;
-            _lblPassword.Data = "_lblPassword";
-            _lblPassword.Text = "No password generated.";
-            _lblPassword.CanFocus = false;
-            _lblPassword.TextAlignment = Alignment.Center;
+
+            _lblPassword = new Label()
+            {
+                Width = 39, Height = 1, X = 2, Y = 1, Visible = true, Data = "_lblPassword",
+                Text = "No password generated.", CanFocus = false, TextAlignment = Alignment.Center
+            };
             _dialog.Add(_lblPassword);
-            
-            _fraOptions.Width = 40;
-            _fraOptions.Height = 8;
-            _fraOptions.X = 1;
-            _fraOptions.Y = 3;
-            _fraOptions.Visible = true;
-            _fraOptions.Data = "_fraOptions";
-            _fraOptions.TextAlignment = Alignment.Start;
-            _fraOptions.Title = "Options";
+
+            _fraOptions = new FrameView()
+            {
+                Width = 40, Height = 8, X = 1, Y = 3, Visible = true, Data = "_fraOptions",
+                TextAlignment = Alignment.Start, Title = "Options"
+            };
             _dialog.Add(_fraOptions);
-            
-            _chkUpperCase.Width = 6;
-            _chkUpperCase.Height = 1;
-            _chkUpperCase.X = 1;
-            _chkUpperCase.Y = 0;
-            _chkUpperCase.Visible = true;
-            _chkUpperCase.Data = "_chkUpperCase";
-            _chkUpperCase.Text = "Uppercase Characters (A-Z)";
-            _chkUpperCase.TextAlignment = Alignment.Start;
-            _chkUpperCase.CheckedState = CheckState.Checked;
+
+            _chkUpperCase = new CheckBox()
+            {
+                Width = 6, Height = 1, X = 1, Y = 0, Visible = true, Data = "_chkUpperCase",
+                Text = "Uppercase Characters (A-Z)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+            };
             _fraOptions.Add(_chkUpperCase);
-            
-            _chkLowerCase.Width = 6;
-            _chkLowerCase.Height = 1;
-            _chkLowerCase.X = 1;
-            _chkLowerCase.Y = 1;
-            _chkLowerCase.Visible = true;
-            _chkLowerCase.Data = "_chkLowerCase";
-            _chkLowerCase.Text = "Lowercase Characters (a-z)";
-            _chkLowerCase.TextAlignment = Alignment.Start;
-            _chkLowerCase.CheckedState = CheckState.Checked;
+
+            _chkLowerCase = new CheckBox()
+            {
+                Width = 6, Height = 1, X = 1, Y = 1, Visible = true, Data = "_chkLowerCase",
+                Text = "Lowercase Characters (a-z)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+            };
             _fraOptions.Add(_chkLowerCase);
-            
-            _chkNumbers.Width = 6;
-            _chkNumbers.Height = 1;
-            _chkNumbers.X = 1;
-            _chkNumbers.Y = 2;
-            _chkNumbers.Visible = true;
-            _chkNumbers.Data = "_chkNumbers";
-            _chkNumbers.Text = "Numeric Characters (0-9)";
-            _chkNumbers.TextAlignment = Alignment.Start;
-            _chkNumbers.CheckedState = CheckState.Checked;
+
+            _chkNumbers = new CheckBox()
+            {
+                Width = 6, Height = 1, X = 1, Y = 2, Visible = true, Data = "_chkNumbers",
+                Text = "Numeric Characters (0-9)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+            };
             _fraOptions.Add(_chkNumbers);
-            
-            _chkSpecialChars.Width = 6;
-            _chkSpecialChars.Height = 1;
-            _chkSpecialChars.X = 1;
-            _chkSpecialChars.Y = 3;
-            _chkSpecialChars.Visible = true;
-            _chkSpecialChars.Data = "_chkSpecialChars";
-            _chkSpecialChars.Text = "Special Characters (!@#$%^&*)";
-            _chkSpecialChars.TextAlignment = Alignment.Start;
-            _chkSpecialChars.CheckedState = CheckState.Checked;
+
+            _chkSpecialChars = new CheckBox()
+            {
+                Width = 6, Height = 1, X = 1, Y = 3, Visible = true, Data = "_chkSpecialChars",
+                Text = "Special Characters (!@#$%^&*)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+            };
             _fraOptions.Add(_chkSpecialChars);
-            
-            _lblLength.Width = 4;
-            _lblLength.Height = 1;
-            _lblLength.X = 3;
-            _lblLength.Y = 4;
-            _lblLength.Visible = true;
-            _lblLength.Data = "_lblLength";
-            _lblLength.Text = "Length";
-            _lblLength.CanFocus = false;
-            _lblLength.TextAlignment = Alignment.Start;
+
+            _lblLength = new Label()
+            {
+                Width = 4, Height = 1, X = 3, Y = 4, Visible = true, Data = "_lblLength",
+                Text = "Length", CanFocus = false, TextAlignment = Alignment.Start
+            };
             _fraOptions.Add(_lblLength);
-            
-            _txtPasswordLength.Width = 10;
-            _txtPasswordLength.Height = 1;
-            _txtPasswordLength.X = 10;
-            _txtPasswordLength.Y = 4;
-            _txtPasswordLength.Visible = true;
-            _txtPasswordLength.Secret = false;
-            _txtPasswordLength.Data = "_txtPasswordLength";
-            _txtPasswordLength.Text = "14";
-            _txtPasswordLength.TextAlignment = Alignment.Start;
+
+            _txtPasswordLength = new TextField()
+            {
+                Width = 10, Height = 1, X = 10, Y = 4, Visible = true, Secret = false,
+                Data = "_txtPasswordLength", Text = "14", TextAlignment = Alignment.Start
+            };
             _fraOptions.Add(_txtPasswordLength);
             
-            _btnGeneratePassword.Width = 8;
-            _btnGeneratePassword.Height = 1;
-            _btnGeneratePassword.X = 1;
-            _btnGeneratePassword.Y = 11;
-            _btnGeneratePassword.Visible = true;
-            _btnGeneratePassword.Data = "_btnGeneratePassword";
-            _btnGeneratePassword.Text = "Generate";
-            _btnGeneratePassword.TextAlignment = Alignment.Center;
-            _btnGeneratePassword.IsDefault = false;
+            _btnGeneratePassword = new Button()
+            {
+                Width = 8, Height = 1, X = 1, Y = 11, Visible = true, Data = "_btnGeneratePassphrase",
+                Text = "Generate", TextAlignment = Alignment.Center, IsDefault = false
+            };
             _btnGeneratePassword.Accept += GenerateButton_Clicked;
             _dialog.Add(_btnGeneratePassword);
             
-            _btnCopy.Width = 4;
-            _btnCopy.Height = 1;
-            _btnCopy.X = 18;
-            _btnCopy.Y = 11;
-            _btnCopy.Visible = true;
-            _btnCopy.Data = "_btnCopy";
-            _btnCopy.Text = "Copy";
-            _btnCopy.TextAlignment = Alignment.Center;
-            _btnCopy.IsDefault = false;
+            _btnCopy = new Button()
+            {
+                Width = 4, Height = 1, X = 18, Y = 11, Visible = true, Data = "_btnCopy",
+                Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false
+            };
             _btnCopy.Accept += CopyButton_Clicked;
             _dialog.Add(_btnCopy);
-            
-            _btnClose.Width = 9;
-            _btnClose.Height = 1;
-            _btnClose.X = 32;
-            _btnClose.Y = 11;
-            _btnClose.Visible = true;
-            _btnClose.Data = "_btnClose";
-            _btnClose.Text = "Close";
-            _btnClose.TextAlignment = Alignment.Center;
-            _btnClose.IsDefault = false;
+
+            _btnClose = new Button()
+            {
+                Width = 9, Height = 1, X = 32, Y = 11, Visible = true, Data = "_btnClose",
+                Text = "Close", TextAlignment = Alignment.Center, IsDefault = false
+            };
             _btnClose.Accept += CancelButton_Clicked;
             _dialog.Add(_btnClose);
         }
