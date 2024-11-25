@@ -54,7 +54,7 @@ namespace Retrowarden.Views
             this.txtItemName = new TextField
             {
                 Width = 30, Height = 1, X = 1, Y = 1, Visible = true, Secret = false, Data = "txtItemName", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop, CanFocus = true
             };
             //this.txtItemName.Enter += (s, e) => HandleControlEnter(txtItemName);
             this.Add(this.txtItemName);

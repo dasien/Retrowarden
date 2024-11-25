@@ -117,7 +117,7 @@ namespace Retrowarden.Views
         protected void SetItemNameControlFocus()
         {
             // This is part of a bug fix that allows focus in the URI list frame.
-            //txtItemName.FocusFirst(null);
+            //txtItemName.HasFocus = true;
         }
         
         private void DisableView()

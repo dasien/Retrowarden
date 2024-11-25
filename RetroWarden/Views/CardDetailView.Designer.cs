@@ -46,7 +46,7 @@ namespace Retrowarden.Views
             vwCard = new View
             {
                 Width = 99, Height = 9, X = 0, Y = 3, Visible = true, 
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabGroup
+                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop, CanFocus = true
             };                      
             
             this.lblCardholderName = new Label

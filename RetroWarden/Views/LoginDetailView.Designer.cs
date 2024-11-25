@@ -26,7 +26,7 @@ namespace Retrowarden.Views
             this.vwLogin = new View()
             {
                 Width = 99, Height = 15, X = 0, Y = 3, Visible = true, TextAlignment = Alignment.Start,
-                TabStop = TabBehavior.TabGroup
+                TabStop = TabBehavior.TabStop, CanFocus = true
             };
             
             this.btnNewURI = new Button()

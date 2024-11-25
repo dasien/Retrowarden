@@ -50,7 +50,7 @@ namespace Retrowarden.Views
             vwIdentity = new View 
             {
                 Width = 99, Height = 25, X = 0, Y = 3, Visible = true, TextAlignment = Alignment.Start,
-                TabStop = TabBehavior.TabGroup
+                TabStop = TabBehavior.TabStop, CanFocus = true
             };
 
             this.lblTitle = new Label
