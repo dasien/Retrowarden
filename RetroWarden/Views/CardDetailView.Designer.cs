@@ -68,7 +68,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 1, Y = 1, Visible = true, Secret = false, Data = "txtCardholderName", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtCardholderName.Enter += (s, e) => HandleControlEnter(txtCardholderName);
+            this.txtCardholderName.HasFocusChanged += (s, e) => HandleFocusChange(txtCardholderName, e);
             vwCard.Add(this.txtCardholderName);
 
             this.cboCardBrand = new ComboBox
@@ -76,6 +76,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 5, X = 40, Y = 1, Visible = true, Data = "cboCardBrand", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
+            this.cboCardBrand.HasFocusChanged += (s, e) => HandleFocusChange(cboCardBrand, e);
             vwCard.Add(this.cboCardBrand);
 
             this.lblCardNumber = new Label
@@ -97,7 +98,7 @@ namespace Retrowarden.Views
                 Width = 18, Height = 1, X = 1, Y = 4, Visible = true, Secret = true, Data = "txtCardNumber", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtCardNumber.Enter += (s, e) => HandleControlEnter(txtCardNumber);
+            this.txtCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(txtCardNumber, e);
             vwCard.Add(this.txtCardNumber);
 
             this.btnShowCardNumber = new Button
@@ -106,6 +107,7 @@ namespace Retrowarden.Views
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnShowCardNumber.Accept += ShowCardButtonClicked;
+            this.btnShowCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(btnShowCardNumber, e);
             vwCard.Add(this.btnShowCardNumber);
 
             this.btnCopyCardNumber = new Button
@@ -114,6 +116,7 @@ namespace Retrowarden.Views
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnCopyCardNumber.Accept += CopyCardButtonClicked;
+            this.btnCopyCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyCardNumber, e);
             vwCard.Add(this.btnCopyCardNumber);
 
             this.txtCVV = new TextField
@@ -121,7 +124,7 @@ namespace Retrowarden.Views
                 Width = 16, Height = 1, X = 40, Y = 4, Visible = true, Secret = true, Data = "txtCVV", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtCVV.Enter += (s, e) => HandleControlEnter(txtCVV);
+            this.txtCVV.HasFocusChanged += (s, e) => HandleFocusChange(txtCVV, e);
             vwCard.Add(this.txtCVV);
 
             this.btnShowCVV = new Button
@@ -130,6 +133,7 @@ namespace Retrowarden.Views
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnShowCVV.Accept += ShowCVVButtonClicked;
+            this.btnShowCVV.HasFocusChanged += (s, e) => HandleFocusChange(btnShowCVV, e);
             vwCard.Add(this.btnShowCVV);
 
             this.btnCopyCVV = new Button
@@ -138,6 +142,7 @@ namespace Retrowarden.Views
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnCopyCVV.Accept += CopyCVVButtonClicked;
+            this.btnCopyCVV.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyCVV, e);
             vwCard.Add(this.btnCopyCVV);
 
             this.lblExpMonth = new Label
@@ -159,6 +164,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 5, X = 1, Y = 7, Visible = true, Data = "cboExpMonth", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
+            this.cboExpMonth.HasFocusChanged += (s, e) => HandleFocusChange(cboExpMonth, e);
             vwCard.Add(this.cboExpMonth);
 
             this.txtExpYear = new TextField
@@ -166,7 +172,8 @@ namespace Retrowarden.Views
                 Width = 20, Height = 1, X = 40, Y = 7, Visible = true, Secret = false, Data = "txtExpYear", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtExpYear.Enter += (s, e) => HandleControlEnter(txtExpYear);
-            vwCard.Add(this.txtExpYear);        }
+            this.txtExpYear.HasFocusChanged += (s, e) => HandleFocusChange(txtExpYear, e);
+            vwCard.Add(this.txtExpYear);        
+        }
     }
 }

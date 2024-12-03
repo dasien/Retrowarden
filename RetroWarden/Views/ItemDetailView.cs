@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
 using Terminal.Gui;
@@ -201,28 +202,6 @@ namespace Retrowarden.Views
             // Get the custom fields.
             _item.CustomFields = scrCustomFields.Fields;
         }
-
-        /*
-        protected virtual void SetTabOrder()
-        {
-            // Set tab order for common controls. 
-            txtItemName.TabIndex = 0;
-            cboFolder.TabIndex = 1;
-            chkFavorite.TabIndex = 2;
-            chkReprompt.TabIndex = 3;
-            
-            if (_subView != null)
-            {
-                _subView.TabIndex = 4;
-            }
-            
-            tvwNotes.TabIndex = 95;
-            scrCustomFields.TabIndex = 96;
-            btnNewCustomField.TabIndex = 97;
-            btnSave.TabIndex = 98;
-            btnCancel.TabIndex = 99;
-        }
-        */
         
         #region  Properties
         public bool OkPressed
@@ -256,30 +235,38 @@ namespace Retrowarden.Views
             // Close dialog.
             Application.RequestStop();
         }
-        
-        protected void HandleControlEnter(View sender)
+
+        protected void HandleFocusChange(View? sender, HasFocusEventArgs eventArgs)
         {
-            // Get Y values for control and scroll view
-            Size content = GetContentSize();
+            // Get the view which is receiving focus.
+            View gettingFocus = eventArgs.NewFocused;
             
-            // Check to see if we are lower than view.
-            if (sender.Frame.Y > Viewport.Bottom)
+            // Check to see if the view below the viewport.
+            if (gettingFocus.Frame.Y + gettingFocus.Frame.Height > Viewport.Bottom)
             {
-                // Loop until we are in view.
-                while (sender.Frame.Y > Viewport.Bottom)
-                {
-                    ScrollVertical(5);
-                }
+                // Scroll down until control is in the frame.
+                ScrollVertical(gettingFocus.Frame.Y + gettingFocus.Frame.Height - Viewport.Bottom);
             }
-        
-            // Scroll back up if out of view.
-            else if (sender.Frame.Y < Viewport.Top)
+            
+            // Check to see if the view is above the viewport.
+            else if (gettingFocus.Frame.Top < Viewport.Top)
             {
-                // Loop until we are in view.
-                while (sender.Frame.Y < Viewport.Top)
-                {
-                    ScrollVertical((-5));
-                }
+                // Scroll up until control is in the frame.
+                ScrollVertical(gettingFocus.Frame.Top - Viewport.Top);
+            }
+            
+            // Check to see if the view is too far right.
+            if (gettingFocus.Frame.X + gettingFocus.Frame.Width > Viewport.Right)
+            {
+                // Scroll right until control is in frame.
+                ScrollHorizontal(gettingFocus.Frame.X + gettingFocus.Frame.Width - Viewport.Right);
+            }
+            
+            // Check to see if the view is too far left.
+            if (gettingFocus.Frame.Left < Viewport.Left)
+            {
+                // Scroll left until control is in frame.
+                ScrollHorizontal(gettingFocus.Frame.Left - Viewport.Left);
             }
 
             // If this is a textfield, select the text in it.
@@ -288,7 +275,7 @@ namespace Retrowarden.Views
                 ((TextField)sender).SelectAll();
             }
         }
-        
+
         private void NewCustomFieldButtonClicked(object? sender, HandledEventArgs e)
         {
             // Show the dialog for field type choice.
@@ -318,6 +305,5 @@ namespace Retrowarden.Views
         }
         
         #endregion
-
     }
 }

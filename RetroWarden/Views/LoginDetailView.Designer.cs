@@ -35,7 +35,8 @@ namespace Retrowarden.Views
                 Text = "New URI", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnNewURI.Accept += NewUriButtonClicked;
-
+            this.btnNewURI.HasFocusChanged += (s, e) => HandleFocusChange(btnNewURI, e);
+            
             this.fraURIList = new FrameView()
             {
                 Width = 97, Height = 7, X = 1, Y = 6, Visible = true, Enabled = true,
@@ -48,7 +49,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 1, Y = 4, Visible = true, Secret = false,
                 Data = "txtTOTP", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //txtTOTP.Enter += (s,e) => HandleControlEnter(txtTOTP);
+            this.txtTOTP.HasFocusChanged += (s, e) => HandleFocusChange(txtTOTP, e);
             
             this.lblTOTP = new Label()
             {
@@ -62,6 +63,7 @@ namespace Retrowarden.Views
                 Text = "Generate", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnGeneratePassword.Accept += GeneratePasswordButtonClicked;
+            this.btnGeneratePassword.HasFocusChanged += (s, e) => HandleFocusChange(btnGeneratePassword, e);
             
             this.btnCopyPassword = new Button()
             {
@@ -69,20 +71,22 @@ namespace Retrowarden.Views
                 Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnCopyPassword.Accept += CopyPasswordButtonClicked;
-
+            this.btnCopyPassword.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyPassword, e);
+            
             this.btnViewPassword = new Button()
             {
                 Width = 8, Height = 1, X = 62, Y = 1, Visible = true, Data = "btnViewPassword",
                 Text = "Show", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnViewPassword.Accept += ViewPasswordButtonClicked;
-
+            this.btnViewPassword.HasFocusChanged += (s, e) => HandleFocusChange(btnViewPassword, e);
+            
             this.txtPassword = new TextField()
             {
                 Width = 21, Height = 1, X = 40, Y = 1, Visible = true, Secret = true,
                 Data = "txtPassword", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //txtPassword.Enter += (s,e) => HandleControlEnter(txtPassword);
+            this.txtPassword.HasFocusChanged += (s, e) => HandleFocusChange(txtPassword, e);
 
             this.btnCopyUserName = new Button()
             {
@@ -90,13 +94,14 @@ namespace Retrowarden.Views
                 Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
             this.btnCopyUserName.Accept += CopyUserNameButtonClicked;
-
+            this.btnCopyUserName.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyUserName, e);
+            
             this.txtUserName = new TextField()
             {
                 Width = 21, Height = 1, X = 1, Y = 1, Visible = true, Secret = false,
                 Data = "txtUserName", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //txtUserName.Enter += (s,e) => HandleControlEnter(txtUserName);
+            this.txtUserName.HasFocusChanged += (s, e) => HandleFocusChange(txtUserName, e);
 
             this.lblPassword = new Label()
             {

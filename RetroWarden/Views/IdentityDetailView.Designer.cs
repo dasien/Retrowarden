@@ -65,6 +65,7 @@ namespace Retrowarden.Views
                 Width = 23, Height = 5, X = 1, Y = 1, Visible = true, Data = "cboTitle", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
+            this.cboTitle.HasFocusChanged += (s, e) => HandleFocusChange(cboTitle, e);
             vwIdentity.Add(this.cboTitle);
 
             this.lblFirstName = new Label
@@ -93,7 +94,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 1, Y = 4, Visible = true, Secret = false, Data = "txtFirstName", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtFirstName.Enter += (s, e) => HandleControlEnter(txtFirstName);
+            this.txtFirstName.HasFocusChanged += (s, e) => HandleFocusChange(txtFirstName, e);
             vwIdentity.Add(this.txtFirstName);
 
             this.txtMiddleName = new TextField
@@ -101,7 +102,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 33, Y = 4, Visible = true, Secret = false, Data = "txtMiddleName", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtMiddleName.Enter += (s, e) => HandleControlEnter(txtMiddleName);
+            this.txtMiddleName.HasFocusChanged += (s, e) => HandleFocusChange(txtMiddleName, e);
             vwIdentity.Add(this.txtMiddleName);
 
             this.txtLastName = new TextField
@@ -109,7 +110,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 65, Y = 4, Visible = true, Secret = false, Data = "txtLastName", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtLastName.Enter += (s, e) => HandleControlEnter(txtLastName);
+            this.txtLastName.HasFocusChanged += (s, e) => HandleFocusChange(txtLastName, e);
             vwIdentity.Add(this.txtLastName);
             
             this.lblSSN = new Label
@@ -138,7 +139,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 1, Y = 7, Visible = true, Secret = false, Data = "txtSSN", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtSSN.Enter += (s, e) => HandleControlEnter(txtSSN);
+            this.txtSSN.HasFocusChanged += (s, e) => HandleFocusChange(txtSSN, e);
             vwIdentity.Add(this.txtSSN);
 
             this.txtPassportNumber = new TextField
@@ -146,7 +147,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 33, Y = 7, Visible = true, Secret = false, Data = "txtPassportNumber", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtPassportNumber.Enter += (s, e) => HandleControlEnter(txtPassportNumber);
+            this.txtPassportNumber.HasFocusChanged += (s, e) => HandleFocusChange(txtPassportNumber, e);
             vwIdentity.Add(this.txtPassportNumber);
 
             this.txtLicenseNumber = new TextField
@@ -154,7 +155,7 @@ namespace Retrowarden.Views
                 Width = 30, Height = 1, X = 65, Y = 7, Visible = true, Secret = false, Data = "txtLicenseNumber", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtLicenseNumber.Enter += (s, e) => HandleControlEnter(txtLicenseNumber);
+            this.txtLicenseNumber.HasFocusChanged += (s, e) => HandleFocusChange(txtLicenseNumber, e);
             vwIdentity.Add(this.txtLicenseNumber);
             
             this.lineView2 = new LineView
@@ -183,7 +184,7 @@ namespace Retrowarden.Views
                 Width = 45, Height = 1, X = 1, Y = 11, Visible = true, Secret = false, Data = "txtAddress1", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtAddress1.Enter += (s, e) => HandleControlEnter(txtAddress1);
+            this.txtAddress1.HasFocusChanged += (s, e) => HandleFocusChange(txtAddress1, e);
             vwIdentity.Add(this.txtAddress1);
 
             this.lblAddress2 = new Label
@@ -198,7 +199,7 @@ namespace Retrowarden.Views
                 Width = 45, Height = 2, X = 1, Y = 14, Visible = true, Secret = false, Data = "txtAddress2", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtAddress2.Enter += (s, e) => HandleControlEnter(txtAddress2);
+            this.txtAddress2.HasFocusChanged += (s, e) => HandleFocusChange(txtAddress2, e);
             vwIdentity.Add(this.txtAddress2);
 
             this.lblAddress3 = new Label
@@ -213,7 +214,7 @@ namespace Retrowarden.Views
                 Width = 45, Height = 1, X = 1, Y = 17, Visible = true, Secret = false, Data = "txtAddress3", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtAddress3.Enter += (s, e) => HandleControlEnter(txtAddress3);
+            this.txtAddress3.HasFocusChanged += (s, e) => HandleFocusChange(txtAddress3, e);
             vwIdentity.Add(this.txtAddress3);
 
             this.lblCity = new Label
@@ -235,7 +236,7 @@ namespace Retrowarden.Views
                 Width = 21, Height = 1, X = 1, Y = 20, Visible = true, Secret = false, Data = "txtCity", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtCity.Enter += (s, e) => HandleControlEnter(txtCity);
+            this.txtCity.HasFocusChanged += (s, e) => HandleFocusChange(txtCity, e);
             vwIdentity.Add(this.txtCity);
 
             this.txtState = new TextField
@@ -243,7 +244,7 @@ namespace Retrowarden.Views
                 Width = 21, Height = 1, X = 25, Y = 20, Visible = true, Secret = false, Data = "txtState", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtState.Enter += (s, e) => HandleControlEnter(txtState);
+            this.txtState.HasFocusChanged += (s, e) => HandleFocusChange(txtState, e);
             vwIdentity.Add(this.txtState);
 
             this.lblZipCode = new Label
@@ -265,7 +266,7 @@ namespace Retrowarden.Views
                 Width = 21, Height = 1, X = 1, Y = 23, Visible = true, Secret = false, Data = "txtZipCode", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtZipCode.Enter += (s, e) => HandleControlEnter(txtZipCode);
+            this.txtZipCode.HasFocusChanged += (s, e) => HandleFocusChange(txtZipCode, e);
             vwIdentity.Add(this.txtZipCode);
 
             this.txtCountry = new TextField
@@ -273,7 +274,7 @@ namespace Retrowarden.Views
                 Width = 21, Height = 1, X = 25, Y = 23, Visible = true, Secret = false, Data = "txtCountry", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtCountry.Enter += (s, e) => HandleControlEnter(txtCountry);
+            this.txtCountry.HasFocusChanged += (s, e) => HandleFocusChange(txtCountry, e);
             vwIdentity.Add(this.txtCountry);
 
             this.lblUserName = new Label
@@ -288,7 +289,7 @@ namespace Retrowarden.Views
                 Width = 45, Height = 1, X = 49, Y = 11, Visible = true, Secret = false, Data = "txtUserName", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtUserName.Enter += (s, e) => HandleControlEnter(txtUserName);
+            this.txtUserName.HasFocusChanged += (s, e) => HandleFocusChange(txtUserName, e);
             vwIdentity.Add(this.txtUserName);
 
             this.lblCompany = new Label
@@ -303,7 +304,7 @@ namespace Retrowarden.Views
                 Width = 45, Height = 1, X = 49, Y = 14, Visible = true, Secret = false, Data = "txtCompany", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtCompany.Enter += (s, e) => HandleControlEnter(txtCompany);
+            this.txtCompany.HasFocusChanged += (s, e) => HandleFocusChange(txtCompany, e);
             vwIdentity.Add(this.txtCompany);
 
             this.lblEmail = new Label
@@ -318,7 +319,7 @@ namespace Retrowarden.Views
                 Width = 45, Height = 1, X = 49, Y = 17, Visible = true, Secret = false, Data = "txtEmailAddress", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtEmailAddress.Enter += (s, e) => HandleControlEnter(txtEmailAddress);
+            this.txtEmailAddress.HasFocusChanged += (s, e) => HandleFocusChange(txtEmailAddress, e);
             vwIdentity.Add(this.txtEmailAddress);
 
             this.lblPhone = new Label
@@ -333,8 +334,8 @@ namespace Retrowarden.Views
                 Width = 45, Height = 1, X = 49, Y = 20, Visible = true, Secret = false, Data = "txtPhoneNumber", Text = "", 
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
-            //this.txtPhoneNumber.Enter += (s, e) => HandleControlEnter(txtPhoneNumber);
+            this.txtPhoneNumber.HasFocusChanged += (s, e) => HandleFocusChange(txtPhoneNumber, e);
             vwIdentity.Add(this.txtPhoneNumber);
         }
-    }
+    }   
 }
