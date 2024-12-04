@@ -238,6 +238,9 @@ namespace Retrowarden.Views
 
         protected void HandleFocusChange(View? sender, HasFocusEventArgs eventArgs)
         {
+            // This offset is necessary because of labels being over controls vertically.
+            int offset = 1;
+            
             // Get the view which is receiving focus.
             View gettingFocus = eventArgs.NewFocused;
             
@@ -252,7 +255,7 @@ namespace Retrowarden.Views
             else if (gettingFocus.Frame.Top < Viewport.Top)
             {
                 // Scroll up until control is in the frame.
-                ScrollVertical(gettingFocus.Frame.Top - Viewport.Top);
+                ScrollVertical(gettingFocus.Frame.Top - Viewport.Top - offset);
             }
             
             // Check to see if the view is too far right.
@@ -292,15 +295,44 @@ namespace Retrowarden.Views
         
         private void HandleMouseEvent(object? sender, MouseEventEventArgs mouseEventEventArgs)
         {
-            // Check to see if this is a wheel scroll down.
-            if (mouseEventEventArgs.MouseEvent.Flags == MouseFlags.WheeledDown)
+            switch (mouseEventEventArgs.MouseEvent.Flags)
             {
-                ScrollVertical(1);
-            }
-            
-            else if (mouseEventEventArgs.MouseEvent.Flags == MouseFlags.WheeledUp)
-            {
-                ScrollVertical(-1);
+                // Check to see if this is a wheel scroll down.
+                case MouseFlags.WheeledDown:
+                    
+                    // Check to see if we are past the bottom of the view.
+                    if (Viewport.Top < Frame.Bottom)
+                    {
+                        ScrollVertical(1);
+                    }
+                    break;
+                
+                case MouseFlags.WheeledUp:
+                    
+                    // Check to see if we are past the top of the view.
+                    if (Viewport.Bottom > Frame.Top)
+                    {
+                        ScrollVertical(-1);
+                    }
+                    break;
+                
+                case MouseFlags.WheeledLeft:
+                    
+                    // Check to see if we are past the left.
+                    if (Viewport.Left > Frame.Right)
+                    {
+                        ScrollHorizontal(-1);
+                    }
+                    break;
+                
+                case MouseFlags.WheeledRight:
+                    
+                    // Check to see if we are past the right.
+                    if (Viewport.Right < Frame.Left)
+                    {
+                        ScrollHorizontal(1);
+                    }
+                    break;
             }
         }
         
