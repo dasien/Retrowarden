@@ -1,15 +1,13 @@
 using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net.Http.Headers;
 using System.Text;
-using Terminal.Gui;
-using Retrowarden.Dialogs;
-using RetrowardenSDK.Models;
-using Retrowarden.Utils;
-using RetrowardenSDK.Repositories;
 using Retrowarden.Config;
+using Retrowarden.Dialogs;
+using Retrowarden.Utils;
 using Retrowarden.Workers;
+using RetrowardenSDK.Models;
+using RetrowardenSDK.Repositories;
+using Terminal.Gui;
+using ConfigurationManager = Retrowarden.Config.ConfigurationManager;
 
 namespace Retrowarden.Views 
 {
@@ -328,7 +326,7 @@ namespace Retrowarden.Views
             string? retVal = null;
     
             // Get the configuration.
-            RetrowardenConfig? config = Config.ConfigurationManager.GetConfig();
+            RetrowardenConfig? config = ConfigurationManager.GetConfig();
     
             // Check to see if one was found.
             if (config != null)
@@ -353,7 +351,7 @@ namespace Retrowarden.Views
                         {
                             // Save exe location in config.
                             config.CLILocation = (string)finder.FilePaths.Single();
-                            Config.ConfigurationManager.WriteConfig(config);
+                            ConfigurationManager.WriteConfig(config);
                         }
                     }
                 }
