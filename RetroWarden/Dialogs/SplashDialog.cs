@@ -20,14 +20,23 @@ namespace Retrowarden.Dialogs
         public new void Show()
         {
             _timerToken = Application.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
-            Application.Run(_dialog);
+
+            if (_dialog != null)
+            {
+                Application.Run(_dialog);
+            }
+
         }
 
         private bool Hide()
         {
-            Application.RemoveTimeout(_timerToken);
+            if (_timerToken != null)
+            {
+                Application.RemoveTimeout(_timerToken);
+            }
+            
             Application.RequestStop(_dialog);
-            _dialog.Dispose();
+            _dialog?.Dispose();
             return false;
         }
 

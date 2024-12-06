@@ -14,10 +14,10 @@ namespace Retrowarden.Dialogs
         
         // Other values.
         private readonly List<VaultCollection> _collections;
-        private readonly List<Organization>? _organizations;
+        private readonly List<Organization> _organizations;
         private readonly List<VaultCollection> _selectedCollections;
         
-        public SelectOrganizationAndCollectionDialog(List<Organization>? organizations, List<VaultCollection> collections)
+        public SelectOrganizationAndCollectionDialog(List<Organization> organizations, List<VaultCollection> collections)
         {
             // Initialize members.
             _organizations = organizations;
@@ -45,7 +45,7 @@ namespace Retrowarden.Dialogs
                 _scrCollections.RemoveAll();
                 
                 // Check to see if the combobox is initialized.
-                if (_cboOrganization != null && _organizations != null)
+                if (_cboOrganization != null)
                 {
                     // Get the org id.
                     string orgId = _organizations.ElementAt(_cboOrganization.SelectedItem).Id;
@@ -63,7 +63,7 @@ namespace Retrowarden.Dialogs
                             CheckBox chkCollection = new CheckBox()
                             {
                                 X = 1, Y = row, Width = 20, Height = 1, CanFocus = true, Visible = true,
-                                Text = col.Name, Data = col
+                                Text = col.Name == null ? "" : col.Name, Data = col
                             };
 
                             chkCollection.CheckedStateChanging += (_, e) =>
