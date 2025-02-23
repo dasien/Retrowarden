@@ -1,6 +1,7 @@
+using System.Text;
 using Newtonsoft.Json;
-using RetrowardenSDK.Repositories;
 using RetrowardenSDK.Models;
+using RetrowardenSDK.Repositories;
 
 namespace Retrowarden.Workers
 {
@@ -146,7 +147,7 @@ namespace Retrowarden.Workers
                     {
                         // Get encoded collection id string.
                         string itemJSON = JsonConvert.SerializeObject(item.CollectionIds);
-                        byte[] itemBytes = System.Text.Encoding.UTF8.GetBytes(itemJSON);
+                        byte[] itemBytes = Encoding.UTF8.GetBytes(itemJSON);
                         string encodedCollection = Convert.ToBase64String(itemBytes);
                         
                         // Check to see if values are present.

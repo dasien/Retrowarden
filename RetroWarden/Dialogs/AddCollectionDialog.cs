@@ -1,6 +1,6 @@
 using System.ComponentModel;
-using Terminal.Gui;
 using RetrowardenSDK.Models;
+using Terminal.Gui;
 
 namespace Retrowarden.Dialogs
 {

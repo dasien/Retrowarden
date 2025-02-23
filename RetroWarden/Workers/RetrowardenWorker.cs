@@ -1,6 +1,6 @@
-using RetrowardenSDK.Repositories;
-using Retrowarden.Dialogs;
 using System.ComponentModel;
+using Retrowarden.Dialogs;
+using RetrowardenSDK.Repositories;
 
 namespace Retrowarden.Workers
 {

@@ -647,7 +647,7 @@ namespace Retrowarden.Views
             NodeData data = (NodeData) node.Tag;
             
             // Check to see the current node type.
-            if (data.NodeType != NodeType.Organization || data.NodeType != NodeType.Organization)
+            if (data.NodeType != NodeType.Organization)
             {
                 // Get the parent.
                 ITreeNode? parent = data.Parent;

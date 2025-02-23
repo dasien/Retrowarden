@@ -1,11 +1,10 @@
-using RetrowardenSDK.Models;
 using Newtonsoft.Json;
+using RetrowardenSDK.Models;
 
 namespace RetrowardenSDK.Repositories;
 
 public sealed class DebugVaultRepository : IVaultRepository
 {
-        private string _response;
         private string _error;
         private bool _isLocked;
         private bool _isLoggedIn;
@@ -16,7 +15,6 @@ public sealed class DebugVaultRepository : IVaultRepository
         public DebugVaultRepository()
         {
             // Set defaults.
-            _response = "";
             _orgEnabled = false;
             _isLocked = true;
             _cmdExitCode = "0";

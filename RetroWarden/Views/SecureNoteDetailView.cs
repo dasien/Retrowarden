@@ -1,6 +1,6 @@
 using System.ComponentModel;
-using Terminal.Gui;
 using RetrowardenSDK.Models;
+using Terminal.Gui;
 
 namespace Retrowarden.Views 
 {
@@ -18,7 +18,7 @@ namespace Retrowarden.Views
         private new void SetupView()
         {
             // Base setup what kind of view state we are in.
-            if (_viewState == VaultItemDetailViewState.View || _viewState == VaultItemDetailViewState.Edit)
+            if (_viewState is VaultItemDetailViewState.View or VaultItemDetailViewState.Edit)
             {
                 // Load controls with current data only.
                 LoadView();

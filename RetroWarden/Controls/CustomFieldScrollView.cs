@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
-using Terminal.Gui;
-using RetrowardenSDK.Models;
 using Retrowarden.Utils;
+using RetrowardenSDK.Models;
+using Terminal.Gui;
 
 namespace Retrowarden.Controls
 {

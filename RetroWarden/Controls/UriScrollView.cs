@@ -1,8 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Terminal.Gui;
 using Retrowarden.Utils;
 using RetrowardenSDK.Models;
+using Terminal.Gui;
 
 namespace Retrowarden.Controls
 {

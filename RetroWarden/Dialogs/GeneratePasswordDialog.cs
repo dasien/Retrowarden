@@ -1,7 +1,7 @@
 using System.ComponentModel;
-using Terminal.Gui;
-using RetrowardenSDK.Repositories;
 using Retrowarden.Workers;
+using RetrowardenSDK.Repositories;
+using Terminal.Gui;
 
 namespace Retrowarden.Dialogs 
 {

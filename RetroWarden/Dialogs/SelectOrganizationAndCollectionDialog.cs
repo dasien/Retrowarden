@@ -3,7 +3,6 @@ using System.ComponentModel;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 
-
 namespace Retrowarden.Dialogs
 {
     public sealed class SelectOrganizationAndCollectionDialog : BaseDialog

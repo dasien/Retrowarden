@@ -1,6 +1,5 @@
 using RetrowardenSDK.Models;
 
-
 namespace RetrowardenSDK.Repositories
 {
     public interface IVaultRepository
