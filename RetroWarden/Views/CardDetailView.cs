@@ -113,7 +113,7 @@ namespace Retrowarden.Views
         }*/
 
         #region Event Handlers
-        protected override void SaveButtonClicked(object? sender, HandledEventArgs e)
+        protected override void SaveButtonClicked(object? sender, CommandEventArgs e)
         {
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
@@ -134,7 +134,7 @@ namespace Retrowarden.Views
             }
         }
 
-        private void ShowCardButtonClicked(object? sender, HandledEventArgs e)
+        private void ShowCardButtonClicked(object? sender, CommandEventArgs e)
         {
             // Toggle Flag.
             txtCardNumber.Secret = !txtCardNumber.Secret;
@@ -143,7 +143,7 @@ namespace Retrowarden.Views
             btnShowCardNumber.Text = txtCardNumber.Secret ? "Show" : "Hide";
         }
 
-        private void CopyCardButtonClicked(object? sender, HandledEventArgs e)
+        private void CopyCardButtonClicked(object? sender, CommandEventArgs e)
         {
             // Copy username to clipboard.
             Clipboard.TrySetClipboardData(txtCardNumber.Text);
@@ -152,7 +152,7 @@ namespace Retrowarden.Views
             MessageBox.Query("Action Completed", "Card number copied to clipboard.", "Ok");
         }
 
-        private void ShowCVVButtonClicked(object? sender, HandledEventArgs e)
+        private void ShowCVVButtonClicked(object? sender, CommandEventArgs e)
         {
             // Toggle Flag.
             txtCVV.Secret = !txtCVV.Secret;
@@ -161,7 +161,7 @@ namespace Retrowarden.Views
             btnShowCVV.Text = txtCVV.Secret ? "Show" : "Hide";
         }
 
-        private void CopyCVVButtonClicked(object? sender, HandledEventArgs e)
+        private void CopyCVVButtonClicked(object? sender, CommandEventArgs e)
         {
             // Copy username to clipboard.
             Clipboard.TrySetClipboardData(txtCVV.Text);

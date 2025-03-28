@@ -8,7 +8,7 @@ namespace Retrowarden.Dialogs
         protected Dialog? _dialog;
         protected bool _okPressed;
         
-        protected void CancelButton_Clicked(object? sender, HandledEventArgs e)
+        protected void CancelButton_Clicked(object? sender, CommandEventArgs e)
         {
             // Set ok button flag.
             _okPressed = false;

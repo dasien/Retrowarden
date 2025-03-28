@@ -40,7 +40,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
 
-        private void OkButton_Clicked(object? sender, HandledEventArgs e)
+        private void OkButton_Clicked(object? sender, CommandEventArgs e)
         {
             // Check to see if required values are present.
             if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
@@ -200,7 +200,7 @@ namespace Retrowarden.Dialogs
                 TextAlignment = Alignment.Center, IsDefault = false, 
             };
             
-            _btnOk.Accept += OkButton_Clicked; 
+            _btnOk.Accepting += OkButton_Clicked; 
             _dialog.Add(_btnOk);
 
             _btnCancel = new Button()
@@ -209,7 +209,7 @@ namespace Retrowarden.Dialogs
                 TextAlignment = Alignment.Center, IsDefault = false
             };
 
-            _btnCancel.Accept += CancelButton_Clicked;
+            _btnCancel.Accepting += CancelButton_Clicked;
             _dialog.Add(_btnCancel);
         }
         

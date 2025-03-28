@@ -6,7 +6,7 @@ using Terminal.Gui;
 
 namespace Retrowarden.Controls
 {
-    public class UriScrollView :ScrollView
+    public class UriScrollView : View
     {
         private List<View[]> _rowControls;
         private readonly ObservableCollection<CodeListItem> _matchTypes;
@@ -17,6 +17,8 @@ namespace Retrowarden.Controls
             // Set member variables.
             _uris = uris == null ? new List<LoginURI>() : uris;
             _matchTypes = matches;
+            
+            VerticalScrollBar.Visible = true;
             
             // The List of an array of controls for each row.
             _rowControls = new List<View[]>();
@@ -123,7 +125,7 @@ namespace Retrowarden.Controls
             }
 
             // Create event handlers for the buttons.
-            btnCopyUri.Accept += (s,e) =>
+            btnCopyUri.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
                 Clipboard.TrySetClipboardData(txtUri.Text);
@@ -132,7 +134,7 @@ namespace Retrowarden.Controls
                 MessageBox.Query("Action Completed", "Copied Uri to clipboard.", "Ok");
             };
 
-            btnGoUri.Accept += (s,e) =>
+            btnGoUri.Accepting += (s,e) =>
             {
                 // Get the uri string.
                 string? uriString = txtUri.Text;
@@ -159,7 +161,7 @@ namespace Retrowarden.Controls
                 }
             };
 
-            btnDeleteUri.Accept += (s,e) =>
+            btnDeleteUri.Accepting += (s,e) =>
             {
                 // Get row index.
                 int index = (int)btnDeleteUri.Data;
@@ -199,7 +201,7 @@ namespace Retrowarden.Controls
                 _rowControls.Remove(_rowControls.ElementAt(index));
             
                 // Flag that the scrollview needs to be redrawn.
-                SetNeedsDisplay();
+                //SetNeedsDisplay();
              };
             
             // Return control row.
@@ -250,7 +252,7 @@ namespace Retrowarden.Controls
             Add(newRow);
             
             // Set scroll for redraw.
-            SetNeedsDisplay();
+            //SetNeedsDisplay();
             
             // Set focus to new text field.
             newRow[0].SetFocus();

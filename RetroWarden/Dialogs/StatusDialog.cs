@@ -126,7 +126,7 @@ namespace Retrowarden.Dialogs
                 Text = "Close", TextAlignment = Alignment.Center, IsDefault = true
             };
 
-            _btnCancel.Accept += CancelButton_Clicked;
+            _btnCancel.Accepting += CancelButton_Clicked;
             _dialog.Add(_btnCancel);
         }
     }    

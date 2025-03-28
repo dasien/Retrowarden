@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 
@@ -9,7 +8,7 @@ namespace Retrowarden.Dialogs
     {
         // Controls.
         private ComboBox? _cboOrganization;
-        private ScrollView? _scrCollections;
+        private View? _scrCollections;
         
         // Other values.
         private readonly List<VaultCollection> _collections;
@@ -94,11 +93,11 @@ namespace Retrowarden.Dialogs
                 }
 
                 // Refresh URI scroll view.
-                _scrCollections.SetNeedsDisplay();
+                //_scrCollections.SetNeedsDisplay();
             }
         }
         
-        private void OkButton_Clicked(object? sender, HandledEventArgs e)
+        private void OkButton_Clicked(object? sender, CommandEventArgs e)
         {
             // Check to see if required values are present.
             if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
@@ -128,14 +127,14 @@ namespace Retrowarden.Dialogs
             {
                 X = 10, Y =11, Text = "Ok"
             };
-            okButton.Accept += OkButton_Clicked;
+            okButton.Accepting += OkButton_Clicked;
 
             // Create Cancel button.
             Button cancelButton = new Button()
             {
                 X= 20, Y = 11, Text = "Cancel"
             };
-            cancelButton.Accept += CancelButton_Clicked;
+            cancelButton.Accepting += CancelButton_Clicked;
 
             // Create modal view.
             _dialog = new Dialog()
@@ -170,7 +169,7 @@ namespace Retrowarden.Dialogs
             };
             
             // Create scrollview.
-            _scrCollections = new ScrollView()
+            _scrCollections = new View()
             {
                 X = 0, Y = 0, Width = Dim.Percent(100), Height = Dim.Percent(100),
                 CanFocus = true,Visible = true

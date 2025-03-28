@@ -5,7 +5,7 @@ using Terminal.Gui;
 
 namespace Retrowarden.Controls
 {
-    public class CustomFieldScrollView : ScrollView
+    public class CustomFieldScrollView : View
     {
         private List<View[]> _rowControls;
         private List<VaultItemCustomField> _fields;
@@ -16,6 +16,8 @@ namespace Retrowarden.Controls
             // Set members.
             _fields = fields == null ? new List<VaultItemCustomField>() : fields;
             _itemType = itemType;
+            
+            VerticalScrollBar.Visible = true;
             
             // The List of an array of controls for each row.
             _rowControls = new List<View[]>();
@@ -60,7 +62,7 @@ namespace Retrowarden.Controls
             }
             
             // Refresh control.
-            SetNeedsDisplay();
+            //SetNeedsDisplay();
             //SetChildNeedsDisplay();
         }
 
@@ -133,7 +135,7 @@ namespace Retrowarden.Controls
             Button btnDeleteRow = CreateDeleteButton(rowNum);
 
             // Create event handlers for the buttons.
-            btnCopyValue.Accept += (s,e) =>
+            btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
                 Clipboard.TrySetClipboardData(txtValue.Text);
@@ -180,7 +182,7 @@ namespace Retrowarden.Controls
             Button btnDeleteRow = CreateDeleteButton(rowNum);
             
             // Create event handlers for the buttons.
-            btnShowValue.Accept += (s,e) =>
+            btnShowValue.Accepting += (s,e) =>
             {
                 // Toggle Flag.
                 txtValue.Secret = !txtValue.Secret;
@@ -189,7 +191,7 @@ namespace Retrowarden.Controls
                 btnShowValue.Text = txtValue.Secret ? "View" : "Hide";
             };
             
-            btnCopyValue.Accept += (s,e) =>
+            btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
                 Clipboard.TrySetClipboardData(txtValue.Text);
@@ -264,7 +266,7 @@ namespace Retrowarden.Controls
                 TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
             
-            retVal.Accept += (s,e) =>
+            retVal.Accepting += (s,e) =>
             {
                 // Get row index.
                 int index = (int) retVal.Data;
@@ -304,7 +306,7 @@ namespace Retrowarden.Controls
                 _rowControls.Remove(_rowControls.ElementAt(index));
             
                 // Flag that the scrollview needs to be redrawn.
-                SetNeedsDisplay();
+                //SetNeedsDisplay();
             };
 
             return retVal;
@@ -417,7 +419,7 @@ namespace Retrowarden.Controls
                 Add(newRow);
 
                 // Set scroll for redraw.
-                SetNeedsDisplay();
+                //SetNeedsDisplay();
                 
                 // Set focus to new text field.
                 newRow[0].SetFocus();
