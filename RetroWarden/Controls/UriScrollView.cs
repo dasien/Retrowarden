@@ -199,9 +199,6 @@ namespace Retrowarden.Controls
             
                 // Remove controls from array.
                 _rowControls.Remove(_rowControls.ElementAt(index));
-            
-                // Flag that the scrollview needs to be redrawn.
-                //SetNeedsDisplay();
              };
             
             // Return control row.
@@ -250,9 +247,6 @@ namespace Retrowarden.Controls
                 
             // Add controls to Uri scroll.
             Add(newRow);
-            
-            // Set scroll for redraw.
-            //SetNeedsDisplay();
             
             // Set focus to new text field.
             newRow[0].SetFocus();

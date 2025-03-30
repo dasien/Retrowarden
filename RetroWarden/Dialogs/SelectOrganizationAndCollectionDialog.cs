@@ -91,9 +91,6 @@ namespace Retrowarden.Dialogs
                         }
                     }
                 }
-
-                // Refresh URI scroll view.
-                //_scrCollections.SetNeedsDisplay();
             }
         }
         

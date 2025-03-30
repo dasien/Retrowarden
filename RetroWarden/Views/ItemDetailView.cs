@@ -171,9 +171,6 @@ namespace Retrowarden.Views
             // Update the save and cancel button locations relative to the new notes frame.
             btnSave.Y = Pos.Bottom(btnNewCustomField) + 1;
             btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
-            
-            // Refresh display
-            //SetNeedsDisplay();
         }
         
         protected virtual void UpdateItem()

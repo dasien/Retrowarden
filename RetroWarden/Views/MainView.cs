@@ -456,9 +456,6 @@ namespace Retrowarden.Views
                 lvwItems.SetFocus();
             }
             
-            // Redraw listview.
-            //lvwItems.SetNeedsDisplay();
-            
             // Set statusbar menus.
             UpdateStatusBarOptions();
         }
@@ -790,9 +787,6 @@ namespace Retrowarden.Views
             {
                 staMain.Add(stiNew);
             }
-
-            // Redraw menu bar.
-            //staMain.SetNeedsDisplay();
         }
 
         private bool ShouldShowCopyMenu()

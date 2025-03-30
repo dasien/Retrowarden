@@ -42,9 +42,6 @@ namespace Retrowarden.Views
             // Setup common view parts.
             base.SetupView();
             
-            // Set tab order.
-            //SetTabOrder();
-
             // Set focus to first field.
             SetItemNameControlFocus(); 
         }

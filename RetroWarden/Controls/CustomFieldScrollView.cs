@@ -60,10 +60,6 @@ namespace Retrowarden.Controls
                     rowCnt++;
                 }
             }
-            
-            // Refresh control.
-            //SetNeedsDisplay();
-            //SetChildNeedsDisplay();
         }
 
         private View[] CreateHeaderRow()
@@ -304,9 +300,6 @@ namespace Retrowarden.Controls
             
                 // Remove controls from array.
                 _rowControls.Remove(_rowControls.ElementAt(index));
-            
-                // Flag that the scrollview needs to be redrawn.
-                //SetNeedsDisplay();
             };
 
             return retVal;
@@ -417,9 +410,6 @@ namespace Retrowarden.Controls
 
                 // Add controls to Uri scroll.
                 Add(newRow);
-
-                // Set scroll for redraw.
-                //SetNeedsDisplay();
                 
                 // Set focus to new text field.
                 newRow[0].SetFocus();
