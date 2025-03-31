@@ -37,9 +37,6 @@ public sealed class GetItemsWorker : RetrowardenWorker
                 //Close the dialog
                 _workingDialog.Hide();
             }
-            
-            // Get rid of worker.
-            _worker.Dispose();
         };    
     }
     

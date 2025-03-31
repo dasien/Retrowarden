@@ -33,8 +33,6 @@ public sealed class GetOrganizationsWorker : RetrowardenWorker
                 //Close the dialog
                 _workingDialog.Hide();
             }
-
-            _worker.Dispose();
         };    
     }
 

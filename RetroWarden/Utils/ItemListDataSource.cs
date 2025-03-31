@@ -31,13 +31,7 @@ namespace Retrowarden.Utils
             _maxLength = GetMaxLengthItem();
         }
 
-        public void Render(ListView listView, bool selected, int item, int col, int line, int width, int start = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Render(ListView container, ConsoleDriver driver, bool selected, int item, int col, int line, int width,
-            int start = 0)
+        public void Render(ListView container, bool selected, int item, int col, int line, int width, int start = 0)
         {
             // Placeholder for 2nd column text.
             string? itemText = " ";

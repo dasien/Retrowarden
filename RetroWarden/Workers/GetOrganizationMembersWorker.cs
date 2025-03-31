@@ -30,8 +30,6 @@ namespace Retrowarden.Workers
                     //Close the dialog
                     _workingDialog.Hide();
                 }
-
-                _worker.Dispose();
             };    
         }
 

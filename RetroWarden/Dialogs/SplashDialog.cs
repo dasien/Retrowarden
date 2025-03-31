@@ -25,7 +25,6 @@ namespace Retrowarden.Dialogs
             {
                 Application.Run(_dialog);
             }
-
         }
 
         private bool Hide()
@@ -36,7 +35,7 @@ namespace Retrowarden.Dialogs
             }
             
             Application.RequestStop(_dialog);
-            _dialog?.Dispose();
+            
             return false;
         }
 
@@ -52,7 +51,7 @@ namespace Retrowarden.Dialogs
             _message = new Label()
             {
                 X = 0, Y = 0, Width = 85, Height = 9, CanFocus = false, Visible = true,
-                Text = _messageText, Data = "lblMessage"
+                Text = _messageText == null ? "" : _messageText, Data = "lblMessage"
             };
             
             // Add controls to view.

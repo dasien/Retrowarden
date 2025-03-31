@@ -17,7 +17,6 @@ namespace Retrowarden.Dialogs
             {
                 // Close dialog.
                 Application.RequestStop(_dialog);
-                _dialog.Dispose();
             }
         }
         

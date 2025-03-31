@@ -36,8 +36,6 @@ public sealed class GetCollectionsWorker : RetrowardenWorker
                 //Close the dialog
                 _workingDialog.Hide();
             }
-
-            _worker.Dispose();
         };
     }
     
