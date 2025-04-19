@@ -1,4 +1,17 @@
-using System;
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * IdentityDetailView.Designer.cs
+ *
+ * Auto-generated Terminal.Gui designer code for the main view layout.
+ * Do not modify this file manually.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/using System;
 using System.Text;
 using Terminal.Gui;
 namespace Retrowarden.Views

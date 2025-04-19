@@ -1,6 +1,20 @@
 using Newtonsoft.Json;
 using RetrowardenSDK.Models;
 
+/******************************************************************************
+ * RetrowardenSDK - A secure password management library
+ * DebugVaultRepository.cs
+ *
+ * This class provides a debug implementation of the vault repository
+ * for testing and development purposes.
+ *
+ * Copyright (C) 2024 RetrowardenSDK Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 namespace RetrowardenSDK.Repositories;
 
 public sealed class DebugVaultRepository : IVaultRepository

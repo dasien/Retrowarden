@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * LockWorker.cs
+ *
+ * Background worker responsible for locking the vault. Manages the
+ * asynchronous vault locking process and security state while providing
+ * feedback through Terminal.Gui dialogs.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using RetrowardenSDK.Repositories;
 
 namespace Retrowarden.Workers
@@ -27,4 +42,3 @@ namespace Retrowarden.Workers
         }
     }
 }
-

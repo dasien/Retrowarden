@@ -1,4 +1,18 @@
-using System.ComponentModel;
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * GeneratePasswordDialog.cs
+ *
+ * Dialog for generating a password using the specified options.
+ * Displays a dialog with options for uppercase, lowercase, numbers,
+ * and special characters.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using Retrowarden.Workers;
 using RetrowardenSDK.Repositories;
 using Terminal.Gui;

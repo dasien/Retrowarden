@@ -1,3 +1,18 @@
+/******************************************************************************
+ * RetrowardenSDK - A secure password management library
+ * VaultRepository.cs
+ * 
+ * This class provides an implementation of the IVaultRepository interface
+ * for accessing and managing vault data and operations.  This is intended
+ * for live production use.
+ * 
+ * Copyright (C) 2024 RetrowardenSDK Project
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using System.Diagnostics;
 using Newtonsoft.Json;
 using RetrowardenSDK.Models;

@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * RetrowardenWorker.cs
+ *
+ * Base class for all background workers in the application. Provides
+ * common functionality for asynchronous operations, progress reporting,
+ * and Terminal.Gui dialog management across all worker implementations.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using System.ComponentModel;
 using Retrowarden.Dialogs;
 using RetrowardenSDK.Repositories;

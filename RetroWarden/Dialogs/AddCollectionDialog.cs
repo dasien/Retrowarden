@@ -1,4 +1,18 @@
-using System.ComponentModel;
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * AddCollectionDialog.cs
+ *
+ * Dialog implementation for adding new collections to the vault.
+ * Provides a Terminal.Gui based form interface for collection creation
+ * with input validation and proper feedback handling.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 

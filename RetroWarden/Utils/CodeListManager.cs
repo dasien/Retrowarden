@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * CodeListManager.cs
+ *
+ * Utility class for managing lists of codes. Provides for a 
+ * centralized handling of application-specific code mappings and their
+ * corresponding descriptions for consistent error handling and status reporting.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using System.Collections.ObjectModel;
 
 namespace Retrowarden.Utils

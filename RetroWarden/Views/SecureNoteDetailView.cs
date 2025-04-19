@@ -1,4 +1,17 @@
-using System.ComponentModel;
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * SecureNoteDetailView.cs
+ *
+ * View for displaying and editing secure notes with rich text editing
+ * capabilities using Terminal.Gui text area components.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 

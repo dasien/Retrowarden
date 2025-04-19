@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * CustomFieldScrollView.cs
+ *
+ * Specialized scrollable view control for handling custom fields in the vault.
+ * Provides Terminal.Gui based interface elements for displaying and managing
+ * user-defined fields with proper scroll functionality and field formatting.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using System.Collections.ObjectModel;
 using Retrowarden.Utils;
 using RetrowardenSDK.Models;

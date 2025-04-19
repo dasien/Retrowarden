@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * GeneratePasswordWorker.cs
+ *
+ * Background worker for generating secure passwords based on specified criteria
+ * such as length and character types. Handles the asynchronous password
+ * generation process while maintaining UI responsiveness.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using RetrowardenSDK.Repositories;
 
 namespace Retrowarden.Workers

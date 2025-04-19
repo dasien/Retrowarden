@@ -1,4 +1,18 @@
-using System.ComponentModel;
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * GeneratePassphraseDialog.cs
+ *
+ * Dialog for generating a passphrase using the specified options.
+ * Displays a dialog with options for number of words, separator,
+ * capitalization, and numbers.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using System.Text.RegularExpressions;
 using Retrowarden.Workers;
 using RetrowardenSDK.Repositories;

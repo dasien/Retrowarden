@@ -1,3 +1,17 @@
+/******************************************************************************
+ * RetrowardenSDK - A secure password management library
+ * Organization.cs
+ * 
+ * This class represents an organization entity that can contain multiple
+ * collections and members with associated permissions.
+ * 
+ * Copyright (C) 2024 RetrowardenSDK Project
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using Newtonsoft.Json;
 
 namespace RetrowardenSDK.Models

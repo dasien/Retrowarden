@@ -1,4 +1,24 @@
-using System.ComponentModel;
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * GeneratePassphraseDialog.cs
+ *
+ * Dialog for allowing the user to unlock a vault. Provides a text input
+ * for entering the vault password.
+ *
+ * This dialog is used to unlock vaults that have been locked by the
+ * application. The user is prompted to enter the vault password to
+ * unlock the vault.
+ *
+ * The password is not stored in the application's memory. It is only
+ * used to unlock the vault.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using Terminal.Gui;
 
 namespace Retrowarden.Dialogs

@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * CheckStatusWorker.cs
+ *
+ * Background worker for checking vault and session status. Monitors
+ * authentication state and vault accessibility while providing
+ * updates through Terminal.Gui interface.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using RetrowardenSDK.Models;
 using RetrowardenSDK.Repositories;
 
@@ -7,20 +22,20 @@ namespace Retrowarden.Workers
     {
         // Member variables.
         private VaultStatus _status;
-        
-        public CheckStatusWorker(IVaultRepository repository, string dialogMessage) 
+
+        public CheckStatusWorker(IVaultRepository repository, string dialogMessage)
             : base(repository, dialogMessage)
         {
             // Create members.
             _status = new VaultStatus();
-        
+
             // Add work event handler.
-            _worker.DoWork += (s, e) => 
+            _worker.DoWork += (s, e) =>
             {
                 // Try to fetch folders.
                 e.Result = _repository.GetStatus();
             };
-            
+
             // Add completion event handler.
             _worker.RunWorkerCompleted += (s, e) =>
             {

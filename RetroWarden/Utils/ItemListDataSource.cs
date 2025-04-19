@@ -1,3 +1,17 @@
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * ItemListDataSource.cs
+ *
+ * Provides the data source implementation for item lists, managing the
+ * retrieval and organization of vault items for the Terminal.Gui interface.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
@@ -34,7 +48,7 @@ namespace Retrowarden.Utils
         public void Render(ListView container, bool selected, int item, int col, int line, int width, int start = 0)
         {
             // Placeholder for 2nd column text.
-            string? itemText = " ";
+            string itemText = " ";
 
             // Get the vault item.
             VaultItem rowItem = _items[item];

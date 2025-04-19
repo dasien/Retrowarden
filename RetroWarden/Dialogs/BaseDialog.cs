@@ -1,4 +1,18 @@
-using System.ComponentModel;
+/******************************************************************************
+ * Retrowarden - A Terminal.Gui based client for Bitwarden
+ * BaseDialog.cs
+ *
+ * Abstract base class for all dialog windows in the application.
+ * Provides common functionality and consistent behavior for modal
+ * dialogs using Terminal.Gui framework.
+ *
+ * Copyright (C) 2024 Retrowarden Project
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ ******************************************************************************/
 using Terminal.Gui;
 
 namespace Retrowarden.Dialogs
