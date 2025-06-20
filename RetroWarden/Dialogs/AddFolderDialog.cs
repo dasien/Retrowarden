@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * AddFolderDialog.cs
  *
- * Dialog for creating new folders in the vault hierarchy. Handles folder
- * name input with validation and provides feedback during the folder
- * creation process.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

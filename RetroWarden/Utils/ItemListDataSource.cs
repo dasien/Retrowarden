@@ -2,10 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * ItemListDataSource.cs
  *
- * Provides the data source implementation for item lists, managing the
- * retrieval and organization of vault items for the Terminal.Gui interface.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

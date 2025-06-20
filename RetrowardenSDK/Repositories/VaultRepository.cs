@@ -2,10 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * VaultRepository.cs
  * 
- * This class provides an implementation of the IVaultRepository interface
- * for accessing and managing vault data and operations.  This is intended
- * for live production use.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -605,6 +601,133 @@ namespace RetrowardenSDK.Repositories
 
             // Return password.
             return retVal;
+        }
+        #endregion
+        
+        #region Send Methods
+
+        public string CreateSend(Send send, string filePath = null)
+        {
+            // The return value
+            string retVal = "";
+
+            // Add parameters for call
+            _bwcli.StartInfo.ArgumentList.Add("send");
+
+            // Determine if this is a text or file send based on Type property
+            if (send.SendType == "1") // File Send
+            {
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    throw new ArgumentException("filePath is required for File sends", nameof(filePath));
+                }
+
+                _bwcli.StartInfo.ArgumentList.Add("--file");
+                _bwcli.StartInfo.ArgumentList.Add(filePath);
+            }
+            
+            else if (send.SendType == "2") // Text Send
+            {
+                // For text sends, we need the text content
+                if (send.Text == null || string.IsNullOrEmpty(send.Text.Text))
+                {
+                    throw new ArgumentException("Text content is required for Text sends", nameof(send.Text.Text));
+                }
+
+                _bwcli.StartInfo.ArgumentList.Add(send.Text.Text);
+                
+                // Check to see if the text should be hidden by default.
+                if (send.Text.IsHidden)
+                {
+                    _bwcli.StartInfo.ArgumentList.Add("--hidden");
+                }
+            }
+
+            // Add optional parameters if provided
+            if (!string.IsNullOrEmpty(send.Name))
+            {
+                _bwcli.StartInfo.ArgumentList.Add("--name");
+                _bwcli.StartInfo.ArgumentList.Add(send.Name);
+            }
+
+            if (!string.IsNullOrEmpty(send.Notes))
+            {
+                _bwcli.StartInfo.ArgumentList.Add("--notes");
+                _bwcli.StartInfo.ArgumentList.Add(send.Notes);
+            }
+
+            // Handle password 
+            if (!string.IsNullOrEmpty(send.Password))
+            {
+                _bwcli.StartInfo.ArgumentList.Add("--password");
+                _bwcli.StartInfo.ArgumentList.Add(send.Password);
+            }
+            
+            // Add deletion date (default 7 days, max is 31 days from creation date)
+            _bwcli.StartInfo.ArgumentList.Add("--deletedate");
+            _bwcli.StartInfo.ArgumentList.Add(send.DeletionDate.ToString("yyyy-MM-dd"));
+
+            if (send.MaxAccessCount.HasValue)
+            {
+                _bwcli.StartInfo.ArgumentList.Add("--maxaccesscount");
+                _bwcli.StartInfo.ArgumentList.Add(send.MaxAccessCount.Value.ToString());
+            }
+
+            if (send.IsEmailHidden)
+            {
+                _bwcli.StartInfo.ArgumentList.Add("--hide-email");
+            }
+
+            if (send.IsDisabled)
+            {
+                _bwcli.StartInfo.ArgumentList.Add("--disabled");
+            }
+            
+            // Execute the command
+            ExecuteCommand();
+
+            // Check to make sure it didn't error out
+            if (_cmdExitCode == "0")
+            {
+                // Set the response which should contain the Send URL
+                retVal = _response;
+            }
+
+            // Return the Send URL
+            return retVal;
+        }
+        public List<Send>? ListSends()
+        {
+            // Return object
+            List<Send>? retVal = null;
+
+            // Add parameters for call
+            _bwcli.StartInfo.ArgumentList.Add("list");
+            _bwcli.StartInfo.ArgumentList.Add("sends");
+
+            // Execute
+            ExecuteCommand();
+
+            // Check to make sure it didn't error out
+            if (_cmdExitCode == "0")
+            {
+                // Get send list
+                retVal = JsonConvert.DeserializeObject<List<Send>>(_response, _settings);
+            }
+
+            // Return list
+            return retVal;
+        }
+
+        public void DeleteSend(string id)
+        {
+            // Add parameters for call
+            _bwcli.StartInfo.ArgumentList.Add("delete");
+            _bwcli.StartInfo.ArgumentList.Add("send");
+            _bwcli.StartInfo.ArgumentList.Add(id);
+
+            // Execute
+            ExecuteCommand();
         }
         #endregion
         

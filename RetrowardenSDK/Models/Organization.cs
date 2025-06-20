@@ -2,9 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * Organization.cs
  * 
- * This class represents an organization entity that can contain multiple
- * collections and members with associated permissions.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

@@ -1,9 +1,7 @@
 /******************************************************************************
  * RetrowardenSDK - A secure password management library
  * Identity.cs
- * 
- * Represents personal identity information stored in the vault.
- * 
+ *
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

@@ -3,11 +3,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * GeneratePassphraseWorker.cs
  *
- * Background worker for generating secure passphrases with configurable
- * options like word count, separator, and capitalization. Handles the
- * asynchronous generation process in the Terminal.Gui interface.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

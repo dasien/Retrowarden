@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * CreateCollectionWorker.cs
  *
- * Background worker for creating new vault collections. Manages the
- * asynchronous collection creation process while providing feedback
- * through Terminal.Gui dialogs.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

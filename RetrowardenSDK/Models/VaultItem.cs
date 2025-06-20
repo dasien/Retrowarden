@@ -2,8 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * VaultItem.cs
  * 
- * Base class for all vault items in the system.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

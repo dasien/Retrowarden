@@ -2,10 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * ViewUtils.cs
  *
- * Utility class providing helper methods for view-related operations and
- * UI element manipulation across the application.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

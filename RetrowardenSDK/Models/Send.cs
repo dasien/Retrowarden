@@ -2,8 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * Send.cs
  * 
- * Represents a secure sharing mechanism for vault items.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

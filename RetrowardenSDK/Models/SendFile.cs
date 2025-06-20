@@ -2,8 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * SendFile.cs
  * 
- * Represents file metadata for secure file sharing functionality.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

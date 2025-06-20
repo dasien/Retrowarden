@@ -2,8 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * Card.cs
  * 
- * This class represents a credit/debit card stored in the vault.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

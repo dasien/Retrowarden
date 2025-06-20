@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * SelectFolderDialog.cs
  *
- * Dialog for selecting vault folders. Provides hierarchical folder
- * navigation and selection capabilities for organizing vault items
- * and managing folder structure.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

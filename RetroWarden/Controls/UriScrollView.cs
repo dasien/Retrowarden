@@ -2,12 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * UriScrollView.cs
  *
- * Specialized scrollable view control for handling URIs as part of Login item
- * types in the vault.
- * Provides Terminal.Gui based interface elements for displaying and managing
- * Uri information with proper scroll functionality and field formatting.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

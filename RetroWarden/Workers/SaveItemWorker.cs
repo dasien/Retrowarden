@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * SaveItemWorker.cs
  *
- * Background worker for saving vault items. Handles creating, updating,
- * and deleting vault items while managing the asynchronous operations
- * and providing feedback through Terminal.Gui dialogs.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

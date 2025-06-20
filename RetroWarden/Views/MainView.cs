@@ -2,10 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * MainView.cs
  *
- * The main view of the application providing the primary user interface and
- * navigation structure using Terminal.Gui components.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +51,7 @@ namespace Retrowarden.Views
             // Initialize Application Stack
             Application.Init();
 
-            // Set events for updating keep alive flag.
+            // Set events for updating keepalive flag.
             Application.KeyDown += HandleKeyEvent;
             Application.MouseEvent += HandleMouseEvent;
 
@@ -1003,7 +1000,7 @@ namespace Retrowarden.Views
         private void HandleFolderCreate()
         {
             // Check to make sure we are logged in.
-            if (_vaultRepository.IsLoggedIn)
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
             {
                 // Create add folder dialog.
                 AddFolderDialog dialog = new AddFolderDialog(_folders);
@@ -1055,13 +1052,76 @@ namespace Retrowarden.Views
             }
         }
 
+        private void HandleSendCreate()
+        {
+            // Check to make sure we are in the right state.
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
+            {
+                // Have the user pick the send type.
+                SelectSendTypeDialog ssDialog = new SelectSendTypeDialog();
+                ssDialog.Show();
+
+                if (ssDialog.OkPressed)
+                {
+                    BaseSendDialog dialog = null;
+                    
+                    if (ssDialog.SendType == 1)
+                    {
+                        dialog = new CreateFileSendDialog();
+                    }
+                    
+                    else if (ssDialog.SendType == 2)
+                    {
+                        // Create text send dialog.
+                        dialog = new CreateTextSendDialog();
+                    }
+
+                    // Show it.
+                    dialog.Show();
+            
+                    // Check to see if the user pressed Ok.
+                    if (dialog.OkPressed)
+                    {
+                        // Check to see that we have a send object.
+                        if (dialog.Send != null)
+                        {
+                            // Create the worker.
+                            CreateSendWorker worker = new CreateSendWorker(_vaultRepository, 
+                                "Creating Send", dialog.Send);
+        
+                            // Run the worker.
+                            worker.Run();
+                    
+                            // Check to see if the login was successful.
+                            if (_vaultRepository.ExitCode == "0")
+                            {
+                                // Update folders.
+                                LoadTreeView();
+                            }
+
+                            else
+                            {
+                                // Show error dialog.
+                                MessageBox.ErrorQuery("Create send failed.", _vaultRepository.ErrorMessage, "Ok");
+                            }
+                        }
+                    }    
+                }
+            }
+
+            else
+            {
+                MessageBox.ErrorQuery("Action failed","You must be logged in.", "Ok");
+            }
+        }
+
         private void HandleCollectionCreate()
         {
             MessageBox.Query("Not Implemented",  "This feature not yet implemented.", "Ok");
             
             /*
             // Check to make sure we are logged in.
-            if (_vaultRepository.IsLoggedIn)
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
             {
                 // Check to see if this is an 'org enabled' account.
                 if (_vaultRepository.IsOrgEnabled)
@@ -1183,7 +1243,7 @@ namespace Retrowarden.Views
         private void HandleLockRequest()
         {
             // Check to see if the user is logged in.
-            if (_vaultRepository.IsLoggedIn)
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
             {
                 // Show the dialog.
                 LockWorker worker = new LockWorker(_vaultRepository, "Locking vault...");

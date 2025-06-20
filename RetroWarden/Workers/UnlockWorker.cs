@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * UnlockWorker.cs
  *
- * Background worker for unlocking the vault. Manages the asynchronous
- * vault unlocking process and authentication state while providing
- * feedback through Terminal.Gui dialogs.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

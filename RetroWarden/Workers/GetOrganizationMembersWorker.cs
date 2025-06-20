@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * GetOrganizationMembersWorker.cs
  *
- * Background worker for retrieving organization member information.
- * Manages asynchronous fetching of member data while maintaining
- * UI responsiveness in the Terminal.Gui interface.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

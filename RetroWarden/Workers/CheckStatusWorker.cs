@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * CheckStatusWorker.cs
  *
- * Background worker for checking vault and session status. Monitors
- * authentication state and vault accessibility while providing
- * updates through Terminal.Gui interface.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

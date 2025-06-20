@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * GeneratePassphraseDialog.cs
  *
- * Dialog for generating a passphrase using the specified options.
- * Displays a dialog with options for number of words, separator,
- * capitalization, and numbers.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

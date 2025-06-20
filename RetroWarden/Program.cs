@@ -1,12 +1,8 @@
 ﻿/******************************************************************************
  * Retrowarden - A Terminal.Gui based client for Bitwarden
- *
  * Program.cs
  *
- * This is the main entry point for the Retrowarden application, handling
- * initialization, dependency injection setup, and application lifecycle.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -2,8 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * IVaultRepository.cs
  * 
- * Interface defining the contract for vault data operations.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -65,6 +63,14 @@ namespace RetrowardenSDK.Repositories
 
         #endregion
 
+        #region Send Methods
+
+        public string CreateSend(Send send, string filePath = null);
+        public List<Send>? ListSends();
+
+        public void DeleteSend(string id);
+        #endregion
+        
         #region Properties
 
         public string ExitCode { get; }

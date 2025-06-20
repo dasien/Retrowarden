@@ -2,10 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * CodeListItem.cs
  *
- * Represents an item in a code list, used for managing and displaying
- * categorized lists of items within the Terminal.Gui interface.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

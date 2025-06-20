@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * WorkingDialog.cs
  *
- * Progress indication dialog for long-running operations. Provides
- * visual feedback during background tasks and async operations
- * with customizable progress messages.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

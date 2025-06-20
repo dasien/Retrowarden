@@ -2,10 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * SendText.cs
  * 
- * Represents text content for secure sharing functionality.
- * 
- * Copyright (C) 2024 RetrowardenSDK Project
- * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or

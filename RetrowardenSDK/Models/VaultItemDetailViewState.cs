@@ -2,9 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * VaultItemDetailViewState.cs
  * 
- * This enumeration defines the possible view states for vault item details,
- * managing the display and editing modes of items.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

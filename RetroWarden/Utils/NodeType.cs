@@ -2,10 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * NodeType.cs
  *
- * Enumeration defining the different types of nodes that can exist in the
- * Terminal.Gui tree view structure.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

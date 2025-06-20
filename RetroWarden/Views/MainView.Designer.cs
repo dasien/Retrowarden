@@ -2,10 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * MainView.Designer.cs
  *
- * Auto-generated Terminal.Gui designer code for the main view layout.
- * Do not modify this file manually.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -131,7 +128,7 @@ namespace Retrowarden.Views
                     {
                         new MenuItem("_Connect...", "Connect to vault", HandleConnectionRequest, null, 
                             null),
-                        new MenuItem("_Sync", "Sync vault", HandleSyncRequest, null, 
+                        new MenuItem("S_ync", "Sync vault", HandleSyncRequest, null, 
                             null),
                         new MenuItem("_Lock", "Lock vault", HandleLockRequest, null, 
                             null),
@@ -148,6 +145,13 @@ namespace Retrowarden.Views
                     new MenuBarItem("_Collection", new MenuItem[]
                     {
                         new MenuItem("_New", "", HandleCollectionCreate, null, 
+                            null)
+                    }),
+                    new MenuBarItem("_Send", new MenuItem[]
+                    {
+                        new MenuItem("_Create", "", HandleSendCreate, null, 
+                            null),
+                        new MenuItem("_List", "", HandlePassphraseGenerate, null, 
                             null)
                     }),
                     new MenuBarItem("_Tools", new MenuItem[]

@@ -5,9 +5,6 @@ using RetrowardenSDK.Models;
  * RetrowardenSDK - A secure password management library
  * DebugVaultRepository.cs
  *
- * This class provides a debug implementation of the vault repository
- * for testing and development purposes.
- *
  * Copyright (C) 2024 RetrowardenSDK Project
  *
  * This program is free software: you can redistribute it and/or modify
@@ -195,6 +192,23 @@ public sealed class DebugVaultRepository : IVaultRepository
         {
             // Return password.
             return "pyrex-pickle-blowfish";
+        }
+        #endregion
+        
+        #region Send Methods
+
+        public string CreateSend(Send send, string filePath = null)
+        {
+            throw new NotImplementedException();
+        }
+        public List<Send>? ListSends()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteSend(string id)
+        {
+            throw new NotImplementedException();
         }
         #endregion
         

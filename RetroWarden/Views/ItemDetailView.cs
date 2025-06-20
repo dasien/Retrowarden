@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * ItemDetailView.cs
  *
- * Base view class for all vault item detail views, providing common
- * functionality for item metadata, notes, and custom fields. Serves as
- * the foundation for specific item type views like cards and logins.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

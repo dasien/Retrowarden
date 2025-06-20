@@ -2,9 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * VaultItemCustomField.cs
  * 
- * This class represents custom fields that can be added to vault items,
- * allowing for flexible and extensible item properties.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

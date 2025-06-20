@@ -2,16 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * GeneratePassphraseDialog.cs
  *
- * Dialog for showing vault status information. Provides a summary
- * of vault status and user information.
- *
- * Status information includes:
- * - Vault status
- * - Last sync date
- * - Server URL
- * - User email address
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

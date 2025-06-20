@@ -2,11 +2,7 @@
  * Retrowarden - A Terminal.Gui based client for Bitwarden
  * GetCollectionsWorker.cs
  *
- * Background worker for retrieving vault collections. Handles asynchronous
- * fetching of collection data and updates the Terminal.Gui interface
- * with the results.
- *
- * Copyright (C) 2024 Retrowarden Project
+ * Copyright (C) 2024 Brian Gentry
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

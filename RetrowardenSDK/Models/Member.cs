@@ -2,8 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * Member.cs
  * 
- * Represents a member of an organization with associated permissions.
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify

@@ -2,10 +2,6 @@
  * RetrowardenSDK - A secure password management library
  * VaultFolder.cs
  * 
- * Represents a folder in the vault.  Folders are artificial constructs that have
- * no permissions attached to them.  They are simply for visual organization of
- * vault items
- * 
  * Copyright (C) 2024 RetrowardenSDK Project
  * 
  * This program is free software: you can redistribute it and/or modify
