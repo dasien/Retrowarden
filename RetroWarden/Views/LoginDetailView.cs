@@ -19,7 +19,38 @@ using Terminal.Gui;
 
 namespace Retrowarden.Views 
 {
-    public partial class LoginDetailView : ItemDetailView
+    /// <summary>
+    /// Specialized detail view for creating, editing, and viewing login credential vault items
+    /// within the Retrowarden Terminal.GUI interface.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This class extends ItemDetailView to provide login-specific functionality including:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>Username and password field management with show/hide capability</item>
+    /// <item>TOTP (Time-based One-Time Password) field for two-factor authentication</item>
+    /// <item>Dynamic URI list management with match detection settings</item>
+    /// <item>Integrated password generation using vault repository</item>
+    /// <item>Clipboard operations for secure copying of credentials</item>
+    /// <item>Custom URI scroll view for managing multiple website URLs</item>
+    /// </list>
+    /// <para>
+    /// The view includes a sophisticated URI management system through the UriScrollView
+    /// control, allowing users to associate multiple websites with login credentials
+    /// and configure match detection behaviors for each URL.
+    /// </para>
+    /// <para>
+    /// Password generation is integrated directly into the form, enabling users to
+    /// generate secure passwords without leaving the detail view. The view requires
+    /// a vault repository reference for accessing password generation capabilities.
+    /// </para>
+    /// <para>
+    /// Login data is stored in the VaultItem.Login property and supports the standard
+    /// three-state editing pattern (View, Edit, Create) inherited from ItemDetailView.
+    /// </para>
+    /// </remarks>
+    public sealed partial class LoginDetailView : ItemDetailView
     {
         private ObservableCollection<CodeListItem> _matchDetections;
         private readonly IVaultRepository _repository;

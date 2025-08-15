@@ -9,6 +9,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  ******************************************************************************/
+using Retrowarden.Utils;
 using Terminal.Gui;
 
 namespace Retrowarden.Dialogs
@@ -34,6 +35,8 @@ namespace Retrowarden.Dialogs
 
             if (_dialog != null)
             {
+                // Apply consistent color scheme before showing
+                ColorSchemeManager.ApplyColorScheme(_dialog);
                 Application.Run(_dialog);
             }
         }

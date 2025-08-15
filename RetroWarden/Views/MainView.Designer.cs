@@ -18,7 +18,7 @@ using Attribute = Terminal.Gui.Attribute;
 
 namespace Retrowarden.Views 
 {
-    public partial class MainView : Toplevel 
+    public sealed partial class MainView : Toplevel 
     {
         private FrameView fraItems;
         private TreeView tvwItems;
@@ -159,6 +159,11 @@ namespace Retrowarden.Views
                         new MenuItem("_Generate Password", "", HandlePasswordGenerate, null, 
                             null),
                         new MenuItem("Generate _Passphrase", "", HandlePassphraseGenerate, null, 
+                            null)
+                    }),
+                    new MenuBarItem("_Chat", new MenuItem[]
+                    {
+                        new MenuItem("_Open Chat", "Chat with MCP Server", HandleChatRequest, null, 
                             null)
                     }),
                     new MenuBarItem("_Options", new MenuItem[]

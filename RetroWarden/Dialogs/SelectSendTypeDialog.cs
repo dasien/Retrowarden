@@ -31,7 +31,7 @@ namespace Retrowarden.Dialogs
 
             if (_rdoSendType != null)
             {
-                _sendType = _rdoSendType.SelectedItem;
+                _sendType = _rdoSendType.SelectedItem + 1;
             }
 
             // Close dialog.
@@ -65,7 +65,7 @@ namespace Retrowarden.Dialogs
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Select Send Type", Width = 30, Height = 7
+                Title = "Select Send Type", Width = 30, Height = 10
             };
             _dialog.Add(_rdoSendType, okButton, cancelButton);
         }
@@ -73,6 +73,9 @@ namespace Retrowarden.Dialogs
         /// <summary>
         /// Gets the selected Send type. 0 for File, 1 for Text.
         /// </summary>
-        public int SendType => _sendType;
+        public int SendType
+        {
+            get { return _sendType; }
+        }
     }
 }

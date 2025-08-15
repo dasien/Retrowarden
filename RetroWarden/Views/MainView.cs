@@ -22,7 +22,37 @@ using ConfigurationManager = Retrowarden.Config.ConfigurationManager;
 
 namespace Retrowarden.Views 
 {
-    public partial class MainView
+    /// <summary>
+    /// Primary application window that provides the main Terminal.GUI interface for the 
+    /// Retrowarden Bitwarden client application.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This class serves as the central hub for all vault operations and user interactions:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>Authentication management (login, logout, lock, unlock)</item>
+    /// <item>Vault synchronization and data management</item>
+    /// <item>Tree navigation for folders, collections, and organizations</item>
+    /// <item>Item listing with sorting and filtering capabilities</item>
+    /// <item>CRUD operations for vault items through detail views</item>
+    /// <item>Password and passphrase generation</item>
+    /// <item>Clipboard operations for secure data copying</item>
+    /// <item>Auto-lock functionality with configurable timeout</item>
+    /// <item>Organization and collection management</item>
+    /// <item>Send creation for secure file and text sharing</item>
+    /// </list>
+    /// <para>
+    /// The view implements a two-pane interface with a tree view on the left for navigation
+    /// and a list view on the right for displaying vault items. It uses the repository pattern
+    /// for vault operations and worker patterns for background tasks with progress indication.
+    /// </para>
+    /// <para>
+    /// The class supports both production mode (using real Bitwarden CLI) and debug mode 
+    /// (using mock data) for development and testing purposes.
+    /// </para>
+    /// </remarks>
+    public sealed partial class MainView
     {
         // Vault repository reference.
         private IVaultRepository _vaultRepository;
@@ -91,6 +121,12 @@ namespace Retrowarden.Views
 
             // Setup screen controls.
             InitializeComponent();
+            
+            // Apply consistent application color scheme
+            ColorSchemeManager.ApplyColorScheme(this);
+            
+            // Explicitly apply color scheme to MenuBar for proper highlighting
+            ColorSchemeManager.ApplyColorScheme(mnuMain);
 
             // Set timer to launch splash.
             Application.AddTimeout(TimeSpan.FromMilliseconds(80), ShowSplashScreen);
@@ -981,10 +1017,12 @@ namespace Retrowarden.Views
 
         private void HandleQuitRequest()
         {
-            int response = MessageBox.Query("Confirm Action", "Quit.  Are you Sure?", "Ok", "Cancel");
+            // Create custom confirmation dialog with consistent styling
+            var confirmDialog = new ConfirmationDialog("Confirm Action", "Quit. Are you Sure?","Yes", "No");
+            confirmDialog.Show();
             
             // Check to see if the user confirmed action.
-            if (response == 0)
+            if (confirmDialog.OkPressed)
             {
                 // Create new worker.
                 LogoutWorker worker = new LogoutWorker(_vaultRepository, "Logging out...");
@@ -1000,7 +1038,7 @@ namespace Retrowarden.Views
         private void HandleFolderCreate()
         {
             // Check to make sure we are logged in.
-            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: false })
             {
                 // Create add folder dialog.
                 AddFolderDialog dialog = new AddFolderDialog(_folders);
@@ -1055,7 +1093,7 @@ namespace Retrowarden.Views
         private void HandleSendCreate()
         {
             // Check to make sure we are in the right state.
-            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: false })
             {
                 // Have the user pick the send type.
                 SelectSendTypeDialog ssDialog = new SelectSendTypeDialog();
@@ -1121,7 +1159,7 @@ namespace Retrowarden.Views
             
             /*
             // Check to make sure we are logged in.
-            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: false })
             {
                 // Check to see if this is an 'org enabled' account.
                 if (_vaultRepository.IsOrgEnabled)
@@ -1243,7 +1281,7 @@ namespace Retrowarden.Views
         private void HandleLockRequest()
         {
             // Check to see if the user is logged in.
-            if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
+            if (_vaultRepository is { IsLoggedIn: true, IsLocked: false })
             {
                 // Show the dialog.
                 LockWorker worker = new LockWorker(_vaultRepository, "Locking vault...");
@@ -1341,6 +1379,13 @@ namespace Retrowarden.Views
             dialog.Show();
         }
 
+        private void HandleChatRequest()
+        {
+            // Create and show the chat dialog
+            ChatDialog chatDialog = new ChatDialog();
+            chatDialog.Show();
+        }
+
         private void HandleDebugMode()
         {
             // Check to see if we are leaving debug mode.
@@ -1379,10 +1424,12 @@ namespace Retrowarden.Views
                 // Check to see if the user is logged in.
                 if (_vaultRepository.IsLoggedIn)
                 {
-                    int response = MessageBox.Query("Confirm Action", "This will Log you out of your session.  Are you Sure?", "Ok", "Cancel");
+                    // Create custom confirmation dialog with consistent styling
+                    var confirmDialog = new ConfirmationDialog("Confirm Action", "This will Log you out of your session. Are you Sure?");
+                    confirmDialog.Show();
             
                     // Check to see if the user confirmed action.
-                    if (response == 0)
+                    if (confirmDialog.OkPressed)
                     {
                         // Create new worker.
                         LogoutWorker worker = new LogoutWorker(_vaultRepository, "Logging out...");
@@ -1776,10 +1823,11 @@ namespace Retrowarden.Views
         private void HandleDeleteKeypress()
         {
             // Show dialog confirming action.
-            int pressed = MessageBox.ErrorQuery("Confirm Action", "Delete Item. Are you sure?", "Yes", "No");
+            var confirmDialog = new ConfirmationDialog("Confirm Action", "Delete Item. Are you sure?", "Yes", "No");
+            confirmDialog.Show();
 
             // Check to see if there is anything to do.
-            if (pressed == 0)
+            if (confirmDialog.OkPressed)
             {
                 // Create a list to hold the selected item.
                 List<VaultItem> toDelete = new List<VaultItem>();

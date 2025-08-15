@@ -14,7 +14,38 @@ using Terminal.Gui;
 
 namespace Retrowarden.Views 
 {
-    public partial class SecureNoteDetailView : ItemDetailView
+    /// <summary>
+    /// Specialized detail view for creating, editing, and viewing secure note vault items
+    /// within the Retrowarden Terminal.GUI interface.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This class extends ItemDetailView to provide secure note functionality with:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>Minimal interface focusing on common vault item properties</item>
+    /// <item>Secure note type management (currently supports type 0)</item>
+    /// <item>Standard three-state editing pattern (View, Edit, Create)</item>
+    /// <item>Form validation for required fields</item>
+    /// <item>Lightweight implementation for simple text storage</item>
+    /// </list>
+    /// <para>
+    /// Unlike other detail views, SecureNoteDetailView has a minimal interface since
+    /// secure notes primarily use the common fields provided by the base ItemDetailView
+    /// (name, notes, folder, custom fields). The main content is stored in the notes
+    /// field of the base item.
+    /// </para>
+    /// <para>
+    /// The view creates an empty detail view container to satisfy the base class
+    /// requirements while focusing user interaction on the common fields provided
+    /// by ItemDetailView.
+    /// </para>
+    /// <para>
+    /// Secure note data is stored in the VaultItem.SecureNote property with a type
+    /// field that currently defaults to 0, following Bitwarden's secure note structure.
+    /// </para>
+    /// </remarks>
+    public sealed partial class SecureNoteDetailView : ItemDetailView
     {
        public SecureNoteDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
             : base (item, folders, state)

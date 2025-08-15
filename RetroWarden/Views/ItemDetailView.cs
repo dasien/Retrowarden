@@ -11,11 +11,41 @@
  ******************************************************************************/using System.Collections.ObjectModel;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
+using Retrowarden.Utils;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
 
 namespace Retrowarden.Views 
 {
+    /// <summary>
+    /// Abstract base class for vault item detail views providing common UI functionality
+    /// and behavior for viewing, editing, and creating Bitwarden vault items in the 
+    /// Terminal.GUI interface.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This class serves as the foundation for all vault item detail forms (Login, Card,
+    /// Identity, SecureNote) by providing:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>Common item properties UI (name, folder, favorite, reprompt, notes)</item>
+    /// <item>Three operational modes: View (read-only), Edit, and Create</item>
+    /// <item>Dynamic custom fields management with type selection</item>
+    /// <item>Scrollable dialog with intelligent focus management and auto-scrolling</item>
+    /// <item>Mouse wheel and keyboard navigation support</item>
+    /// </list>
+    /// <para>
+    /// Concrete implementations must inherit from this class and provide their specific
+    /// detail view through the DetailView property setter, then call SetupView() to
+    /// initialize the complete form layout.
+    /// </para>
+    /// <para>
+    /// The class uses a flexible subview pattern where the middle section of the dialog
+    /// is populated by the inheriting class's specific controls, while this base class
+    /// handles the header (name, folder, checkboxes), footer (notes, custom fields, 
+    /// buttons), and overall dialog management.
+    /// </para>
+    /// </remarks>
     public abstract partial class ItemDetailView
     {
         private View? _subView;
@@ -37,6 +67,8 @@ namespace Retrowarden.Views
         
         public void Show()
         {
+            // Apply consistent color scheme before showing
+            ColorSchemeManager.ApplyColorScheme(this);
             Application.Run(this);
         }
 

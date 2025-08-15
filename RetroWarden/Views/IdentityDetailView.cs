@@ -16,7 +16,38 @@ using Terminal.Gui;
 
 namespace Retrowarden.Views 
 {
-    public partial class IdentityDetailView : ItemDetailView
+    /// <summary>
+    /// Specialized detail view for creating, editing, and viewing personal identity vault items
+    /// within the Retrowarden Terminal.GUI interface.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This class extends ItemDetailView to provide identity-specific functionality including:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>Personal information fields (name, title, company, contact details)</item>
+    /// <item>Address management with multiple address lines and international support</item>
+    /// <item>Government identification fields (SSN, passport, license numbers)</item>
+    /// <item>Title selection from predefined list with dropdown interface</item>
+    /// <item>Comprehensive form layout for all major identity data points</item>
+    /// <item>Form validation ensuring data integrity</item>
+    /// </list>
+    /// <para>
+    /// The view provides a comprehensive form for storing personal identity information
+    /// commonly needed for form filling, including structured address fields, multiple
+    /// identification numbers, and contact information.
+    /// </para>
+    /// <para>
+    /// Title selection utilizes the CodeListManager for consistent dropdown behavior,
+    /// offering standard titles like Mr., Ms., Dr., etc. All text fields support
+    /// international characters and formatting.
+    /// </para>
+    /// <para>
+    /// Identity data is stored in the VaultItem.Identity property and follows the standard
+    /// three-state pattern (View, Edit, Create) inherited from the base ItemDetailView.
+    /// </para>
+    /// </remarks>
+    public sealed partial class IdentityDetailView : ItemDetailView
     {
         private ObservableCollection<CodeListItem> _titles;
         

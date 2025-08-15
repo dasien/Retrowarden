@@ -199,11 +199,11 @@ public sealed class DebugVaultRepository : IVaultRepository
 
         public string CreateSend(Send send, string filePath = null)
         {
-            throw new NotImplementedException();
+            return "CreateSend called in DebugVaultRepository.cs";
         }
         public List<Send>? ListSends()
         {
-            throw new NotImplementedException();
+            return new List<Send>();
         }
 
         public void DeleteSend(string id)

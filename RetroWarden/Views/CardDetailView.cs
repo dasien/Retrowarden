@@ -16,7 +16,33 @@ using Terminal.Gui;
 
 namespace Retrowarden.Views 
 {
-    public partial class CardDetailView : ItemDetailView
+    /// <summary>
+    /// Specialized detail view for creating, editing, and viewing credit card vault items
+    /// within the Retrowarden Terminal.GUI interface.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This class extends ItemDetailView to provide card-specific functionality including:
+    /// </para>
+    /// <list type="bullet">
+    /// <item>Credit card fields (cardholder name, card number, CVV, expiry)</item>
+    /// <item>Brand selection from predefined list (Visa, MasterCard, etc.)</item>
+    /// <item>Expiry month selection with dropdown interface</item>
+    /// <item>Show/hide functionality for sensitive card data</item>
+    /// <item>Clipboard operations for secure copying of card details</item>
+    /// <item>Form validation ensuring required fields are populated</item>
+    /// </list>
+    /// <para>
+    /// The view utilizes code lists from CodeListManager for brand and month selections,
+    /// providing consistent dropdown experiences. Sensitive fields like card number and
+    /// CVV support toggle visibility with dedicated show/hide buttons.
+    /// </para>
+    /// <para>
+    /// Card data is stored in the VaultItem.Card property and follows the standard
+    /// three-state pattern (View, Edit, Create) inherited from the base ItemDetailView.
+    /// </para>
+    /// </remarks>
+    public sealed partial class CardDetailView : ItemDetailView
     {
         private ObservableCollection<CodeListItem> _cardBrands;
         private ObservableCollection<CodeListItem> _expMonths;
