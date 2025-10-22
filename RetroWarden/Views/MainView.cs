@@ -6,7 +6,9 @@ using Retrowarden.Utils;
 using Retrowarden.Workers;
 using RetrowardenSDK.Models;
 using RetrowardenSDK.Repositories;
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.Views;
+using Terminal.Gui.Input;
 using ConfigurationManager = Retrowarden.Config.ConfigurationManager;
 
 namespace Retrowarden.Views 
@@ -38,7 +40,7 @@ namespace Retrowarden.Views
         public MainView(bool debug)
         {
             // Initialize Application Stack
-            Application.Init();
+            //Application.Init();
 
             // Set events for updating keep alive flag.
             Application.KeyDown += HandleKeyEvent;
@@ -377,7 +379,7 @@ namespace Retrowarden.Views
         private void Shutdown(int exitCode)
         {
             // Clear any clipboard contents.
-            Clipboard.TrySetClipboardData("");
+            Clipboard.Contents = "";
                 
             // Close application.
             Application.RequestStop(this);
@@ -390,7 +392,7 @@ namespace Retrowarden.Views
         }
         
         #region UI Control Helpers
-        private void SortListByName(object? sender, MouseEventEventArgs e)
+        private void SortListByName(object? sender, MouseEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 0;
@@ -402,7 +404,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByValue(object? sender, MouseEventEventArgs e)
+        private void SortListByValue(object? sender, MouseEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 1;
@@ -414,7 +416,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByOwner(object? sender, MouseEventEventArgs e)
+        private void SortListByOwner(object? sender, MouseEventArgs e)
         {
             // Set current sort column.
             _sortColumn = 2;
@@ -457,7 +459,7 @@ namespace Retrowarden.Views
             }
             
             // Redraw listview.
-            lvwItems.SetNeedsDisplay();
+            lvwItems.SetNeedsDraw();
             
             // Set statusbar menus.
             UpdateStatusBarOptions();
@@ -792,7 +794,7 @@ namespace Retrowarden.Views
             }
 
             // Redraw menu bar.
-            staMain.SetNeedsDisplay();
+            staMain.SetNeedsDraw();
         }
 
         private bool ShouldShowCopyMenu()
@@ -915,7 +917,7 @@ namespace Retrowarden.Views
         #endregion
         
         #region Main View Handlers
-        private void HandleMouseEvent(object? sender, MouseEvent mouseEvent)
+        private void HandleMouseEvent(object? sender, MouseEventArgs mouseEvent)
         {
             // Flag that the user has done something.
             _keepAlive = true;
@@ -1136,7 +1138,7 @@ namespace Retrowarden.Views
             _boomerMode = !_boomerMode;
             
             // Set menu state.
-            mnuMain.Menus[1].Children[0].Checked = _boomerMode;
+            //mnuMain.Menus.Children[0].Checked = _boomerMode;
             
             // Set this to the desired state
             Application.IsMouseDisabled = _boomerMode;
@@ -1275,7 +1277,7 @@ namespace Retrowarden.Views
                 _debugMode = !_debugMode;
             
                 // Set menu state.
-                mnuMain.Menus[1].Children[1].Checked = _debugMode;
+                //mnuMain.Menus[1].Children[1].Checked = _debugMode;
             }
 
             else
@@ -1304,7 +1306,7 @@ namespace Retrowarden.Views
                         _debugMode = !_debugMode;
             
                         // Set menu state.
-                        mnuMain.Menus[1].Children[1].Checked = _debugMode;
+                        //mnuMain.Menus[1].Children[1].Checked = _debugMode;
                     }
                 }
             }
@@ -1509,7 +1511,7 @@ namespace Retrowarden.Views
             if (item.Login != null)
             {
                 // Copy username to clipboard.
-                Clipboard.TrySetClipboardData(item.Login.UserName);
+                Clipboard.Contents = item.Login.UserName;
             }
 
             // Indicate data copied.
@@ -1528,7 +1530,7 @@ namespace Retrowarden.Views
             if (item.Login != null)
             {
                 // Copy password to clipboard.
-                Clipboard.TrySetClipboardData(item.Login.Password);
+                Clipboard.Contents = item.Login.Password;
             }
             
             // Indicate data copied.

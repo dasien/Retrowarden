@@ -3,7 +3,11 @@ using System.ComponentModel;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
 using RetrowardenSDK.Models;
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.Views;
+using Terminal.Gui.Input;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Drivers;
 
 namespace Retrowarden.Views 
 {
@@ -173,7 +177,7 @@ namespace Retrowarden.Views
             btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
             
             // Refresh display
-            SetNeedsDisplay();
+            SetNeedsDraw();
         }
         
         protected virtual void UpdateItem()
@@ -291,9 +295,9 @@ namespace Retrowarden.Views
             }
         }
         
-        private void HandleMouseEvent(object? sender, MouseEventEventArgs mouseEventEventArgs)
+        private void HandleMouseEvent(object? sender, MouseEventArgs MouseEventArgs)
         {
-            switch (mouseEventEventArgs.MouseEvent.Flags)
+            switch (MouseEventArgs.Flags)
             {
                 // Check to see if this is a wheel scroll down.
                 case MouseFlags.WheeledDown:

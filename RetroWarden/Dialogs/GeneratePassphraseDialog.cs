@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 using RetrowardenSDK.Repositories;
 using Retrowarden.Workers;
 
@@ -105,7 +107,7 @@ namespace Retrowarden.Dialogs
         private void CopyButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Copy password to clipboard.
-            Clipboard.TrySetClipboardData(_passphrase);
+            Clipboard.Contents = _passphrase;
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "Passphrase copied to clipboard.", "Ok");
@@ -181,7 +183,7 @@ namespace Retrowarden.Dialogs
                Width = 8, Height = 1, X = 1, Y = 11, Visible = true, Data = "_btnGeneratePassphrase",
                Text = "Generate", TextAlignment = Alignment.Center, IsDefault = false
            };
-            _btnGeneratePassphrase.Accept += GenerateButton_Clicked;
+            _btnGeneratePassphrase.Accepting += GenerateButton_Clicked;
             _dialog.Add(_btnGeneratePassphrase);
 
             _btnCopy = new Button()
@@ -189,7 +191,7 @@ namespace Retrowarden.Dialogs
                 Width = 4, Height = 1, X = 18, Y = 11, Visible = true, Data = "_btnCopy",
                 Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false
             };
-            _btnCopy.Accept += CopyButton_Clicked;
+            _btnCopy.Accepting += CopyButton_Clicked;
             _dialog.Add(_btnCopy);
 
             _btnClose = new Button()
@@ -197,7 +199,7 @@ namespace Retrowarden.Dialogs
                 Width = 9, Height = 1, X = 32, Y = 11, Visible = true, Data = "_btnClose",
                 Text = "Close", TextAlignment = Alignment.Center, IsDefault = false
             };
-            _btnClose.Accept += CancelButton_Clicked;
+            _btnClose.Accepting += CancelButton_Clicked;
             _dialog.Add(_btnClose);
         }
         #endregion

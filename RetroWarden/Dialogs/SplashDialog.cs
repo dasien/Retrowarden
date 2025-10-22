@@ -1,4 +1,5 @@
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.Views;
 
 namespace Retrowarden.Dialogs
 {

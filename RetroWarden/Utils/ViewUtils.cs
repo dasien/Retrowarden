@@ -1,6 +1,8 @@
 using System.Text;
 using RetrowardenSDK.Models;
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
 namespace Retrowarden.Utils
 {

@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using RetrowardenSDK.Models;
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.Views;
 
 namespace Retrowarden.Dialogs
 {
@@ -59,7 +60,7 @@ namespace Retrowarden.Dialogs
             {
                 X = 8, Y =6, Text = "_Save"
             };
-            okButton.Accept += OkButton_Clicked;
+            okButton.Accepting += OkButton_Clicked;
 
             // Create Cancel button.
             Button cancelButton = new Button()
@@ -67,7 +68,7 @@ namespace Retrowarden.Dialogs
                 X = 24, Y = 6, Title = "Cance_l"
                 
             };
-            cancelButton.Accept += CancelButton_Clicked;
+            cancelButton.Accepting += CancelButton_Clicked;
 
             // Create modal view.
             _dialog = new Dialog()

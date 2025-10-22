@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
-using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
+using Terminal.Gui.Drivers;
 using RetrowardenSDK.Models;
+using Terminal.Gui.Text;
+
 namespace Retrowarden.Utils
 {
     public class ItemListDataSource : IListDataSource
@@ -30,8 +34,7 @@ namespace Retrowarden.Utils
             _maxLength = GetMaxLengthItem();
         }
 
-        public void Render(ListView container, ConsoleDriver driver, bool selected, int item, int col, int line, int width,
-            int start = 0)
+        public void Render(ListView container, bool selected, int item, int col, int line, int width, int start = 0)
         {
             // Placeholder for 2nd column text.
             string? itemText = " ";
@@ -100,7 +103,7 @@ namespace Retrowarden.Utils
 
             return retVal;
         }
-        
+
         public void SetMark(int item, bool value)
         {
             if (item >= 0 && item < _count)

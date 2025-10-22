@@ -1,11 +1,13 @@
 using System.Collections.ObjectModel;
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 using RetrowardenSDK.Models;
 using Retrowarden.Utils;
 
 namespace Retrowarden.Controls
 {
-    public class CustomFieldScrollView : ScrollView
+    public class CustomFieldScrollView : View
     {
         private List<View[]> _rowControls;
         private List<VaultItemCustomField> _fields;
@@ -60,7 +62,7 @@ namespace Retrowarden.Controls
             }
             
             // Refresh control.
-            SetNeedsDisplay();
+            SetNeedsDraw();
             //SetChildNeedsDisplay();
         }
 
@@ -133,13 +135,16 @@ namespace Retrowarden.Controls
             Button btnDeleteRow = CreateDeleteButton(rowNum);
 
             // Create event handlers for the buttons.
-            btnCopyValue.Accept += (s,e) =>
+            btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
-                Clipboard.TrySetClipboardData(txtValue.Text);
+                Clipboard.Contents = (txtValue.Text);
 
                 // Indicate data copied.
                 MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
+                
+                // Flag event handled.
+                e.Handled = true;
             };
 
             // Return control row.
@@ -180,22 +185,28 @@ namespace Retrowarden.Controls
             Button btnDeleteRow = CreateDeleteButton(rowNum);
             
             // Create event handlers for the buttons.
-            btnShowValue.Accept += (s,e) =>
+            btnShowValue.Accepting += (s,e) =>
             {
                 // Toggle Flag.
                 txtValue.Secret = !txtValue.Secret;
 
                 // Flip button text to opposite action.
                 btnShowValue.Text = txtValue.Secret ? "View" : "Hide";
+                
+                // Flag event handled.
+                e.Handled = true;
             };
             
-            btnCopyValue.Accept += (s,e) =>
+            btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
-                Clipboard.TrySetClipboardData(txtValue.Text);
+                Clipboard.Contents = (txtValue.Text);
 
                 // Indicate data copied.
                 MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
+ 
+                // Flag event handled.
+                e.Handled = true;
             };
             
             // Return control row.
@@ -264,7 +275,7 @@ namespace Retrowarden.Controls
                 TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
             
-            retVal.Accept += (s,e) =>
+            retVal.Accepting += (s,e) =>
             {
                 // Get row index.
                 int index = (int) retVal.Data;
@@ -304,7 +315,10 @@ namespace Retrowarden.Controls
                 _rowControls.Remove(_rowControls.ElementAt(index));
             
                 // Flag that the scrollview needs to be redrawn.
-                SetNeedsDisplay();
+                SetNeedsDraw();
+                
+                // Flag event handled.
+                e.Handled = true;
             };
 
             return retVal;
@@ -417,7 +431,7 @@ namespace Retrowarden.Controls
                 Add(newRow);
 
                 // Set scroll for redraw.
-                SetNeedsDisplay();
+                SetNeedsDraw();
                 
                 // Set focus to new text field.
                 newRow[0].SetFocus();

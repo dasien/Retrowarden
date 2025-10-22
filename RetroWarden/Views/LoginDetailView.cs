@@ -1,11 +1,14 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 using Retrowarden.Controls;
 using Retrowarden.Dialogs;
 using RetrowardenSDK.Models;
 using Retrowarden.Utils;
 using RetrowardenSDK.Repositories;
+using Terminal.Gui.App;
 
 namespace Retrowarden.Views 
 {
@@ -171,7 +174,7 @@ namespace Retrowarden.Views
         private void CopyPasswordButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy password to clipboard.
-            Clipboard.TrySetClipboardData(txtPassword.Text);
+            Clipboard.Contents = txtPassword.Text;
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "Password copied to clipboard.", "Ok");
@@ -190,7 +193,7 @@ namespace Retrowarden.Views
         private void CopyUserNameButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy username to clipboard.
-            Clipboard.TrySetClipboardData(txtUserName.Text);
+            Clipboard.Contents = (txtUserName.Text);
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "User name copied to clipboard.", "Ok");

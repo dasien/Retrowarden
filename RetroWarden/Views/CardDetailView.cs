@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.Views;
 using RetrowardenSDK.Models;
 using Retrowarden.Utils;
 
@@ -146,7 +147,7 @@ namespace Retrowarden.Views
         private void CopyCardButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy username to clipboard.
-            Clipboard.TrySetClipboardData(txtCardNumber.Text);
+            Clipboard.Contents = txtCardNumber.Text;
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "Card number copied to clipboard.", "Ok");
@@ -164,7 +165,7 @@ namespace Retrowarden.Views
         private void CopyCVVButtonClicked(object? sender, HandledEventArgs e)
         {
             // Copy username to clipboard.
-            Clipboard.TrySetClipboardData(txtCVV.Text);
+            Clipboard.Contents = txtCVV.Text;
 
             // Indicate data copied.
             MessageBox.Query("Action Completed", "Card CVV copied to clipboard.", "Ok");

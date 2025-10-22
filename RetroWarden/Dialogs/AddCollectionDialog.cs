@@ -1,5 +1,8 @@
 using System.ComponentModel;
-using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
+using Terminal.Gui.Drawing;
 using RetrowardenSDK.Models;
 
 namespace Retrowarden.Dialogs
@@ -200,7 +203,7 @@ namespace Retrowarden.Dialogs
                 TextAlignment = Alignment.Center, IsDefault = false, 
             };
             
-            _btnOk.Accept += OkButton_Clicked; 
+            _btnOk.Accepting += OkButton_Clicked; 
             _dialog.Add(_btnOk);
 
             _btnCancel = new Button()
@@ -209,7 +212,7 @@ namespace Retrowarden.Dialogs
                 TextAlignment = Alignment.Center, IsDefault = false
             };
 
-            _btnCancel.Accept += CancelButton_Clicked;
+            _btnCancel.Accepting += CancelButton_Clicked;
             _dialog.Add(_btnCancel);
         }
         

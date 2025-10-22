@@ -1,6 +1,8 @@
 using System;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 namespace Retrowarden.Views
 {
     public partial class IdentityDetailView
@@ -20,8 +22,8 @@ namespace Retrowarden.Views
         private TextField txtSSN;
         private TextField txtPassportNumber;
         private TextField txtLicenseNumber;
-        private LineView lineView2;
-        private LineView lineView;
+        private Line lineView2;
+        private Line lineView;
         private Label lblAddress1;
         private Label lblUserName;
         private TextField txtAddress1;
@@ -158,17 +160,17 @@ namespace Retrowarden.Views
             this.txtLicenseNumber.HasFocusChanged += (s, e) => HandleFocusChange(txtLicenseNumber, e);
             vwIdentity.Add(this.txtLicenseNumber);
             
-            this.lineView2 = new LineView
+            this.lineView2 = new Line
             {
                 Width = 94, Height = 3, X = 1, Y = 9, Visible = true, Data = "lineView2", TextAlignment = Alignment.Start,
-                LineRune = new Rune('─'), Orientation = Orientation.Horizontal, CanFocus = false
+                Orientation = Orientation.Horizontal, CanFocus = false
             };
             vwIdentity.Add(this.lineView2);
 
-            this.lineView = new LineView
+            this.lineView = new Line
             {
                 Width = 1, Height = 15, X = 47, Y = 9, Visible = true, Data = "lineView", TextAlignment = Alignment.Start,
-                LineRune = new Rune('│'), Orientation = Orientation.Vertical, CanFocus = false
+                Orientation = Orientation.Vertical, CanFocus = false
             };
             vwIdentity.Add(this.lineView);
 

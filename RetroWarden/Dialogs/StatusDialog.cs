@@ -1,4 +1,6 @@
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 using RetrowardenSDK.Models;
 
 namespace Retrowarden.Dialogs
@@ -126,7 +128,7 @@ namespace Retrowarden.Dialogs
                 Text = "Close", TextAlignment = Alignment.Center, IsDefault = true
             };
 
-            _btnCancel.Accept += CancelButton_Clicked;
+            _btnCancel.Accepting += CancelButton_Clicked;
             _dialog.Add(_btnCancel);
         }
     }    

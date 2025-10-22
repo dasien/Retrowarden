@@ -1,5 +1,7 @@
 using System;
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
 namespace Retrowarden.Views 
 {
@@ -106,7 +108,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 20, Y = 4, Visible = true, Data = "btnShowCardNumber", Text = "Show",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnShowCardNumber.Accept += ShowCardButtonClicked;
+            this.btnShowCardNumber.Accepting += ShowCardButtonClicked;
             this.btnShowCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(btnShowCardNumber, e);
             vwCard.Add(this.btnShowCardNumber);
 
@@ -115,7 +117,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 29, Y = 4, Visible = true, Data = "btnCopyCardNumber", Text = "Copy",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnCopyCardNumber.Accept += CopyCardButtonClicked;
+            this.btnCopyCardNumber.Accepting += CopyCardButtonClicked;
             this.btnCopyCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyCardNumber, e);
             vwCard.Add(this.btnCopyCardNumber);
 
@@ -132,7 +134,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 57, Y = 4, Visible = true, Data = "btnShowCVV", Text = "Show",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnShowCVV.Accept += ShowCVVButtonClicked;
+            this.btnShowCVV.Accepting += ShowCVVButtonClicked;
             this.btnShowCVV.HasFocusChanged += (s, e) => HandleFocusChange(btnShowCVV, e);
             vwCard.Add(this.btnShowCVV);
 
@@ -141,7 +143,7 @@ namespace Retrowarden.Views
                 Width = 8, Height = 1, X = 66, Y = 4, Visible = true, Data = "btnCopyCVV", Text = "Copy",
                 TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
             };
-            this.btnCopyCVV.Accept += CopyCVVButtonClicked;
+            this.btnCopyCVV.Accepting += CopyCVVButtonClicked;
             this.btnCopyCVV.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyCVV, e);
             vwCard.Add(this.btnCopyCVV);
 
