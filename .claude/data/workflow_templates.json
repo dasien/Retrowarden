@@ -1,0 +1,635 @@
+{
+  "version": "2.0.0",
+  "description": "Workflow templates with input/output specifications and status transitions",
+  "workflows": {
+    "new-feature-development": {
+      "name": "New Feature Development",
+      "description": "Complete workflow for implementing a new feature",
+      "steps": [
+        {
+          "agent": "requirements-analyst",
+          "input": "enhancements/{enhancement_name}/{enhancement_name}.md",
+          "required_output": "analysis_summary.md",
+          "on_status": {
+            "READY_FOR_DEVELOPMENT": {
+              "next_step": "architect",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Requirements are unclear and need stakeholder input"
+            }
+          }
+        },
+        {
+          "agent": "architect",
+          "input": "{previous_step}/required_output/",
+          "required_output": "implementation_plan.md",
+          "on_status": {
+            "READY_FOR_IMPLEMENTATION": {
+              "next_step": "implementer",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_RESEARCH": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Technical unknowns require investigation before proceeding"
+            }
+          }
+        },
+        {
+          "agent": "implementer",
+          "input": "{previous_step}/required_output/",
+          "required_output": "implementation_summary.md",
+          "on_status": {
+            "READY_FOR_TESTING": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "READY_FOR_INTEGRATION": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "BUILD_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Code does not compile or build successfully"
+            }
+          }
+        },
+        {
+          "agent": "tester",
+          "input": "{previous_step}/required_output/",
+          "required_output": "test_summary.md",
+          "on_status": {
+            "TESTING_COMPLETE": {
+              "next_step": "documenter",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "One or more tests did not pass"
+            }
+          }
+        },
+        {
+          "agent": "documenter",
+          "input": "{previous_step}/required_output/",
+          "required_output": "documentation_summary.md",
+          "on_status": {
+            "DOCUMENTATION_COMPLETE": {
+              "next_step": "retrospective",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Need more information to complete documentation"
+            }
+          }
+        },
+        {
+          "agent": "retrospective",
+          "input": "enhancements/{enhancement_name}/",
+          "required_output": "learnings_actions.json",
+          "on_status": {
+            "RETROSPECTIVE_COMPLETE": {
+              "next_step": null,
+              "auto_chain": false
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            }
+          }
+        }
+      ]
+    },
+    "bugfix-workflow": {
+      "name": "Bug Fix Workflow",
+      "description": "Workflow for fixing identified bugs",
+      "steps": [
+        {
+          "agent": "requirements-analyst",
+          "input": "enhancements/{enhancement_name}/{enhancement_name}.md",
+          "required_output": "bug_analysis.md",
+          "on_status": {
+            "READY_FOR_DEVELOPMENT": {
+              "next_step": "architect",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Bug details are unclear and need more information"
+            }
+          }
+        },
+        {
+          "agent": "architect",
+          "input": "{previous_step}/required_output/",
+          "required_output": "fix_design.md",
+          "on_status": {
+            "READY_FOR_IMPLEMENTATION": {
+              "next_step": "implementer",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_RESEARCH": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Root cause requires further investigation"
+            }
+          }
+        },
+        {
+          "agent": "implementer",
+          "input": "{previous_step}/required_output/",
+          "required_output": "fix_summary.md",
+          "on_status": {
+            "READY_FOR_TESTING": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "BUILD_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Code does not compile or build successfully"
+            }
+          }
+        },
+        {
+          "agent": "tester",
+          "input": "{previous_step}/required_output/",
+          "required_output": "validation_summary.md",
+          "on_status": {
+            "TESTING_COMPLETE": {
+              "next_step": null,
+              "auto_chain": false
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "One or more tests did not pass"
+            }
+          }
+        }
+      ]
+    },
+    "hotfix-workflow": {
+      "name": "Critical Hotfix",
+      "description": "Fast-track workflow for critical issues",
+      "steps": [
+        {
+          "agent": "implementer",
+          "input": "enhancements/{enhancement_name}/{enhancement_name}.md",
+          "required_output": "hotfix_summary.md",
+          "on_status": {
+            "READY_FOR_TESTING": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "BUILD_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Code does not compile or build successfully"
+            }
+          }
+        },
+        {
+          "agent": "tester",
+          "input": "{previous_step}/required_output/",
+          "required_output": "emergency_validation.md",
+          "on_status": {
+            "TESTING_COMPLETE": {
+              "next_step": null,
+              "auto_chain": false
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "One or more tests did not pass"
+            }
+          }
+        }
+      ]
+    },
+    "performance-optimization": {
+      "name": "Performance Optimization",
+      "description": "Workflow for optimizing system performance",
+      "steps": [
+        {
+          "agent": "tester",
+          "input": "enhancements/{enhancement_name}/{enhancement_name}.md",
+          "required_output": "performance_baseline.md",
+          "on_status": {
+            "BASELINE_COMPLETE": {
+              "next_step": "architect",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Unable to establish baseline metrics"
+            }
+          }
+        },
+        {
+          "agent": "architect",
+          "input": "{previous_step}/required_output/",
+          "required_output": "optimization_strategy.md",
+          "on_status": {
+            "READY_FOR_IMPLEMENTATION": {
+              "next_step": "implementer",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_RESEARCH": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Performance bottlenecks require further investigation"
+            }
+          }
+        },
+        {
+          "agent": "implementer",
+          "input": "{previous_step}/required_output/",
+          "required_output": "optimization_summary.md",
+          "on_status": {
+            "READY_FOR_TESTING": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "BUILD_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Code does not compile or build successfully"
+            }
+          }
+        },
+        {
+          "agent": "tester",
+          "input": "{previous_step}/required_output/",
+          "required_output": "performance_results.md",
+          "on_status": {
+            "TESTING_COMPLETE": {
+              "next_step": null,
+              "auto_chain": false
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Performance did not meet targets"
+            }
+          }
+        }
+      ]
+    },
+    "documentation-update": {
+      "name": "Documentation Update",
+      "description": "Workflow for updating project documentation",
+      "steps": [
+        {
+          "agent": "requirements-analyst",
+          "input": "enhancements/{enhancement_name}/{enhancement_name}.md",
+          "required_output": "documentation_audit.md",
+          "on_status": {
+            "READY_FOR_DOCUMENTATION": {
+              "next_step": "documenter",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Documentation scope is unclear"
+            }
+          }
+        },
+        {
+          "agent": "documenter",
+          "input": "{previous_step}/required_output/",
+          "required_output": "documentation_updates.md",
+          "on_status": {
+            "DOCUMENTATION_COMPLETE": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Need more information to complete documentation"
+            }
+          }
+        },
+        {
+          "agent": "tester",
+          "input": "{previous_step}/required_output/",
+          "required_output": "documentation_validation.md",
+          "on_status": {
+            "TESTING_COMPLETE": {
+              "next_step": null,
+              "auto_chain": false
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Documentation validation failed"
+            }
+          }
+        }
+      ]
+    },
+    "refactoring-workflow": {
+      "name": "Code Refactoring",
+      "description": "Workflow for refactoring existing code",
+      "steps": [
+        {
+          "agent": "architect",
+          "input": "enhancements/{enhancement_name}/{enhancement_name}.md",
+          "required_output": "refactoring_strategy.md",
+          "on_status": {
+            "READY_FOR_IMPLEMENTATION": {
+              "next_step": "implementer",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_RESEARCH": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Codebase complexity requires further analysis"
+            }
+          }
+        },
+        {
+          "agent": "implementer",
+          "input": "{previous_step}/required_output/",
+          "required_output": "refactoring_summary.md",
+          "on_status": {
+            "READY_FOR_TESTING": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "BUILD_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Code does not compile or build successfully"
+            }
+          }
+        },
+        {
+          "agent": "tester",
+          "input": "{previous_step}/required_output/",
+          "required_output": "regression_test_results.md",
+          "on_status": {
+            "TESTING_COMPLETE": {
+              "next_step": "documenter",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Regression tests failed"
+            }
+          }
+        },
+        {
+          "agent": "documenter",
+          "input": "{previous_step}/required_output/",
+          "required_output": "technical_documentation.md",
+          "on_status": {
+            "DOCUMENTATION_COMPLETE": {
+              "next_step": null,
+              "auto_chain": false
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Need more information to document changes"
+            }
+          }
+        }
+      ]
+    },
+    "brians-dev-workflow": {
+      "name": "Brian's Dev Workflow",
+      "description": "This is a test workflow that mimics a regular development workflow",
+      "steps": [
+        {
+          "agent": "requirements-analyst",
+          "input": "enhancements/{enhancement_name}/{enhancement_name}.md",
+          "required_output": "analysis_summary.md",
+          "on_status": {
+            "READY_FOR_TECH_BREAKDOWN": {
+              "next_step": "architect",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Requirements are unclear and need stakeholder input"
+            }
+          }
+        },
+        {
+          "agent": "architect",
+          "input": "{previous_step}/required_output/",
+          "required_output": "implementation_plan.md",
+          "on_status": {
+            "READY_FOR_DEVELOPMENT": {
+              "next_step": "implementer",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_RESEARCH": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Technical unknowns require investigation before proceeding"
+            }
+          }
+        },
+        {
+          "agent": "implementer",
+          "input": "{previous_step}/required_output/",
+          "required_output": "coding_summary.md",
+          "on_status": {
+            "READY_FOR_TESTING": {
+              "next_step": "tester",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "BUILD_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Code does not compile or build successfully"
+            }
+          }
+        },
+        {
+          "agent": "tester",
+          "input": "{previous_step}/required_output/",
+          "required_output": "test_summary.md",
+          "on_status": {
+            "TESTING_COMPLETE": {
+              "next_step": "documenter",
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "TESTS_FAILED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "One or more tests did not pass"
+            }
+          }
+        },
+        {
+          "agent": "documenter",
+          "input": "{previous_step}/required_output/",
+          "required_output": "enhancement_summary.md",
+          "on_status": {
+            "ENHANCEMENT_COMPLETE": {
+              "next_step": null,
+              "auto_chain": true
+            },
+            "BLOCKED": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Cannot proceed without external input or decision"
+            },
+            "NEEDS_CLARIFICATION": {
+              "next_step": null,
+              "auto_chain": false,
+              "description": "Need more information to complete documentation"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

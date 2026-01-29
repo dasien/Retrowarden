@@ -4,8 +4,8 @@ namespace Retrowarden.Workers;
 
 public sealed class LogoutWorker : RetrowardenWorker
 {
-    public LogoutWorker(IVaultRepository repository, string dialogMessage) 
-        : base(repository, dialogMessage)
+    public LogoutWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage) 
+        : base(app, repository, dialogMessage)
     {
         // Run the logout method.
         _worker.DoWork += (s, e) => 

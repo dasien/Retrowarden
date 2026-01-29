@@ -1,0 +1,8 @@
+{
+  "queue_metadata": {
+    "created": "2025-10-21T00:00:00Z",
+    "version": "3.0.0",
+    "description": "Task queue for multi-agent development system"
+  },
+  "tasks": []
+}

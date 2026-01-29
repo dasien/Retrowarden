@@ -7,8 +7,8 @@ namespace Retrowarden.Workers
     {
         private VaultCollection _results;
         
-        public  CreateCollectionWorker(IVaultRepository repository, string dialogMessage, VaultCollection collection) 
-            : base(repository, dialogMessage)
+        public  CreateCollectionWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage, VaultCollection collection) 
+            : base(app, repository, dialogMessage)
         {
             // Create members.
             _results = new VaultCollection();

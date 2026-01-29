@@ -8,8 +8,8 @@ public sealed class GetItemsWorker : RetrowardenWorker
     // Member variables.
     private SortedDictionary<string, VaultItem> _items;
     
-    public GetItemsWorker(IVaultRepository repository, string dialogMessage) 
-        : base(repository, dialogMessage)
+    public GetItemsWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage) 
+        : base(app, repository, dialogMessage)
     {
         // Create members.
         _items = new SortedDictionary<string, VaultItem>();

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
 namespace Retrowarden.Dialogs
@@ -14,12 +15,12 @@ namespace Retrowarden.Dialogs
         private string _userId;
         private string _password;
         
-        public ConnectDialog() 
+        public ConnectDialog(IApplication app) : base(app)
         {
             _userId = "";
-            _password = ""; 
+            _password = "";
             _okPressed = false;
-            
+
             InitializeComponent();
         }
 
@@ -29,7 +30,7 @@ namespace Retrowarden.Dialogs
             if (_txtPassword != null && _txtUserId != null 
                && (_txtUserId.Text.Trim().Length == 0 || _txtPassword.Text.Trim().Length == 0))
             {
-                MessageBox.ErrorQuery("Values Missing", "Both User Id and Password are required.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Both User Id and Password are required.", "Ok");
             }
 
             else
@@ -48,58 +49,71 @@ namespace Retrowarden.Dialogs
                 }
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _app.RequestStop(_dialog);
             }
         }
 
         private void InitializeComponent()
         {
-            // Create Ok button.
-            Button okButton = new Button()
-            {
-                X = 8, Y =6, Text = "_Connect", IsDefault = true
-            };
-            okButton.Accepting += OkButton_Clicked;
-
-            // Create Cancel button.
-            Button cancelButton = new Button()
-            {
-                X = 24, Y = 6, Title = "Cance_l"
-            };
-            cancelButton.Accepting += CancelButton_Clicked;
-
-            // Create modal view.
+            // Create modal view with dynamic sizing.
             _dialog = new Dialog()
             {
-                Title = "Connect to Vault", Width = 40, Height =10
+                Title = "Connect to Vault",
+                Width = 45,
+                Height = 12,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
             };
 
-            // Create labels.
+            // Create labels with dynamic width based on content.
             Label lblUserId = new Label()
             {
-                X = 3, Y = 2, Width = 10, Height = 1, CanFocus = false, Visible = true,
+                X = 2,
+                Y = 1,
+                Width = Dim.Auto(),
                 Text = "*User Id:"
             };
 
             Label lblPassword = new Label()
             {
-                X = 3, Y = 4, Width = 10, Height = 1, CanFocus = false, Visible = true,
+                X = Pos.Left(lblUserId),
+                Y = Pos.Bottom(lblUserId) + 1,
+                Width = Dim.Auto(),
                 Text = "*Password:"
             };
-            
-            // Create text inputs.
+
+            // Create text inputs positioned relative to labels.
             _txtUserId = new TextField()
             {
-                X = 15, Y = 2, Height = 1, Width = 20, CanFocus = true, Visible = true
+                X = Pos.Right(lblUserId) + 2,
+                Y = Pos.Top(lblUserId),
+                Width = Dim.Fill(2)
             };
 
             _txtPassword = new TextField()
             {
-                X = 15, Y = 4, Width = 20, Height = 1, CanFocus = true, Visible = true, Secret = true
+                X = Pos.Left(_txtUserId),
+                Y = Pos.Top(lblPassword),
+                Width = Dim.Width(_txtUserId),
+                Secret = true
             };
-            
-            // Add controls to view.
-            _dialog.Add(lblUserId, lblPassword, _txtUserId, _txtPassword, okButton, cancelButton);
+
+            // Create buttons centered at bottom with dynamic positioning.
+            Button okButton = new Button()
+            {
+                Text = "_Connect",
+            };
+            okButton.Accepting += OkButton_Clicked;
+
+            Button cancelButton = new Button()
+            {
+                Text = "Cance_l"
+            };
+            cancelButton.Accepting += CancelButton_Clicked;
+
+            _dialog.Add(lblUserId, lblPassword, _txtUserId, _txtPassword);
+            _dialog.AddButton(okButton);
+            _dialog.AddButton(cancelButton);
 
             // Set default control.
             _txtUserId.SetFocus();

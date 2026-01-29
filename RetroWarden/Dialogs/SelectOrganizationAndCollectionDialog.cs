@@ -19,13 +19,12 @@ namespace Retrowarden.Dialogs
         private readonly List<Organization> _organizations;
         private readonly List<VaultCollection> _selectedCollections;
         
-        public SelectOrganizationAndCollectionDialog(List<Organization> organizations, List<VaultCollection> collections)
+        public SelectOrganizationAndCollectionDialog(IApplication app, List<Organization> organizations, List<VaultCollection> collections) : base(app)
         {
-            // Initialize members.
             _organizations = organizations;
             _collections = collections;
             _selectedCollections = new List<VaultCollection>();
-            
+
             InitializeComponent();
         }
         
@@ -68,12 +67,12 @@ namespace Retrowarden.Dialogs
                                 Text = col.Name == null ? "" : col.Name, Data = col
                             };
 
-                            chkCollection.CheckedStateChanging += (_, e) =>
+                            chkCollection.ValueChanging += (_, e) =>
                             {
                                 VaultCollection collection = (VaultCollection) chkCollection.Data;
                                 
                                 // This would indicate movement from checked to unchecked (remove).
-                                if (e.Result == CheckState.Checked)
+                                if (e.NewValue == CheckState.Checked)
                                 {
                                     // Remove the value.
                                     _selectedCollections.Remove(collection);
@@ -106,12 +105,12 @@ namespace Retrowarden.Dialogs
             // Check to see if required values are present.
             if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select an Organization.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Please select an Organization.", "Ok");
             }
             
             else if (_selectedCollections.Count == 0)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select at least one collection.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Please select at least one collection.", "Ok");
             }
             
             else
@@ -120,7 +119,7 @@ namespace Retrowarden.Dialogs
                 _okPressed = true;
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _app.RequestStop(_dialog);
             }
         }
         
@@ -129,22 +128,26 @@ namespace Retrowarden.Dialogs
             // Create Ok button.
             Button okButton = new Button()
             {
-                X = 10, Y =11, Text = "Ok"
+                Text = "Ok"
             };
             okButton.Accepting += OkButton_Clicked;
 
             // Create Cancel button.
             Button cancelButton = new Button()
             {
-                X= 20, Y = 11, Text = "Cancel"
+                Text = "Cancel"
             };
             cancelButton.Accepting += CancelButton_Clicked;
 
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Select Organization & Collection", Width = 40, Height = 14, Buttons = [okButton, cancelButton]
+                Title = "Select Organization & Collection", Width = 40, Height = 14,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
             };
+            _dialog.AddButton(okButton);
+            _dialog.AddButton(cancelButton);
 
             // Create label.
             Label lblOrg = new Label()

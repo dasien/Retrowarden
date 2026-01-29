@@ -6,27 +6,31 @@ namespace Retrowarden.Dialogs
 {
     public abstract class BaseDialog
     {
+        protected IApplication _app;
         protected Dialog? _dialog;
         protected bool _okPressed;
-        
+
+        protected BaseDialog(IApplication app)
+        {
+            _app = app;
+        }
+
         protected void CancelButton_Clicked(object? sender, HandledEventArgs e)
         {
-            // Set ok button flag.
             _okPressed = false;
 
             if (_dialog != null)
             {
-                // Close dialog.
-                Application.RequestStop(_dialog);
+                _app.RequestStop(_dialog);
                 _dialog.Dispose();
             }
         }
-        
+
         public void Show()
         {
             if (_dialog != null)
             {
-                Application.Run(_dialog);    
+                _app.Run(_dialog);
             }
         }
         

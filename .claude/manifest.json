@@ -1,0 +1,105 @@
+{
+  "version": "10.1.0",
+  "name": "Claude Multi-Agent Template",
+  "description": "Installation manifest - all listed items are required",
+  "structure": {
+    ".claude": {
+      "_files": [
+        "settings.json"
+      ],
+      "agents": [
+        "AGENT_TEMPLATE.md",
+        "accessibility-specialist.md",
+        "agent-architect.md",
+        "agents.json",
+        "api-integration-specialist.md",
+        "architect.md",
+        "atlassian-integration-coordinator.md",
+        "code-reviewer.md",
+        "data-engineer.md",
+        "devops-engineer.md",
+        "documenter.md",
+        "github-integration-coordinator.md",
+        "implementer.md",
+        "performance-engineer.md",
+        "product-analyst.md",
+        "refactoring-specialist.md",
+        "requirements-analyst.md",
+        "security-auditor.md",
+        "tester.md"
+      ],
+      "data": [
+        "learnings.json",
+        "models.json",
+        "task_queue.json",
+        "task_queue_empty.json",
+        "tools.json",
+        "workflow_templates.json"
+      ],
+      "prompts": [
+        "base.md",
+        "analysis.md",
+        "design.md",
+        "implementation.md",
+        "testing.md",
+        "documentation.md",
+        "integration.md"
+      ],
+      "hooks": [
+        "on-session-end-cost.sh"
+      ],
+      "logs": [],
+      "mcp-servers": [
+        "MCP_CONFIGURATION_GUIDE.md",
+        "MCP_INTEGRATION_QUICKSTART.md",
+        "SECURITY_README.md",
+        "atlassian-config.json",
+        "github-config.json"
+      ],
+      "skills": {
+        "_files": [
+          "SKILL_TEMPLATE.md",
+          "skills.json"
+        ],
+        "agent-design": ["SKILL.md"],
+        "api-design": ["SKILL.md"],
+        "api-documentation": ["SKILL.md"],
+        "api-integration": ["SKILL.md"],
+        "architecture-patterns": ["SKILL.md"],
+        "bug-triage": ["SKILL.md"],
+        "ci-cd-pipelines": ["SKILL.md"],
+        "code-refactoring": ["SKILL.md"],
+        "container-orchestration": ["SKILL.md"],
+        "data-modeling": ["SKILL.md"],
+        "data-quality": ["SKILL.md"],
+        "design-patterns": ["SKILL.md"],
+        "desktop-ui-design": ["SKILL.md"],
+        "error-handling": ["SKILL.md"],
+        "etl-design": ["SKILL.md"],
+        "infrastructure-as-code": ["SKILL.md"],
+        "keyboard-navigation": ["SKILL.md"],
+        "load-testing": ["SKILL.md"],
+        "logging-strategies": ["SKILL.md"],
+        "metrics-monitoring": ["SKILL.md"],
+        "optimization-patterns": ["SKILL.md"],
+        "performance-profiling": ["SKILL.md"],
+        "rate-limiting": ["SKILL.md"],
+        "requirements-elicitation": ["SKILL.md"],
+        "screen-reader-testing": ["SKILL.md"],
+        "security-review": ["SKILL.md"],
+        "sql-development": ["SKILL.md"],
+        "tech-debt-assessment": ["SKILL.md"],
+        "technical-writing": ["SKILL.md"],
+        "test-coverage": ["SKILL.md"],
+        "test-design-patterns": ["SKILL.md"],
+        "threat-modeling": ["SKILL.md"],
+        "user-story-writing": ["SKILL.md"],
+        "vulnerability-scanning": ["SKILL.md"],
+        "wcag-compliance": ["SKILL.md"],
+        "web-ui-design": ["SKILL.md"],
+        "webhook-design": ["SKILL.md"],
+        "work-breakdown": ["SKILL.md"]
+      }
+    }
+  }
+}

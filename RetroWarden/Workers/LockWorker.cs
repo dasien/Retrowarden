@@ -4,8 +4,8 @@ namespace Retrowarden.Workers
 {
     public sealed class LockWorker : RetrowardenWorker
     {
-        public LockWorker(IVaultRepository repository, string dialogMessage) 
-            : base(repository, dialogMessage)
+        public LockWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage) 
+            : base(app, repository, dialogMessage)
         {
             // Run the login method.
             _worker.DoWork += (s, e) =>

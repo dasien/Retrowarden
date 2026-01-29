@@ -254,6 +254,8 @@ namespace Retrowarden.Utils
             }
         }
 
+        public int MaxItemLength => _maxLength;
+
         public bool SuspendCollectionChangedEvent { get; set; }
 
         public List<VaultItem> ItemList

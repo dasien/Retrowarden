@@ -1,4 +1,4 @@
-using Terminal.Gui;
+using Terminal.Gui.App;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 using RetrowardenSDK.Repositories;
@@ -8,8 +8,12 @@ using Retrowarden.Workers;
 namespace Retrowarden.Dialogs
 {
 
-    public class CreateSendDialog : BaseDialog
+    public sealed class CreateSendDialog : BaseDialog
     {
+        public CreateSendDialog(IApplication app) : base(app)
+        {
+            
+        }
         
     }
 }

@@ -10,13 +10,14 @@ namespace Retrowarden.Controls
 {
     public class UriScrollView :View
     {
+        private IApplication _app;
         private List<View[]> _rowControls;
         private readonly ObservableCollection<CodeListItem> _matchTypes;
         private List<LoginURI> _uris;
-        
-        public UriScrollView(List<LoginURI>? uris, ObservableCollection<CodeListItem> matches)
+
+        public UriScrollView(IApplication app, List<LoginURI>? uris, ObservableCollection<CodeListItem> matches)
         {
-            // Set member variables.
+            _app = app;
             _uris = uris == null ? new List<LoginURI>() : uris;
             _matchTypes = matches;
             
@@ -131,7 +132,7 @@ namespace Retrowarden.Controls
                 Clipboard.Contents = (txtUri.Text);
 
                 // Indicate data copied.
-                MessageBox.Query("Action Completed", "Copied Uri to clipboard.", "Ok");
+                MessageBox.Query(_app,"Action Completed", "Copied Uri to clipboard.", "Ok");
                 
                 // Flag event has been handled.
                 e.Handled = true;
@@ -154,13 +155,13 @@ namespace Retrowarden.Controls
 
                     else
                     {
-                        MessageBox.ErrorQuery("Action failed.", "This does not appear to be a valid Uri", "Ok");
+                        MessageBox.ErrorQuery(_app,"Action failed.", "This does not appear to be a valid Uri", "Ok");
                     }
                 }
 
                 else
                 {
-                    MessageBox.ErrorQuery("Action failed.", "Uri missing.", "Ok");
+                    MessageBox.ErrorQuery(_app,"Action failed.", "Uri missing.", "Ok");
                 }
                 
                 // Flag event has been handled.

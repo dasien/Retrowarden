@@ -10,21 +10,20 @@ namespace Retrowarden.Dialogs
         private readonly string? _messageText;
         private object? _timerToken;
         
-        public SplashDialog(string? message)
+        public SplashDialog(IApplication app, string? message) : base(app)
         {
-            // Initialize members.
             _messageText = message;
-            
+
             InitializeComponent();
         }
 
         public new void Show()
         {
-            _timerToken = Application.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
+            _timerToken = _app.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
 
             if (_dialog != null)
             {
-                Application.Run(_dialog);
+                _app.Run(_dialog);
             }
 
         }
@@ -33,10 +32,10 @@ namespace Retrowarden.Dialogs
         {
             if (_timerToken != null)
             {
-                Application.RemoveTimeout(_timerToken);
+                _app.RemoveTimeout(_timerToken);
             }
             
-            Application.RequestStop(_dialog);
+            _app.RequestStop(_dialog);
             _dialog?.Dispose();
             return false;
         }
@@ -46,7 +45,7 @@ namespace Retrowarden.Dialogs
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "", Width = 85, Height = 12
+                Title = "", Width = 90, Height = 12
             };
             
             // Create labels.

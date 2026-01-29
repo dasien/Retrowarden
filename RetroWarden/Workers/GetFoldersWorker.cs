@@ -8,8 +8,8 @@ public sealed class GetFoldersWorker : RetrowardenWorker
     // Member variables.
     private List<VaultFolder> _folders;
     
-    public GetFoldersWorker(IVaultRepository repository, string dialogMessage) 
-        : base(repository, dialogMessage)
+    public GetFoldersWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage) 
+        : base(app, repository, dialogMessage)
     {
         // Create members.
         _folders = new List<VaultFolder>();

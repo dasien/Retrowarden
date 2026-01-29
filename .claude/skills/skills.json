@@ -1,0 +1,271 @@
+{
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "Requirements Elicitation",
+      "skill-directory": "requirements-elicitation",
+      "category": "analysis",
+      "required_tools": ["Read", "Write", "Grep"],
+      "description": "Extract and clarify requirements from specifications and stakeholder input"
+    },
+    {
+      "name": "User Story Writing",
+      "skill-directory": "user-story-writing",
+      "category": "analysis",
+      "required_tools": ["Read", "Write"],
+      "description": "Create clear user stories with acceptance criteria"
+    },
+    {
+      "name": "Bug Triage",
+      "skill-directory": "bug-triage",
+      "category": "analysis",
+      "required_tools": ["Read", "Write", "Grep", "Glob", "Bash"],
+      "description": "Analyze, reproduce, and diagnose bugs to determine root cause and fix strategy"
+    },
+    {
+      "name": "Work Breakdown",
+      "skill-directory": "work-breakdown",
+      "category": "analysis",
+      "required_tools": ["Read", "Write", "Grep"],
+      "description": "Break down features and requirements into actionable, implementable tasks with clear scope and acceptance criteria"
+    },
+    {
+      "name": "API Design",
+      "skill-directory": "api-design",
+      "category": "architecture",
+      "required_tools": ["Read", "Write", "WebSearch"],
+      "description": "Design RESTful APIs with proper contracts and specifications"
+    },
+    {
+      "name": "System Architecture Patterns",
+      "skill-directory": "architecture-patterns",
+      "category": "architecture",
+      "required_tools": ["Read", "Write", "Grep", "Glob"],
+      "description": "Apply common architectural patterns (MVC, layered, microservices, etc.)"
+    },
+    {
+      "name": "Agent Design",
+      "skill-directory": "agent-design",
+      "category": "architecture",
+      "required_tools": ["Read", "Write", "Grep", "Glob"],
+      "description": "Design AI agents with appropriate capabilities, tools, and personas for specific software development tasks"
+    },
+    {
+      "name": "Design Pattern Application",
+      "skill-directory": "design-patterns",
+      "category": "architecture",
+      "required_tools": ["Read", "Write"],
+      "description": "Apply Gang of Four and architectural patterns appropriately to solve common software design problems"
+    },
+    {
+      "name": "Error Handling Strategies",
+      "skill-directory": "error-handling",
+      "category": "implementation",
+      "required_tools": ["Read", "Write", "Edit", "Grep"],
+      "description": "Implement robust error handling and recovery mechanisms"
+    },
+    {
+      "name": "Code Refactoring",
+      "skill-directory": "code-refactoring",
+      "category": "implementation",
+      "required_tools": ["Read", "Write", "Edit", "MultiEdit", "Grep", "Glob"],
+      "description": "Improve code structure without changing functionality"
+    },
+    {
+      "name": "SQL Development",
+      "skill-directory": "sql-development",
+      "category": "database",
+      "required_tools": ["Read", "Write", "Edit", "Bash"],
+      "description": "Design database schemas, write optimized queries, and manage data"
+    },
+    {
+      "name": "Data Modeling",
+      "skill-directory": "data-modeling",
+      "category": "database",
+      "required_tools": ["Read", "Write", "WebSearch"],
+      "description": "Design dimensional models, star/snowflake schemas, and data warehouse structures"
+    },
+    {
+      "name": "ETL Design",
+      "skill-directory": "etl-design",
+      "category": "database",
+      "required_tools": ["Read", "Write", "Bash"],
+      "description": "Design extract-transform-load patterns, data pipeline orchestration, and incremental loading strategies"
+    },
+    {
+      "name": "Data Quality",
+      "skill-directory": "data-quality",
+      "category": "database",
+      "required_tools": ["Read", "Write", "Bash"],
+      "description": "Implement data validation rules, quality metrics, and data cleansing strategies"
+    },
+    {
+      "name": "Test Design Patterns",
+      "skill-directory": "test-design-patterns",
+      "category": "testing",
+      "required_tools": ["Read", "Write", "Bash"],
+      "description": "Apply testing patterns (AAA, mocking, fixtures, parameterization)"
+    },
+    {
+      "name": "Test Coverage Analysis",
+      "skill-directory": "test-coverage",
+      "category": "testing",
+      "required_tools": ["Read", "Bash", "Grep"],
+      "description": "Analyze and improve test coverage metrics"
+    },
+    {
+      "name": "Technical Writing",
+      "skill-directory": "technical-writing",
+      "category": "documentation",
+      "required_tools": ["Read", "Write", "Edit"],
+      "description": "Write clear technical documentation for developers and users"
+    },
+    {
+      "name": "API Documentation",
+      "skill-directory": "api-documentation",
+      "category": "documentation",
+      "required_tools": ["Read", "Write", "Grep", "Glob"],
+      "description": "Document APIs with parameters, returns, examples, and usage"
+    },
+    {
+      "name": "Desktop UI Design",
+      "skill-directory": "desktop-ui-design",
+      "category": "ui-design",
+      "required_tools": ["Read", "Write", "WebSearch"],
+      "description": "Design desktop application interfaces with usability best practices"
+    },
+    {
+      "name": "Web UI Design",
+      "skill-directory": "web-ui-design",
+      "category": "ui-design",
+      "required_tools": ["Read", "Write", "WebSearch", "WebFetch"],
+      "description": "Design web application interfaces following modern UX principles"
+    },
+    {
+      "name": "Security Code Review",
+      "skill-directory": "security-review",
+      "category": "security",
+      "required_tools": ["Read", "Grep", "Glob", "WebSearch"],
+      "description": "Identify security vulnerabilities including OWASP Top 10 issues, implement secure coding practices, and validate authentication/authorization implementations"
+    },
+    {
+      "name": "Threat Modeling",
+      "skill-directory": "threat-modeling",
+      "category": "security",
+      "required_tools": ["Read", "Write", "WebSearch"],
+      "description": "Apply STRIDE methodology to identify security threats, analyze attack surfaces, and assess security risks in system architectures"
+    },
+    {
+      "name": "Vulnerability Scanning",
+      "skill-directory": "vulnerability-scanning",
+      "category": "security",
+      "required_tools": ["Bash", "Read", "Grep", "WebSearch"],
+      "description": "Scan dependencies and code for known vulnerabilities using automated tools, triage security issues, and prioritize remediation"
+    },
+    {
+      "name": "Performance Profiling",
+      "skill-directory": "performance-profiling",
+      "category": "performance",
+      "required_tools": ["Bash", "Read", "Grep", "WebSearch"],
+      "description": "Profile CPU, memory, and I/O usage to identify bottlenecks, analyze execution traces, and diagnose performance issues"
+    },
+    {
+      "name": "Optimization Patterns",
+      "skill-directory": "optimization-patterns",
+      "category": "performance",
+      "required_tools": ["Read", "Edit", "Bash", "WebSearch"],
+      "description": "Apply caching strategies, database optimization, and algorithmic improvements to enhance application performance"
+    },
+    {
+      "name": "Load Testing",
+      "skill-directory": "load-testing",
+      "category": "performance",
+      "required_tools": ["Bash", "Write", "WebSearch"],
+      "description": "Design and execute load tests to validate performance under stress, identify scalability limits, and ensure SLA compliance"
+    },
+    {
+      "name": "CI/CD Pipeline Design",
+      "skill-directory": "ci-cd-pipelines",
+      "category": "devops",
+      "required_tools": ["Read", "Write", "Bash", "WebSearch"],
+      "description": "Design and implement continuous integration and deployment pipelines with automated testing, builds, and deployments"
+    },
+    {
+      "name": "Infrastructure as Code",
+      "skill-directory": "infrastructure-as-code",
+      "category": "devops",
+      "required_tools": ["Read", "Write", "Bash"],
+      "description": "Define and manage infrastructure using code with tools like Terraform, CloudFormation, and Docker"
+    },
+    {
+      "name": "Container Orchestration",
+      "skill-directory": "container-orchestration",
+      "category": "devops",
+      "required_tools": ["Read", "Write", "Bash"],
+      "description": "Design Kubernetes deployment patterns, configure service mesh, and implement container best practices"
+    },
+    {
+      "name": "API Integration Patterns",
+      "skill-directory": "api-integration",
+      "category": "integration",
+      "required_tools": ["Read", "Write", "Edit", "WebSearch"],
+      "description": "Implement robust third-party API integrations with proper authentication, error handling, and rate limiting"
+    },
+    {
+      "name": "Webhook Design",
+      "skill-directory": "webhook-design",
+      "category": "integration",
+      "required_tools": ["Read", "Write", "Edit"],
+      "description": "Design secure webhooks with HMAC validation, idempotency patterns, and event-driven architecture"
+    },
+    {
+      "name": "Rate Limiting Strategies",
+      "skill-directory": "rate-limiting",
+      "category": "integration",
+      "required_tools": ["Read", "Write", "Edit"],
+      "description": "Implement exponential backoff, token bucket algorithms, and API quota management"
+    },
+    {
+      "name": "Technical Debt Assessment",
+      "skill-directory": "tech-debt-assessment",
+      "category": "implementation",
+      "required_tools": ["Read", "Grep", "Glob"],
+      "description": "Identify code smells, prioritize refactoring opportunities, and assess technical debt impact"
+    },
+    {
+      "name": "Logging Strategies",
+      "skill-directory": "logging-strategies",
+      "category": "observability",
+      "required_tools": ["Read", "Write", "Edit"],
+      "description": "Implement structured logging with appropriate levels, context, and correlation for effective debugging and monitoring"
+    },
+    {
+      "name": "Metrics & Monitoring",
+      "skill-directory": "metrics-monitoring",
+      "category": "observability",
+      "required_tools": ["Read", "Write", "Bash"],
+      "description": "Implement application metrics (RED, USE), alerting strategies, and monitoring dashboards"
+    },
+    {
+      "name": "WCAG Compliance",
+      "skill-directory": "wcag-compliance",
+      "category": "accessibility",
+      "required_tools": ["Read", "Write", "WebSearch"],
+      "description": "Validate WCAG 2.1 AA/AAA standards, use accessibility testing tools, and implement remediation strategies"
+    },
+    {
+      "name": "Screen Reader Testing",
+      "skill-directory": "screen-reader-testing",
+      "category": "accessibility",
+      "required_tools": ["Read", "Bash", "WebSearch"],
+      "description": "Test with NVDA, JAWS, VoiceOver, validate ARIA attributes, and ensure semantic HTML"
+    },
+    {
+      "name": "Keyboard Navigation",
+      "skill-directory": "keyboard-navigation",
+      "category": "accessibility",
+      "required_tools": ["Read", "Bash"],
+      "description": "Implement focus management, optimize tab order, and validate keyboard shortcuts"
+    }
+  ]
+}

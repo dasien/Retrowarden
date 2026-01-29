@@ -9,9 +9,9 @@ using Terminal.Gui.Input;
 using Terminal.Gui.Drawing;
 using Terminal.Gui.Drivers;
 
-namespace Retrowarden.Views 
+namespace Retrowarden.Views
 {
-    public partial class MainView : Toplevel 
+    public partial class MainView : Window 
     {
         private FrameView fraItems;
         private TreeView tvwItems;
@@ -20,7 +20,7 @@ namespace Retrowarden.Views
         private Label lblUserId;
         private Label lblOwner;
         private ListView lvwItems;
-        private MenuBarv2 mnuMain;
+        private MenuBar mnuMain;
         private StatusBar staMain;
         private Shortcut stiNew;
         private Shortcut stiView;
@@ -39,7 +39,6 @@ namespace Retrowarden.Views
             this.X = 0;
             this.Y = 0;
             this.Visible = true;
-            this.Modal = false;
             this.TextAlignment = Alignment.Start; 
 
             // Create new status bar items.  These will get added as context functions when items are selected.
@@ -58,21 +57,21 @@ namespace Retrowarden.Views
                 X = 0, Y = 0, Width = 30, Height = 1, Enabled = true, Visible = false,
                 Text = "Item Name", TextAlignment = Alignment.Center,
             };
-            this.lblItemName.MouseClick += SortListByName;
+            this.lblItemName.MouseEvent += SortListByName;
             
             this.lblUserId = new Label()
             {
                 X = 33, Y = 0, Width = 30, Height = 1, Enabled = true, Visible = false,
                 Text = "User Id", TextAlignment = Alignment.Center
             };
-            this.lblUserId.MouseClick += SortListByValue;
+            this.lblUserId.MouseEvent += SortListByValue;
 
             this.lblOwner = new Label()
             {
                 X = 64, Y = 0, Width = 20, Height = 1, Enabled = true, Visible = false,
                 Text = "Owner", TextAlignment = Alignment.Center
             };
-            this.lblOwner.MouseClick += SortListByOwner;
+            this.lblOwner.MouseEvent += SortListByOwner;
 
             this.staMain = new StatusBar()
             {
@@ -106,56 +105,56 @@ namespace Retrowarden.Views
             this.lvwItems = new ListView()
             {
                 Width = Dim.Fill(), Height = Dim.Fill(), X = 0, Y = 1, Visible = true, Enabled = true,
-                TextAlignment = Alignment.Start, AllowsMultipleSelection = true, AllowsMarking = true
+                TextAlignment = Alignment.Start, MarkMultiple = true, ShowMarks = true
             };
-            this.lvwItems.OpenSelectedItem += HandleListViewOpenItem;
-            this.lvwItems.SelectedItemChanged += HandleListViewSelectedItemChanged;
+            this.lvwItems.Accepted += HandleListViewOpenItem;
+            this.lvwItems.ValueChanged += HandleListViewSelectedItemChanged;
             
-            this.mnuMain = new MenuBarv2()
+            this.mnuMain = new MenuBar()
             {
                 Width = Dim.Fill(0), Height = 1, X = 0, Y = 0,
                 Visible = true, Data = "mnuMain", TextAlignment = Alignment.Start,
-                Menus = new MenuBarItemv2[]
+                Menus = new MenuBarItem[]
                 {
-                    new MenuBarItemv2("_Vault", new MenuItemv2[]
+                    new MenuBarItem("_Vault", new MenuItem[]
                     {
-                        new MenuItemv2("_Connect...", "Connect to vault", HandleConnectionRequest, null),
-                        new MenuItemv2("_Sync", "Sync vault", HandleSyncRequest, null),
-                        new MenuItemv2("_Lock", "Lock vault", HandleLockRequest, null),
-                        new MenuItemv2("_Unlock", "Unlock vault", HandleUnlockRequest, null),
-                        new MenuItemv2("_Quit", "Quit Application", HandleQuitRequest,null)
+                        new MenuItem("_Connect...", "Connect to vault", HandleConnectionRequest, null),
+                        new MenuItem("_Sync", "Sync vault", HandleSyncRequest, null),
+                        new MenuItem("_Lock", "Lock vault", HandleLockRequest, null),
+                        new MenuItem("_Unlock", "Unlock vault", HandleUnlockRequest, null),
+                        new MenuItem("_Quit", "Quit Application", HandleQuitRequest,null)
                     }),
-                    new MenuBarItemv2("_Folder", new MenuItemv2[]
+                    new MenuBarItem("_Folder", new MenuItem[]
                     {
-                        new MenuItemv2("_New", "", HandleFolderCreate, null)
+                        new MenuItem("_New", "", HandleFolderCreate, null)
                     }),
-                    new MenuBarItemv2("_Collection", new MenuItemv2[]
+                    new MenuBarItem("_Collection", new MenuItem[]
                     {
-                        new MenuItemv2("_New", "", HandleCollectionCreate,null)
+                        new MenuItem("_New", "", HandleCollectionCreate,null)
                     }),
-                    new MenuBarItemv2("_Tools", new MenuItemv2[]
+                    new MenuBarItem("_Tools", new MenuItem[]
                     {
-                        new MenuItemv2("_Generate Password", "", HandlePasswordGenerate, null),
-                        new MenuItemv2("Generate _Passphrase", "", HandlePassphraseGenerate, null)
+                        new MenuItem("_Generate Password", "", HandlePasswordGenerate, null),
+                        new MenuItem("Generate _Passphrase", "", HandlePassphraseGenerate, null)
                     }),
-                    new MenuBarItemv2("_Options", new MenuItemv2[]
+                    new MenuBarItem("_Options", new MenuItem[]
                     {
-                        new MenuItemv2("_Boomer Mode!","Disable/Enable Mouse Use", HandleBoomerMode,null)
+                        new MenuItem("_Boomer Mode!","Disable/Enable Mouse Use", HandleBoomerMode,null)
                         {
                             //Checked = false,
                             //CheckType = MenuItemCheckStyle.Checked
                         },
-                        new MenuItemv2("_Debug Mode", "Use Dummy Data Offline", HandleDebugMode, null)
+                        new MenuItem("_Debug Mode", "Use Dummy Data Offline", HandleDebugMode, null)
                         {
                             //Checked = false,
                             //CheckType = MenuItemCheckStyle.Checked
                         }
                     }),
-                    new MenuBarItemv2 ("_Help", new MenuItemv2 [] {
-                        new MenuItemv2("Check Status", "", HandleStatusCheck, null),
-                        new MenuItemv2("Check for _Update", "", HandleUpdateCheck,null),
-                        new MenuItemv2 ("_About...",
-                            "", () =>  MessageBox.Query ("About Retrowarden", _aboutMessage.ToString(), 
+                    new MenuBarItem ("_Help", new MenuItem [] {
+                        new MenuItem("Check Status", "", HandleStatusCheck, null),
+                        new MenuItem("Check for _Update", "", HandleUpdateCheck,null),
+                        new MenuItem ("_About...",
+                            "", () =>  MessageBox.Query (_app, "About Retrowarden", _aboutMessage.ToString(), 
                                 "_Ok"), KeyCode.CtrlMask | KeyCode.A)
                     })
                 }

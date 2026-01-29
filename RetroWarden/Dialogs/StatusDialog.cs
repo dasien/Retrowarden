@@ -1,4 +1,4 @@
-using Terminal.Gui;
+using Terminal.Gui.App;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 using RetrowardenSDK.Models;
@@ -19,12 +19,10 @@ namespace Retrowarden.Dialogs
         private Button? _btnCancel;
         private VaultStatus _status;
         
-        public StatusDialog(VaultStatus status)
+        public StatusDialog(IApplication app, VaultStatus status) : base(app)
         {
-            // Initialize members.
             _status = status;
-            
-            // Initialize form.
+
             InitializeComponent();
             
             // Set data to value labels.
@@ -54,8 +52,10 @@ namespace Retrowarden.Dialogs
             // Create dialog.
             _dialog = new Dialog()
             {
-                Width = 40, Height = 12, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true, 
-                TextAlignment = Alignment.Start
+                Width = 40, Height = 12, X = Pos.Center(), Y = Pos.Center(), Visible = true,
+                TextAlignment = Alignment.Start,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
             };
             
            _lblStatus = new Label()
@@ -124,12 +124,11 @@ namespace Retrowarden.Dialogs
 
             _btnCancel = new Button()
             {
-                Width = 9, Height = 1, X = 14, Y = 9, Visible = true, Data = "btnCancel", 
-                Text = "Close", TextAlignment = Alignment.Center, IsDefault = true
+                Text = "Close",
             };
 
             _btnCancel.Accepting += CancelButton_Clicked;
-            _dialog.Add(_btnCancel);
+            _dialog.AddButton(_btnCancel);
         }
     }    
 }

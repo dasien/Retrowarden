@@ -34,7 +34,6 @@ namespace Retrowarden.Views
             this.SetContentSize(new Size(100, 40));
             this.ViewportSettings = ViewportSettingsFlags.AllowNegativeY | ViewportSettingsFlags.AllowYGreaterThanContentHeight;
             this.Visible = true;
-            this.Modal = true;
             this.Border.BorderStyle = LineStyle.Single;
             this.TextAlignment = Alignment.Start;
             this.MouseEvent += (o, e) => HandleMouseEvent(o,e);
@@ -68,14 +67,14 @@ namespace Retrowarden.Views
             this.chkFavorite = new CheckBox
             {
                 Width = 10, Height = 1, X = 77, Y = 0, Visible = true, Data = "chkFavorite", Text = "Favorite",
-                TextAlignment = Alignment.Start, CheckedState = CheckState.UnChecked, TabStop = TabBehavior.TabStop
+                TextAlignment = Alignment.Start, Value = CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             this.chkFavorite.HasFocusChanged += (s, e) => HandleFocusChange(chkFavorite, e);
             
             this.chkReprompt = new CheckBox
             {
                 Width = 18, Height = 1, X = 77, Y = 1, Visible = true, Data = "chkReprompt", Text = "Require Reprompt",
-                TextAlignment = Alignment.Start, CheckedState = CheckState.UnChecked, TabStop = TabBehavior.TabStop
+                TextAlignment = Alignment.Start, Value = CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             this.chkReprompt.HasFocusChanged += (s, e) => HandleFocusChange(chkReprompt, e);
             
@@ -88,7 +87,7 @@ namespace Retrowarden.Views
             
             this.tvwNotes = new TextView
             {
-                Width = 95, Height = 7, X = 1, Y = 0, Visible = true, AllowsTab = true, AllowsReturn = true,
+                Width = 95, Height = 7, X = 1, Y = 0, Visible = true, TabKeyAddsTab = true, EnterKeyAddsLine = true,
                 WordWrap = false, Data = "tvwNotes", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             //this.tvwNotes.HasFocusChanged += (s, e) => HandleFocusChange(tvwNotes, e);
@@ -102,23 +101,30 @@ namespace Retrowarden.Views
             
             this.btnNewCustomField = new Button
             {
-                Width = 22, Height = 1, X = 1, Y = 37, Visible = true, Data = "btnNewCustomField",
-                Text = "New Custom Field", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 1, Y = 37,
+                Text = "_New Custom Field",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnNewCustomField.Accepting += NewCustomFieldButtonClicked;
             this.btnNewCustomField.HasFocusChanged += (s, e) => HandleFocusChange(btnNewCustomField, e);
+
             this.btnSave = new Button
             {
-                Width = 8, Height = 1, X = Pos.Center() - 10, Y = 39, Visible = true, Data = "btnSave",
-                Text = "Save", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = Pos.Center() - 10, Y = 39,
+                Text = "_Save",
+                IsDefault = true,
+                TabStop = TabBehavior.TabStop
             };
             this.btnSave.Accepting += SaveButtonClicked;
             this.btnSave.HasFocusChanged += (s, e) => HandleFocusChange(btnSave, e);
 
             this.btnCancel = new Button
             {
-                Width = 10, Height = 1, X = Pos.Center() + 2, Y = 39, Visible = true, Text = "Cancel",
-                TextAlignment = Alignment.Center, IsDefault = true, TabStop = TabBehavior.TabStop
+                X = Pos.Center() + 2, Y = 39,
+                Text = "_Cancel",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnCancel.Accepting += CancelButtonClicked;
             this.btnCancel.HasFocusChanged += (s, e) => HandleFocusChange(btnCancel, e);

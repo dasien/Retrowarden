@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:gui-cs.github.io)",
+      "Bash(for f in *.cs)",
+      "Bash(do grep -H \"class.*Worker.*:\" \"$f\")",
+      "Bash(done)"
+    ]
+  }
+}

@@ -13,9 +13,9 @@ namespace Retrowarden.Dialogs
         // Other values.
         private string _password;
         
-        public UnlockDialog() 
+        public UnlockDialog(IApplication app) : base(app)
         {
-            _password = ""; 
+            _password = "";
             _okPressed = false;
 
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace Retrowarden.Dialogs
             // Check to see if required values are present.
             if (_txtPassword != null &&  _txtPassword.Text.Trim().Length == 0)
             {
-                MessageBox.ErrorQuery("Value Missing", "Password is required.", "Ok");
+                MessageBox.ErrorQuery(_app,"Value Missing", "Password is required.", "Ok");
             }
 
             else
@@ -40,46 +40,57 @@ namespace Retrowarden.Dialogs
                 }
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _app.RequestStop(_dialog);
             }
         }
 
         private void InitializeComponent()
         {
-            // Create Ok button.
+            // Create modal view with dynamic sizing.
+            _dialog = new Dialog()
+            {
+                Title = "Unlock Vault",
+                Width = 45,
+                Height = 10,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
+            };
+
+            // Create label with dynamic width based on content.
+            Label lblPassword = new Label()
+            {
+                X = 2,
+                Y = 1,
+                Width = Dim.Auto(),
+                Text = "*Password:"
+            };
+
+            // Create text input positioned relative to label.
+            _txtPassword = new TextField()
+            {
+                X = Pos.Right(lblPassword) + 1,
+                Y = Pos.Top(lblPassword),
+                Width = Dim.Fill(2),
+                Secret = true
+            };
+
+            // Create buttons.
             Button okButton = new Button()
             {
-                X = 8, Y = 4, Text = "_Unlock", IsDefault = true
+                Text = "_Unlock",
             };
             okButton.Accepting += OkButton_Clicked;
 
-            // Create Cancel button.
             Button cancelButton = new Button()
             {
-                X = 24, Y = 4, Text = "Cance_l"
+                Text = "Cance_l"
             };
             cancelButton.Accepting += CancelButton_Clicked;
 
-            // Create modal view.
-            _dialog = new Dialog()
-            {
-                Title = "Unlock Vault", Width = 40, Height = 8
-            };
-
-            // Create labels.
-            Label lblPassword = new Label()
-            {
-                X = 3, Y = 2, Width = 10, Height = 1, CanFocus = false, Visible = true, Text = "*Password:"
-            };
-            
-            // Create text inputs.
-            _txtPassword = new TextField()
-            {
-                X = 15, Y = 2, Width = 20, Height = 1, CanFocus = true, Visible = true, Secret = true
-            };
-
             // Add controls to view.
-            _dialog.Add(lblPassword, _txtPassword, okButton, cancelButton);
+            _dialog.Add(lblPassword, _txtPassword);
+            _dialog.AddButton(okButton);
+            _dialog.AddButton(cancelButton);
 
             // Set default control.
             _txtPassword.SetFocus();

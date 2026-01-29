@@ -1,0 +1,368 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-01-21T16:41:50.767885Z",
+  "agents": [
+    {
+      "name": "accessibility-specialist",
+      "display-name": "Accessibility Specialist",
+      "role": "testing",
+      "description": "Use when ensuring UI compliance with WCAG standards or testing with assistive technologies",
+      "tools": [
+        "Read",
+        "Write",
+        "Bash",
+        "WebSearch",
+        "Edit"
+      ],
+      "skills": [
+        "wcag-compliance",
+        "screen-reader-testing",
+        "keyboard-navigation",
+        "web-ui-design"
+      ],
+      "agent-file": "accessibility-specialist"
+    },
+    {
+      "name": "agent-architect",
+      "display-name": "Agent Architect",
+      "role": "design",
+      "description": "Use when designing new CMAT agents or updating agent definitions with tools, skills, and personas",
+      "tools": [
+        "Read",
+        "Write",
+        "Glob",
+        "Grep"
+      ],
+      "skills": [
+        "agent-design",
+        "architecture-patterns",
+        "technical-writing"
+      ],
+      "agent-file": "agent-architect"
+    },
+    {
+      "name": "api-integration-specialist",
+      "display-name": "API Integration Specialist",
+      "role": "implementation",
+      "description": "Use when implementing third-party API integrations requiring authentication, error handling, or rate limiting",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "WebSearch",
+        "WebFetch"
+      ],
+      "skills": [
+        "api-integration",
+        "webhook-design",
+        "rate-limiting",
+        "error-handling"
+      ],
+      "agent-file": "api-integration-specialist"
+    },
+    {
+      "name": "architect",
+      "display-name": "Architect",
+      "role": "design",
+      "description": "Use when designing system architecture, creating technical specifications, or making high-level design decisions",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "Glob",
+        "Grep",
+        "WebSearch",
+        "WebFetch"
+      ],
+      "skills": [
+        "api-design",
+        "architecture-patterns",
+        "desktop-ui-design",
+        "web-ui-design"
+      ],
+      "agent-file": "architect"
+    },
+    {
+      "name": "atlassian-integration-coordinator",
+      "display-name": "Atlassian Integration Coordinator",
+      "role": "integration",
+      "description": "Use when synchronizing workflow state with Jira or Confluence - creating tickets, updating status, or publishing documentation",
+      "tools": [],
+      "skills": [],
+      "agent-file": "atlassian-integration-coordinator"
+    },
+    {
+      "name": "code-reviewer",
+      "display-name": "Code Reviewer",
+      "role": "analysis",
+      "description": "Use after code changes to review for errors, security issues, performance problems, and coding best practices",
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "WebSearch",
+        "Edit"
+      ],
+      "skills": [
+        "architecture-patterns",
+        "code-refactoring"
+      ],
+      "agent-file": "code-reviewer"
+    },
+    {
+      "name": "data-engineer",
+      "display-name": "Data Engineer",
+      "role": "design",
+      "description": "Use when designing data pipelines, ETL processes, or ensuring data quality for data-intensive applications",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "WebSearch",
+        "Glob"
+      ],
+      "skills": [
+        "data-modeling",
+        "etl-design",
+        "data-quality",
+        "sql-development"
+      ],
+      "agent-file": "data-engineer"
+    },
+    {
+      "name": "devops-engineer",
+      "display-name": "DevOps Engineer",
+      "role": "implementation",
+      "description": "Use when setting up CI/CD pipelines, creating deployment configurations, or managing infrastructure as code",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "Glob",
+        "Grep",
+        "WebSearch"
+      ],
+      "skills": [
+        "ci-cd-pipelines",
+        "infrastructure-as-code",
+        "container-orchestration",
+        "logging-strategies",
+        "metrics-monitoring"
+      ],
+      "agent-file": "devops-engineer"
+    },
+    {
+      "name": "documenter",
+      "display-name": "Documenter",
+      "role": "documentation",
+      "description": "Use when creating or updating project documentation, user guides, API references, or README files",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "Glob",
+        "Grep"
+      ],
+      "skills": [
+        "technical-writing",
+        "api-documentation"
+      ],
+      "agent-file": "documenter"
+    },
+    {
+      "name": "github-integration-coordinator",
+      "display-name": "GitHub Integration Coordinator",
+      "role": "integration",
+      "description": "Use when synchronizing workflow state with GitHub - creating issues, pull requests, or managing labels",
+      "tools": [],
+      "skills": [],
+      "agent-file": "github-integration-coordinator"
+    },
+    {
+      "name": "implementer",
+      "display-name": "Implementer",
+      "role": "implementation",
+      "description": "Use when writing production code based on architectural specifications or implementation plans",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "Glob",
+        "Grep",
+        "Task"
+      ],
+      "skills": [
+        "error-handling",
+        "code-refactoring",
+        "sql-development",
+        "logging-strategies"
+      ],
+      "agent-file": "implementer"
+    },
+    {
+      "name": "performance-engineer",
+      "display-name": "Performance Engineer",
+      "role": "implementation",
+      "description": "Use when investigating slow operations, profiling code execution, or optimizing application performance",
+      "tools": [
+        "Read",
+        "Bash",
+        "Grep",
+        "Glob",
+        "WebSearch",
+        "Write",
+        "Edit"
+      ],
+      "skills": [
+        "performance-profiling",
+        "optimization-patterns",
+        "load-testing",
+        "metrics-monitoring"
+      ],
+      "agent-file": "performance-engineer"
+    },
+    {
+      "name": "product-analyst",
+      "display-name": "Product Analyst",
+      "role": "analysis",
+      "description": "Use when synthesizing requirements from multiple sources into structured enhancement specifications",
+      "tools": [
+        "Read",
+        "Write",
+        "Glob",
+        "Grep",
+        "WebSearch",
+        "WebFetch"
+      ],
+      "skills": [
+        "requirements-elicitation",
+        "work-breakdown"
+      ],
+      "agent-file": "product-analyst"
+    },
+    {
+      "name": "refactoring-specialist",
+      "display-name": "Refactoring Specialist",
+      "role": "implementation",
+      "description": "Use when improving code structure, reducing technical debt, or executing systematic refactoring",
+      "tools": [
+        "Read",
+        "Edit",
+        "Grep",
+        "Glob",
+        "Bash",
+        "Write"
+      ],
+      "skills": [
+        "code-refactoring",
+        "design-patterns",
+        "tech-debt-assessment"
+      ],
+      "agent-file": "refactoring-specialist"
+    },
+    {
+      "name": "requirements-analyst",
+      "display-name": "Requirements Analyst",
+      "role": "analysis",
+      "description": "Use when analyzing project requirements, documenting acceptance criteria, or scoping implementation work",
+      "tools": [
+        "Read",
+        "Write",
+        "Glob",
+        "Grep",
+        "WebSearch",
+        "WebFetch"
+      ],
+      "skills": [
+        "requirements-elicitation",
+        "user-story-writing",
+        "bug-triage",
+        "work-breakdown"
+      ],
+      "agent-file": "requirements-analyst"
+    },
+    {
+      "name": "retrospective",
+      "display-name": "Retrospective",
+      "role": "analysis",
+      "description": "Use after workflow completion to extract learnings and insights for the knowledge base",
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep"
+      ],
+      "skills": [
+        "technical-writing"
+      ],
+      "agent-file": "retrospective"
+    },
+    {
+      "name": "security-auditor",
+      "display-name": "Security Auditor",
+      "role": "testing",
+      "description": "Use when reviewing code for security vulnerabilities, performing threat modeling, or validating security controls",
+      "tools": [
+        "Read",
+        "Grep",
+        "Glob",
+        "WebSearch",
+        "Bash",
+        "Write"
+      ],
+      "skills": [
+        "security-review",
+        "threat-modeling",
+        "vulnerability-scanning"
+      ],
+      "agent-file": "security-auditor"
+    },
+    {
+      "name": "tester",
+      "display-name": "Tester",
+      "role": "testing",
+      "description": "Use after implementation to design test suites, validate functionality, and ensure code quality",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "Glob",
+        "Grep",
+        "Task"
+      ],
+      "skills": [
+        "test-design-patterns",
+        "test-coverage",
+        "bug-triage"
+      ],
+      "agent-file": "tester"
+    },
+    {
+      "name": "terminalgui-implementer",
+      "display-name": "Terminal.GUI Implementer",
+      "role": "implementation",
+      "description": "Use when implementing Terminal.GUI applications with views, dialogs, and cross-platform console interfaces",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Bash",
+        "Glob",
+        "Grep",
+        "WebSearch"
+      ],
+      "skills": [
+        "desktop-ui-design",
+        "error-handling",
+        "code-refactoring"
+      ],
+      "agent-file": "terminalgui-implementer"
+    }
+  ]
+}

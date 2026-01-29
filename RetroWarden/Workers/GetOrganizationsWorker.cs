@@ -8,8 +8,8 @@ public sealed class GetOrganizationsWorker : RetrowardenWorker
     // Member variables.
     private List<Organization>? _organizations;
     
-    public GetOrganizationsWorker(IVaultRepository repository, string dialogMessage) 
-        : base(repository, dialogMessage)
+    public GetOrganizationsWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage) 
+        : base(app, repository, dialogMessage)
     {
         // Create members.
         _organizations = new List<Organization>();

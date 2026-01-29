@@ -7,8 +7,8 @@ namespace Retrowarden.Workers
     {
         private VaultFolder _results;
         
-        public CreateFolderWorker(IVaultRepository repository, string dialogMessage, VaultFolder folder) 
-            : base(repository, dialogMessage)
+        public CreateFolderWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage, VaultFolder folder) 
+            : base(app, repository, dialogMessage)
         {
             // Create members.
             _results = new VaultFolder();

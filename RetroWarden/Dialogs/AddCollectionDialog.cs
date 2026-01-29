@@ -28,11 +28,11 @@ namespace Retrowarden.Dialogs
         private Tab? _tabCollectioncollectionInfo;
 
         // Other values.
-        private readonly List<VaultCollection> _collections;
-        private readonly List<Organization>? _organizations;
+        private readonly IList<VaultCollection> _collections;
+        private readonly IList<Organization>? _organizations;
         private List<Member> _members;
         
-        public AddCollectionDialog(List<Organization>? organizations, List<VaultCollection> collections)
+        public AddCollectionDialog(IApplication app, IList<Organization>? organizations, List<VaultCollection> collections) : base(app)
         {
             // Initialize members.
             _organizations = organizations;
@@ -48,12 +48,12 @@ namespace Retrowarden.Dialogs
             // Check to see if required values are present.
             if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select an Organization.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Please select an Organization.", "Ok");
             }
             
             else if (_txtCollectionName != null && _txtCollectionName.Text.Length == 0)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please name the collection.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Please name the collection.", "Ok");
             }
             
             else
@@ -62,7 +62,7 @@ namespace Retrowarden.Dialogs
                 _okPressed = true;
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _app.RequestStop(_dialog);
             }
         }
 
@@ -71,9 +71,11 @@ namespace Retrowarden.Dialogs
             // Create dialog.
             _dialog = new Dialog()
             {
-                Width = Dim.Percent(55), Height = Dim.Percent(85), X = Pos.Center(), Y = Pos.Center(), 
-                Visible = true, Modal = true, TextAlignment = Alignment.Start, 
-                Title = "Add Collection", BorderStyle = LineStyle.Single
+                Width = Dim.Percent(55), Height = Dim.Percent(85), X = Pos.Center(), Y = Pos.Center(),
+                Visible = true, TextAlignment = Alignment.Start,
+                Title = "Add Collection", BorderStyle = LineStyle.Single,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
             };
 
             _tabCollection = new TabView()
@@ -199,21 +201,19 @@ namespace Retrowarden.Dialogs
 
             _btnOk = new Button()
             {
-                Width = 8, Height = 1, X = 19, Y = 21, Visible = true, Data = "btnOk", Text = "Save", 
-                TextAlignment = Alignment.Center, IsDefault = false, 
+                Text = "Save",
             };
-            
-            _btnOk.Accepting += OkButton_Clicked; 
-            _dialog.Add(_btnOk);
+
+            _btnOk.Accepting += OkButton_Clicked;
+            _dialog.AddButton(_btnOk);
 
             _btnCancel = new Button()
             {
-                Width = 10, Height = 1, X = 34, Y = 21, Visible = true, Data = "btnCancel", Text = "Cancel", 
-                TextAlignment = Alignment.Center, IsDefault = false
+                Text = "Cancel",
             };
 
             _btnCancel.Accepting += CancelButton_Clicked;
-            _dialog.Add(_btnCancel);
+            _dialog.AddButton(_btnCancel);
         }
         
         public Organization SelectedOrganization

@@ -6,9 +6,9 @@ namespace Retrowarden.Workers
     {
         private string? _passphrase;
         
-        public GeneratePassphraseWorker(IVaultRepository repository, bool capitalize, bool useNumbers, 
+        public GeneratePassphraseWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, bool capitalize, bool useNumbers, 
             int words, string? sep, string dialogMessage) 
-            : base(repository, dialogMessage)
+            : base(app, repository, dialogMessage)
         {
             // Run the login method.
             _worker.DoWork += (s, e) => 

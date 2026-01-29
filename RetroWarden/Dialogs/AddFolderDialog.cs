@@ -2,6 +2,7 @@ using System.ComponentModel;
 using RetrowardenSDK.Models;
 using Terminal.Gui.App;
 using Terminal.Gui.Views;
+using Terminal.Gui.ViewBase;
 
 namespace Retrowarden.Dialogs
 {
@@ -15,12 +16,12 @@ namespace Retrowarden.Dialogs
         private string? _folderName;
         private readonly List<VaultFolder> _folders;
         
-        public AddFolderDialog(List<VaultFolder> folders)
+        public AddFolderDialog(IApplication app, List<VaultFolder> folders) : base(app)
         {
             _folderName = "";
             _okPressed = false;
             _folders = folders;
-            
+
             InitializeComponent();
         }
 
@@ -29,13 +30,13 @@ namespace Retrowarden.Dialogs
             // Check to see if required values are present.
             if (_txtFolderName != null && _txtFolderName.Text.Trim().Length == 0)
             {
-                MessageBox.ErrorQuery("Values Missing", "Folder name is required.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Folder name is required.", "Ok");
             }
             
             // Check to see if we already have a folder with that name.
             if (_folders.FindIndex(o => _txtFolderName != null && o.Name == _txtFolderName.Text) != -1)
             {
-                MessageBox.ErrorQuery("Duplicate Value", "Folder name already exists.", "Ok");
+                MessageBox.ErrorQuery(_app,"Duplicate Value", "Folder name already exists.", "Ok");
             }
             
             else
@@ -49,47 +50,56 @@ namespace Retrowarden.Dialogs
                 }
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _app.RequestStop(_dialog);
             }
         }
 
         private void InitializeComponent()
         {
-            // Create Ok button.
+            // Create modal view with dynamic sizing.
+            _dialog = new Dialog()
+            {
+                Title = "Create Folder",
+                Width = 45,
+                Height = 10,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
+            };
+
+            // Create label with dynamic width based on content.
+            Label lblFolder = new Label()
+            {
+                X = 2,
+                Y = 1,
+                Width = Dim.Auto(),
+                Text = "Folder Name:"
+            };
+
+            // Create text input positioned relative to label.
+            _txtFolderName = new TextField()
+            {
+                X = Pos.Right(lblFolder) + 1,
+                Y = Pos.Top(lblFolder),
+                Width = Dim.Fill(2)
+            };
+
+            // Create buttons.
             Button okButton = new Button()
             {
-                X = 8, Y =6, Text = "_Save"
+                Text = "_Save",
             };
             okButton.Accepting += OkButton_Clicked;
 
-            // Create Cancel button.
             Button cancelButton = new Button()
             {
-                X = 24, Y = 6, Title = "Cance_l"
-                
+                Text = "Cance_l"
             };
             cancelButton.Accepting += CancelButton_Clicked;
 
-            // Create modal view.
-            _dialog = new Dialog()
-            {
-                Title = "Create Folder", Width = 40, Height =10
-            };
-
-            // Create labels.
-            Label lblFolder = new Label()
-            {
-                X = 3, Y = 2, Width = 10, Height = 1, CanFocus = false, Visible = true, Text = "Folder Name:"
-            };
-            
-            // Create text input.
-            _txtFolderName = new TextField()
-            {
-                X = 15, Y = 2, Width = 20, Height = 1, CanFocus = true, Visible = true
-            };
-            
             // Add controls to view.
-            _dialog.Add(lblFolder, _txtFolderName, okButton, cancelButton);
+            _dialog.Add(lblFolder, _txtFolderName);
+            _dialog.AddButton(okButton);
+            _dialog.AddButton(cancelButton);
 
             // Set default control.
             _txtFolderName.SetFocus();

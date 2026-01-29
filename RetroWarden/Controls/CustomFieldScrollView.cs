@@ -9,13 +9,14 @@ namespace Retrowarden.Controls
 {
     public class CustomFieldScrollView : View
     {
+        private IApplication _app;
         private List<View[]> _rowControls;
         private List<VaultItemCustomField> _fields;
         private readonly int _itemType;
-        
-        public CustomFieldScrollView(List<VaultItemCustomField>? fields, int itemType)
+
+        public CustomFieldScrollView(IApplication app, List<VaultItemCustomField>? fields, int itemType)
         {
-            // Set members.
+            _app = app;
             _fields = fields == null ? new List<VaultItemCustomField>() : fields;
             _itemType = itemType;
             
@@ -138,10 +139,10 @@ namespace Retrowarden.Controls
             btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
-                Clipboard.Contents = (txtValue.Text);
+                _app.Clipboard.SetClipboardData(txtValue.Text);
 
                 // Indicate data copied.
-                MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
+                MessageBox.Query(_app,"Action Completed", "Copied Value to clipboard.", "Ok");
                 
                 // Flag event handled.
                 e.Handled = true;
@@ -200,10 +201,10 @@ namespace Retrowarden.Controls
             btnCopyValue.Accepting += (s,e) =>
             {
                 // Copy password to clipboard.
-                Clipboard.Contents = (txtValue.Text);
+                _app.Clipboard.SetClipboardData(txtValue.Text);
 
                 // Indicate data copied.
-                MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
+                MessageBox.Query(_app,"Action Completed", "Copied Value to clipboard.", "Ok");
  
                 // Flag event handled.
                 e.Handled = true;
@@ -226,7 +227,7 @@ namespace Retrowarden.Controls
             CheckBox chkValue = new CheckBox()
             {
                 X=32, Y=rowNum, CanFocus = true, Visible = true, Enabled = true, Data = rowNum,
-                CheckedState = value == "true" ? CheckState.Checked : CheckState.UnChecked, TabStop = TabBehavior.TabStop
+                Value = value == "true" ? CheckState.Checked : CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             
             // Create the delete button.
@@ -389,7 +390,7 @@ namespace Retrowarden.Controls
                         CheckBox value = (CheckBox) rowCtrls[1];
                         
                         // Set value and type.
-                        field.FieldValue = value.CheckedState == CheckState.Checked ? "true" : "false";
+                        field.FieldValue = value.Value == CheckState.Checked ? "true" : "false";
                         field.FieldType = 2;
                     }
                     

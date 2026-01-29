@@ -25,12 +25,11 @@ namespace Retrowarden.Dialogs
         private readonly IVaultRepository _repository;
         private string? _password;
         
-        public GeneratePasswordDialog(IVaultRepository repository) 
+        public GeneratePasswordDialog(IApplication app, IVaultRepository repository) : base(app)
         {
-            // Initialize members.
             _repository = repository;
             _password = "";
-            
+
             InitializeComponent();
         }
 
@@ -44,7 +43,7 @@ namespace Retrowarden.Dialogs
                 // Check to see if there is a valid value for number of words.
                 if (_txtPasswordLength.Text.Length == 0)
                 {
-                    MessageBox.ErrorQuery("Values Missing", "Passwords length must be at least 12 characters.", "Ok");
+                    MessageBox.ErrorQuery(_app,"Values Missing", "Passwords length must be at least 12 characters.", "Ok");
                     retVal = false;
                 }
 
@@ -52,7 +51,7 @@ namespace Retrowarden.Dialogs
                 {
                     if (!int.TryParse(_txtPasswordLength.Text, out int length))
                     {
-                        MessageBox.ErrorQuery("Values Missing", "Passwords length must be a numeric value.", "Ok");
+                        MessageBox.ErrorQuery(_app,"Values Missing", "Passwords length must be a numeric value.", "Ok");
                         retVal = false;
                     }
 
@@ -60,7 +59,7 @@ namespace Retrowarden.Dialogs
                     {
                         if (length < 12)
                         {
-                            MessageBox.ErrorQuery("Value Error", "Passwords length must be at least 12.", "Ok");
+                            MessageBox.ErrorQuery(_app,"Value Error", "Passwords length must be at least 12.", "Ok");
                             retVal = false;
                         }
                     }
@@ -82,15 +81,15 @@ namespace Retrowarden.Dialogs
             if (ValidateInput())
             {
                 // Set values.
-                bool includeNumbers = _chkNumbers != null && _chkNumbers.CheckedState == CheckState.Checked;
-                bool upper = _chkUpperCase != null && _chkUpperCase.CheckedState == CheckState.Checked;
-                bool lower = _chkLowerCase != null && _chkLowerCase.CheckedState == CheckState.Checked;
-                bool special = _chkSpecialChars != null && _chkSpecialChars.CheckedState == CheckState.Checked;
+                bool includeNumbers = _chkNumbers != null && _chkNumbers.Value == CheckState.Checked;
+                bool upper = _chkUpperCase != null && _chkUpperCase.Value == CheckState.Checked;
+                bool lower = _chkLowerCase != null && _chkLowerCase.Value == CheckState.Checked;
+                bool special = _chkSpecialChars != null && _chkSpecialChars.Value == CheckState.Checked;
                 int length = _txtPasswordLength != null ? Convert.ToInt32(_txtPasswordLength.Text == null ? 1 :_txtPasswordLength.Text) : 1 ;
                 
                 // Show working dialog.
                 GeneratePasswordWorker worker =
-                    new GeneratePasswordWorker(_repository, upper, lower, 
+                    new GeneratePasswordWorker(_app, _repository, upper, lower,
                         includeNumbers, special, length, "Generating Password...");
                 
                 // Generate the passphrase.
@@ -118,7 +117,7 @@ namespace Retrowarden.Dialogs
             Clipboard.Contents = _password;
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "Password copied to clipboard.", "Ok");
+            MessageBox.Query(_app,"Action Completed", "Password copied to clipboard.", "Ok");
         }
     
         #region InitializeComponent
@@ -135,8 +134,10 @@ namespace Retrowarden.Dialogs
             
             _dialog = new Dialog()
             {
-                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true, 
-                TextAlignment = Alignment.Start, Title = "Password Generator"
+                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true,
+                TextAlignment = Alignment.Start, Title = "Password Generator",
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
             };
 
             _lblPassword = new Label()
@@ -155,36 +156,45 @@ namespace Retrowarden.Dialogs
 
             _chkUpperCase = new CheckBox()
             {
-                Width = 6, Height = 1, X = 1, Y = 0, Visible = true, Data = "_chkUpperCase",
-                Text = "Uppercase Characters (A-Z)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                X = 1, Y = 0,
+                Width = Dim.Auto(),
+                Text = "Uppercase Characters (A-Z)",
+                Value = CheckState.Checked
             };
             _fraOptions.Add(_chkUpperCase);
 
             _chkLowerCase = new CheckBox()
             {
-                Width = 6, Height = 1, X = 1, Y = 1, Visible = true, Data = "_chkLowerCase",
-                Text = "Lowercase Characters (a-z)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                X = 1, Y = 1,
+                Width = Dim.Auto(),
+                Text = "Lowercase Characters (a-z)",
+                Value = CheckState.Checked
             };
             _fraOptions.Add(_chkLowerCase);
 
             _chkNumbers = new CheckBox()
             {
-                Width = 6, Height = 1, X = 1, Y = 2, Visible = true, Data = "_chkNumbers",
-                Text = "Numeric Characters (0-9)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                X = 1, Y = 2,
+                Width = Dim.Auto(),
+                Text = "Numeric Characters (0-9)",
+                Value = CheckState.Checked
             };
             _fraOptions.Add(_chkNumbers);
 
             _chkSpecialChars = new CheckBox()
             {
-                Width = 6, Height = 1, X = 1, Y = 3, Visible = true, Data = "_chkSpecialChars",
-                Text = "Special Characters (!@#$%^&*)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                X = 1, Y = 3,
+                Width = Dim.Auto(),
+                Text = "Special Characters (!@#$%^&*)",
+                Value = CheckState.Checked
             };
             _fraOptions.Add(_chkSpecialChars);
 
             _lblLength = new Label()
             {
-                Width = 4, Height = 1, X = 3, Y = 4, Visible = true, Data = "_lblLength",
-                Text = "Length", CanFocus = false, TextAlignment = Alignment.Start
+                X = 3, Y = 4,
+                Width = Dim.Auto(),
+                Text = "Length"
             };
             _fraOptions.Add(_lblLength);
 
@@ -197,27 +207,24 @@ namespace Retrowarden.Dialogs
             
             _btnGeneratePassword = new Button()
             {
-                Width = 8, Height = 1, X = 1, Y = 11, Visible = true, Data = "_btnGeneratePassphrase",
-                Text = "Generate", TextAlignment = Alignment.Center, IsDefault = false
+                Text = "_Generate",
             };
             _btnGeneratePassword.Accepting += GenerateButton_Clicked;
-            _dialog.Add(_btnGeneratePassword);
-            
+            _dialog.AddButton(_btnGeneratePassword);
+
             _btnCopy = new Button()
             {
-                Width = 4, Height = 1, X = 18, Y = 11, Visible = true, Data = "_btnCopy",
-                Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false
+                Text = "C_opy"
             };
             _btnCopy.Accepting += CopyButton_Clicked;
-            _dialog.Add(_btnCopy);
+            _dialog.AddButton(_btnCopy);
 
             _btnClose = new Button()
             {
-                Width = 9, Height = 1, X = 32, Y = 11, Visible = true, Data = "_btnClose",
-                Text = "Close", TextAlignment = Alignment.Center, IsDefault = false
+                Text = "C_lose"
             };
             _btnClose.Accepting += CancelButton_Clicked;
-            _dialog.Add(_btnClose);
+            _dialog.AddButton(_btnClose);
         }
         #endregion
         

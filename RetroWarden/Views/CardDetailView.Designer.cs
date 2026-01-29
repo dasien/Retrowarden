@@ -105,8 +105,10 @@ namespace Retrowarden.Views
 
             this.btnShowCardNumber = new Button
             {
-                Width = 8, Height = 1, X = 20, Y = 4, Visible = true, Data = "btnShowCardNumber", Text = "Show",
-                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 20, Y = 4,
+                Text = "_Show",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnShowCardNumber.Accepting += ShowCardButtonClicked;
             this.btnShowCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(btnShowCardNumber, e);
@@ -114,8 +116,10 @@ namespace Retrowarden.Views
 
             this.btnCopyCardNumber = new Button
             {
-                Width = 8, Height = 1, X = 29, Y = 4, Visible = true, Data = "btnCopyCardNumber", Text = "Copy",
-                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 29, Y = 4,
+                Text = "C_opy",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnCopyCardNumber.Accepting += CopyCardButtonClicked;
             this.btnCopyCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyCardNumber, e);
@@ -131,8 +135,10 @@ namespace Retrowarden.Views
 
             this.btnShowCVV = new Button
             {
-                Width = 8, Height = 1, X = 57, Y = 4, Visible = true, Data = "btnShowCVV", Text = "Show",
-                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 57, Y = 4,
+                Text = "S_how",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnShowCVV.Accepting += ShowCVVButtonClicked;
             this.btnShowCVV.HasFocusChanged += (s, e) => HandleFocusChange(btnShowCVV, e);
@@ -140,8 +146,10 @@ namespace Retrowarden.Views
 
             this.btnCopyCVV = new Button
             {
-                Width = 8, Height = 1, X = 66, Y = 4, Visible = true, Data = "btnCopyCVV", Text = "Copy",
-                TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 66, Y = 4,
+                Text = "Co_py",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnCopyCVV.Accepting += CopyCVVButtonClicked;
             this.btnCopyCVV.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyCVV, e);

@@ -1,0 +1,47 @@
+{
+  "queue_metadata": {
+    "created": "2025-10-21T00:00:00Z",
+    "version": "3.0.0",
+    "description": "Task queue for multi-agent development system"
+  },
+  "tasks": [
+    {
+      "id": "task_1769453424_88490",
+      "title": "Analyze existing code for compile error resolution",
+      "assigned_agent": "terminalgui-implementer",
+      "priority": "high",
+      "description": "Analyze the Retrowarden projcet for changes between versions of the Terminal.GUI library and the breaking changes that have been created.  Leave comments in the code by the line which has the compile error with your suggested fix.",
+      "source_file": "",
+      "created": "2026-01-26T18:50:24.125207+00:00Z",
+      "status": "cancelled",
+      "started": "2026-01-26T18:50:24.155384+00:00Z",
+      "completed": "2026-01-26T18:52:38.021383+00:00Z",
+      "result": "Cancelled by user",
+      "auto_complete": true,
+      "auto_chain": false,
+      "metadata": {
+        "github_issue": null,
+        "github_pr": null,
+        "jira_ticket": null,
+        "confluence_page": null,
+        "parent_task_id": null,
+        "workflow_status": null,
+        "enhancement_title": null,
+        "workflow_name": null,
+        "workflow_step": null,
+        "process_pid": null,
+        "session_id": null,
+        "log_file_path": null,
+        "requested_model": "claude-opus-4.5",
+        "cost_input_tokens": null,
+        "cost_output_tokens": null,
+        "cost_cache_creation_tokens": null,
+        "cost_cache_read_tokens": null,
+        "cost_usd": null,
+        "cost_model": null,
+        "learnings_retrieved": [],
+        "learnings_created": []
+      }
+    }
+  ]
+}

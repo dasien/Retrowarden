@@ -8,8 +8,8 @@ namespace Retrowarden.Workers
         // Member variables.
         private VaultStatus _status;
         
-        public CheckStatusWorker(IVaultRepository repository, string dialogMessage) 
-            : base(repository, dialogMessage)
+        public CheckStatusWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage) 
+            : base(app, repository, dialogMessage)
         {
             // Create members.
             _status = new VaultStatus();

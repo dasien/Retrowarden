@@ -17,8 +17,8 @@ namespace Retrowarden.Views
         private ObservableCollection<CodeListItem> _matchDetections;
         private readonly IVaultRepository _repository;
         
-        public LoginDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state, IVaultRepository repository) 
-            : base (item, folders, state)
+        public LoginDetailView(IApplication app, VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state, IVaultRepository repository) 
+            : base (app, item, folders, state)
         {
             // Initialize members.
             _repository = repository;
@@ -45,7 +45,7 @@ namespace Retrowarden.Views
             else
             {
                 // Create empty URI scroll.
-                scrURIList = new UriScrollView(null, _matchDetections)
+                scrURIList = new UriScrollView(_app, null, _matchDetections)
                 {
                     X = 0, Y = 0, Width = 95, Height = 5, Visible = true, CanFocus = true, Enabled = true, 
                     Data = "scrURIList", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabGroup
@@ -98,7 +98,7 @@ namespace Retrowarden.Views
             if (_item.Login != null)
             {
                 // Create new URI scroll control
-                scrURIList = new UriScrollView(_item.Login.URIs, _matchDetections)
+                scrURIList = new UriScrollView(_app, _item.Login.URIs, _matchDetections)
                 {
                     X = 0, Y = 0, Width = 95, Height = 5, Visible = true, CanFocus = true, Enabled = true,
                     Data = "scrURIList", TextAlignment = Alignment.Start
@@ -147,7 +147,7 @@ namespace Retrowarden.Views
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
             {
-                MessageBox.ErrorQuery("Action failed.", "Item name must have a value.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed.", "Item name must have a value.", "Ok");
             }
 
             else
@@ -167,7 +167,7 @@ namespace Retrowarden.Views
 
                 // Flag that the save button was pressed and close form.
                 OkPressed = true;
-                Application.RequestStop();
+                _app.RequestStop();
             }
         }
 
@@ -177,7 +177,7 @@ namespace Retrowarden.Views
             Clipboard.Contents = txtPassword.Text;
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "Password copied to clipboard.", "Ok");
+            MessageBox.Query(_app,"Action Completed", "Password copied to clipboard.", "Ok");
 
         }
 
@@ -196,12 +196,12 @@ namespace Retrowarden.Views
             Clipboard.Contents = (txtUserName.Text);
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "User name copied to clipboard.", "Ok");
+            MessageBox.Query(_app,"Action Completed", "User name copied to clipboard.", "Ok");
         }
 
         private void GeneratePasswordButtonClicked(object? sender, HandledEventArgs e)
         {
-            GeneratePasswordDialog genPass = new GeneratePasswordDialog(_repository);
+            GeneratePasswordDialog genPass = new GeneratePasswordDialog(_app, _repository);
             genPass.Show();
             
             // Check to see if a password was generated.

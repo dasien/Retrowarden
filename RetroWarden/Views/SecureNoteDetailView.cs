@@ -8,8 +8,8 @@ namespace Retrowarden.Views
 {
     public partial class SecureNoteDetailView : ItemDetailView
     {
-       public SecureNoteDetailView(VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
-            : base (item, folders, state)
+       public SecureNoteDetailView(IApplication app, VaultItem item, List<VaultFolder> folders, VaultItemDetailViewState state) 
+            : base (app, item, folders, state)
         {
             InitializeComponent();
             
@@ -49,7 +49,7 @@ namespace Retrowarden.Views
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
             {
-                MessageBox.ErrorQuery("Action failed.", "Item name must have a value.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed.", "Item name must have a value.", "Ok");
             }
 
             else
@@ -67,7 +67,7 @@ namespace Retrowarden.Views
                 OkPressed = true;
 
                 // Close dialog.
-                Application.RequestStop();
+                _app.RequestStop();
             }
         }
         #endregion

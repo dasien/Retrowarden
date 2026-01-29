@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
 namespace Retrowarden.Dialogs
@@ -7,10 +8,10 @@ namespace Retrowarden.Dialogs
 
     public sealed class SelectItemTypeDialog : BaseDialog
     {
-        private RadioGroup? _rdoItemType;
+        private OptionSelector? _rdoItemType;
         private int _itemType = 0;
         
-        public SelectItemTypeDialog()
+        public SelectItemTypeDialog(IApplication app) : base(app)
         {
             InitializeComponent();
         }
@@ -19,42 +20,50 @@ namespace Retrowarden.Dialogs
         {
             // Set flag for ok button and values.
             _okPressed = true;
-            _itemType = _rdoItemType == null ? 1 :_rdoItemType.SelectedItem;
-            
+            _itemType = _rdoItemType?.Value ?? 1;
+
             // Close dialog.
-            Application.RequestStop(_dialog);
+            _app.RequestStop(_dialog);
         }
         
         private void InitializeComponent()
         {
-            // Create Ok button.
+            // Create modal view with dynamic sizing.
+            _dialog = new Dialog()
+            {
+                Title = "Select Item Type",
+                Width = 30,
+                Height = 11,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
+            };
+
+            string[] types = ["Login", "Secure Note", "Card", "Identity"];
+
+            // Create option selector with dynamic positioning.
+            _rdoItemType = new OptionSelector()
+            {
+                X = Pos.Center(),
+                Y = 1,
+                Labels = types
+            };
+
+            // Create buttons.
             Button okButton = new Button()
             {
-                X = 5, Y = 6, Text = "Ok", IsDefault = true
+                Text = "Ok",
             };
             okButton.Accepting += OkButton_Clicked;
 
-            // Create Cancel button.
             Button cancelButton = new Button()
             {
-                X = 14, Y = 6, Text = "Cancel"
+                Text = "Cancel"
             };
             cancelButton.Accepting += CancelButton_Clicked;
 
-            string[] types = ["Login", "Secure Note", "Card", "Identity"];
-        
-            // Create radio group.
-            _rdoItemType = new RadioGroup()
-            {
-                X = 8, Y = 1, RadioLabels = types
-            };
-                
-            // Create modal view.
-            _dialog = new Dialog()
-            {
-                Title = "Select Item Type", Width = 30, Height = 9
-            };
-            _dialog.Add(_rdoItemType, okButton, cancelButton);
+            _dialog.Add(_rdoItemType);
+            _dialog.AddButton(okButton);
+            _dialog.AddButton(cancelButton);
         }
         
         public int ItemType

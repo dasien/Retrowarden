@@ -6,9 +6,9 @@ namespace Retrowarden.Workers
     {
         private string _password;
         
-        public GeneratePasswordWorker(IVaultRepository repository, bool useUpper, bool useLower, bool useDigits, 
+        public GeneratePasswordWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, bool useUpper, bool useLower, bool useDigits, 
             bool useSpecial, int length, string dialogMessage) 
-            : base(repository, dialogMessage)
+            : base(app, repository, dialogMessage)
         {
             // Create members.
             _password = "";

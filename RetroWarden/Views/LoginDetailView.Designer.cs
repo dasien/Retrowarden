@@ -34,8 +34,10 @@ namespace Retrowarden.Views
             
             this.btnNewURI = new Button()
             {
-                Width = 12, Height = 1, X = 1, Y = 13, Visible = true, Data = "btnNewURI",
-                Text = "New URI", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 1, Y = 13,
+                Text = "New _URI",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnNewURI.Accepting += NewUriButtonClicked;
             this.btnNewURI.HasFocusChanged += (s, e) => HandleFocusChange(btnNewURI, e);
@@ -62,24 +64,30 @@ namespace Retrowarden.Views
             
             this.btnGeneratePassword = new Button()
             {
-                Width = 12, Height = 1, X = 80, Y = 1, Visible = true, Data = "btnGeneratePassword",
-                Text = "Generate", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 80, Y = 1,
+                Text = "_Generate",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnGeneratePassword.Accepting += GeneratePasswordButtonClicked;
             this.btnGeneratePassword.HasFocusChanged += (s, e) => HandleFocusChange(btnGeneratePassword, e);
-            
+
             this.btnCopyPassword = new Button()
             {
-                Width = 8, Height = 1, X = 71, Y = 1, Visible = true, Data = "btnCopyPassword",
-                Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 71, Y = 1,
+                Text = "C_opy",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnCopyPassword.Accepting += CopyPasswordButtonClicked;
             this.btnCopyPassword.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyPassword, e);
-            
+
             this.btnViewPassword = new Button()
             {
-                Width = 8, Height = 1, X = 62, Y = 1, Visible = true, Data = "btnViewPassword",
-                Text = "Show", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 62, Y = 1,
+                Text = "_Show",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnViewPassword.Accepting += ViewPasswordButtonClicked;
             this.btnViewPassword.HasFocusChanged += (s, e) => HandleFocusChange(btnViewPassword, e);
@@ -93,8 +101,10 @@ namespace Retrowarden.Views
 
             this.btnCopyUserName = new Button()
             {
-                Width = 8, Height = 1, X = 23, Y = 1, Visible = true, Data = "btnCopyUserName",
-                Text = "Copy", TextAlignment = Alignment.Center, IsDefault = false, TabStop = TabBehavior.TabStop
+                X = 23, Y = 1,
+                Text = "Cop_y",
+                IsDefault = false,
+                TabStop = TabBehavior.TabStop
             };
             this.btnCopyUserName.Accepting += CopyUserNameButtonClicked;
             this.btnCopyUserName.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyUserName, e);

@@ -9,9 +9,9 @@ namespace Retrowarden.Workers
         private readonly List<VaultItem> _items;
         private List<VaultItem> _results;
         
-        public SaveItemWorker(IVaultRepository repository, VaultItemSaveAction action, List<VaultItem> items, 
+        public SaveItemWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, VaultItemSaveAction action, List<VaultItem> items, 
             string dialogMessage) 
-            : base(repository, dialogMessage)
+            : base(app, repository, dialogMessage)
         {
             // Store items list.
             _items = items;

@@ -6,23 +6,26 @@ namespace Retrowarden.Workers
 {
     public class RetrowardenWorker
     {
-        // Member variables.
+        protected readonly Terminal.Gui.App.IApplication _app;
         protected readonly IVaultRepository _repository;
         protected readonly BackgroundWorker _worker;
         protected readonly WorkingDialog _workingDialog;
 
-        protected RetrowardenWorker(IVaultRepository repository, string dialogMessage)
+        protected RetrowardenWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage)
         {
+            _app = app;
             _repository = repository;
             _worker = new BackgroundWorker();
-            _workingDialog = new WorkingDialog(dialogMessage);
+            _workingDialog = new WorkingDialog(app, dialogMessage);
         }
         public void Run()
         {
-            // Run the worker.
-            _worker.RunWorkerAsync();
-            
-            // Show working dialog.
+            _app.AddTimeout(TimeSpan.FromMilliseconds(10), () =>
+            {
+                _worker.RunWorkerAsync();
+                return false;
+            });
+
             _workingDialog.Show();
         }
     }    

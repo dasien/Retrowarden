@@ -13,26 +13,27 @@ namespace Retrowarden.Views
 {
     public abstract partial class ItemDetailView
     {
+        protected IApplication _app;
         private View? _subView;
         protected VaultItem _item;
         private readonly List<VaultFolder> _folders;
         protected readonly VaultItemDetailViewState _viewState;
         private bool _okPressed;
-        
-        protected ItemDetailView(VaultItem? item, List<VaultFolder> folders, VaultItemDetailViewState state) 
+
+        protected ItemDetailView(IApplication app, VaultItem? item, List<VaultFolder> folders, VaultItemDetailViewState state)
         {
-            // Set private variables.
+            _app = app;
             _item = item == null ? new VaultItem() : item;
             _viewState = state;
             _folders = folders;
             _okPressed = false;
-            
+
             InitializeComponent();
         }
-        
+
         public void Show()
         {
-            Application.Run(this);
+            _app.Run(this);
         }
 
         protected void SetupView()
@@ -58,7 +59,7 @@ namespace Retrowarden.Views
                     this.Title = "Create New Item";
                     
                     // Create empty custom field scroll.
-                    scrCustomFields = new CustomFieldScrollView(null, _item.ItemType)
+                    scrCustomFields = new CustomFieldScrollView(_app,null, _item.ItemType)
                     {
                         X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true, 
                         Data = "scrCustomFields", TextAlignment = Alignment.Start
@@ -96,9 +97,9 @@ namespace Retrowarden.Views
         {
             // Set current item values to controls.
             txtItemName.Text = _item.ItemName;
-            chkFavorite.CheckedState = _item.IsFavorite ? CheckState.Checked : CheckState.UnChecked;
+            chkFavorite.Value = _item.IsFavorite ? CheckState.Checked : CheckState.UnChecked;
             tvwNotes.Text = _item.Notes ?? "";
-            chkReprompt.CheckedState = _item.Reprompt == 1 ? CheckState.Checked : CheckState.UnChecked;
+            chkReprompt.Value = _item.Reprompt == 1 ? CheckState.Checked : CheckState.UnChecked;
             stbDetail.Add(new Shortcut(KeyCode.Null, "Created On: " + _item.CreationDate + 
                                                      " | Last Updated On: " + _item.RevisionDate, null));
             
@@ -106,7 +107,7 @@ namespace Retrowarden.Views
             cboFolder.SelectedItem = _folders.FindIndex(o => o.Id == _item.FolderId);
             
             // Create new field scroll control.
-            scrCustomFields = new CustomFieldScrollView(_item.CustomFields, _item.ItemType)
+            scrCustomFields = new CustomFieldScrollView(_app, _item.CustomFields, _item.ItemType)
             {
                 X = 0, Y = 0, Width = 95, Height = 6, Visible = true, CanFocus = true, Enabled = true,
                 Data = "scrCustomFields", TextAlignment = Alignment.Start
@@ -197,9 +198,9 @@ namespace Retrowarden.Views
                 _item.FolderId = _folders.ElementAt(cboFolder.SelectedItem).Id;
             }
             
-            _item.IsFavorite = chkFavorite.CheckedState == CheckState.Checked;
+            _item.IsFavorite = chkFavorite.Value == CheckState.Checked;
             _item.Notes = tvwNotes.Text;
-            _item.Reprompt = chkReprompt.CheckedState == CheckState.Checked ? 1 : 0;
+            _item.Reprompt = chkReprompt.Value == CheckState.Checked ? 1 : 0;
             
             // Get the custom fields.
             _item.CustomFields = scrCustomFields.Fields;
@@ -235,7 +236,7 @@ namespace Retrowarden.Views
         private void CancelButtonClicked(object? sender, HandledEventArgs e)
         {
             // Close dialog.
-            Application.RequestStop();
+            _app.RequestStop();
         }
 
         protected void HandleFocusChange(View? sender, HasFocusEventArgs eventArgs)
@@ -284,18 +285,22 @@ namespace Retrowarden.Views
         private void NewCustomFieldButtonClicked(object? sender, HandledEventArgs e)
         {
             // Show the dialog for field type choice.
-            SelectCustomFieldDialog dialog = new SelectCustomFieldDialog();
+            SelectCustomFieldDialog dialog = new SelectCustomFieldDialog(_app);
             dialog.Show();
             
             // Check to see what was selected.
             if (dialog.OkPressed)
             {
-                // Create a new control row.
-                scrCustomFields.CreateControlRow(dialog.FieldType);
+                // Check to see that the field type is set.
+                if (dialog.FieldType != null)
+                {
+                    // Create a new control row.
+                    scrCustomFields.CreateControlRow((int)dialog.FieldType);
+                }
             }
         }
         
-        private void HandleMouseEvent(object? sender, MouseEventArgs MouseEventArgs)
+        private void HandleMouseEvent(object? sender, Mouse MouseEventArgs)
         {
             switch (MouseEventArgs.Flags)
             {

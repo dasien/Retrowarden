@@ -3,6 +3,7 @@ using System.ComponentModel;
 using RetrowardenSDK.Models;
 using Terminal.Gui.App;
 using Terminal.Gui.Views;
+using Terminal.Gui.ViewBase;
 
 namespace Retrowarden.Dialogs
 {
@@ -13,11 +14,10 @@ namespace Retrowarden.Dialogs
         private int _folderIndex;
         private readonly List<VaultFolder> _folders;
         
-        public SelectFolderDialog(List<VaultFolder> folders)
+        public SelectFolderDialog(IApplication app, List<VaultFolder> folders) : base(app)
         {
-            // Initialize members.
             _folders = folders;
-            
+
             InitializeComponent();
         }
         
@@ -26,7 +26,7 @@ namespace Retrowarden.Dialogs
             // Check to see if required values are present.
             if (_cboFolder != null && _cboFolder.SelectedItem == -1)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select a folder.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Please select a folder.", "Ok");
             }
 
             else
@@ -41,7 +41,7 @@ namespace Retrowarden.Dialogs
                 _okPressed = true;
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _app.RequestStop(_dialog);
             }
         }
         
@@ -50,21 +50,23 @@ namespace Retrowarden.Dialogs
             // Create Ok button.
             Button okButton = new Button()
             {
-                X = 8, Y = 6, Text = "Ok", IsDefault = true
+                Text = "Ok",
             };
             okButton.Accepting += OkButton_Clicked;
 
             // Create Cancel button.
             Button cancelButton = new Button()
             {
-                X = 24, Y = 6, Text = "Cancel"
+                Text = "Cancel"
             };
             cancelButton.Accepting += CancelButton_Clicked;
 
             // Create modal view.
             _dialog = new Dialog()
             {
-                Title = "Select Folder", Width = 50,Height = 10
+                Title = "Select Folder", Width = 50, Height = 10,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
             };
 
             // Create label.
@@ -84,7 +86,9 @@ namespace Retrowarden.Dialogs
             _cboFolder.SetSource(folders);
             
             // Add controls to view.
-            _dialog.Add(lblFolder, _cboFolder, okButton, cancelButton);
+            _dialog.Add(lblFolder, _cboFolder);
+            _dialog.AddButton(okButton);
+            _dialog.AddButton(cancelButton);
 
             // Set default control.
             _cboFolder.SetFocus();

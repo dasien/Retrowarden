@@ -1,0 +1,44 @@
+{
+  "claude_code_tools": [
+    {
+      "name": "Read",
+      "display_name": "Read Files",
+      "description": "Read file contents from filesystem"
+    },
+    {
+      "name": "Write",
+      "display_name": "Write Files",
+      "description": "Create or overwrite files"
+    },
+    {
+      "name": "Glob",
+      "display_name": "Pattern Match Files",
+      "description": "Find files matching patterns (e.g., '**/*.js')"
+    },
+    {
+      "name": "Grep",
+      "display_name": "Search File Contents",
+      "description": "Search for text patterns within files"
+    },
+    {
+      "name": "WebSearch",
+      "display_name": "Web Search",
+      "description": "Search the web for current information"
+    },
+    {
+      "name": "WebFetch",
+      "display_name": "Fetch Web Page",
+      "description": "Retrieve full content from URLs"
+    },
+    {
+      "name": "Bash",
+      "display_name": "Execute Shell Commands",
+      "description": "Execute shell commands and scripts"
+    },
+    {
+      "name": "Edit",
+      "display_name": "Edit Files",
+      "description": "Make targeted edits to existing files"
+    }
+  ]
+}

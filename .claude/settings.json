@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/on-session-end-cost.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "agents_directory": ".claude/agents",
+  "enhancements_directory": "enhancements"
+}

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
 namespace Retrowarden.Dialogs
@@ -7,10 +8,10 @@ namespace Retrowarden.Dialogs
 
     public sealed class SelectCustomFieldDialog : BaseDialog
     {
-        private RadioGroup? _rdoFieldType;
-        private int _fieldType = 0;
+        private OptionSelector? _rdoFieldType;
+        private int? _fieldType = 0;
         
-        public SelectCustomFieldDialog()
+        public SelectCustomFieldDialog(IApplication app) : base(app)
         {
             InitializeComponent();
         }
@@ -22,46 +23,53 @@ namespace Retrowarden.Dialogs
             
             if (_rdoFieldType != null)
             {
-                _fieldType = _rdoFieldType.SelectedItem;
+                _fieldType = _rdoFieldType.Value;
             }
 
-            // Close dialog.
-            Application.RequestStop(_dialog);
+            _app.RequestStop(_dialog);
         }
         
         private void InitializeComponent()
         {
-            // Create Ok button.
+            // Create modal view with dynamic sizing.
+            _dialog = new Dialog()
+            {
+                Title = "Select Item Type",
+                Width = 30,
+                Height = 11,
+                ButtonAlignment = Alignment.Center,
+                ButtonAlignmentModes = AlignmentModes.AddSpaceBetweenItems
+            };
+
+            string[] types = new string[] { "Text", "Hidden", "Boolean", "Linked" };
+
+            // Create option selector with dynamic positioning.
+            _rdoFieldType = new OptionSelector()
+            {
+                X = Pos.Center(),
+                Y = 1,
+                Labels = types
+            };
+
+            // Create buttons.
             Button okButton = new Button()
             {
-                X = 5, Y = 6, Text = "Ok", IsDefault = true
+                Text = "Ok",
             };
             okButton.Accepting += OkButton_Clicked;
 
-            // Create Cancel button.
             Button cancelButton = new Button()
             {
-                X = 14, Y = 6, Text = "Cancel"
+                Text = "Cancel"
             };
             cancelButton.Accepting += CancelButton_Clicked;
 
-            string[] types = new string[] { "Text", "Hidden", "Boolean", "Linked" };
-        
-            // Create radio group.
-            _rdoFieldType = new RadioGroup()
-            {
-                X = 8, Y = 1, RadioLabels = types
-            };
-                
-            // Create modal view.
-            _dialog = new Dialog()
-            {
-                Title = "Select Item Type", Width = 30, Height = 9
-            };
-            _dialog.Add(_rdoFieldType, okButton, cancelButton);
+            _dialog.Add(_rdoFieldType);
+            _dialog.AddButton(okButton);
+            _dialog.AddButton(cancelButton);
         }
         
-        public int FieldType
+        public int? FieldType
         {
             get { return _fieldType; }
         }

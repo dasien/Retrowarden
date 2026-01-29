@@ -7,7 +7,7 @@ namespace Retrowarden.Workers
         // Member variables.
         private bool _updateAvailable;
         
-        public  CheckForUpdateWorker(IVaultRepository repository, string dialogMessage) : base(repository, dialogMessage)
+        public  CheckForUpdateWorker(Terminal.Gui.App.IApplication app, IVaultRepository repository, string dialogMessage) : base(app, repository, dialogMessage)
         {
             // Create members.
             _updateAvailable = false;

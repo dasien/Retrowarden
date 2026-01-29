@@ -9,22 +9,21 @@ using RetrowardenSDK.Repositories;
 using Terminal.Gui.App;
 using Terminal.Gui.Views;
 using Terminal.Gui.Input;
+using Terminal.Gui.ViewBase;
 using ConfigurationManager = Retrowarden.Config.ConfigurationManager;
 
 namespace Retrowarden.Views 
 {
     public partial class MainView
     {
-        // Vault repository reference.
+        private IApplication _app;
         private IVaultRepository _vaultRepository;
 
-        // Vault object collections.
         private SortedDictionary<string, VaultItem> _vaultItems;
         private List<VaultFolder> _folders;
         private List<VaultCollection> _collections;
         private List<Organization> _organizations;
 
-        // Working variables.
         private readonly StringBuilder _aboutMessage;
         private VaultItem _tempItem;
         private bool _boomerMode;
@@ -37,14 +36,15 @@ namespace Retrowarden.Views
         private bool _sortOwnerDescending;
         private int _sortColumn = 0;
 
-        public MainView(bool debug)
-        {
-            // Initialize Application Stack
-            //Application.Init();
+        private object? _splashTimeout;
+        private object? _lockTimeout;
 
-            // Set events for updating keep alive flag.
-            Application.KeyDown += HandleKeyEvent;
-            Application.MouseEvent += HandleMouseEvent;
+        public MainView(IApplication app, bool debug)
+        {
+            _app = app;
+
+            _app.Keyboard.KeyDown += HandleKeyEvent;
+            _app.Mouse.MouseEvent += HandleMouseEvent;
 
             // Create about message.
             _aboutMessage = ViewUtils.CreateAboutMessageAscii();
@@ -83,23 +83,20 @@ namespace Retrowarden.Views
             // Setup screen controls.
             InitializeComponent();
 
-            // Set timer to launch splash.
-            Application.AddTimeout(TimeSpan.FromMilliseconds(80), ShowSplashScreen);
+            // Set timer to launch splash and store token for cleanup.
+            _splashTimeout = _app.AddTimeout(TimeSpan.FromMilliseconds(80), ShowSplashScreen);
 
             // Set flag for vault lock timeout.
             _keepAlive = false;
 
-            // Set timer to lock vault if no activity.
-            Application.AddTimeout(TimeSpan.FromMilliseconds(300000), LockVaultOnTimeout);
-
-            // Run the application loop.
-            Application.Run(this);
+            // Set timer to lock vault if no activity and store token for cleanup.
+            _lockTimeout = _app.AddTimeout(TimeSpan.FromMilliseconds(300000), LockVaultOnTimeout);
         }
 
         private bool ShowSplashScreen()
         {
             // Show splash screen.
-            SplashDialog splash = new SplashDialog(_aboutMessage.ToString());
+            SplashDialog splash = new SplashDialog(_app, _aboutMessage.ToString());
             splash.Show();
 
             return false;
@@ -117,10 +114,10 @@ namespace Retrowarden.Views
                     if (!IsCurrentTop)
                     {
                         // Get the detail view reference.
-                        Toplevel? top = Application.Top;
-
+                        IRunnable? top = _app.TopRunnable;
+                        
                         // Close it.
-                        Application.RequestStop(top);
+                        _app.RequestStop(top);
                     }
 
                     // Lock the vault.
@@ -141,7 +138,7 @@ namespace Retrowarden.Views
             if (fullSync)
             {
                 // Create new worker.
-                GetItemsWorker worker = new GetItemsWorker(_vaultRepository, "Syncing Vault Items...");
+                GetItemsWorker worker = new GetItemsWorker(_app, _vaultRepository, "Syncing Vault Items...");
 
                 // Execute task.
                 worker.Run();
@@ -153,7 +150,7 @@ namespace Retrowarden.Views
                 if (_vaultRepository.ExitCode == "0")
                 {
                     // Run workers for folders, organizations and collections.
-                    GetFoldersWorker folderWorker = new GetFoldersWorker(_vaultRepository, "Syncing Folders...");
+                    GetFoldersWorker folderWorker = new GetFoldersWorker(_app, _vaultRepository, "Syncing Folders...");
 
                     // Execute task.
                     folderWorker.Run();
@@ -163,7 +160,7 @@ namespace Retrowarden.Views
 
                     // Create new worker.
                     GetCollectionsWorker collectionsWorker =
-                        new GetCollectionsWorker(_vaultRepository, "Syncing Collections...");
+                        new GetCollectionsWorker(_app, _vaultRepository, "Syncing Collections...");
 
                     // Execute task.
                     collectionsWorker.Run();
@@ -173,7 +170,7 @@ namespace Retrowarden.Views
 
                     // Create new worker.
                     GetOrganizationsWorker organizationsWorker =
-                        new GetOrganizationsWorker(_vaultRepository, "Syncing Organizations...");
+                        new GetOrganizationsWorker(_app, _vaultRepository, "Syncing Organizations...");
 
                     // Execute task.
                     organizationsWorker.Run();
@@ -225,9 +222,6 @@ namespace Retrowarden.Views
             // Make sure we have a view.
             if (view != null)
             {
-                // Show the view modal.
-                view.Modal = true;
-
                 // Show the view.
                 view.Show();
 
@@ -261,10 +255,10 @@ namespace Retrowarden.Views
                     ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
 
                     // Check to see if there are any items.
-                    if (items != null && items.Count > 0)
+                    if (items != null && items.Count > 0 && lvwItems.SelectedItem != null)
                     {
                         // Get the current item.
-                        _tempItem = items.ItemList[lvwItems.SelectedItem];
+                        _tempItem = items.ItemList[(int)lvwItems.SelectedItem];
                     }
                 }
             }
@@ -279,22 +273,22 @@ namespace Retrowarden.Views
             {
                 // Login
                 case 1:
-                    retVal = new LoginDetailView(_tempItem, _folders, state, _vaultRepository);
+                    retVal = new LoginDetailView(_app, _tempItem, _folders, state, _vaultRepository);
                     break;
 
                 // Note
                 case 2:
-                    retVal = new SecureNoteDetailView(_tempItem, _folders, state);
+                    retVal = new SecureNoteDetailView(_app, _tempItem, _folders, state);
                     break;
 
                 // Card
                 case 3:
-                    retVal = new CardDetailView(_tempItem, _folders, state);
+                    retVal = new CardDetailView(_app, _tempItem, _folders, state);
                     break;
 
                 // Identity
                 case 4:
-                    retVal = new IdentityDetailView(_tempItem, _folders, state);
+                    retVal = new IdentityDetailView(_app, _tempItem, _folders, state);
                     break;
             }
 
@@ -344,7 +338,7 @@ namespace Retrowarden.Views
     
                     finder.AllowsMultipleSelection = false;
     
-                    Application.Run(finder);
+                    _app.Run(finder);
     
                     if (!finder.Canceled)
                     {
@@ -364,13 +358,13 @@ namespace Retrowarden.Views
                 // Make sure something was found.
                 if (retVal == null)
                 {
-                    MessageBox.ErrorQuery("Values Missing", "CLI Location not in config file.", "Ok");
+                    MessageBox.ErrorQuery(_app,"Values Missing", "CLI Location not in config file.", "Ok");
                 }
             }
     
             else
             {
-                MessageBox.ErrorQuery("Values Missing", "Configuration not found.", "Ok");
+                MessageBox.ErrorQuery(_app,"Values Missing", "Configuration not found.", "Ok");
             }
 
             return retVal;
@@ -381,18 +375,18 @@ namespace Retrowarden.Views
             // Clear any clipboard contents.
             Clipboard.Contents = "";
                 
-            // Close application.
-            Application.RequestStop(this);
+            // Close _app.
+            _app.RequestStop(this);
             
             // Call finializer.
             Dispose();
             
-            // Exit application.
+            // Exit _app.
             Environment.Exit(exitCode);
         }
         
         #region UI Control Helpers
-        private void SortListByName(object? sender, MouseEventArgs e)
+        private void SortListByName(object? sender, Mouse e)
         {
             // Set current sort column.
             _sortColumn = 0;
@@ -404,7 +398,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByValue(object? sender, MouseEventArgs e)
+        private void SortListByValue(object? sender, Mouse e)
         {
             // Set current sort column.
             _sortColumn = 1;
@@ -416,7 +410,7 @@ namespace Retrowarden.Views
             LoadItemListView(_vaultItems);
         }
 
-        private void SortListByOwner(object? sender, MouseEventArgs e)
+        private void SortListByOwner(object? sender, Mouse e)
         {
             // Set current sort column.
             _sortColumn = 2;
@@ -810,10 +804,10 @@ namespace Retrowarden.Views
                 IList itemList = items.ToList();
                 
                 // Check to see if anything has been marked.
-                if (items.MarkedItemCount == 0)
+                if (items.MarkedItemCount == 0 && lvwItems.SelectedItem != null)
                 {
                     // Get the currently selected item.
-                    VaultItem? item = (VaultItem?)itemList[lvwItems.SelectedItem];
+                    VaultItem? item = (VaultItem?)itemList[(int)lvwItems.SelectedItem];
 
                     // Check to make sure we have an item.
                     if (item != null)
@@ -868,10 +862,10 @@ namespace Retrowarden.Views
                         ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
 
                         // Check to see if anything has been marked.
-                        if (items.MarkedItemCount == 0)
+                        if (items.MarkedItemCount == 0 && lvwItems.SelectedItem != null)
                         {
                             // Get the currently selected item.
-                            VaultItem item = _vaultItems.ElementAt(lvwItems.SelectedItem).Value;
+                            VaultItem item = _vaultItems.ElementAt((int)lvwItems.SelectedItem).Value;
 
                             // Check to see if this item is already in a collection.
                             retVal = (item.CollectionIds != null && item.CollectionIds.Count == 0);
@@ -917,7 +911,7 @@ namespace Retrowarden.Views
         #endregion
         
         #region Main View Handlers
-        private void HandleMouseEvent(object? sender, MouseEventArgs mouseEvent)
+        private void HandleMouseEvent(object? sender, Mouse mouse)
         {
             // Flag that the user has done something.
             _keepAlive = true;
@@ -927,9 +921,34 @@ namespace Retrowarden.Views
         {
             // Flag that the user has done something.
             _keepAlive = true;
-            
+
             // Allow other handlers to get key events.
             e.Handled = false;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // Remove timeout handlers if they exist.
+                if (_splashTimeout != null)
+                {
+                    _app.RemoveTimeout(_splashTimeout);
+                    _splashTimeout = null;
+                }
+
+                if (_lockTimeout != null)
+                {
+                    _app.RemoveTimeout(_lockTimeout);
+                    _lockTimeout = null;
+                }
+
+                // Unsubscribe from events.
+                _app.Keyboard.KeyDown -= HandleKeyEvent;
+                _app.Mouse.MouseEvent -= HandleMouseEvent;
+            }
+
+            base.Dispose(disposing);
         }
         #endregion
         
@@ -939,13 +958,13 @@ namespace Retrowarden.Views
             // Check to make sure we are not logged in already.
             if (_vaultRepository.IsLoggedIn)
             {
-                MessageBox.ErrorQuery("Action failed","You are already logged in.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed","You are already logged in.", "Ok");
             }
 
             else
             {
                 // Create connection dialog.
-                ConnectDialog connectDialog = new ConnectDialog();
+                ConnectDialog connectDialog = new ConnectDialog(_app);
                 
                 // Show it.
                 connectDialog.Show();
@@ -954,9 +973,9 @@ namespace Retrowarden.Views
                 if (connectDialog.OkPressed)
                 {
                     // Create new worker.
-                    LoginWorker worker = new LoginWorker(_vaultRepository, connectDialog.UserId, 
+                    LoginWorker worker = new LoginWorker(_app, _vaultRepository, connectDialog.UserId,
                         connectDialog.Password, "Logging in...");
-            
+
                     // Execute task
                     worker.Run();
 
@@ -970,7 +989,7 @@ namespace Retrowarden.Views
                     else
                     {
                         // Show error dialog.
-                        MessageBox.ErrorQuery("Login failed.", _vaultRepository.ErrorMessage, "Ok");
+                        MessageBox.ErrorQuery(_app,"Login failed.", _vaultRepository.ErrorMessage, "Ok");
                     }
                 }
             }
@@ -978,18 +997,18 @@ namespace Retrowarden.Views
 
         private void HandleQuitRequest()
         {
-            int response = MessageBox.Query("Confirm Action", "Quit.  Are you Sure?", "Ok", "Cancel");
+            int? response = MessageBox.Query(_app,"Confirm Action", "Quit.  Are you Sure?", "Ok", "Cancel");
             
             // Check to see if the user confirmed action.
             if (response == 0)
             {
                 // Create new worker.
-                LogoutWorker worker = new LogoutWorker(_vaultRepository, "Logging out...");
+                LogoutWorker worker = new LogoutWorker(_app, _vaultRepository, "Logging out...");
             
                 // Execute task.
                 worker.Run();
                 
-                // Close application.
+                // Close _app.
                 Shutdown(0);
             }
         }
@@ -1000,7 +1019,7 @@ namespace Retrowarden.Views
             if (_vaultRepository.IsLoggedIn)
             {
                 // Create add folder dialog.
-                AddFolderDialog dialog = new AddFolderDialog(_folders);
+                AddFolderDialog dialog = new AddFolderDialog(_app, _folders);
                 
                 // Show it.
                 dialog.Show();
@@ -1018,7 +1037,7 @@ namespace Retrowarden.Views
                         };
             
                         // Create the worker.
-                        CreateFolderWorker worker = new CreateFolderWorker(_vaultRepository, 
+                        CreateFolderWorker worker = new CreateFolderWorker(_app, _vaultRepository, 
                             "Adding Folder", folder);
             
                         // Run the worker.
@@ -1037,7 +1056,7 @@ namespace Retrowarden.Views
                         else
                         {
                             // Show error dialog.
-                            MessageBox.ErrorQuery("Add folder failed.", _vaultRepository.ErrorMessage, "Ok");
+                            MessageBox.ErrorQuery(_app,"Add folder failed.", _vaultRepository.ErrorMessage, "Ok");
                         }
                     }
                 }
@@ -1045,13 +1064,13 @@ namespace Retrowarden.Views
 
             else
             {
-                MessageBox.ErrorQuery("Action failed","You must be logged in.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed","You must be logged in.", "Ok");
             }
         }
 
         private void HandleCollectionCreate()
         {
-            MessageBox.Query("Not Implemented",  "This feature not yet implemented.", "Ok");
+            MessageBox.Query(_app,"Not Implemented",  "This feature not yet implemented.", "Ok");
             
             /*
             // Check to make sure we are logged in.
@@ -1098,7 +1117,7 @@ namespace Retrowarden.Views
                             else
                             {
                                 // Show error dialog.
-                                MessageBox.ErrorQuery("Add collection failed.", _vaultRepository.ErrorMessage, "Ok");
+                                MessageBox.ErrorQuery(_app,"Add collection failed.", _vaultRepository.ErrorMessage, "Ok");
                             }
                         }
                     }
@@ -1107,28 +1126,28 @@ namespace Retrowarden.Views
                 else
                 {
                     // Notify user.
-                    MessageBox.ErrorQuery("Action failed","Collections not available for this account.", "Ok");
+                    MessageBox.ErrorQuery(_app,"Action failed","Collections not available for this account.", "Ok");
                 }
             }
             
             else
             {
                 // Notify user.
-                MessageBox.ErrorQuery("Action failed", "You must be logged in.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed", "You must be logged in.", "Ok");
             }*/
         }
 
         private void HandlePasswordGenerate()
         {
             // Create password generator dialog.
-            GeneratePasswordDialog genPass = new GeneratePasswordDialog(_vaultRepository);
+            GeneratePasswordDialog genPass = new GeneratePasswordDialog(_app, _vaultRepository);
             genPass.Show();
         }
 
         private void HandlePassphraseGenerate()
         {
             // Create passphrase generator dialog.
-            GeneratePassphraseDialog genPass = new GeneratePassphraseDialog(_vaultRepository);
+            GeneratePassphraseDialog genPass = new GeneratePassphraseDialog(_app, _vaultRepository);
             genPass.Show();
         }
         
@@ -1141,7 +1160,7 @@ namespace Retrowarden.Views
             //mnuMain.Menus.Children[0].Checked = _boomerMode;
             
             // Set this to the desired state
-            Application.IsMouseDisabled = _boomerMode;
+            _app.Mouse.IsMouseDisabled = _boomerMode;
         }
 
         private void HandleSyncRequest()
@@ -1156,7 +1175,7 @@ namespace Retrowarden.Views
             else
             {
                 // Notify user.
-                MessageBox.ErrorQuery("Action failed","You must be logged in with an unlocked vault to sync.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed","You must be logged in with an unlocked vault to sync.", "Ok");
             }
         }
 
@@ -1166,7 +1185,7 @@ namespace Retrowarden.Views
             if (_vaultRepository.IsLoggedIn)
             {
                 // Show the dialog.
-                LockWorker worker = new LockWorker(_vaultRepository, "Locking vault...");
+                LockWorker worker = new LockWorker(_app, _vaultRepository, "Locking vault...");
 
                 // Execute task.
                 worker.Run();
@@ -1178,7 +1197,7 @@ namespace Retrowarden.Views
             else
             {
                 // Notify user.
-                MessageBox.ErrorQuery("Action failed","You must be logged in.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed","You must be logged in.", "Ok");
 
             }
         }
@@ -1189,7 +1208,7 @@ namespace Retrowarden.Views
             if (_vaultRepository is { IsLoggedIn: true, IsLocked: true })
             {
                 // Create connection dialog.
-                UnlockDialog unlockDialog = new UnlockDialog();
+                UnlockDialog unlockDialog = new UnlockDialog(_app);
                 
                 // Show it.
                 unlockDialog.Show();
@@ -1198,7 +1217,7 @@ namespace Retrowarden.Views
                 if (unlockDialog.OkPressed)
                 {
                     // Show the dialog.
-                    UnlockWorker worker = new UnlockWorker(_vaultRepository, unlockDialog.Password, "Unlocking Vault...");
+                    UnlockWorker worker = new UnlockWorker(_app, _vaultRepository, unlockDialog.Password, "Unlocking Vault...");
 
                     // Execute task.
                     worker.Run();
@@ -1214,14 +1233,14 @@ namespace Retrowarden.Views
 
             else
             {                
-                MessageBox.ErrorQuery("Action failed","You must be logged in and the vault must be locked.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed","You must be logged in and the vault must be locked.", "Ok");
             }
         }
         
         private void HandleUpdateCheck()
         {
             // Create new worker.
-            CheckForUpdateWorker worker = new CheckForUpdateWorker(_vaultRepository, "Checking for Update...");
+            CheckForUpdateWorker worker = new CheckForUpdateWorker(_app, _vaultRepository, "Checking for Update...");
             
             // Run worker
             worker.Run();
@@ -1233,20 +1252,20 @@ namespace Retrowarden.Views
             if (result)
             {
                 // Show a message.
-                MessageBox.Query("Update Available", "There is an updated CLI version available.", "Ok");
+                MessageBox.Query(_app,"Update Available", "There is an updated CLI version available.", "Ok");
             }
 
             else
             {
                 // Show a message.
-                MessageBox.Query("No Update Available", "You are on the current CLI version.", "Ok");
+                MessageBox.Query(_app,"No Update Available", "You are on the current CLI version.", "Ok");
             }
         }
         
         private void HandleStatusCheck()
         {
             // Create new worker.
-            CheckStatusWorker worker = new CheckStatusWorker(_vaultRepository, "Checking Status...");
+            CheckStatusWorker worker = new CheckStatusWorker(_app, _vaultRepository, "Checking Status...");
             
             // Run worker
             worker.Run();
@@ -1255,7 +1274,7 @@ namespace Retrowarden.Views
             VaultStatus result = worker.Status;
             
             // Show the status dialog with information.
-            StatusDialog dialog = new StatusDialog(result);
+            StatusDialog dialog = new StatusDialog(_app, result);
             
             // Show it.
             dialog.Show();
@@ -1285,13 +1304,13 @@ namespace Retrowarden.Views
                 // Check to see if the user is logged in.
                 if (_vaultRepository.IsLoggedIn)
                 {
-                    int response = MessageBox.Query("Confirm Action", "This will Log you out of your session.  Are you Sure?", "Ok", "Cancel");
+                    int? response = MessageBox.Query(_app,"Confirm Action", "This will Log you out of your session.  Are you Sure?", "Ok", "Cancel");
             
                     // Check to see if the user confirmed action.
                     if (response == 0)
                     {
                         // Create new worker.
-                        LogoutWorker worker = new LogoutWorker(_vaultRepository, "Logging out...");
+                        LogoutWorker worker = new LogoutWorker(_app, _vaultRepository, "Logging out...");
 
                         // Execute task.
                         worker.Run();
@@ -1446,7 +1465,7 @@ namespace Retrowarden.Views
                     else
                     {
                         // Have the user pick the item type.
-                        SelectItemTypeDialog dialog = new SelectItemTypeDialog();
+                        SelectItemTypeDialog dialog = new SelectItemTypeDialog(_app);
                         dialog.Show();
 
                         if (dialog.OkPressed)
@@ -1465,7 +1484,7 @@ namespace Retrowarden.Views
                 else
                 {
                     // Have the user pick the item type.
-                    SelectItemTypeDialog dialog = new SelectItemTypeDialog();
+                    SelectItemTypeDialog dialog = new SelectItemTypeDialog(_app);
                     dialog.Show();
 
                     if (dialog.OkPressed)
@@ -1486,7 +1505,7 @@ namespace Retrowarden.Views
             else
             {
                 // Notify user.
-                MessageBox.ErrorQuery("Action failed","You must be logged in with an unlocked vault to sync.", "Ok");
+                MessageBox.ErrorQuery(_app,"Action failed","You must be logged in with an unlocked vault to sync.", "Ok");
             }
         }
         private void HandleViewItemKeypress()
@@ -1503,19 +1522,22 @@ namespace Retrowarden.Views
         {
             // Get the item data source.
             ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
-            
-            // Get the current item.
-            VaultItem item = items.ItemList[lvwItems.SelectedItem];
-            
-            // Check to see that there is a login.
-            if (item.Login != null)
-            {
-                // Copy username to clipboard.
-                Clipboard.Contents = item.Login.UserName;
-            }
 
-            // Indicate data copied.
-            MessageBox.Query("Action Completed", "Username copied to clipboard.", "Ok");
+            if (lvwItems.SelectedItem != null)
+            {
+                // Get the current item.
+                VaultItem item = items.ItemList[(int)lvwItems.SelectedItem];
+
+                // Check to see that there is a login.
+                if (item.Login != null)
+                {
+                    // Copy username to clipboard.
+                    Clipboard.Contents = item.Login.UserName;
+                }
+
+                // Indicate data copied.
+                MessageBox.Query(_app,"Action Completed", "Username copied to clipboard.", "Ok");
+            }
         }
         
         private void HandlePwdCopyKeypress()
@@ -1524,23 +1546,26 @@ namespace Retrowarden.Views
             ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
             
             // Get the current item.
-            VaultItem item = items.ItemList[lvwItems.SelectedItem];
-
-            // Check to see that there is a login.
-            if (item.Login != null)
+            if (lvwItems.SelectedItem != null)
             {
-                // Copy password to clipboard.
-                Clipboard.Contents = item.Login.Password;
-            }
+                VaultItem item = items.ItemList[(int)lvwItems.SelectedItem];
             
-            // Indicate data copied.
-            MessageBox.Query("Action Completed", "Password copied to clipboard.", "Ok");
+                // Check to see that there is a login.
+                if (item.Login != null)
+                {
+                    // Copy password to clipboard.
+                    Clipboard.Contents = item.Login.Password;
+                }
+            
+                // Indicate data copied.
+                MessageBox.Query(_app,"Action Completed", "Password copied to clipboard.", "Ok");
+            }
         }
         
         private void HandleOrganizationMoveKeypress()
         {
             // Create collection list dialog
-            SelectOrganizationAndCollectionDialog sc = new SelectOrganizationAndCollectionDialog(_organizations, _collections);
+            SelectOrganizationAndCollectionDialog sc = new SelectOrganizationAndCollectionDialog(_app, _organizations, _collections);
             sc.Show();
             
             // Check to see what button was pressed.
@@ -1584,32 +1609,35 @@ namespace Retrowarden.Views
                     
                     // Get the item data source.
                     ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
-            
-                    // Get the current item.
-                    VaultItem item = items.ItemList[lvwItems.SelectedItem];
 
-                    // Check to see that we have an org.
-                    if (sc.SelectedOrganization != null)
+                    if (lvwItems.SelectedItem != null)
                     {
-                        // Update the organization.
-                        item.OrganizationId = sc.SelectedOrganization.Id;
+                        // Get the current item.
+                        VaultItem item = items.ItemList[(int)lvwItems.SelectedItem];
+
+                        // Check to see that we have an org.
+                        if (sc.SelectedOrganization != null)
+                        {
+                            // Update the organization.
+                            item.OrganizationId = sc.SelectedOrganization.Id;
+                        }
+
+                        // Check to see if the item has a collection list.
+                        item.CollectionIds ??= new List<string>();
+
+                        // Loop through selected collections.
+                        foreach (VaultCollection collection in sc.SelectedCollections)
+                        {
+                            // Update the collection.
+                            item.CollectionIds.Add(collection.Id);
+                        }
+
+                        // Add item to list.
+                        toSave.Add(item);
+
+                        // Just save the currently selected item.
+                        RunSaveItemWorker(toSave, VaultItemSaveAction.MoveToOrganization, "Adding to collection.");
                     }
-
-                    // Check to see if the item has a collection list.
-                    item.CollectionIds ??= new List<string>();
-
-                    // Loop through selected collections.
-                    foreach (VaultCollection collection in sc.SelectedCollections)
-                    {
-                        // Update the collection.
-                        item.CollectionIds.Add(collection.Id);
-                    }
-
-                    // Add item to list.
-                    toSave.Add(item);
-                    
-                    // Just save the currently selected item.
-                    RunSaveItemWorker(toSave, VaultItemSaveAction.MoveToOrganization, "Adding to collection.");
                 }
             }
         }
@@ -1617,7 +1645,7 @@ namespace Retrowarden.Views
         private void HandleFolderMoveKeypress()
         {
             // Create folder list dialog
-            SelectFolderDialog sfDialog = new SelectFolderDialog(_folders);
+            SelectFolderDialog sfDialog = new SelectFolderDialog(_app, _folders);
             sfDialog.Show();
 
             if (sfDialog.OkPressed)
@@ -1649,18 +1677,21 @@ namespace Retrowarden.Views
                     
                     // Get the item data source.
                     ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
-            
-                    // Get the current item.
-                    VaultItem item = items.ItemList[lvwItems.SelectedItem];
-                    
-                    // Update the folder.
-                    item.FolderId = folder.Id;
 
-                    // Add item to list.
-                    toSave.Add(item);
-                    
-                    // Just save the currently selected item.
-                    RunSaveItemWorker(toSave, VaultItemSaveAction.MoveToFolder, "Moving to folder.");
+                    if (lvwItems.SelectedItem != null)
+                    {
+                        // Get the current item.
+                        VaultItem item = items.ItemList[(int)lvwItems.SelectedItem];
+
+                        // Update the folder.
+                        item.FolderId = folder.Id;
+
+                        // Add item to list.
+                        toSave.Add(item);
+
+                        // Just save the currently selected item.
+                        RunSaveItemWorker(toSave, VaultItemSaveAction.MoveToFolder, "Moving to folder.");
+                    }
                 }
             }
         }
@@ -1668,7 +1699,7 @@ namespace Retrowarden.Views
         private void HandleDeleteKeypress()
         {
             // Show dialog confirming action.
-            int pressed = MessageBox.ErrorQuery("Confirm Action", "Delete Item. Are you sure?", "Yes", "No");
+            int? pressed = MessageBox.ErrorQuery(_app,"Confirm Action", "Delete Item. Are you sure?", "Yes", "No");
 
             // Check to see if there is anything to do.
             if (pressed == 0)
@@ -1678,21 +1709,25 @@ namespace Retrowarden.Views
                     
                 // Get the item data source.
                 ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
-            
-                // Get the current item.
-                VaultItem item = items.ItemList[lvwItems.SelectedItem];
-                    
-                // Add item to list.
-                toDelete.Add(item);
                 
-                // Run the delete worker.
-                RunSaveItemWorker(toDelete, VaultItemSaveAction.Delete, "Deleting vault item.");
+                // Check to see that we have an item selected.
+                if (lvwItems.SelectedItem != null)
+                {
+                    // Get the current item.
+                    VaultItem item = items.ItemList[(int)lvwItems.SelectedItem];
+
+                    // Add item to list.
+                    toDelete.Add(item);
+
+                    // Run the delete worker.
+                    RunSaveItemWorker(toDelete, VaultItemSaveAction.Delete, "Deleting vault item.");
+                }
             }
         }
         #endregion
 
         #region Listview Event Handlers
-        private void HandleListViewOpenItem(object? sender, ListViewItemEventArgs e)
+        private void HandleListViewOpenItem(object? sender, CommandEventArgs commandEventArgs)
         {
             ShowDetailForm(VaultItemDetailViewState.Edit);
         }
@@ -1701,31 +1736,37 @@ namespace Retrowarden.Views
         {
             // Get the item data source.
             ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
-            
-            // Get the current item.
-            _tempItem = items.ItemList[lvwItems.SelectedItem];
-            
-            // Update the status bar options.
-            UpdateStatusBarOptions();
+
+            if (lvwItems.SelectedItem != null)
+            {
+                // Get the current item.
+                _tempItem = items.ItemList[(int)lvwItems.SelectedItem];
+
+                // Update the status bar options.
+                UpdateStatusBarOptions();
+            }
         }
 
-        private void HandleListViewSelectedItemChanged(object? sender, ListViewItemEventArgs e)
+        private void HandleListViewSelectedItemChanged(object? sender, ValueChangedEventArgs<int?> valueChangedEventArgs)
         {
             // Get the item data source.
             ItemListDataSource items = (ItemListDataSource)lvwItems.Source;
-            
-            // Get the current item.
-            _tempItem = items.ItemList[lvwItems.SelectedItem];
-            
-            // Update the status menu.
-            UpdateStatusBarOptions();
+
+            if (lvwItems.SelectedItem != null)
+            {
+                // Get the current item.
+                _tempItem = items.ItemList[(int)lvwItems.SelectedItem];
+
+                // Update the status menu.
+                UpdateStatusBarOptions();
+            }
         }
         #endregion
         
         #region Save Item Worker
         private void RunSaveItemWorker(List<VaultItem>items , VaultItemSaveAction saveType, string dialogMessage)
         {
-            SaveItemWorker worker = new SaveItemWorker(_vaultRepository, saveType, items, dialogMessage);
+            SaveItemWorker worker = new SaveItemWorker(_app, _vaultRepository, saveType, items, dialogMessage);
             
             // Run the worker.
             worker.Run();
