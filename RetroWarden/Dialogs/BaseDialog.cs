@@ -22,7 +22,6 @@ namespace Retrowarden.Dialogs
             if (_dialog != null)
             {
                 _app.RequestStop(_dialog);
-                _dialog.Dispose();
             }
         }
 

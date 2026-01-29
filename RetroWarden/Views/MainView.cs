@@ -44,7 +44,8 @@ namespace Retrowarden.Views
             _app = app;
 
             _app.Keyboard.KeyDown += HandleKeyEvent;
-            _app.Mouse.MouseEvent += HandleMouseEvent;
+            // TODO: Temporarily disabled to test menu click issue
+            // _app.Mouse.MouseEvent += HandleMouseEvent;
 
             // Create about message.
             _aboutMessage = ViewUtils.CreateAboutMessageAscii();
@@ -915,6 +916,9 @@ namespace Retrowarden.Views
         {
             // Flag that the user has done something.
             _keepAlive = true;
+
+            // Allow other handlers to get mouse events.
+            //mouse.Handled = false;
         }
 
         private void HandleKeyEvent(object? sender, Key e)
@@ -1730,6 +1734,7 @@ namespace Retrowarden.Views
         private void HandleListViewOpenItem(object? sender, CommandEventArgs commandEventArgs)
         {
             ShowDetailForm(VaultItemDetailViewState.Edit);
+            commandEventArgs.Handled = true;
         }
         
         private void HandleListviewItemMarked(object? sender, EventArgs e)
@@ -1816,6 +1821,33 @@ namespace Retrowarden.Views
             }
         }
         #endregion
-        
+
+        #region Menu Workaround
+        /// <summary>
+        /// Workaround for Terminal.Gui v2 bug #4473 - MenuBar mouse clicks don't propagate correctly.
+        /// When a MenuBarItem is activated (clicked), we manually invoke Command.Accept on the MenuBar
+        /// to trigger the proper menu opening behavior.
+        /// </summary>
+        private void HandleMenuBarItemActivating(object? sender, CommandEventArgs args)
+        {
+            if (sender is MenuBarItem menuBarItem && args.Context?.Binding is MouseBinding)
+            {
+                // Create a context with the MenuBarItem as the source
+                CommandContext ctx = new CommandContext
+                {
+                    Command = Command.Accept,
+                    Source = menuBarItem,
+                    Binding = args.Context.Binding
+                };
+
+                // Invoke Accept on the MenuBar, which will trigger OnAccepting and open the menu
+                mnuMain.InvokeCommand(Command.Accept, ctx);
+
+                // Mark as handled to prevent further processing
+                args.Handled = true;
+            }
+        }
+        #endregion
+
     }
 }

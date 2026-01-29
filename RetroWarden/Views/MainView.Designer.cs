@@ -107,13 +107,13 @@ namespace Retrowarden.Views
                 Width = Dim.Fill(), Height = Dim.Fill(), X = 0, Y = 1, Visible = true, Enabled = true,
                 TextAlignment = Alignment.Start, MarkMultiple = true, ShowMarks = true
             };
-            this.lvwItems.Accepted += HandleListViewOpenItem;
+            this.lvwItems.KeyBindings.ReplaceCommands(Key.Enter, Command.Accept);
+            this.lvwItems.Accepting += HandleListViewOpenItem;
             this.lvwItems.ValueChanged += HandleListViewSelectedItemChanged;
             
             this.mnuMain = new MenuBar()
             {
-                Width = Dim.Fill(0), Height = 1, X = 0, Y = 0,
-                Visible = true, Data = "mnuMain", TextAlignment = Alignment.Start,
+                Visible = true, Data = "mnuMain",
                 Menus = new MenuBarItem[]
                 {
                     new MenuBarItem("_Vault", new MenuItem[]
@@ -154,11 +154,21 @@ namespace Retrowarden.Views
                         new MenuItem("Check Status", "", HandleStatusCheck, null),
                         new MenuItem("Check for _Update", "", HandleUpdateCheck,null),
                         new MenuItem ("_About...",
-                            "", () =>  MessageBox.Query (_app, "About Retrowarden", _aboutMessage.ToString(), 
+                            "", () =>  MessageBox.Query (_app, "About Retrowarden", _aboutMessage.ToString(),
                                 "_Ok"), KeyCode.CtrlMask | KeyCode.A)
                     })
                 }
             };
+
+            // Workaround for Terminal.Gui v2 bug #4473 - MenuBar mouse clicks not propagating correctly
+            // Subscribe to Activating event on each MenuBarItem to manually trigger Accept
+            foreach (View subView in this.mnuMain.SubViews)
+            {
+                if (subView is MenuBarItem menuBarItem)
+                {
+                    menuBarItem.Activating += HandleMenuBarItemActivating;
+                }
+            }
             
             // Add controls to containers.
             this.fraItems.Add(tvwItems);
