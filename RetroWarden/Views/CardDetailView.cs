@@ -146,11 +146,11 @@ namespace Retrowarden.Views
 
         private void CopyCardButtonClicked(object? sender, HandledEventArgs e)
         {
-            // Copy username to clipboard.
-            Clipboard.Contents = txtCardNumber.Text;
+            // Copy card number to clipboard.
+            _app.Clipboard?.SetClipboardData(txtCardNumber.Text ?? "");
 
             // Indicate data copied.
-            MessageBox.Query(_app,"Action Completed", "Card number copied to clipboard.", "Ok");
+            MessageBox.Query(_app, "Action Completed", "Card number copied to clipboard.", "Ok");
         }
 
         private void ShowCVVButtonClicked(object? sender, HandledEventArgs e)
@@ -164,11 +164,11 @@ namespace Retrowarden.Views
 
         private void CopyCVVButtonClicked(object? sender, HandledEventArgs e)
         {
-            // Copy username to clipboard.
-            Clipboard.Contents = txtCVV.Text;
+            // Copy CVV to clipboard.
+            _app.Clipboard?.SetClipboardData(txtCVV.Text ?? "");
 
             // Indicate data copied.
-            MessageBox.Query(_app,"Action Completed", "Card CVV copied to clipboard.", "Ok");
+            MessageBox.Query(_app, "Action Completed", "Card CVV copied to clipboard.", "Ok");
         }
         #endregion
     }

@@ -5,7 +5,7 @@ using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 using Terminal.Gui.Drawing;
 
-namespace Retrowarden.Views 
+namespace Retrowarden.Views
 {
     public partial class LoginDetailView
     {
@@ -23,58 +23,109 @@ namespace Retrowarden.Views
         private FrameView fraURIList;
         private UriScrollView scrURIList;
         private Button btnNewURI;
-        
+
         private void InitializeComponent()
         {
+            // Container view for login-specific controls
             this.vwLogin = new View()
             {
-                Width = 99, Height = 15, X = 0, Y = 3, Visible = true, TextAlignment = Alignment.Start,
-                TabStop = TabBehavior.TabStop, CanFocus = true
+                X = 0,
+                Y = 3,
+                Width = Dim.Fill(),
+                Height = 15,
+                Visible = true,
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop,
+                CanFocus = true
             };
-            
-            this.btnNewURI = new Button()
+            // Disable scrollbars on subview
+            vwLogin.HorizontalScrollBar.Visible = false;
+            vwLogin.HorizontalScrollBar.AutoShow = false;
+
+            // ===== ROW 0: Username and Password labels =====
+            this.lblUserName = new Label()
             {
-                X = 1, Y = 13,
-                Text = "New _URI",
+                X = 1,
+                Y = 0,
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                CanFocus = false,
+                Data = "lblUserName",
+                Text = "Username",
+                TextAlignment = Alignment.Start
+            };
+
+            this.lblPassword = new Label()
+            {
+                X = 40,
+                Y = Pos.Top(lblUserName),
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                CanFocus = false,
+                Data = "lblPassword",
+                Text = "Password",
+                TextAlignment = Alignment.Start
+            };
+
+            // ===== ROW 1: Username input with copy button, Password input with buttons =====
+            this.txtUserName = new TextField()
+            {
+                X = Pos.Left(lblUserName),
+                Y = Pos.Bottom(lblUserName),
+                Width = 21,
+                Height = 1,
+                Visible = true,
+                Secret = false,
+                Data = "txtUserName",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
+            };
+            this.txtUserName.HasFocusChanged += (s, e) => HandleFocusChange(txtUserName, e);
+
+            this.btnCopyUserName = new Button()
+            {
+                X = Pos.Right(txtUserName) + 1,
+                Y = Pos.Top(txtUserName),
+                Text = "Cop_y",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
             };
-            this.btnNewURI.Accepting += NewUriButtonClicked;
-            this.btnNewURI.HasFocusChanged += (s, e) => HandleFocusChange(btnNewURI, e);
-            
-            this.fraURIList = new FrameView()
+            this.btnCopyUserName.Accepting += CopyUserNameButtonClicked;
+            this.btnCopyUserName.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyUserName, e);
+
+            this.txtPassword = new TextField()
             {
-                Width = 97, Height = 7, X = 1, Y = 6, Visible = true, Enabled = true,
-                CanFocus = true, Data = "fraURIList", BorderStyle = LineStyle.Single,
-                TextAlignment = Alignment.Start, Title = "URI List", TabStop = TabBehavior.TabGroup
+                X = Pos.Left(lblPassword),
+                Y = Pos.Top(txtUserName),
+                Width = 21,
+                Height = 1,
+                Visible = true,
+                Secret = true,
+                Data = "txtPassword",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
-            
-            this.txtTOTP = new TextField()
+            this.txtPassword.HasFocusChanged += (s, e) => HandleFocusChange(txtPassword, e);
+
+            this.btnViewPassword = new Button()
             {
-                Width = 30, Height = 1, X = 1, Y = 4, Visible = true, Secret = false,
-                Data = "txtTOTP", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
-            };
-            this.txtTOTP.HasFocusChanged += (s, e) => HandleFocusChange(txtTOTP, e);
-            
-            this.lblTOTP = new Label()
-            {
-                Width = 24, Height = 1, X = 1, Y = 3, Visible = true, CanFocus = false,
-                Data = "lblTOTP", Text = "Authenticator Key (TOTP)", TextAlignment = Alignment.Start
-            };
-            
-            this.btnGeneratePassword = new Button()
-            {
-                X = 80, Y = 1,
-                Text = "_Generate",
+                X = Pos.Right(txtPassword) + 1,
+                Y = Pos.Top(txtPassword),
+                Text = "_Show",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
             };
-            this.btnGeneratePassword.Accepting += GeneratePasswordButtonClicked;
-            this.btnGeneratePassword.HasFocusChanged += (s, e) => HandleFocusChange(btnGeneratePassword, e);
+            this.btnViewPassword.Accepting += ViewPasswordButtonClicked;
+            this.btnViewPassword.HasFocusChanged += (s, e) => HandleFocusChange(btnViewPassword, e);
 
             this.btnCopyPassword = new Button()
             {
-                X = 71, Y = 1,
+                X = Pos.Right(btnViewPassword) + 1,
+                Y = Pos.Top(txtPassword),
                 Text = "C_opy",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
@@ -82,53 +133,77 @@ namespace Retrowarden.Views
             this.btnCopyPassword.Accepting += CopyPasswordButtonClicked;
             this.btnCopyPassword.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyPassword, e);
 
-            this.btnViewPassword = new Button()
+            this.btnGeneratePassword = new Button()
             {
-                X = 62, Y = 1,
-                Text = "_Show",
+                X = Pos.Right(btnCopyPassword) + 1,
+                Y = Pos.Top(txtPassword),
+                Text = "_Generate",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
             };
-            this.btnViewPassword.Accepting += ViewPasswordButtonClicked;
-            this.btnViewPassword.HasFocusChanged += (s, e) => HandleFocusChange(btnViewPassword, e);
-            
-            this.txtPassword = new TextField()
-            {
-                Width = 21, Height = 1, X = 40, Y = 1, Visible = true, Secret = true,
-                Data = "txtPassword", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
-            };
-            this.txtPassword.HasFocusChanged += (s, e) => HandleFocusChange(txtPassword, e);
+            this.btnGeneratePassword.Accepting += GeneratePasswordButtonClicked;
+            this.btnGeneratePassword.HasFocusChanged += (s, e) => HandleFocusChange(btnGeneratePassword, e);
 
-            this.btnCopyUserName = new Button()
+            // ===== ROW 2: TOTP label =====
+            this.lblTOTP = new Label()
             {
-                X = 23, Y = 1,
-                Text = "Cop_y",
+                X = Pos.Left(lblUserName),
+                Y = Pos.Bottom(txtUserName) + 1,
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                CanFocus = false,
+                Data = "lblTOTP",
+                Text = "Authenticator Key (TOTP)",
+                TextAlignment = Alignment.Start
+            };
+
+            // ===== ROW 3: TOTP input =====
+            this.txtTOTP = new TextField()
+            {
+                X = Pos.Left(lblTOTP),
+                Y = Pos.Bottom(lblTOTP),
+                Width = 30,
+                Height = 1,
+                Visible = true,
+                Secret = false,
+                Data = "txtTOTP",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
+            };
+            this.txtTOTP.HasFocusChanged += (s, e) => HandleFocusChange(txtTOTP, e);
+
+            // ===== ROW 4-10: URI List frame =====
+            this.fraURIList = new FrameView()
+            {
+                X = Pos.Left(lblUserName),
+                Y = Pos.Bottom(txtTOTP) + 1,
+                Width = 97,
+                Height = 7,
+                Visible = true,
+                Enabled = true,
+                CanFocus = true,
+                Data = "fraURIList",
+                BorderStyle = LineStyle.Single,
+                TextAlignment = Alignment.Start,
+                Title = "URI List",
+                TabStop = TabBehavior.TabGroup
+            };
+
+            // ===== ROW 11: New URI button =====
+            this.btnNewURI = new Button()
+            {
+                X = Pos.Left(fraURIList),
+                Y = Pos.Bottom(fraURIList),
+                Text = "New _URI",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
             };
-            this.btnCopyUserName.Accepting += CopyUserNameButtonClicked;
-            this.btnCopyUserName.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyUserName, e);
-            
-            this.txtUserName = new TextField()
-            {
-                Width = 21, Height = 1, X = 1, Y = 1, Visible = true, Secret = false,
-                Data = "txtUserName", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
-            };
-            this.txtUserName.HasFocusChanged += (s, e) => HandleFocusChange(txtUserName, e);
+            this.btnNewURI.Accepting += NewUriButtonClicked;
+            this.btnNewURI.HasFocusChanged += (s, e) => HandleFocusChange(btnNewURI, e);
 
-            this.lblPassword = new Label()
-            {
-                Width = 8, Height = 1, X = 40, Y = 0, Visible = true, CanFocus = false,
-                Data = "lblPassword", Text = "Password", TextAlignment = Alignment.Start,
-            };
-
-            this.lblUserName = new Label()
-            {
-                Width = 8, Height = 1, X = 1, Y = 0, Visible = true, CanFocus = false,
-                Data = "lblUserName", Text = "Username", TextAlignment = Alignment.Start
-            };
-            
-            // Add controls in tab order.
+            // Add controls in tab order
             this.vwLogin.Add(this.lblUserName);
             this.vwLogin.Add(this.lblPassword);
             this.vwLogin.Add(this.txtUserName);

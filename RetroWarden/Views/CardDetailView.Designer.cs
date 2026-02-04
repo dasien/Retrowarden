@@ -3,9 +3,9 @@ using Terminal.Gui;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
-namespace Retrowarden.Views 
+namespace Retrowarden.Views
 {
-    public partial class CardDetailView 
+    public partial class CardDetailView
     {
         private View vwCard;
         private Label lblCardholderName;
@@ -27,85 +27,131 @@ namespace Retrowarden.Views
 
         private void InitializeComponent()
         {
-            this.vwCard = new View();
-            this.txtExpYear = new TextField();
-            this.cboExpMonth = new ComboBox();
-            this.lblExpYear = new Label();
-            this.lblExpMonth = new Label();
-            this.btnCopyCVV = new Button();
-            this.btnShowCVV = new Button();
-            this.txtCVV = new TextField();
-            this.btnCopyCardNumber = new Button();
-            this.btnShowCardNumber = new Button();
-            this.txtCardNumber = new TextField();
-            this.lblCVV = new Label();
-            this.lblCardNumber = new Label();
-            this.cboCardBrand = new ComboBox();
-            this.txtCardholderName = new TextField();
-            this.lblCardBrand = new Label();
-            this.lblCardholderName = new Label();
-            
-            vwCard = new View
+            // Container view for card-specific controls
+            // Y=3 positions it below the header row (lblItemName/txtItemName at Y=0/1)
+            this.vwCard = new View
             {
-                Width = 99, Height = 9, X = 0, Y = 3, Visible = true, 
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop, CanFocus = true
-            };                      
-            
+                X = 0,
+                Y = 3,
+                Width = Dim.Fill(),
+                Height = 9,
+                Visible = true,
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop,
+                CanFocus = true
+            };
+            // Disable scrollbars on subview
+            vwCard.HorizontalScrollBar.Visible = false;
+            vwCard.HorizontalScrollBar.AutoShow = false;
+
+            // ===== ROW 0: Cardholder Name and Card Brand labels =====
             this.lblCardholderName = new Label
             {
-                Width = 16, Height = 1, X = 1, Y = 0, Visible = true, 
-                Data = "lblCardholderName", Text = "Cardholder Name", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = 1,
+                Y = 0,
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblCardholderName",
+                Text = "Cardholder Name",
+                TextAlignment = Alignment.Start
             };
             vwCard.Add(this.lblCardholderName);
 
             this.lblCardBrand = new Label
             {
-                Width = 12, Height = 1, X = 40, Y = 0, Visible = true, Data = "lblCardBrand", Text = "Card Brand",
+                X = 40,
+                Y = Pos.Top(lblCardholderName),
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblCardBrand",
+                Text = "Card Brand",
                 TextAlignment = Alignment.Start
             };
             vwCard.Add(this.lblCardBrand);
 
+            // ===== ROW 1: Cardholder Name and Card Brand inputs =====
             this.txtCardholderName = new TextField
             {
-                Width = 30, Height = 1, X = 1, Y = 1, Visible = true, Secret = false, Data = "txtCardholderName", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = Pos.Left(lblCardholderName),
+                Y = Pos.Bottom(lblCardholderName),
+                Width = 30,
+                Height = 1,
+                Visible = true,
+                Secret = false,
+                Data = "txtCardholderName",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
             this.txtCardholderName.HasFocusChanged += (s, e) => HandleFocusChange(txtCardholderName, e);
             vwCard.Add(this.txtCardholderName);
 
+            // Note: Height=1 for just the input field; dropdown renders as overlay in Terminal.Gui v2
             this.cboCardBrand = new ComboBox
             {
-                Width = 30, Height = 5, X = 40, Y = 1, Visible = true, Data = "cboCardBrand", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = Pos.Left(lblCardBrand),
+                Y = Pos.Top(txtCardholderName),
+                Width = 30,
+                Height = 1,
+                Visible = true,
+                Data = "cboCardBrand",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
             this.cboCardBrand.HasFocusChanged += (s, e) => HandleFocusChange(cboCardBrand, e);
             vwCard.Add(this.cboCardBrand);
 
+            // ===== ROW 2: Card Number and CVV labels =====
             this.lblCardNumber = new Label
             {
-                Width = 12, Height = 1, X = 1, Y = 3, Visible = true, Data = "lblCardNumber", Text = "Card Number",
+                X = Pos.Left(lblCardholderName),
+                Y = Pos.Bottom(txtCardholderName) + 1,
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblCardNumber",
+                Text = "Card Number",
                 TextAlignment = Alignment.Start
             };
             vwCard.Add(this.lblCardNumber);
 
             this.lblCVV = new Label
             {
-                Width = 14, Height = 1, X = 40, Y = 3, Visible = true, Data = "lblCVV", Text = "Security Code",
+                X = Pos.Left(lblCardBrand),
+                Y = Pos.Top(lblCardNumber),
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblCVV",
+                Text = "Security Code",
                 TextAlignment = Alignment.Start
             };
             vwCard.Add(this.lblCVV);
 
+            // ===== ROW 3: Card Number input with buttons, CVV input with buttons =====
             this.txtCardNumber = new TextField
             {
-                Width = 18, Height = 1, X = 1, Y = 4, Visible = true, Secret = true, Data = "txtCardNumber", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = Pos.Left(lblCardNumber),
+                Y = Pos.Bottom(lblCardNumber),
+                Width = 18,
+                Height = 1,
+                Visible = true,
+                Secret = true,
+                Data = "txtCardNumber",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
             this.txtCardNumber.HasFocusChanged += (s, e) => HandleFocusChange(txtCardNumber, e);
             vwCard.Add(this.txtCardNumber);
 
             this.btnShowCardNumber = new Button
             {
-                X = 20, Y = 4,
+                X = Pos.Right(txtCardNumber) + 1,
+                Y = Pos.Top(txtCardNumber),
                 Text = "_Show",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
@@ -116,7 +162,8 @@ namespace Retrowarden.Views
 
             this.btnCopyCardNumber = new Button
             {
-                X = 29, Y = 4,
+                X = Pos.Right(btnShowCardNumber) + 1,
+                Y = Pos.Top(txtCardNumber),
                 Text = "C_opy",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
@@ -127,15 +174,24 @@ namespace Retrowarden.Views
 
             this.txtCVV = new TextField
             {
-                Width = 16, Height = 1, X = 40, Y = 4, Visible = true, Secret = true, Data = "txtCVV", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = Pos.Left(lblCVV),
+                Y = Pos.Top(txtCardNumber),
+                Width = 16,
+                Height = 1,
+                Visible = true,
+                Secret = true,
+                Data = "txtCVV",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
             this.txtCVV.HasFocusChanged += (s, e) => HandleFocusChange(txtCVV, e);
             vwCard.Add(this.txtCVV);
 
             this.btnShowCVV = new Button
             {
-                X = 57, Y = 4,
+                X = Pos.Right(txtCVV) + 1,
+                Y = Pos.Top(txtCVV),
                 Text = "S_how",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
@@ -146,7 +202,8 @@ namespace Retrowarden.Views
 
             this.btnCopyCVV = new Button
             {
-                X = 66, Y = 4,
+                X = Pos.Right(btnShowCVV) + 1,
+                Y = Pos.Top(txtCVV),
                 Text = "Co_py",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
@@ -155,35 +212,65 @@ namespace Retrowarden.Views
             this.btnCopyCVV.HasFocusChanged += (s, e) => HandleFocusChange(btnCopyCVV, e);
             vwCard.Add(this.btnCopyCVV);
 
+            // ===== ROW 4: Expiration Month and Year labels =====
             this.lblExpMonth = new Label
             {
-                Width = 16, Height = 1, X = 1, Y = 6, Visible = true, Data = "lblExpMonth", Text = "Expiration Month",
+                X = Pos.Left(lblCardholderName),
+                Y = Pos.Bottom(txtCardNumber) + 1,
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblExpMonth",
+                Text = "Expiration Month",
                 TextAlignment = Alignment.Start
             };
             vwCard.Add(this.lblExpMonth);
 
             this.lblExpYear = new Label
             {
-                Width = 16, Height = 1, X = 40, Y = 6, Visible = true, Data = "lblExpYear", Text = "Expiration Year",
+                X = Pos.Left(lblCardBrand),
+                Y = Pos.Top(lblExpMonth),
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblExpYear",
+                Text = "Expiration Year",
                 TextAlignment = Alignment.Start
             };
             vwCard.Add(this.lblExpYear);
 
+            // ===== ROW 5: Expiration Month and Year inputs =====
+            // Note: Height=1 for just the input field; dropdown renders as overlay in Terminal.Gui v2
             this.cboExpMonth = new ComboBox
             {
-                Width = 30, Height = 5, X = 1, Y = 7, Visible = true, Data = "cboExpMonth", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = Pos.Left(lblExpMonth),
+                Y = Pos.Bottom(lblExpMonth),
+                Width = 30,
+                Height = 1,
+                Visible = true,
+                Data = "cboExpMonth",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
             this.cboExpMonth.HasFocusChanged += (s, e) => HandleFocusChange(cboExpMonth, e);
             vwCard.Add(this.cboExpMonth);
 
             this.txtExpYear = new TextField
             {
-                Width = 20, Height = 1, X = 40, Y = 7, Visible = true, Secret = false, Data = "txtExpYear", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = Pos.Left(lblExpYear),
+                Y = Pos.Top(cboExpMonth),
+                Width = 20,
+                Height = 1,
+                Visible = true,
+                Secret = false,
+                Data = "txtExpYear",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
             this.txtExpYear.HasFocusChanged += (s, e) => HandleFocusChange(txtExpYear, e);
-            vwCard.Add(this.txtExpYear);        
+            vwCard.Add(this.txtExpYear);
         }
     }
 }

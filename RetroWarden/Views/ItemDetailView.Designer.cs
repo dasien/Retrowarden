@@ -6,9 +6,9 @@ using Terminal.Gui.Views;
 using Retrowarden.Controls;
 using Terminal.Gui.Drawing;
 
-namespace Retrowarden.Views 
+namespace Retrowarden.Views
 {
-    public partial class ItemDetailView : Dialog 
+    public partial class ItemDetailView : Dialog
     {
         private Label lblItemName;
         private Label lblFolder;
@@ -24,84 +24,169 @@ namespace Retrowarden.Views
         private Button btnNewCustomField;
         private CustomFieldScrollView scrCustomFields;
         private StatusBar stbDetail;
-        
-        private void InitializeComponent() 
+
+        private void InitializeComponent()
         {
+            // Dialog settings
             this.Width = Dim.Percent(85);
             this.Height = Dim.Percent(85);
             this.X = Pos.Center();
             this.Y = Pos.Center();
-            this.SetContentSize(new Size(100, 40));
-            this.ViewportSettings = ViewportSettingsFlags.AllowNegativeY | ViewportSettingsFlags.AllowYGreaterThanContentHeight;
+            // Initial content size - will be recalculated in RelocateFooterControls() based on actual subview height
+            // Width 0 means use Viewport width (no horizontal scrolling)
+            this.SetContentSize(new Size(0, 40));
+            // Only allow vertical scrolling past content height, not into negative Y
+            this.ViewportSettings = ViewportSettingsFlags.AllowYGreaterThanContentHeight;
             this.Visible = true;
             this.Border.BorderStyle = LineStyle.Single;
             this.TextAlignment = Alignment.Start;
-            this.MouseEvent += (o, e) => HandleMouseEvent(o,e);
-            
+            this.MouseEvent += (o, e) => HandleMouseEvent(o, e);
+
+            // Disable horizontal scrollbar - form should not scroll horizontally
+            this.HorizontalScrollBar.Visible = false;
+            this.HorizontalScrollBar.AutoShow = false;
+
+            // ===== ROW 0: Labels =====
             this.lblItemName = new Label
             {
-                Width = 8, Height = 1, X = 1, Y = 0, Visible = true, Data = "lblItemName", Text = "Name",
+                X = 1,
+                Y = 0,
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblItemName",
+                Text = "Name",
                 TextAlignment = Alignment.Start
             };
 
             this.lblFolder = new Label
             {
-                Width = 8, Height = 1, X = 40, Y = 0, Visible = true, Data = "lblFolder", Text = "Folder",
+                X = 40,
+                Y = Pos.Top(lblItemName),
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "lblFolder",
+                Text = "Folder",
                 TextAlignment = Alignment.Start
             };
 
-            this.txtItemName = new TextField
-            {
-                Width = 30, Height = 1, X = 1, Y = 1, Visible = true, Secret = false, Data = "txtItemName", Text = "",
-                TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop, CanFocus = true
-            };
-            this.txtItemName.HasFocusChanged += (s, e) => HandleFocusChange(txtItemName, e);
-            
-            this.cboFolder = new ComboBox
-            {
-                Width = 30, Height = 5, X = 40, Y = 1, Visible = true, Data = "cboFolder", 
-                Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
-            };
-            this.cboFolder.HasFocusChanged += (s, e) => HandleFocusChange(cboFolder, e);
-            
             this.chkFavorite = new CheckBox
             {
-                Width = 10, Height = 1, X = 77, Y = 0, Visible = true, Data = "chkFavorite", Text = "Favorite",
-                TextAlignment = Alignment.Start, Value = CheckState.UnChecked, TabStop = TabBehavior.TabStop
-            };
-            this.chkFavorite.HasFocusChanged += (s, e) => HandleFocusChange(chkFavorite, e);
-            
-            this.chkReprompt = new CheckBox
-            {
-                Width = 18, Height = 1, X = 77, Y = 1, Visible = true, Data = "chkReprompt", Text = "Require Reprompt",
-                TextAlignment = Alignment.Start, Value = CheckState.UnChecked, TabStop = TabBehavior.TabStop
-            };
-            this.chkReprompt.HasFocusChanged += (s, e) => HandleFocusChange(chkReprompt, e);
-            
-            this.fraNotes = new FrameView
-            {
-                Width = 97, Height = 9, X = 1, Y = 20, Visible = true, CanFocus = true, Data = "fraNotes",
-                Border = { BorderStyle = LineStyle.Single }, TextAlignment = Alignment.Start, Title = "Notes",
+                X = 77,
+                Y = Pos.Top(lblItemName),
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "chkFavorite",
+                Text = "Favorite",
+                TextAlignment = Alignment.Start,
+                Value = CheckState.UnChecked,
                 TabStop = TabBehavior.TabStop
             };
-            
+            this.chkFavorite.HasFocusChanged += (s, e) => HandleFocusChange(chkFavorite, e);
+
+            // ===== ROW 1: Input controls =====
+            this.txtItemName = new TextField
+            {
+                X = Pos.Left(lblItemName),
+                Y = Pos.Bottom(lblItemName),
+                Width = 30,
+                Height = 1,
+                Visible = true,
+                Secret = false,
+                Data = "txtItemName",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop,
+                CanFocus = true
+            };
+            this.txtItemName.HasFocusChanged += (s, e) => HandleFocusChange(txtItemName, e);
+
+            // Note: Height=1 for just the input field; dropdown renders as overlay in Terminal.Gui v2
+            this.cboFolder = new ComboBox
+            {
+                X = Pos.Left(lblFolder),
+                Y = Pos.Top(txtItemName),
+                Width = 30,
+                Height = 1,
+                Visible = true,
+                Data = "cboFolder",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
+            };
+            this.cboFolder.HasFocusChanged += (s, e) => HandleFocusChange(cboFolder, e);
+
+            this.chkReprompt = new CheckBox
+            {
+                X = Pos.Left(chkFavorite),
+                Y = Pos.Top(txtItemName),
+                Width = Dim.Auto(),
+                Height = 1,
+                Visible = true,
+                Data = "chkReprompt",
+                Text = "Require Reprompt",
+                TextAlignment = Alignment.Start,
+                Value = CheckState.UnChecked,
+                TabStop = TabBehavior.TabStop
+            };
+            this.chkReprompt.HasFocusChanged += (s, e) => HandleFocusChange(chkReprompt, e);
+
+            // ===== FOOTER CONTROLS (positioned relative to _subView in RelocateFooterControls) =====
+            // Initial Y positions are placeholders - will be updated by RelocateFooterControls()
+
+            this.fraNotes = new FrameView
+            {
+                X = 1,
+                Y = 20,  // Placeholder - updated by RelocateFooterControls
+                Width = 97,
+                Height = 9,
+                Visible = true,
+                CanFocus = true,
+                Data = "fraNotes",
+                Border = { BorderStyle = LineStyle.Single },
+                TextAlignment = Alignment.Start,
+                Title = "Notes",
+                TabStop = TabBehavior.TabStop
+            };
+
             this.tvwNotes = new TextView
             {
-                Width = 95, Height = 7, X = 1, Y = 0, Visible = true, TabKeyAddsTab = true, EnterKeyAddsLine = true,
-                WordWrap = false, Data = "tvwNotes", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
+                X = 1,
+                Y = 0,
+                Width = 93,  // Fixed width instead of Dim.Fill() to avoid scrollbar calculation issues
+                Height = 7,
+                Visible = true,
+                TabKeyAddsTab = true,
+                EnterKeyAddsLine = true,
+                WordWrap = false,
+                Data = "tvwNotes",
+                Text = "",
+                TextAlignment = Alignment.Start,
+                TabStop = TabBehavior.TabStop
             };
-            //this.tvwNotes.HasFocusChanged += (s, e) => HandleFocusChange(tvwNotes, e);
 
             this.fraCustomFieldList = new FrameView
             {
-                Width = 97, Height = 7, X = 1, Y = 30, Visible = true, Enabled = true, CanFocus = true, Data = "fraCustomFieldList",
-                Border = { BorderStyle = LineStyle.Single }, TextAlignment = Alignment.Start, Title = "Custom Fields",
+                X = Pos.Left(fraNotes),
+                Y = 30,  // Placeholder - updated by RelocateFooterControls
+                Width = 97,
+                Height = 7,
+                Visible = true,
+                Enabled = true,
+                CanFocus = true,
+                Data = "fraCustomFieldList",
+                Border = { BorderStyle = LineStyle.Single },
+                TextAlignment = Alignment.Start,
+                Title = "Custom Fields",
                 TabStop = TabBehavior.TabStop
             };
-            
+
             this.btnNewCustomField = new Button
             {
-                X = 1, Y = 37,
+                X = Pos.Left(fraCustomFieldList),
+                Y = 37,  // Placeholder - updated by RelocateFooterControls
                 Text = "_New Custom Field",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
@@ -111,7 +196,8 @@ namespace Retrowarden.Views
 
             this.btnSave = new Button
             {
-                X = Pos.Center() - 10, Y = 39,
+                X = Pos.Center() - 10,
+                Y = 39,  // Placeholder - updated by RelocateFooterControls
                 Text = "_Save",
                 IsDefault = true,
                 TabStop = TabBehavior.TabStop
@@ -121,7 +207,8 @@ namespace Retrowarden.Views
 
             this.btnCancel = new Button
             {
-                X = Pos.Center() + 2, Y = 39,
+                X = Pos.Right(btnSave) + 2,
+                Y = Pos.Top(btnSave),
                 Text = "_Cancel",
                 IsDefault = false,
                 TabStop = TabBehavior.TabStop
@@ -131,8 +218,14 @@ namespace Retrowarden.Views
 
             this.stbDetail = new StatusBar
             {
-                Width = Dim.Fill(0), Height = 1, X = 0, Y = Pos.AnchorEnd(0), Visible = true, Data = "stbDetail",
-                Text = "", TextAlignment = Alignment.Start
+                X = 0,
+                Y = Pos.AnchorEnd(0),
+                Width = Dim.Fill(),
+                Height = 1,
+                Visible = true,
+                Data = "stbDetail",
+                Text = "",
+                TextAlignment = Alignment.Start
             };
         }
     }

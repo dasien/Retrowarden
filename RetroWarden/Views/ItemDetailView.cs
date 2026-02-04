@@ -166,17 +166,33 @@ namespace Retrowarden.Views
 
         private void RelocateFooterControls()
         {
-            // Update Y of the notes frame to detail view bottom + 2
+            // Update Y of the notes frame to detail view bottom + 1
             fraNotes.Y = Pos.Bottom(_subView) + 1;
-            
+
             // Update the custom fields frame.
             fraCustomFieldList.Y = Pos.Bottom(fraNotes) + 1;
             btnNewCustomField.Y = Pos.Bottom(fraCustomFieldList);
-            
+
             // Update the save and cancel button locations relative to the new notes frame.
             btnSave.Y = Pos.Bottom(btnNewCustomField) + 1;
             btnCancel.Y = Pos.Bottom(btnNewCustomField) + 1;
+
+            // Calculate and set the content height dynamically based on subview height.
+            // Formula: subview.Y(3) + subview.Height + gap(1) + fraNotes.Height(9) + gap(1) +
+            //          fraCustomFieldList.Height(7) + btnNewCustomField(1) + gap(1) + btnSave(1) + buffer(1)
+            // = 3 + subviewHeight + 22
+            int subviewHeight = _subView?.Frame.Height ?? 0;
+            if (subviewHeight == 0)
+            {
+                // If Frame isn't computed yet, use a default based on the Height property
+                // This handles the case where layout hasn't run yet
+                subviewHeight = 15; // Default fallback
+            }
+            int contentHeight = 3 + subviewHeight + 22;
             
+            // Width 0 means use Viewport width (no horizontal scrolling)
+            SetContentSize(new System.Drawing.Size(0, contentHeight));
+
             // Refresh display
             SetNeedsDraw();
         }
@@ -306,36 +322,36 @@ namespace Retrowarden.Views
             {
                 // Check to see if this is a wheel scroll down.
                 case MouseFlags.WheeledDown:
-                    
-                    // Check to see if we are past the bottom of the view.
-                    if (Viewport.Top < Frame.Bottom)
+
+                    // Allow scroll down if there's content below the visible area.
+                    if (Viewport.Y + Viewport.Height < GetContentSize().Height)
                     {
                         ScrollVertical(1);
                     }
                     break;
-                
+
                 case MouseFlags.WheeledUp:
-                    
-                    // Check to see if we are past the top of the view.
-                    if (Viewport.Bottom > Frame.Top)
+
+                    // Only allow scroll up if we're not already at the top (Y > 0).
+                    if (Viewport.Y > 0)
                     {
                         ScrollVertical(-1);
                     }
                     break;
-                
+
                 case MouseFlags.WheeledLeft:
-                    
-                    // Check to see if we are past the left.
-                    if (Viewport.Left > Frame.Right)
+
+                    // Only allow scroll left if we're not already at the left edge.
+                    if (Viewport.X > 0)
                     {
                         ScrollHorizontal(-1);
                     }
                     break;
-                
+
                 case MouseFlags.WheeledRight:
-                    
-                    // Check to see if we are past the right.
-                    if (Viewport.Right < Frame.Left)
+
+                    // Allow scroll right if there's content to the right of the visible area.
+                    if (Viewport.X + Viewport.Width < GetContentSize().Width)
                     {
                         ScrollHorizontal(1);
                     }
