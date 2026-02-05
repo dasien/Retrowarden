@@ -303,7 +303,7 @@ namespace Retrowarden.Views
             // Show the dialog for field type choice.
             SelectCustomFieldDialog dialog = new SelectCustomFieldDialog(_app);
             dialog.Show();
-            
+
             // Check to see what was selected.
             if (dialog.OkPressed)
             {
@@ -314,6 +314,8 @@ namespace Retrowarden.Views
                     scrCustomFields.CreateControlRow((int)dialog.FieldType);
                 }
             }
+
+            e.Handled = true;
         }
         
         private void HandleMouseEvent(object? sender, Mouse MouseEventArgs)

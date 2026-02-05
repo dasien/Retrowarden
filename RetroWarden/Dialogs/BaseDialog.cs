@@ -23,6 +23,8 @@ namespace Retrowarden.Dialogs
             {
                 _app.RequestStop(_dialog);
             }
+
+            e.Handled = true;
         }
 
         public void Show()

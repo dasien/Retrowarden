@@ -107,12 +107,12 @@ namespace Retrowarden.Dialogs
             {
                 MessageBox.ErrorQuery(_app,"Values Missing", "Please select an Organization.", "Ok");
             }
-            
+
             else if (_selectedCollections.Count == 0)
             {
                 MessageBox.ErrorQuery(_app,"Values Missing", "Please select at least one collection.", "Ok");
             }
-            
+
             else
             {
                 // Set flag for ok button and values.
@@ -121,6 +121,8 @@ namespace Retrowarden.Dialogs
                 // Close dialog.
                 _app.RequestStop(_dialog);
             }
+
+            e.Handled = true;
         }
         
         private void InitializeComponent()

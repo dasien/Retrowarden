@@ -20,13 +20,14 @@ namespace Retrowarden.Dialogs
         {
             // Set flag for ok button and values.
             _okPressed = true;
-            
+
             if (_rdoFieldType != null)
             {
                 _fieldType = _rdoFieldType.Value;
             }
 
             _app.RequestStop(_dialog);
+            e.Handled = true;
         }
         
         private void InitializeComponent()

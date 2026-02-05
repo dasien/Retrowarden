@@ -87,14 +87,14 @@ namespace Retrowarden.Controls
             
             Button btnCopyUri = new Button()
             {
-                X = 32, Y = cnt, Text = "Copy", Width = 8, Height = 1, CanFocus = true, 
-                Visible = true, Data = cnt, TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
+                X = 32, Y = cnt, Text = "Copy",
+                IsDefault = false, Data = cnt, TabStop = TabBehavior.TabStop
             };
 
             Button btnGoUri = new Button()
             {
-                X = 41, Y = cnt, Text = "Go", Width = 6, Height = 1, CanFocus = true, Visible = true, Data = cnt,
-                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
+                X = Pos.Right(btnCopyUri) + 1, Y = cnt, Text = "Go",
+                IsDefault = false, Data = cnt, TabStop = TabBehavior.TabStop
             };
 
             ComboBox cboMatchUri = new ComboBox()
@@ -105,8 +105,8 @@ namespace Retrowarden.Controls
 
             Button btnDeleteUri = new Button()
             {
-                X = 79, Y = cnt, Text = "Delete", Width = 10, Height = 1, CanFocus = true, Visible = true, 
-                Data = cnt, TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
+                X = 79, Y = cnt, Text = "Delete",
+                IsDefault = false, Data = cnt, TabStop = TabBehavior.TabStop
             };
             
             // Set the source for the combobox.

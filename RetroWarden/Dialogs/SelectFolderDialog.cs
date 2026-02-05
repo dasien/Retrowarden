@@ -43,6 +43,8 @@ namespace Retrowarden.Dialogs
                 // Close dialog.
                 _app.RequestStop(_dialog);
             }
+
+            e.Handled = true;
         }
         
         private void InitializeComponent()

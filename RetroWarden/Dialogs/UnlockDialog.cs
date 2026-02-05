@@ -24,7 +24,7 @@ namespace Retrowarden.Dialogs
         private void OkButton_Clicked(object? sender, HandledEventArgs e)
         {
             // Check to see if required values are present.
-            if (_txtPassword != null &&  _txtPassword.Text.Trim().Length == 0)
+            if (_txtPassword != null && _txtPassword.Text.Trim().Length == 0)
             {
                 MessageBox.ErrorQuery(_app,"Value Missing", "Password is required.", "Ok");
             }
@@ -33,7 +33,7 @@ namespace Retrowarden.Dialogs
             {
                 // Set flag for ok button and values.
                 _okPressed = true;
-                
+
                 if (_txtPassword != null)
                 {
                     _password = _txtPassword.Text ?? string.Empty;
@@ -42,6 +42,8 @@ namespace Retrowarden.Dialogs
                 // Close dialog.
                 _app.RequestStop(_dialog);
             }
+
+            e.Handled = true;
         }
 
         private void InitializeComponent()

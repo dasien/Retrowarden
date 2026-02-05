@@ -115,21 +115,20 @@ namespace Retrowarden.Controls
             // Create controls for row.
             TextField txtName = new TextField()
             {
-                X = 1, Y = rowNum, Width = 30, Text = name, CanFocus = true, Visible = true, 
+                X = 1, Y = rowNum, Width = 30, Text = name ?? "", CanFocus = true, Visible = true,
                 Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             TextField txtValue = new TextField()
             {
-                X = 32, Y = rowNum, Width = 30, Text = value,
+                X = 32, Y = rowNum, Width = 30, Text = value ?? "",
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
             
             Button btnCopyValue = new Button()
             {
-                X=63, Y = rowNum, Text = "Copy", 
-                Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
+                X = 63, Y = rowNum, Text = "Copy",
+                IsDefault = false, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             // Create the delete button.
@@ -158,28 +157,26 @@ namespace Retrowarden.Controls
             // Create controls for row.
             TextField txtName = new TextField()
             {
-                X=1, Y=rowNum, Width = 30, Text = name,
+                X = 1, Y = rowNum, Width = 30, Text = name ?? "",
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             TextField txtValue = new TextField()
             {
-                X = 32, Y=rowNum, Width = 30, Text = value,
+                X = 32, Y = rowNum, Width = 30, Text = value ?? "",
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum, Secret = true, TabStop = TabBehavior.TabStop
             };
             
             Button btnShowValue = new Button()
             {
-                X=63, Y=rowNum, Text = "View",
-                Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
+                X = 63, Y = rowNum, Text = "View",
+                IsDefault = false, Data = rowNum, TabStop = TabBehavior.TabStop
             };
            
             Button btnCopyValue = new Button()
             {
-                X=72, Y =rowNum, Text = "Copy", 
-                Width = 8, Height = 1, CanFocus = true, Visible = true, Data = rowNum, 
-                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
+                X = Pos.Right(btnShowValue) + 1, Y = rowNum, Text = "Copy",
+                IsDefault = false, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
             // Create the delete button.
@@ -220,7 +217,7 @@ namespace Retrowarden.Controls
             // Create controls for row.
             TextField txtName = new TextField()
             {
-                X=1, Y = rowNum, Width = 30, Text = name,
+                X = 1, Y = rowNum, Width = 30, Text = name ?? "",
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
@@ -244,7 +241,7 @@ namespace Retrowarden.Controls
             // Create controls for row.
             TextField txtName = new TextField()
             {
-                X=1, Y=rowNum, Width = 30, Text = name,
+                X = 1, Y = rowNum, Width = 30, Text = name ?? "",
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
@@ -257,7 +254,8 @@ namespace Retrowarden.Controls
             // Set combo source and selected item.
             ObservableCollection<CodeListItem> linkList = GetComboSource();
             cboValue.SetSource(linkList);
-            cboValue.SelectedItem = linkList.IndexOf(linkList.First(o => o.Index == linkId.ToString()));
+            CodeListItem? matchingItem = linkList.FirstOrDefault(o => o.Index == linkId.ToString());
+            cboValue.SelectedItem = matchingItem != null ? linkList.IndexOf(matchingItem) : 0;
 
             // Create the delete button.
             Button btnDeleteRow = CreateDeleteButton(rowNum);
@@ -271,9 +269,8 @@ namespace Retrowarden.Controls
         {
             Button retVal = new Button()
             {
-                X=81, Y=rowNum, Text = "Delete",
-                Width = 10, Height = 1, CanFocus = true, Visible = true, Data = rowNum,
-                TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
+                X = 81, Y = rowNum, Text = "Delete",
+                IsDefault = false, Data = rowNum, TabStop = TabBehavior.TabStop
             };
             
             retVal.Accepting += (s,e) =>

@@ -32,18 +32,18 @@ namespace Retrowarden.Dialogs
             {
                 MessageBox.ErrorQuery(_app,"Values Missing", "Folder name is required.", "Ok");
             }
-            
+
             // Check to see if we already have a folder with that name.
-            if (_folders.FindIndex(o => _txtFolderName != null && o.Name == _txtFolderName.Text) != -1)
+            else if (_folders.FindIndex(o => _txtFolderName != null && o.Name == _txtFolderName.Text) != -1)
             {
                 MessageBox.ErrorQuery(_app,"Duplicate Value", "Folder name already exists.", "Ok");
             }
-            
+
             else
             {
                 // Set flag for ok button and values.
                 _okPressed = true;
-                
+
                 if (_txtFolderName != null)
                 {
                     _folderName = _txtFolderName.Text;
@@ -52,6 +52,8 @@ namespace Retrowarden.Dialogs
                 // Close dialog.
                 _app.RequestStop(_dialog);
             }
+
+            e.Handled = true;
         }
 
         private void InitializeComponent()
