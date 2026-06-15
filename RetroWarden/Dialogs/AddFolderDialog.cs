@@ -38,13 +38,13 @@ namespace Retrowarden.Dialogs
             // Check to see if required values are present.
             if (_txtFolderName != null && _txtFolderName.Text.Trim().Length == 0)
             {
-                MessageBox.ErrorQuery("Values Missing", "Folder name is required.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Folder name is required.", "Ok");
             }
             
             // Check to see if we already have a folder with that name.
             if (_folders.FindIndex(o => _txtFolderName != null && o.Name == _txtFolderName.Text) != -1)
             {
-                MessageBox.ErrorQuery("Duplicate Value", "Folder name already exists.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Duplicate Value", "Folder name already exists.", "Ok");
             }
             
             else
@@ -58,7 +58,7 @@ namespace Retrowarden.Dialogs
                 }
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
 

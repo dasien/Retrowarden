@@ -21,8 +21,8 @@ namespace Retrowarden.Dialogs
         private TextField? _txtName;
         private TextView? _txtNotes;
         private TextField? _txtFilePath;
-        private DateField? _datDeletionDate;
-        private DateField? _datExpirationDate;
+        private DateEditor? _datDeletionDate;
+        private DateEditor? _datExpirationDate;
         private TextField? _txtMaxAccessCount;
         private CheckBox? _chkPassword;
         private TextField? _txtPassword;
@@ -42,7 +42,7 @@ namespace Retrowarden.Dialogs
         private void SelectFileButton_Clicked(object? sender, CommandEventArgs e)
         {
             OpenDialog openDialog = new OpenDialog(){Title = "Select File", Text = "Select the file you want to send."};
-            Application.Run(openDialog);
+            _dialog.App.Run(openDialog);
 
             if (!openDialog.Canceled && openDialog.Path != null)
             {
@@ -59,21 +59,21 @@ namespace Retrowarden.Dialogs
             // Validate required fields
             if (string.IsNullOrWhiteSpace(_txtName?.Text.ToString()))
             {
-                MessageBox.ErrorQuery("Missing Information", "Send name is required.", "OK");
+                MessageBox.ErrorQuery(_dialog?.App, "Missing Information", "Send name is required.", "OK");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(_filePath))
             {
-                MessageBox.ErrorQuery("Missing Information", "A file must be selected.", "OK");
+                MessageBox.ErrorQuery(_dialog?.App, "Missing Information", "A file must be selected.", "OK");
                 return;
             }
 
             // For password-protected Sends, validate password
-            if (_chkPassword != null && _chkPassword.CheckedState == CheckState.Checked &&
+            if (_chkPassword != null && _chkPassword.Value == CheckState.Checked &&
                 string.IsNullOrWhiteSpace(_txtPassword?.Text.ToString()))
             {
-                MessageBox.ErrorQuery("Missing Information",
+                MessageBox.ErrorQuery(_dialog?.App, "Missing Information",
                     "Password is required when password protection is enabled.", "OK");
                 return;
             }
@@ -88,10 +88,10 @@ namespace Retrowarden.Dialogs
             };
 
             if (_datDeletionDate != null)
-                _send.DeletionDate = _datDeletionDate.Date;
+                _send.DeletionDate = _datDeletionDate.Value;
 
             if (_datExpirationDate != null)
-                _send.ExpirationDate = _datExpirationDate.Date;
+                _send.ExpirationDate = _datExpirationDate.Value;
 
             if (_txtMaxAccessCount != null && !string.IsNullOrWhiteSpace(_txtMaxAccessCount.Text.ToString()))
                 if (int.TryParse(_txtMaxAccessCount.Text.ToString(), out int maxCount))
@@ -99,18 +99,18 @@ namespace Retrowarden.Dialogs
 
             if (_chkPassword != null)
             {
-                if (_chkPassword.CheckedState == CheckState.Checked && _txtPassword != null)
+                if (_chkPassword.Value == CheckState.Checked && _txtPassword != null)
                     _send.Password = _txtPassword.Text;
             }
 
             if (_chkDisableSave != null)
-                _send.IsDisabled = _chkDisableSave.CheckedState == CheckState.Checked ? true : false;
+                _send.IsDisabled = _chkDisableSave.Value == CheckState.Checked ? true : false;
 
             if (_chkHideEmail != null)
-                _send.IsEmailHidden = _chkHideEmail.CheckedState == CheckState.Checked ? true : false;
+                _send.IsEmailHidden = _chkHideEmail.Value == CheckState.Checked ? true : false;
 
             _okPressed = true;
-            Application.RequestStop(_dialog);
+            _dialog.App.RequestStop(_dialog);
         }
 
         private void PasswordCheckedChanged(bool value)
@@ -154,13 +154,13 @@ namespace Retrowarden.Dialogs
             // Deletion date
             Label lblDeletionDate = new Label() { Text = "Deletion Date:", X = 2, Y = row };
             
-            _datDeletionDate = new DateField() { Date = DateTime.Now.AddDays(7), X = 20, Y = row, Width = 20 };
+            _datDeletionDate = new DateEditor() { Value = DateTime.Now.AddDays(7), X = 20, Y = row, Width = 20 };
             row++;
 
             // Expiration date
             Label lblExpirationDate = new Label() { Text = "Expiration Date:", X = 2, Y = row };
             
-            _datExpirationDate = new DateField() { X = 20, Y = row, Width = 20 };
+            _datExpirationDate = new DateEditor() { X = 20, Y = row, Width = 20 };
             row++;
 
             // Max access count

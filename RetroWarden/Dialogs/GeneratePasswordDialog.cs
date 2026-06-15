@@ -52,7 +52,7 @@ namespace Retrowarden.Dialogs
                 // Check to see if there is a valid value for number of words.
                 if (_txtPasswordLength.Text.Length == 0)
                 {
-                    MessageBox.ErrorQuery("Values Missing", "Passwords length must be at least 12 characters.", "Ok");
+                    MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Passwords length must be at least 12 characters.", "Ok");
                     retVal = false;
                 }
 
@@ -60,7 +60,7 @@ namespace Retrowarden.Dialogs
                 {
                     if (!int.TryParse(_txtPasswordLength.Text, out int length))
                     {
-                        MessageBox.ErrorQuery("Values Missing", "Passwords length must be a numeric value.", "Ok");
+                        MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Passwords length must be a numeric value.", "Ok");
                         retVal = false;
                     }
 
@@ -68,7 +68,7 @@ namespace Retrowarden.Dialogs
                     {
                         if (length < 12)
                         {
-                            MessageBox.ErrorQuery("Value Error", "Passwords length must be at least 12.", "Ok");
+                            MessageBox.ErrorQuery(_dialog?.App, "Value Error", "Passwords length must be at least 12.", "Ok");
                             retVal = false;
                         }
                     }
@@ -90,10 +90,10 @@ namespace Retrowarden.Dialogs
             if (ValidateInput())
             {
                 // Set values.
-                bool includeNumbers = _chkNumbers != null && _chkNumbers.CheckedState == CheckState.Checked;
-                bool upper = _chkUpperCase != null && _chkUpperCase.CheckedState == CheckState.Checked;
-                bool lower = _chkLowerCase != null && _chkLowerCase.CheckedState == CheckState.Checked;
-                bool special = _chkSpecialChars != null && _chkSpecialChars.CheckedState == CheckState.Checked;
+                bool includeNumbers = _chkNumbers != null && _chkNumbers.Value == CheckState.Checked;
+                bool upper = _chkUpperCase != null && _chkUpperCase.Value == CheckState.Checked;
+                bool lower = _chkLowerCase != null && _chkLowerCase.Value == CheckState.Checked;
+                bool special = _chkSpecialChars != null && _chkSpecialChars.Value == CheckState.Checked;
                 int length = _txtPasswordLength != null ? Convert.ToInt32(_txtPasswordLength.Text == null ? 1 :_txtPasswordLength.Text) : 1 ;
                 
                 // Show working dialog.
@@ -102,7 +102,7 @@ namespace Retrowarden.Dialogs
                         includeNumbers, special, length, "Generating Password...");
                 
                 // Generate the passphrase.
-                worker.Run();
+                worker.Run(_app);
                 
                 // Check to see if we succeeded.
                 if (_repository.ExitCode == "0")
@@ -126,7 +126,7 @@ namespace Retrowarden.Dialogs
             Clipboard.TrySetClipboardData(_password);
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "Password copied to clipboard.", "Ok");
+            MessageBox.Query(_dialog?.App, "Action Completed", "Password copied to clipboard.", "Ok");
         }
     
         #region InitializeComponent
@@ -143,8 +143,7 @@ namespace Retrowarden.Dialogs
             
             _dialog = new Dialog()
             {
-                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true, 
-                TextAlignment = Alignment.Start, Title = "Password Generator"
+                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true,                 TextAlignment = Alignment.Start, Title = "Password Generator"
             };
 
             _lblPassword = new Label()
@@ -164,28 +163,28 @@ namespace Retrowarden.Dialogs
             _chkUpperCase = new CheckBox()
             {
                 Width = 6, Height = 1, X = 1, Y = 0, Visible = true, Data = "_chkUpperCase",
-                Text = "Uppercase Characters (A-Z)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                Text = "Uppercase Characters (A-Z)", TextAlignment = Alignment.Start, Value = CheckState.Checked
             };
             _fraOptions.Add(_chkUpperCase);
 
             _chkLowerCase = new CheckBox()
             {
                 Width = 6, Height = 1, X = 1, Y = 1, Visible = true, Data = "_chkLowerCase",
-                Text = "Lowercase Characters (a-z)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                Text = "Lowercase Characters (a-z)", TextAlignment = Alignment.Start, Value = CheckState.Checked
             };
             _fraOptions.Add(_chkLowerCase);
 
             _chkNumbers = new CheckBox()
             {
                 Width = 6, Height = 1, X = 1, Y = 2, Visible = true, Data = "_chkNumbers",
-                Text = "Numeric Characters (0-9)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                Text = "Numeric Characters (0-9)", TextAlignment = Alignment.Start, Value = CheckState.Checked
             };
             _fraOptions.Add(_chkNumbers);
 
             _chkSpecialChars = new CheckBox()
             {
                 Width = 6, Height = 1, X = 1, Y = 3, Visible = true, Data = "_chkSpecialChars",
-                Text = "Special Characters (!@#$%^&*)", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                Text = "Special Characters (!@#$%^&*)", TextAlignment = Alignment.Start, Value = CheckState.Checked
             };
             _fraOptions.Add(_chkSpecialChars);
 

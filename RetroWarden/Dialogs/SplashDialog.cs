@@ -20,36 +20,46 @@ namespace Retrowarden.Dialogs
         private Label? _message;
         private readonly string? _messageText;
         private object? _timerToken;
-        
+
+        // The running application. A not-yet-run top-level view's App is null, so the caller
+        // (which is already running) must supply it; we can't read it off _dialog before Run.
+        private IApplication? _app;
+
         public SplashDialog(string? message)
         {
             // Initialize members.
             _messageText = message;
-            
+
             InitializeComponent();
         }
 
-        public new void Show()
+        public void Show(IApplication? app)
         {
-            _timerToken = Application.AddTimeout (TimeSpan.FromMilliseconds(3000), Hide);
-
-            if (_dialog != null)
+            if (app == null || _dialog == null)
             {
-                // Apply consistent color scheme before showing
-                ColorSchemeManager.ApplyColorScheme(_dialog);
-                Application.Run(_dialog);
+                return;
             }
+
+            // Stash the app so the timer callback can stop the modal session.
+            _app = app;
+
+            // Schedule the auto-hide before running the modal splash.
+            _timerToken = app.AddTimeout(TimeSpan.FromMilliseconds(3000), Hide);
+
+            // Apply consistent color scheme before showing
+            ColorSchemeManager.ApplyColorScheme(_dialog);
+            app.Run(_dialog);
         }
 
         private bool Hide()
         {
             if (_timerToken != null)
             {
-                Application.RemoveTimeout(_timerToken);
+                _app?.RemoveTimeout(_timerToken);
             }
-            
-            Application.RequestStop(_dialog);
-            
+
+            _app?.RequestStop(_dialog);
+
             return false;
         }
 

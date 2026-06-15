@@ -92,9 +92,9 @@ namespace Retrowarden.Views
                 txtExpYear.Text = _item.Card.ExpiryYear ?? "";
                 txtCVV.Text = _item.Card.SecureCode ?? "";
 
-                // Set combo box default values.
-                cboCardBrand.SelectedItem = _cardBrands.IndexOf(_cardBrands.First(o => o.Index == _item.Card.Brand));
-                cboExpMonth.SelectedItem = _expMonths.IndexOf(_expMonths.First(o => o.Index == _item.Card.ExpiryMonth));
+                // Set dropdown default values (DropDownList pre-selects the item whose text matches).
+                cboCardBrand.Text = _cardBrands.First(o => o.Index == _item.Card.Brand).ToString();
+                cboExpMonth.Text = _expMonths.First(o => o.Index == _item.Card.ExpiryMonth).ToString();
             }
         }
         
@@ -104,9 +104,9 @@ namespace Retrowarden.Views
             _cardBrands = CodeListManager.GetObservableCollection("CardBrands");
             _expMonths = CodeListManager.GetObservableCollection("ExpiryMonths");
             
-            // Set combox sources.
-            cboCardBrand.SetSource(_cardBrands);
-            cboExpMonth.SetSource(_expMonths);
+            // Set dropdown sources.
+            cboCardBrand.Source = new ListWrapper<CodeListItem>(_cardBrands);
+            cboExpMonth.Source = new ListWrapper<CodeListItem>(_expMonths);
         }
 
         protected override void UpdateItem()
@@ -119,8 +119,8 @@ namespace Retrowarden.Views
             _item.Card.CardNumber = txtCardNumber.Text ?? "";
             _item.Card.ExpiryYear = txtExpYear.Text ?? "";
             _item.Card.SecureCode = txtCVV.Text ?? "";
-            _item.Card.Brand = _cardBrands.ElementAt(cboCardBrand.SelectedItem).Index;
-            _item.Card.ExpiryMonth = _expMonths.ElementAt(cboExpMonth.SelectedItem).Index;
+            _item.Card.Brand = _cardBrands.FirstOrDefault(o => o.ToString() == cboCardBrand.Text)?.Index;
+            _item.Card.ExpiryMonth = _expMonths.FirstOrDefault(o => o.ToString() == cboExpMonth.Text)?.Index;
             
             // Call base method.
             base.UpdateItem();
@@ -151,7 +151,7 @@ namespace Retrowarden.Views
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
             {
-                MessageBox.ErrorQuery("Action failed.", "Item name must have a value.", "Ok");
+                MessageBox.ErrorQuery(this.App, "Action failed.", "Item name must have a value.", "Ok");
             }
 
             else
@@ -163,7 +163,7 @@ namespace Retrowarden.Views
                 OkPressed = true;
                 
                 // Close dialog.
-                Application.RequestStop();
+                this.App.RequestStop();
             }
         }
 
@@ -182,7 +182,7 @@ namespace Retrowarden.Views
             Clipboard.TrySetClipboardData(txtCardNumber.Text);
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "Card number copied to clipboard.", "Ok");
+            MessageBox.Query(this.App, "Action Completed", "Card number copied to clipboard.", "Ok");
         }
 
         private void ShowCVVButtonClicked(object? sender, CommandEventArgs e)
@@ -200,7 +200,7 @@ namespace Retrowarden.Views
             Clipboard.TrySetClipboardData(txtCVV.Text);
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "Card CVV copied to clipboard.", "Ok");
+            MessageBox.Query(this.App, "Action Completed", "Card CVV copied to clipboard.", "Ok");
         }
         #endregion
     }

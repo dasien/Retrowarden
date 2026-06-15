@@ -112,8 +112,8 @@ namespace Retrowarden.Views
                 txtZipCode.Text = _item.Identity.PostalCode ?? "";
                 txtCountry.Text = _item.Identity.Country ?? "";
 
-                // Set combo box default values.
-                cboTitle.SelectedItem = _titles.IndexOf(_titles.First(o => o.Index == _item.Identity.Title));
+                // Set dropdown default value (DropDownList pre-selects the item whose text matches).
+                cboTitle.Text = _titles.First(o => o.Index == _item.Identity.Title).ToString();
             }
         }
         
@@ -122,8 +122,8 @@ namespace Retrowarden.Views
             // Load list.
             _titles = CodeListManager.GetObservableCollection("Titles");
             
-            // Load titles combo box.
-            cboTitle.SetSource(_titles);
+            // Load titles dropdown.
+            cboTitle.Source = new ListWrapper<CodeListItem>(_titles);
         }
 
         protected override void UpdateItem()
@@ -149,7 +149,7 @@ namespace Retrowarden.Views
             _item.Identity.State = txtState.Text ?? "";
             _item.Identity.PostalCode = txtZipCode.Text ?? "";
             _item.Identity.Country = txtCountry.Text ?? "";
-            _item.Identity.Title = _titles.ElementAt(cboTitle.SelectedItem).Index;
+            _item.Identity.Title = _titles.FirstOrDefault(o => o.ToString() == cboTitle.Text)?.Index;
             
             // Call base method.
             base.UpdateItem();
@@ -183,7 +183,7 @@ namespace Retrowarden.Views
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
             {
-                MessageBox.ErrorQuery("Action failed.", "Item name must have a value.", "Ok");
+                MessageBox.ErrorQuery(this.App, "Action failed.", "Item name must have a value.", "Ok");
             }
 
             else
@@ -195,7 +195,7 @@ namespace Retrowarden.Views
                 OkPressed = true;
                 
                 // Close dialog.
-                Application.RequestStop();
+                this.App.RequestStop();
             }
         }
         #endregion

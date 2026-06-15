@@ -16,7 +16,7 @@ namespace Retrowarden.Dialogs
 {
     public sealed class SelectSendTypeDialog : BaseDialog
     {
-        private RadioGroup? _rdoSendType;
+        private OptionSelector? _rdoSendType;
         private int _sendType = 0;
 
         public SelectSendTypeDialog()
@@ -31,11 +31,11 @@ namespace Retrowarden.Dialogs
 
             if (_rdoSendType != null)
             {
-                _sendType = _rdoSendType.SelectedItem + 1;
+                _sendType = (_rdoSendType.Value ?? 0) + 1;
             }
 
             // Close dialog.
-            Application.RequestStop(_dialog);
+            _dialog.App.RequestStop(_dialog);
         }
 
         private void InitializeComponent()
@@ -57,9 +57,9 @@ namespace Retrowarden.Dialogs
             string[] types = { "File", "Text" };
 
             // Create radio group.
-            _rdoSendType = new RadioGroup()
+            _rdoSendType = new OptionSelector()
             {
-                X = 8, Y = 1, RadioLabels = types
+                X = 8, Y = 1, Labels = types
             };
 
             // Create modal view.

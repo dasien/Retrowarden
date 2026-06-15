@@ -107,10 +107,10 @@ namespace Retrowarden.Controls
                 TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
 
-            ComboBox cboMatchUri = new ComboBox()
+            DropDownList cboMatchUri = new DropDownList()
             {
-                X = 48, Y = cnt, Width = 30, Height = 3, CanFocus = true, Visible = true, Text = "", 
-                Data = cnt, TabStop = TabBehavior.TabStop
+                X = 48, Y = cnt, Width = 30, Height = 1, CanFocus = true, Visible = true, Text = "",
+                Data = cnt, TabStop = TabBehavior.TabStop, ReadOnly = true
             };
 
             Button btnDeleteUri = new Button()
@@ -119,20 +119,19 @@ namespace Retrowarden.Controls
                 Data = cnt, TextAlignment = Alignment.Center, TabStop = TabBehavior.TabStop
             };
             
-            // Set the source for the combobox.
-            cboMatchUri.SetSource(_matchTypes);
+            // Set the source for the dropdown.
+            cboMatchUri.Source = new ListWrapper<CodeListItem>(_matchTypes);
 
-            // This is a hack because for some reason we love to allow "null" in lists as a default value. :/ 
+            // This is a hack because for some reason we love to allow "null" in lists as a default value. :/
             if (match == null)
             {
-                cboMatchUri.SelectedItem = _matchTypes.IndexOf(_matchTypes.First(o => o.Index == null));
+                cboMatchUri.Text = _matchTypes.First(o => o.Index == null).ToString();
             }
 
             else
             {
-                // Set the match combo source and selected item to uri match.
-                cboMatchUri.SelectedItem =
-                    _matchTypes.IndexOf(_matchTypes.First(o => Convert.ToInt32(o.Index) == match));
+                // Set the match dropdown selected item to uri match.
+                cboMatchUri.Text = _matchTypes.First(o => Convert.ToInt32(o.Index) == match).ToString();
             }
 
             // Create event handlers for the buttons.
@@ -142,7 +141,7 @@ namespace Retrowarden.Controls
                 Clipboard.TrySetClipboardData(txtUri.Text);
 
                 // Indicate data copied.
-                MessageBox.Query("Action Completed", "Copied Uri to clipboard.", "Ok");
+                MessageBox.Query(this.App, "Action Completed", "Copied Uri to clipboard.", "Ok");
             };
 
             btnGoUri.Accepting += (s,e) =>
@@ -162,13 +161,13 @@ namespace Retrowarden.Controls
 
                     else
                     {
-                        MessageBox.ErrorQuery("Action failed.", "This does not appear to be a valid Uri", "Ok");
+                        MessageBox.ErrorQuery(this.App, "Action failed.", "This does not appear to be a valid Uri", "Ok");
                     }
                 }
 
                 else
                 {
-                    MessageBox.ErrorQuery("Action failed.", "Uri missing.", "Ok");
+                    MessageBox.ErrorQuery(this.App, "Action failed.", "Uri missing.", "Ok");
                 }
             };
 
@@ -233,11 +232,12 @@ namespace Retrowarden.Controls
                 
                     // Get the txt and combo box views.
                     TextField uri = (TextField) rowCtrls[0];
-                    ComboBox match = (ComboBox) rowCtrls[3];
-                
+                    DropDownList match = (DropDownList) rowCtrls[3];
+
                     // Set values.
                     loginUri.URI = uri.Text;
-                    loginUri.Match = match.SelectedItem == 6 ? null : match.SelectedItem;
+                    CodeListItem? selMatch = _matchTypes.FirstOrDefault(o => o.ToString() == match.Text);
+                    loginUri.Match = selMatch?.Index == null ? null : Convert.ToInt32(selMatch.Index);
                 
                     // Add uri to list.
                     uris.Add(loginUri);

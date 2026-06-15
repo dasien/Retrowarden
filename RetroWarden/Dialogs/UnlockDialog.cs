@@ -34,7 +34,7 @@ namespace Retrowarden.Dialogs
             // Check to see if required values are present.
             if (_txtPassword != null &&  _txtPassword.Text.Trim().Length == 0)
             {
-                MessageBox.ErrorQuery("Value Missing", "Password is required.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Value Missing", "Password is required.", "Ok");
             }
 
             else
@@ -48,7 +48,7 @@ namespace Retrowarden.Dialogs
                 }
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
 

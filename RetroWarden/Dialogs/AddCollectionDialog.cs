@@ -17,22 +17,22 @@ namespace Retrowarden.Dialogs
     public sealed class AddCollectionDialog : BaseDialog
     {
         // Controls.
-        private ComboBox? _cboOrganization;
+        private DropDownList? _cboOrganization;
         private TextField? _txtCollectionName;
-        private TabView? _tabCollection;
+        private Tabs? _tabCollection;
         private Label? _lblName;
         private Label? _lblOrganization;
         private Label? _lblExternalId;
         private TextField? _txtExternalId;
         private Label? _lblPermission;
-        private ComboBox? _cboPermission;
+        private DropDownList? _cboPermission;
         private Label? _lblMembers;
-        private ComboBox? _cboMembers;
+        private DropDownList? _cboMembers;
         private FrameView? _fraPermissions;
         private Button? _btnOk;
         private Button? _btnCancel;
-        private Tab? _tabCollectionAccess;
-        private Tab? _tabCollectioncollectionInfo;
+        private View? _tabCollectionAccess;
+        private View? _tabCollectioncollectionInfo;
 
         // Other values.
         private readonly List<VaultCollection> _collections;
@@ -52,15 +52,20 @@ namespace Retrowarden.Dialogs
 
         private void OkButton_Clicked(object? sender, CommandEventArgs e)
         {
+            // DropDownList exposes selection as text; map it back to the source index.
+            int orgIndex = (_cboOrganization == null || _organizations == null)
+                ? -1
+                : _organizations.FindIndex(o => o.ToString() == _cboOrganization.Text);
+
             // Check to see if required values are present.
-            if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
+            if (orgIndex == -1)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select an Organization.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Please select an Organization.", "Ok");
             }
             
             else if (_txtCollectionName != null && _txtCollectionName.Text.Length == 0)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please name the collection.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Please name the collection.", "Ok");
             }
             
             else
@@ -69,7 +74,7 @@ namespace Retrowarden.Dialogs
                 _okPressed = true;
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
 
@@ -79,26 +84,21 @@ namespace Retrowarden.Dialogs
             _dialog = new Dialog()
             {
                 Width = Dim.Percent(55), Height = Dim.Percent(85), X = Pos.Center(), Y = Pos.Center(), 
-                Visible = true, Modal = true, TextAlignment = Alignment.Start, 
+                Visible = true, TextAlignment = Alignment.Start, 
                 Title = "Add Collection", BorderStyle = LineStyle.Single
             };
 
-            _tabCollection = new TabView()
+            _tabCollection = new Tabs()
             {
-                Width = Dim.Fill(1), Height = Dim.Percent(90), X = 0, Y = 0, Visible = true, 
-                Data = "tabCollection", TextAlignment = Alignment.Start, MaxTabTextWidth = 30u, 
+                Width = Dim.Fill(1), Height = Dim.Percent(90), X = 0, Y = 0, Visible = true,
+                Data = "tabCollection", TextAlignment = Alignment.Start,
             };
 
-            _tabCollection.Style.ShowBorder = true;
-            _tabCollection.Style.ShowTopLine = true;
-            _tabCollection.Style.TabsOnBottom = false;
-            
-            _tabCollectioncollectionInfo = new Tab()
+            // In Terminal.Gui v2 each tab is a plain View whose Title is the tab header;
+            // content is added directly to the tab View (no more Tab.View container).
+            _tabCollectioncollectionInfo = new View()
             {
-                Title = "Collection Info", View = new View()
-                {
-                    Height = Dim.Fill(), Width = Dim.Fill()
-                }
+                Title = "Collection Info", Height = Dim.Fill(), Width = Dim.Fill()
             };
 
             _lblName = new Label()
@@ -107,7 +107,7 @@ namespace Retrowarden.Dialogs
                 TextAlignment = Alignment.Start
             };
             
-            _tabCollectioncollectionInfo.View.Add(_lblName);
+            _tabCollectioncollectionInfo.Add(_lblName);
 
             _txtCollectionName = new TextField()
             {
@@ -115,7 +115,7 @@ namespace Retrowarden.Dialogs
                 Data = "txtName", Text = "", TextAlignment = Alignment.Start
             };
             
-            _tabCollectioncollectionInfo.View.Add(_txtCollectionName);
+            _tabCollectioncollectionInfo.Add(_txtCollectionName);
 
             _lblOrganization = new Label()
             {
@@ -123,15 +123,15 @@ namespace Retrowarden.Dialogs
                 Text = "Organization", TextAlignment = Alignment.Start, 
             };
 
-            _tabCollectioncollectionInfo.View.Add(_lblOrganization);
+            _tabCollectioncollectionInfo.Add(_lblOrganization);
 
-            _cboOrganization = new ComboBox()
+            _cboOrganization = new DropDownList()
             {
-                Width = 30, Height = 4, X = 15, Y = 5, Visible = true, Data = "cboOrganization", 
-                Text = "", TextAlignment = Alignment.Start, 
+                Width = 30, Height = 1, X = 15, Y = 5, Visible = true, Data = "cboOrganization",
+                Text = "", TextAlignment = Alignment.Start, ReadOnly = true,
             };
 
-            _tabCollectioncollectionInfo.View.Add(_cboOrganization);
+            _tabCollectioncollectionInfo.Add(_cboOrganization);
 
             _lblExternalId = new Label()
             {
@@ -139,7 +139,7 @@ namespace Retrowarden.Dialogs
                 Text = "External Id", TextAlignment = Alignment.Start, 
             };
             
-            _tabCollectioncollectionInfo.View.Add(_lblExternalId);
+            _tabCollectioncollectionInfo.Add(_lblExternalId);
 
             _txtExternalId = new TextField()
             {
@@ -147,16 +147,12 @@ namespace Retrowarden.Dialogs
                 Data = "txtExternalId", Text = "", TextAlignment = Alignment.Start, 
             };
             
-            _tabCollectioncollectionInfo.View.Add(_txtExternalId);
-            _tabCollection.AddTab(_tabCollectioncollectionInfo, false);
-            
-            _tabCollectionAccess = new Tab()
+            _tabCollectioncollectionInfo.Add(_txtExternalId);
+            _tabCollection.Add(_tabCollectioncollectionInfo);
+
+            _tabCollectionAccess = new View()
             {
-                Title = "Access", View = new View()
-                {
-                    Width = Dim.Fill(),
-                    Height = Dim.Fill()
-                }
+                Title = "Access", Width = Dim.Fill(), Height = Dim.Fill()
             };
 
             _lblPermission = new Label()
@@ -165,15 +161,15 @@ namespace Retrowarden.Dialogs
                 Text = "Permission", TextAlignment = Alignment.Start
             };
             
-            _tabCollectionAccess.View.Add(_lblPermission);
+            _tabCollectionAccess.Add(_lblPermission);
 
-            _cboPermission = new ComboBox()
+            _cboPermission = new DropDownList()
             {
-                Width = 18, Height = 2, X = 12, Y = 3, Visible = true, Data = "cboPermission", 
-                Text = "", TextAlignment = Alignment.Start, 
+                Width = 18, Height = 1, X = 12, Y = 3, Visible = true, Data = "cboPermission",
+                Text = "", TextAlignment = Alignment.Start, ReadOnly = true,
             };
             
-            _tabCollectionAccess.View.Add(_cboPermission);
+            _tabCollectionAccess.Add(_cboPermission);
 
             _lblMembers = new Label()
             {
@@ -182,15 +178,15 @@ namespace Retrowarden.Dialogs
                 Text = "Members",  TextAlignment = Alignment.Start
             };
             
-            _tabCollectionAccess.View.Add(_lblMembers);
+            _tabCollectionAccess.Add(_lblMembers);
 
-            _cboMembers = new ComboBox()
+            _cboMembers = new DropDownList()
             {
-                Width = 18, Height = 2, X = 41, Y = 3, Visible = true, Data = "cboMembers", 
-                Text = "", TextAlignment = Alignment.Start, 
+                Width = 18, Height = 1, X = 41, Y = 3, Visible = true, Data = "cboMembers",
+                Text = "", TextAlignment = Alignment.Start, ReadOnly = true,
             };
             
-            _tabCollectionAccess.View.Add(_cboMembers);
+            _tabCollectionAccess.Add(_cboMembers);
 
             _fraPermissions = new FrameView()
             {
@@ -198,10 +194,9 @@ namespace Retrowarden.Dialogs
                 TextAlignment = Alignment.Start, Title = "Permission List", BorderStyle = LineStyle.Single
             };
 
-            _tabCollectionAccess.View.Add(_fraPermissions);
+            _tabCollectionAccess.Add(_fraPermissions);
 
-            _tabCollection.AddTab(_tabCollectionAccess, false);
-            _tabCollection.ApplyStyleChanges();
+            _tabCollection.Add(_tabCollectionAccess);
             _dialog.Add(_tabCollection);
 
             _btnOk = new Button()
@@ -233,7 +228,9 @@ namespace Retrowarden.Dialogs
                 {
                     if (_cboOrganization != null)
                     {
-                        retVal = _organizations.ElementAt(_cboOrganization.SelectedItem);
+                        // DropDownList exposes selection as text; map it back to the source index.
+                        int idx = _organizations.FindIndex(o => o.ToString() == _cboOrganization.Text);
+                        retVal = idx >= 0 ? _organizations[idx] : _organizations.First();
                     }
 
                     else

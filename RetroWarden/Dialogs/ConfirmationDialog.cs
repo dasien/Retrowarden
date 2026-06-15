@@ -71,8 +71,7 @@ namespace Retrowarden.Dialogs
                 Title = _title,
                 Width = dialogWidth,
                 Height = dialogHeight,
-                Modal = true,
-                BorderStyle = LineStyle.Single
+                                BorderStyle = LineStyle.Single
             };
 
             // Create message label
@@ -121,7 +120,7 @@ namespace Retrowarden.Dialogs
             _okPressed = true;
             if (_dialog != null)
             {
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
     }

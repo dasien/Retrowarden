@@ -19,7 +19,7 @@ namespace Retrowarden.Views
         private Label lblCardholderName;
         private Label lblCardBrand;
         private TextField txtCardholderName;
-        private ComboBox cboCardBrand;
+        private DropDownList cboCardBrand;
         private Label lblCardNumber;
         private Label lblCVV;
         private TextField txtCardNumber;
@@ -30,14 +30,14 @@ namespace Retrowarden.Views
         private Button btnCopyCVV;
         private Label lblExpMonth;
         private Label lblExpYear;
-        private ComboBox cboExpMonth;
+        private DropDownList cboExpMonth;
         private TextField txtExpYear;
 
         private void InitializeComponent()
         {
             this.vwCard = new View();
             this.txtExpYear = new TextField();
-            this.cboExpMonth = new ComboBox();
+            this.cboExpMonth = new DropDownList();
             this.lblExpYear = new Label();
             this.lblExpMonth = new Label();
             this.btnCopyCVV = new Button();
@@ -48,7 +48,7 @@ namespace Retrowarden.Views
             this.txtCardNumber = new TextField();
             this.lblCVV = new Label();
             this.lblCardNumber = new Label();
-            this.cboCardBrand = new ComboBox();
+            this.cboCardBrand = new DropDownList();
             this.txtCardholderName = new TextField();
             this.lblCardBrand = new Label();
             this.lblCardholderName = new Label();
@@ -81,9 +81,9 @@ namespace Retrowarden.Views
             this.txtCardholderName.HasFocusChanged += (s, e) => HandleFocusChange(txtCardholderName, e);
             vwCard.Add(this.txtCardholderName);
 
-            this.cboCardBrand = new ComboBox
+            this.cboCardBrand = new DropDownList
             {
-                Width = 30, Height = 5, X = 40, Y = 1, Visible = true, Data = "cboCardBrand", Text = "",
+                Width = 30, Height = 1, X = 40, Y = 1, Visible = true, Data = "cboCardBrand", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             this.cboCardBrand.HasFocusChanged += (s, e) => HandleFocusChange(cboCardBrand, e);
@@ -169,9 +169,9 @@ namespace Retrowarden.Views
             };
             vwCard.Add(this.lblExpYear);
 
-            this.cboExpMonth = new ComboBox
+            this.cboExpMonth = new DropDownList
             {
-                Width = 30, Height = 5, X = 1, Y = 7, Visible = true, Data = "cboExpMonth", Text = "",
+                Width = 30, Height = 1, X = 1, Y = 7, Visible = true, Data = "cboExpMonth", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             this.cboExpMonth.HasFocusChanged += (s, e) => HandleFocusChange(cboExpMonth, e);

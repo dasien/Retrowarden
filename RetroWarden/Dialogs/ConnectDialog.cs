@@ -38,7 +38,7 @@ namespace Retrowarden.Dialogs
             if (_txtPassword != null && _txtUserId != null 
                && (_txtUserId.Text.Trim().Length == 0 || _txtPassword.Text.Trim().Length == 0))
             {
-                MessageBox.ErrorQuery("Values Missing", "Both User Id and Password are required.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Both User Id and Password are required.", "Ok");
             }
 
             else
@@ -57,7 +57,7 @@ namespace Retrowarden.Dialogs
                 }
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
 

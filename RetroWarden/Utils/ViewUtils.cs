@@ -38,9 +38,9 @@ namespace Retrowarden.Utils
                             if (item.CollectionIds.Contains(col.Id))
                             {
                                 // Create new branch node.
-                                TreeNode branch = new TreeNode(col.Name)
+                                TreeNode branch = new TreeNode()
                                 {
-                                    Tag = new NodeData()
+                                    Text = col.Name, Tag = new NodeData()
                                     {
                                         Id= col.Id, NodeType = NodeType.Collection, Parent = parent, Text = col.Name
                                     }
@@ -81,9 +81,9 @@ namespace Retrowarden.Utils
                             // Check to see if there is an org and this item is part of it, or this is the personal vault (no org).
                             if (item.OrganizationId == orgId)
                             {
-                                TreeNode branch = new TreeNode(folder.Name)
+                                TreeNode branch = new TreeNode()
                                 {
-                                    Tag = new NodeData()
+                                    Text = folder.Name, Tag = new NodeData()
                                     {
                                         Id = folder.Id, NodeType = NodeType.Folder, Parent = parent, Text = folder.Name
                                     }
@@ -104,9 +104,9 @@ namespace Retrowarden.Utils
                             // Check to see if there is an org and this item is part of it, or this is the personal vault (no org).
                             if (item.OrganizationId == orgId)
                             {
-                                TreeNode branch = new TreeNode(folder.Name)
+                                TreeNode branch = new TreeNode()
                                 {
-                                    Tag = new NodeData()
+                                    Text = folder.Name, Tag = new NodeData()
                                     {
                                         Id = folder.Id, NodeType = NodeType.Folder, Parent = parent, Text = folder.Name
                                     }
@@ -129,9 +129,9 @@ namespace Retrowarden.Utils
         public static void CreateStaticNodesForOrg(ITreeNode parent, string? orgId)
         {
             // Create folders node.
-            TreeNode foldersNode = new TreeNode("Folders")
+            TreeNode foldersNode = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "Folders", Tag = new NodeData()
                 {
                     Id = "Folders", NodeType = NodeType.FolderGroup, Parent = parent, Text = "Folders",
                     ItemGroupType = NodeItemGroupType.None
@@ -139,9 +139,9 @@ namespace Retrowarden.Utils
             };
             
             // Create collections node.
-            TreeNode collectionsNode = new TreeNode("Collections")
+            TreeNode collectionsNode = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "Collections", Tag = new NodeData()
                 {
                     Id = "Collections", NodeType = NodeType.CollectionGroup, Parent = parent, Text = "Collections",
                     ItemGroupType = NodeItemGroupType.None
@@ -149,9 +149,9 @@ namespace Retrowarden.Utils
             };
             
             // Create items node.
-            TreeNode itemsNode = new TreeNode("All Items")
+            TreeNode itemsNode = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "All Items", Tag = new NodeData()
                 {
                     Id = "All Items", NodeType = NodeType.ItemGroup, Parent = parent, Text = "All Items",
                     ItemGroupType = NodeItemGroupType.AllItems
@@ -159,45 +159,45 @@ namespace Retrowarden.Utils
             };
             
             // Branch nodes.
-            TreeNode favorites = new TreeNode("Favorites")
+            TreeNode favorites = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "Favorites", Tag = new NodeData()
                 {
                     Id = "Favorites", NodeType = NodeType.FavoriteGroup, Parent = itemsNode, Text = "Favorites",
                     ItemGroupType = NodeItemGroupType.Favorites
                 }
             };
 
-            TreeNode logins = new TreeNode("Logins")
+            TreeNode logins = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "Logins", Tag = new NodeData()
                 {
                     Id = "Logins", NodeType = NodeType.ItemGroup, Parent = itemsNode, Text = "Logins",
                     ItemGroupType = NodeItemGroupType.Login
                 }
             };
 
-            TreeNode cards = new TreeNode("Cards")
+            TreeNode cards = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "Cards", Tag = new NodeData()
                 {
                     Id = "Cards", NodeType = NodeType.ItemGroup, Parent = itemsNode, Text = "Cards",
                     ItemGroupType = NodeItemGroupType.Card
                 }
             };
 
-            TreeNode identities = new TreeNode("Identities")
+            TreeNode identities = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "Identities", Tag = new NodeData()
                 {
                     Id = "Identities", NodeType = NodeType.ItemGroup, Parent = itemsNode, Text = "Identities",
                     ItemGroupType = NodeItemGroupType.Identity
                 }
             };
 
-            TreeNode notes = new TreeNode("Secure Notes")
+            TreeNode notes = new TreeNode()
             {
-                Tag = new NodeData()
+                Text = "Secure Notes", Tag = new NodeData()
                 {
                     Id = "Secure Notes", NodeType = NodeType.ItemGroup, Parent = itemsNode, Text = "Secure Notes",
                     ItemGroupType = NodeItemGroupType.SecureNote

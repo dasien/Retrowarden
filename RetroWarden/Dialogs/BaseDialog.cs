@@ -38,27 +38,33 @@ namespace Retrowarden.Dialogs
     {
         protected Dialog? _dialog;
         protected bool _okPressed;
-        
+
+        // The running application, supplied by the (already-running) caller via Show(app).
+        // A not-yet-run top-level Dialog's App is null, so we can't read it off _dialog before Run.
+        protected IApplication? _app;
+
         protected void CancelButton_Clicked(object? sender, CommandEventArgs e)
         {
             // Set ok button flag.
             _okPressed = false;
 
-            if (_dialog != null)
-            {
-                // Close dialog.
-                Application.RequestStop(_dialog);
-            }
+            // Close dialog.
+            _app?.RequestStop(_dialog);
         }
-        
-        public void Show()
+
+        public void Show(IApplication? app)
         {
-            if (_dialog != null)
+            if (app == null || _dialog == null)
             {
-                // Apply consistent color scheme before showing
-                ColorSchemeManager.ApplyColorScheme(_dialog);
-                Application.Run(_dialog);    
+                return;
             }
+
+            // Stash the app so handlers can stop the modal session.
+            _app = app;
+
+            // Apply consistent color scheme before showing
+            ColorSchemeManager.ApplyColorScheme(_dialog);
+            app.Run(_dialog);
         }
         
         public bool OkPressed

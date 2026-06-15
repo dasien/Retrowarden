@@ -38,7 +38,7 @@ namespace Retrowarden.Dialogs
                 
                 if (string.IsNullOrWhiteSpace(prompt))
                 {
-                    MessageBox.ErrorQuery("Input Required", "Please enter a prompt to submit.", "Ok");
+                    MessageBox.ErrorQuery(_dialog?.App, "Input Required", "Please enter a prompt to submit.", "Ok");
                     return;
                 }
 
@@ -103,7 +103,7 @@ namespace Retrowarden.Dialogs
             
             if (_dialog != null)
             {
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
 
@@ -115,8 +115,7 @@ namespace Retrowarden.Dialogs
                 Title = "Chat with MCP Server",
                 Width = 80,
                 Height = 25,
-                Modal = true,
-                BorderStyle = LineStyle.Single
+                                BorderStyle = LineStyle.Single
             };
 
             // Create prompt label

@@ -36,19 +36,20 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
 
-        public new void Show()
-        {
-            if (_dialog != null)
-            {
-                // Apply consistent color scheme before showing
-                ColorSchemeManager.ApplyColorScheme(_dialog);
-                Application.Run(_dialog);
-            }
-        }
+        // Show(IApplication?) is inherited from BaseDialog.
 
         public void Hide()
         {
-            Application.RequestStop(_dialog);
+            // RunWorkerCompleted fires off the UI thread, so RequestStop alone sets the stop
+            // flag without waking the blocked run loop (the dialog would sit until a keypress).
+            // Invoke marshals onto the main loop AND wakes it, so the modal dismisses immediately.
+            if (_app == null)
+            {
+                return;
+            }
+
+            IApplication app = _app;
+            app.Invoke(() => app.RequestStop(_dialog));
         }
 
         private void InitializeComponent()
@@ -87,9 +88,27 @@ namespace Retrowarden.Dialogs
             set
             {
                 // Check to see if the control has been created.
-                if (_lblProgress != null)
+                if (_lblProgress == null)
                 {
-                    _lblProgress.Text = value;
+                    return;
+                }
+
+                Label lbl = _lblProgress;
+                IApplication? app = _app;
+
+                // ProgressChanged fires off the UI thread; marshal the label update + redraw
+                // onto the main loop (Invoke also wakes it so the text repaints promptly).
+                if (app == null)
+                {
+                    lbl.Text = value;
+                }
+                else
+                {
+                    app.Invoke(() =>
+                    {
+                        lbl.Text = value;
+                        lbl.SetNeedsDraw();
+                    });
                 }
             }
         }

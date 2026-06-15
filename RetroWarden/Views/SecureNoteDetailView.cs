@@ -88,7 +88,7 @@ namespace Retrowarden.Views
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
             {
-                MessageBox.ErrorQuery("Action failed.", "Item name must have a value.", "Ok");
+                MessageBox.ErrorQuery(this.App, "Action failed.", "Item name must have a value.", "Ok");
             }
 
             else
@@ -106,7 +106,7 @@ namespace Retrowarden.Views
                 OkPressed = true;
 
                 // Close dialog.
-                Application.RequestStop();
+                this.App.RequestStop();
             }
         }
         #endregion

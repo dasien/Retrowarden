@@ -63,13 +63,13 @@ namespace Retrowarden.Workers
             _worker = new BackgroundWorker();
             _workingDialog = new WorkingDialog(dialogMessage);
         }
-        public void Run()
+        public void Run(IApplication? app)
         {
             // Run the worker.
             _worker.RunWorkerAsync();
-            
-            // Show working dialog.
-            _workingDialog.Show();
+
+            // Show working dialog (app supplied by the running caller).
+            _workingDialog.Show(app);
         }
     }    
 }

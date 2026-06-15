@@ -17,7 +17,7 @@ namespace Retrowarden.Dialogs
 {
     public sealed class SelectCustomFieldDialog : BaseDialog
     {
-        private RadioGroup? _rdoFieldType;
+        private OptionSelector? _rdoFieldType;
         private int _fieldType = 0;
         
         public SelectCustomFieldDialog()
@@ -32,11 +32,11 @@ namespace Retrowarden.Dialogs
             
             if (_rdoFieldType != null)
             {
-                _fieldType = _rdoFieldType.SelectedItem;
+                _fieldType = _rdoFieldType.Value ?? 0;
             }
 
             // Close dialog.
-            Application.RequestStop(_dialog);
+            _dialog.App.RequestStop(_dialog);
         }
         
         private void InitializeComponent()
@@ -58,9 +58,9 @@ namespace Retrowarden.Dialogs
             string[] types = new string[] { "Text", "Hidden", "Boolean", "Linked" };
         
             // Create radio group.
-            _rdoFieldType = new RadioGroup()
+            _rdoFieldType = new OptionSelector()
             {
-                X = 8, Y = 1, RadioLabels = types
+                X = 8, Y = 1, Labels = types
             };
                 
             // Create modal view.

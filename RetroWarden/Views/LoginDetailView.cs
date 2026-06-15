@@ -185,7 +185,7 @@ namespace Retrowarden.Views
             // Check to see that an item name is present (it is required).
             if (ItemName.Text == null)
             {
-                MessageBox.ErrorQuery("Action failed.", "Item name must have a value.", "Ok");
+                MessageBox.ErrorQuery(this.App, "Action failed.", "Item name must have a value.", "Ok");
             }
 
             else
@@ -205,7 +205,7 @@ namespace Retrowarden.Views
 
                 // Flag that the save button was pressed and close form.
                 OkPressed = true;
-                Application.RequestStop();
+                this.App.RequestStop();
             }
         }
 
@@ -215,7 +215,7 @@ namespace Retrowarden.Views
             Clipboard.TrySetClipboardData(txtPassword.Text);
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "Password copied to clipboard.", "Ok");
+            MessageBox.Query(this.App, "Action Completed", "Password copied to clipboard.", "Ok");
 
         }
 
@@ -234,13 +234,13 @@ namespace Retrowarden.Views
             Clipboard.TrySetClipboardData(txtUserName.Text);
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "User name copied to clipboard.", "Ok");
+            MessageBox.Query(this.App, "Action Completed", "User name copied to clipboard.", "Ok");
         }
 
         private void GeneratePasswordButtonClicked(object? sender, CommandEventArgs e)
         {
             GeneratePasswordDialog genPass = new GeneratePasswordDialog(_repository);
-            genPass.Show();
+            genPass.Show(this.App);
             
             // Check to see if a password was generated.
             if (genPass.Password!= null && genPass.Password.Length > 0)

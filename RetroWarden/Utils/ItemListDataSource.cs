@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.Text;
 using RetrowardenSDK.Models;
 
 namespace Retrowarden.Utils
@@ -255,6 +256,15 @@ namespace Retrowarden.Utils
             }
         }
         public int Length
+        {
+            get
+            {
+                return _maxLength;
+            }
+        }
+
+        // Width (in columns) of the widest item — required by IListDataSource in Terminal.Gui v2.
+        public int MaxItemLength
         {
             get
             {

@@ -63,8 +63,7 @@ namespace Retrowarden.Dialogs
             // Create dialog.
             _dialog = new Dialog()
             {
-                Width = 40, Height = 12, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true, 
-                TextAlignment = Alignment.Start
+                Width = 40, Height = 12, X = Pos.Center(), Y = Pos.Center(), Visible = true,                 TextAlignment = Alignment.Start
             };
             
            _lblStatus = new Label()

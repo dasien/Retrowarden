@@ -18,7 +18,7 @@ namespace Retrowarden.Dialogs
     public sealed class SelectFolderDialog : BaseDialog
     {
         // Controls.
-        private ComboBox? _cboFolder;
+        private DropDownList? _cboFolder;
         private int _folderIndex;
         private readonly List<VaultFolder> _folders;
         
@@ -32,25 +32,25 @@ namespace Retrowarden.Dialogs
         
         private void OkButton_Clicked(object? sender, CommandEventArgs e)
         {
+            // DropDownList exposes selection as text; map it back to the source index.
+            int index = _cboFolder == null ? -1 : _folders.FindIndex(f => f.ToString() == _cboFolder.Text);
+
             // Check to see if required values are present.
-            if (_cboFolder != null && _cboFolder.SelectedItem == -1)
+            if (index == -1)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select a folder.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Please select a folder.", "Ok");
             }
 
             else
             {
                 // Set value.
-                if (_cboFolder != null)
-                {
-                    _folderIndex = _cboFolder.SelectedItem;
-                }
+                _folderIndex = index;
 
                 // Set flag for ok button and values.
                 _okPressed = true;
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
         
@@ -83,14 +83,14 @@ namespace Retrowarden.Dialogs
             };
 
             // Create folder dropdown.
-            _cboFolder = new ComboBox()
+            _cboFolder = new DropDownList()
             {
-                X = 15, Y = 2, Width = 30, Height = 5, CanFocus = true, Visible = true,
+                X = 15, Y = 2, Width = 30, Height = 1, CanFocus = true, Visible = true, ReadOnly = true,
             };
 
-            // Set source for combobox.
+            // Set source for dropdown.
             ObservableCollection<VaultFolder> folders = new ObservableCollection<VaultFolder>(_folders);
-            _cboFolder.SetSource(folders);
+            _cboFolder.Source = new ListWrapper<VaultFolder>(folders);
             
             // Add controls to view.
             _dialog.Add(lblFolder, _cboFolder, okButton, cancelButton);

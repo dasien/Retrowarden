@@ -148,7 +148,7 @@ namespace Retrowarden.Controls
                 Clipboard.TrySetClipboardData(txtValue.Text);
 
                 // Indicate data copied.
-                MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
+                MessageBox.Query(this.App, "Action Completed", "Copied Value to clipboard.", "Ok");
             };
 
             // Return control row.
@@ -204,7 +204,7 @@ namespace Retrowarden.Controls
                 Clipboard.TrySetClipboardData(txtValue.Text);
 
                 // Indicate data copied.
-                MessageBox.Query("Action Completed", "Copied Value to clipboard.", "Ok");
+                MessageBox.Query(this.App, "Action Completed", "Copied Value to clipboard.", "Ok");
             };
             
             // Return control row.
@@ -224,7 +224,7 @@ namespace Retrowarden.Controls
             CheckBox chkValue = new CheckBox()
             {
                 X=32, Y=rowNum, CanFocus = true, Visible = true, Enabled = true, Data = rowNum,
-                CheckedState = value == "true" ? CheckState.Checked : CheckState.UnChecked, TabStop = TabBehavior.TabStop
+                Value = value == "true" ? CheckState.Checked : CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             
             // Create the delete button.
@@ -245,16 +245,16 @@ namespace Retrowarden.Controls
                 CanFocus = true, Visible = true, Enabled = true, Data = rowNum, TabStop = TabBehavior.TabStop
             };
 
-            ComboBox cboValue = new ComboBox()
+            DropDownList cboValue = new DropDownList()
             {
                 X = 32, Y = rowNum, Width = 30, CanFocus = true, Visible = true, Enabled = true, Data = rowNum,
-                TabStop = TabBehavior.TabStop
+                TabStop = TabBehavior.TabStop, ReadOnly = true
             };
-            
+
             // Set combo source and selected item.
             ObservableCollection<CodeListItem> linkList = GetComboSource();
-            cboValue.SetSource(linkList);
-            cboValue.SelectedItem = linkList.IndexOf(linkList.First(o => o.Index == linkId.ToString()));
+            cboValue.Source = new ListWrapper<CodeListItem>(linkList);
+            cboValue.Text = linkList.First(o => o.Index == linkId.ToString()).ToString();
 
             // Create the delete button.
             Button btnDeleteRow = CreateDeleteButton(rowNum);
@@ -381,17 +381,17 @@ namespace Retrowarden.Controls
                         CheckBox value = (CheckBox) rowCtrls[1];
                         
                         // Set value and type.
-                        field.FieldValue = value.CheckedState == CheckState.Checked ? "true" : "false";
+                        field.FieldValue = value.Value == CheckState.Checked ? "true" : "false";
                         field.FieldType = 2;
                     }
                     
-                    else if (rowCtrls[1] is ComboBox)
+                    else if (rowCtrls[1] is DropDownList)
                     {
                         // Get the control.
-                        ComboBox value = (ComboBox) rowCtrls[1];
-                        
-                        // Set value and type.
-                        field.FieldValue = value.SelectedItem.ToString();
+                        DropDownList value = (DropDownList) rowCtrls[1];
+
+                        // Set value and type (store the linked field's id, matched by display text).
+                        field.FieldValue = GetComboSource().FirstOrDefault(o => o.ToString() == value.Text)?.Index ?? "";
                         field.FieldType = 3;
                     }
                 

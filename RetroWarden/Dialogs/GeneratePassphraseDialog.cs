@@ -56,14 +56,14 @@ namespace Retrowarden.Dialogs
                 // Check to see if there is a valid value for number of words.
                 if (!Regex.IsMatch(_txtNumOfWords.Text ?? string.Empty, numberPattern))
                 {
-                    MessageBox.ErrorQuery("Values Missing", "Enter a number of words (5-9).", "Ok");
+                    MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Enter a number of words (5-9).", "Ok");
                     retVal = false;
                 }
 
                 // Check to see if there is a valid separator.
                 else if (!Regex.IsMatch(_txtSeparator.Text ?? string.Empty, "^[!@#$%^&*-=+|_]{1}$"))
                 {
-                    MessageBox.ErrorQuery("Values Missing", "Enter a valid separator (!@#$%^&*-=+|_).", "Ok");
+                    MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Enter a valid separator (!@#$%^&*-=+|_).", "Ok");
                     retVal = false;
                 }
             }
@@ -83,8 +83,8 @@ namespace Retrowarden.Dialogs
             if (ValidateInput())
             {
                 // Set values.
-                bool includeNumbers = _chkIncludeNumbers != null && _chkIncludeNumbers.CheckedState == CheckState.Checked;
-                bool capitalize = _chkCapitalize != null && _chkCapitalize.CheckedState == CheckState.Checked;
+                bool includeNumbers = _chkIncludeNumbers != null && _chkIncludeNumbers.Value == CheckState.Checked;
+                bool capitalize = _chkCapitalize != null && _chkCapitalize.Value == CheckState.Checked;
                 int words = _txtNumOfWords != null ? Convert.ToInt32(_txtNumOfWords.Text == null ? 1 :_txtNumOfWords.Text) : 1;
                 string? sep = _txtSeparator != null ? _txtSeparator.Text : "-";
                 
@@ -93,7 +93,7 @@ namespace Retrowarden.Dialogs
                     new GeneratePassphraseWorker(_repository, capitalize, includeNumbers, words, sep, "Generating Passphrase...");
                 
                 // Generate the passphrase.
-                worker.Run();
+                worker.Run(_app);
                 
                 // Check to see if we succeeded.
                 if (_repository.ExitCode == "0")
@@ -118,7 +118,7 @@ namespace Retrowarden.Dialogs
             Clipboard.TrySetClipboardData(_passphrase);
 
             // Indicate data copied.
-            MessageBox.Query("Action Completed", "Passphrase copied to clipboard.", "Ok");
+            MessageBox.Query(_dialog?.App, "Action Completed", "Passphrase copied to clipboard.", "Ok");
         }
 
         #region Initialize Component
@@ -126,8 +126,7 @@ namespace Retrowarden.Dialogs
         {
             _dialog = new Dialog()
             {
-                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true, Modal = true,
-                TextAlignment = Alignment.Start, Title = "Passphrase Generator"
+                Width = 44, Height = 16, X = Pos.Center(), Y = Pos.Center(), Visible = true,                 TextAlignment = Alignment.Start, Title = "Passphrase Generator"
             };
 
             _lblPassphrase = new Label()
@@ -147,14 +146,14 @@ namespace Retrowarden.Dialogs
             _chkCapitalize = new CheckBox()
             {
                 Width = 6, Height = 1, X = 1, Y = 0, Visible = true, Data = "_chkCapitalize",
-                Text = "Capitalize First Letters", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                Text = "Capitalize First Letters", TextAlignment = Alignment.Start, Value = CheckState.Checked
             };
             _fraOptions.Add(_chkCapitalize);
 
             _chkIncludeNumbers = new CheckBox()
             {
                 Width = 6, Height = 1, X = 1, Y = 1, Visible = true, Data = "_chkIncludeNumbers",
-                Text = "Include Numbers", TextAlignment = Alignment.Start, CheckedState = CheckState.Checked
+                Text = "Include Numbers", TextAlignment = Alignment.Start, Value = CheckState.Checked
             };
            _fraOptions.Add(_chkIncludeNumbers);
 

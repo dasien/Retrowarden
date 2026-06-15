@@ -18,7 +18,7 @@ namespace Retrowarden.Dialogs
     public sealed class SelectOrganizationAndCollectionDialog : BaseDialog
     {
         // Controls.
-        private ComboBox? _cboOrganization;
+        private DropDownList? _cboOrganization;
         private View? _scrCollections;
         
         // Other values.
@@ -36,7 +36,7 @@ namespace Retrowarden.Dialogs
             InitializeComponent();
         }
         
-        private void HandleOrgSelectionChanged(object? sender, ListViewItemEventArgs e)
+        private void HandleOrgSelectionChanged()
         {
             // Clear out currently selected collections (if any).
             _selectedCollections.Clear();
@@ -53,12 +53,19 @@ namespace Retrowarden.Dialogs
                 // Clear out any existing collection from checkbox view.
                 _scrCollections.RemoveAll();
                 
-                // Check to see if the combobox is initialized.
+                // Check to see if the dropdown is initialized.
                 if (_cboOrganization != null)
                 {
+                    // DropDownList exposes selection as text; map it back to the source index.
+                    int orgIndex = _organizations.FindIndex(o => o.ToString() == _cboOrganization.Text);
+                    if (orgIndex < 0)
+                    {
+                        return;
+                    }
+
                     // Get the org id.
-                    string orgId = _organizations.ElementAt(_cboOrganization.SelectedItem).Id;
-                    
+                    string orgId = _organizations[orgIndex].Id;
+
                     // This counter is for the Y of the checkboxes.
                     int row = 0;
                     
@@ -75,7 +82,7 @@ namespace Retrowarden.Dialogs
                                 Text = col.Name == null ? "" : col.Name, Data = col
                             };
 
-                            chkCollection.CheckedStateChanging += (_, e) =>
+                            chkCollection.ValueChanging += (_, e) =>
                             {
                                 VaultCollection collection = (VaultCollection) chkCollection.Data;
                                 
@@ -107,15 +114,18 @@ namespace Retrowarden.Dialogs
         
         private void OkButton_Clicked(object? sender, CommandEventArgs e)
         {
+            // DropDownList exposes selection as text; map it back to the source index.
+            int orgIndex = _cboOrganization == null ? -1 : _organizations.FindIndex(o => o.ToString() == _cboOrganization.Text);
+
             // Check to see if required values are present.
-            if (_cboOrganization != null && _cboOrganization.SelectedItem == -1)
+            if (orgIndex == -1)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select an Organization.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Please select an Organization.", "Ok");
             }
             
             else if (_selectedCollections.Count == 0)
             {
-                MessageBox.ErrorQuery("Values Missing", "Please select at least one collection.", "Ok");
+                MessageBox.ErrorQuery(_dialog?.App, "Values Missing", "Please select at least one collection.", "Ok");
             }
             
             else
@@ -124,7 +134,7 @@ namespace Retrowarden.Dialogs
                 _okPressed = true;
 
                 // Close dialog.
-                Application.RequestStop(_dialog);
+                _dialog.App.RequestStop(_dialog);
             }
         }
         
@@ -156,18 +166,18 @@ namespace Retrowarden.Dialogs
                 X = 1, Y = 0, Width = 4, Height = 1, CanFocus = false, Visible = true, Text = "Organization:"
             };
             
-            // Create folder dropdown.
-            _cboOrganization = new ComboBox()
+            // Create organization dropdown.
+            _cboOrganization = new DropDownList()
             {
-                X = 14, Y = 0, Width = 22, Height = 5, CanFocus = true, Visible = true
+                X = 14, Y = 0, Width = 22, Height = 1, CanFocus = true, Visible = true, ReadOnly = true
             };
-            
-            // Set source for combobox.
+
+            // Set source for dropdown.
             ObservableCollection<Organization> orgCollection = new ObservableCollection<Organization>(_organizations);
-            _cboOrganization.SetSource(orgCollection);
-            
+            _cboOrganization.Source = new ListWrapper<Organization>(orgCollection);
+
             // Create event to fire when selection changes.
-            _cboOrganization.SelectedItemChanged += HandleOrgSelectionChanged;
+            _cboOrganization.ValueChanged += (_, _) => HandleOrgSelectionChanged();
             
             // Create frame and scroll for list of collections.
             FrameView fraCollections = new FrameView()
@@ -200,10 +210,15 @@ namespace Retrowarden.Dialogs
                 // The return value.
                 Organization? retVal = null;
                 
-                // Check to see if the combobox is initialized.
+                // Check to see if the dropdown is initialized.
                 if (_cboOrganization != null && _organizations != null)
                 {
-                    retVal = _organizations.ElementAt(_cboOrganization.SelectedItem);
+                    // DropDownList exposes selection as text; map it back to the source index.
+                    int idx = _organizations.FindIndex(o => o.ToString() == _cboOrganization.Text);
+                    if (idx >= 0)
+                    {
+                        retVal = _organizations[idx];
+                    }
                 }
 
                 return retVal;

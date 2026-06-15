@@ -17,7 +17,7 @@ namespace Retrowarden.Dialogs
 {
     public sealed class SelectItemTypeDialog : BaseDialog
     {
-        private RadioGroup? _rdoItemType;
+        private OptionSelector? _rdoItemType;
         private int _itemType = 0;
         
         public SelectItemTypeDialog()
@@ -29,10 +29,10 @@ namespace Retrowarden.Dialogs
         {
             // Set flag for ok button and values.
             _okPressed = true;
-            _itemType = _rdoItemType == null ? 1 :_rdoItemType.SelectedItem;
+            _itemType = _rdoItemType?.Value ?? 1;
             
             // Close dialog.
-            Application.RequestStop(_dialog);
+            _dialog.App.RequestStop(_dialog);
         }
         
         private void InitializeComponent()
@@ -54,9 +54,9 @@ namespace Retrowarden.Dialogs
             string[] types = ["Login", "Secure Note", "Card", "Identity"];
         
             // Create radio group.
-            _rdoItemType = new RadioGroup()
+            _rdoItemType = new OptionSelector()
             {
-                X = 8, Y = 1, RadioLabels = types
+                X = 8, Y = 1, Labels = types
             };
                 
             // Create modal view.

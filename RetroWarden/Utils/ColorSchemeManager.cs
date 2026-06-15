@@ -37,15 +37,15 @@ namespace Retrowarden.Utils
         /// <summary>
         /// Gets the application's standard color scheme for consistent UI appearance.
         /// </summary>
-        /// <returns>A ColorScheme configured for optimal readability and Terminal.GUI compatibility.</returns>
-        public static ColorScheme GetApplicationColorScheme()
+        /// <returns>A Scheme configured for optimal readability and Terminal.GUI compatibility.</returns>
+        public static Scheme GetApplicationColorScheme()
         {
-            return new ColorScheme()
+            return new Scheme(new Terminal.Gui.Drawing.Attribute(Color.White, Color.Black))
             {
-                Normal = new Terminal.Gui.Attribute(Color.White, Color.Black),
-                Focus = new Terminal.Gui.Attribute(Color.Black, Color.White),  // Better contrast for menu highlighting
-                HotNormal = new Terminal.Gui.Attribute(Color.Yellow, Color.Black),
-                HotFocus = new Terminal.Gui.Attribute(Color.Yellow, Color.White)
+                Normal = new Terminal.Gui.Drawing.Attribute(Color.White, Color.Black),
+                Focus = new Terminal.Gui.Drawing.Attribute(Color.Black, Color.White),  // Better contrast for menu highlighting
+                HotNormal = new Terminal.Gui.Drawing.Attribute(Color.Yellow, Color.Black),
+                HotFocus = new Terminal.Gui.Drawing.Attribute(Color.Yellow, Color.White)
             };
         }
 
@@ -57,7 +57,7 @@ namespace Retrowarden.Utils
         {
             if (view != null)
             {
-                view.ColorScheme = GetApplicationColorScheme();
+                view.SetScheme(GetApplicationColorScheme());
             }
         }
 
@@ -71,7 +71,7 @@ namespace Retrowarden.Utils
             if (view == null) return;
             
             // Apply to the view itself
-            view.ColorScheme = GetApplicationColorScheme();
+            view.SetScheme(GetApplicationColorScheme());
             
             // Apply to all child views
             foreach (View child in view.SubViews)

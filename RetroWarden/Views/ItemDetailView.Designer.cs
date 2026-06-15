@@ -20,7 +20,7 @@ namespace Retrowarden.Views
         private Label lblItemName;
         private Label lblFolder;
         private TextField txtItemName;
-        private ComboBox cboFolder;
+        private DropDownList cboFolder;
         private CheckBox chkFavorite;
         private CheckBox chkReprompt;
         private FrameView fraNotes;
@@ -39,10 +39,9 @@ namespace Retrowarden.Views
             this.X = Pos.Center();
             this.Y = Pos.Center();
             this.SetContentSize(new Size(100, 40));
-            this.ViewportSettings = ViewportSettings.AllowNegativeY | ViewportSettings.AllowYGreaterThanContentHeight;
+            this.ViewportSettings = ViewportSettingsFlags.AllowNegativeY | ViewportSettingsFlags.AllowYGreaterThanContentHeight;
             this.Visible = true;
-            this.Modal = true;
-            this.Border.BorderStyle = LineStyle.Single;
+            this.BorderStyle = LineStyle.Single;
             this.TextAlignment = Alignment.Start;
             this.MouseEvent += (o, e) => HandleMouseEvent(o,e);
             
@@ -65,9 +64,9 @@ namespace Retrowarden.Views
             };
             this.txtItemName.HasFocusChanged += (s, e) => HandleFocusChange(txtItemName, e);
             
-            this.cboFolder = new ComboBox
+            this.cboFolder = new DropDownList
             {
-                Width = 30, Height = 5, X = 40, Y = 1, Visible = true, Data = "cboFolder", 
+                Width = 30, Height = 1, X = 40, Y = 1, Visible = true, Data = "cboFolder",
                 Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             this.cboFolder.HasFocusChanged += (s, e) => HandleFocusChange(cboFolder, e);
@@ -75,27 +74,27 @@ namespace Retrowarden.Views
             this.chkFavorite = new CheckBox
             {
                 Width = 10, Height = 1, X = 77, Y = 0, Visible = true, Data = "chkFavorite", Text = "Favorite",
-                TextAlignment = Alignment.Start, CheckedState = CheckState.UnChecked, TabStop = TabBehavior.TabStop
+                TextAlignment = Alignment.Start, Value = CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             this.chkFavorite.HasFocusChanged += (s, e) => HandleFocusChange(chkFavorite, e);
             
             this.chkReprompt = new CheckBox
             {
                 Width = 18, Height = 1, X = 77, Y = 1, Visible = true, Data = "chkReprompt", Text = "Require Reprompt",
-                TextAlignment = Alignment.Start, CheckedState = CheckState.UnChecked, TabStop = TabBehavior.TabStop
+                TextAlignment = Alignment.Start, Value = CheckState.UnChecked, TabStop = TabBehavior.TabStop
             };
             this.chkReprompt.HasFocusChanged += (s, e) => HandleFocusChange(chkReprompt, e);
             
             this.fraNotes = new FrameView
             {
                 Width = 97, Height = 9, X = 1, Y = 20, Visible = true, CanFocus = true, Data = "fraNotes",
-                Border = { BorderStyle = LineStyle.Single }, TextAlignment = Alignment.Start, Title = "Notes",
+                BorderStyle = LineStyle.Single, TextAlignment = Alignment.Start, Title = "Notes",
                 TabStop = TabBehavior.TabStop
             };
             
             this.tvwNotes = new TextView
             {
-                Width = 95, Height = 7, X = 1, Y = 0, Visible = true, AllowsTab = true, AllowsReturn = true,
+                Width = 95, Height = 7, X = 1, Y = 0, Visible = true,
                 WordWrap = false, Data = "tvwNotes", Text = "", TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             //this.tvwNotes.HasFocusChanged += (s, e) => HandleFocusChange(tvwNotes, e);
@@ -103,7 +102,7 @@ namespace Retrowarden.Views
             this.fraCustomFieldList = new FrameView
             {
                 Width = 97, Height = 7, X = 1, Y = 30, Visible = true, Enabled = true, CanFocus = true, Data = "fraCustomFieldList",
-                Border = { BorderStyle = LineStyle.Single }, TextAlignment = Alignment.Start, Title = "Custom Fields",
+                BorderStyle = LineStyle.Single, TextAlignment = Alignment.Start, Title = "Custom Fields",
                 TabStop = TabBehavior.TabStop
             };
             

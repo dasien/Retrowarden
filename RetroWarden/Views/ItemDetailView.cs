@@ -65,11 +65,16 @@ namespace Retrowarden.Views
             InitializeComponent();
         }
         
-        public void Show()
+        public void Show(IApplication? app)
         {
+            if (app == null)
+            {
+                return;
+            }
+
             // Apply consistent color scheme before showing
             ColorSchemeManager.ApplyColorScheme(this);
-            Application.Run(this);
+            app.Run(this);
         }
 
         protected void SetupView()
@@ -133,14 +138,15 @@ namespace Retrowarden.Views
         {
             // Set current item values to controls.
             txtItemName.Text = _item.ItemName;
-            chkFavorite.CheckedState = _item.IsFavorite ? CheckState.Checked : CheckState.UnChecked;
+            chkFavorite.Value = _item.IsFavorite ? CheckState.Checked : CheckState.UnChecked;
             tvwNotes.Text = _item.Notes ?? "";
-            chkReprompt.CheckedState = _item.Reprompt == 1 ? CheckState.Checked : CheckState.UnChecked;
-            stbDetail.Add(new Shortcut(KeyCode.Null, "Created On: " + _item.CreationDate + 
+            chkReprompt.Value = _item.Reprompt == 1 ? CheckState.Checked : CheckState.UnChecked;
+            stbDetail.Add(new Shortcut(Key.Empty, "Created On: " + _item.CreationDate + 
                                                      " | Last Updated On: " + _item.RevisionDate, null));
             
-            // Set the folder to the current folder (or "No Folder" as a null default.
-            cboFolder.SelectedItem = _folders.FindIndex(o => o.Id == _item.FolderId);
+            // Set the folder to the current folder (or "No Folder" as a null default).
+            int currentFolderIndex = _folders.FindIndex(o => o.Id == _item.FolderId);
+            cboFolder.Text = currentFolderIndex >= 0 ? _folders[currentFolderIndex].ToString() : "";
             
             // Create new field scroll control.
             scrCustomFields = new CustomFieldScrollView(_item.CustomFields, _item.ItemType)
@@ -195,9 +201,9 @@ namespace Retrowarden.Views
         
         private void InitializeLists()
         {
-            // Set folder comboxbox source.
+            // Set folder dropdown source.
             ObservableCollection<VaultFolder> folderCollection = new ObservableCollection<VaultFolder>(_folders);
-            cboFolder.SetSource(folderCollection);
+            cboFolder.Source = new ListWrapper<VaultFolder>(folderCollection);
         }
 
         private void RelocateFooterControls()
@@ -220,7 +226,8 @@ namespace Retrowarden.Views
             _item.ItemName = txtItemName.Text ?? "";
             
             // Check to see if there is a selected item.
-            if (cboFolder.SelectedItem == -1)
+            int selectedFolderIndex = _folders.FindIndex(o => o.ToString() == cboFolder.Text);
+            if (selectedFolderIndex == -1)
             {
                 // Set to "No Folder"
                 _item.FolderId = null;
@@ -228,12 +235,12 @@ namespace Retrowarden.Views
 
             else
             {
-                _item.FolderId = _folders.ElementAt(cboFolder.SelectedItem).Id;
+                _item.FolderId = _folders[selectedFolderIndex].Id;
             }
             
-            _item.IsFavorite = chkFavorite.CheckedState == CheckState.Checked;
+            _item.IsFavorite = chkFavorite.Value == CheckState.Checked;
             _item.Notes = tvwNotes.Text;
-            _item.Reprompt = chkReprompt.CheckedState == CheckState.Checked ? 1 : 0;
+            _item.Reprompt = chkReprompt.Value == CheckState.Checked ? 1 : 0;
             
             // Get the custom fields.
             _item.CustomFields = scrCustomFields.Fields;
@@ -269,7 +276,7 @@ namespace Retrowarden.Views
         private void CancelButtonClicked(object? sender, CommandEventArgs e)
         {
             // Close dialog.
-            Application.RequestStop();
+            this.App.RequestStop();
         }
 
         protected void HandleFocusChange(View? sender, HasFocusEventArgs eventArgs)
@@ -319,7 +326,7 @@ namespace Retrowarden.Views
         {
             // Show the dialog for field type choice.
             SelectCustomFieldDialog dialog = new SelectCustomFieldDialog();
-            dialog.Show();
+            dialog.Show(this.App);
             
             // Check to see what was selected.
             if (dialog.OkPressed)
@@ -329,7 +336,7 @@ namespace Retrowarden.Views
             }
         }
         
-        private void HandleMouseEvent(object? sender, MouseEventArgs MouseEventArgs)
+        private void HandleMouseEvent(object? sender, Mouse MouseEventArgs)
         {
             switch (MouseEventArgs.Flags)
             {

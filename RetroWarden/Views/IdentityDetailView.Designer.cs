@@ -17,7 +17,7 @@ namespace Retrowarden.Views
     {
         private View vwIdentity;
         private Label lblTitle;
-        private ComboBox cboTitle;
+        private DropDownList cboTitle;
         private Label lblFirstName;
         private Label lblMiddleName;
         private Label lblLastName;
@@ -30,8 +30,8 @@ namespace Retrowarden.Views
         private TextField txtSSN;
         private TextField txtPassportNumber;
         private TextField txtLicenseNumber;
-        private LineView lineView2;
-        private LineView lineView;
+        private Line lineView2;
+        private Line lineView;
         private Label lblAddress1;
         private Label lblUserName;
         private TextField txtAddress1;
@@ -70,9 +70,9 @@ namespace Retrowarden.Views
             }; 
             vwIdentity.Add(this.lblTitle);
 
-            this.cboTitle = new ComboBox
+            this.cboTitle = new DropDownList
             {
-                Width = 23, Height = 5, X = 1, Y = 1, Visible = true, Data = "cboTitle", Text = "", 
+                Width = 23, Height = 1, X = 1, Y = 1, Visible = true, Data = "cboTitle", Text = "",
                 TextAlignment = Alignment.Start, TabStop = TabBehavior.TabStop
             };
             this.cboTitle.HasFocusChanged += (s, e) => HandleFocusChange(cboTitle, e);
@@ -168,17 +168,17 @@ namespace Retrowarden.Views
             this.txtLicenseNumber.HasFocusChanged += (s, e) => HandleFocusChange(txtLicenseNumber, e);
             vwIdentity.Add(this.txtLicenseNumber);
             
-            this.lineView2 = new LineView
+            this.lineView2 = new Line
             {
-                Width = 94, Height = 3, X = 1, Y = 9, Visible = true, Data = "lineView2", TextAlignment = Alignment.Start,
-                LineRune = new Rune('─'), Orientation = Orientation.Horizontal, CanFocus = false
+                X = 1, Y = 9, Length = 94, Orientation = Orientation.Horizontal, Visible = true,
+                Data = "lineView2", CanFocus = false
             };
             vwIdentity.Add(this.lineView2);
 
-            this.lineView = new LineView
+            this.lineView = new Line
             {
-                Width = 1, Height = 15, X = 47, Y = 9, Visible = true, Data = "lineView", TextAlignment = Alignment.Start,
-                LineRune = new Rune('│'), Orientation = Orientation.Vertical, CanFocus = false
+                X = 47, Y = 9, Length = 15, Orientation = Orientation.Vertical, Visible = true,
+                Data = "lineView", CanFocus = false
             };
             vwIdentity.Add(this.lineView);
 
